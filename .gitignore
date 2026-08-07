@@ -42,3 +42,9 @@ tapa.pub
 client_secret_*.json
 .env
 .env.*
+
+tapa
+tapa.pub
+client_secret_*.json
+.env
+.env.*
