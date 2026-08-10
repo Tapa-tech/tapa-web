@@ -76,3 +76,171 @@ model OTPRequest {
 
   @@index([phone])
 }
+
+enum ContentStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum SourceType {
+  VEDIC
+  PURANIC
+  SHASTRA
+  SCHOLARLY
+  ORAL
+}
+
+enum DPBTag {
+  DHARMA
+  PRATHA
+  BHRANTI
+}
+
+enum ReviewStatus {
+  PENDING_FOUNDER_REVIEW
+  APPROVED
+  REJECTED
+}
+
+model RitualGuide {
+  id                String              @id @default(cuid())
+  title             String
+  slug              String              @unique
+  status            ContentStatus       @default(DRAFT)
+  category          String              // e.g. "Festive Pujans", "All-year Pujans", "Navagraha Pujans"
+  introText         String              @db.Text
+  sankalpaBody      String              @db.Text
+  sankalpaQuote     String              @db.Text            // "Say this - or your own words" card
+  fastOptions       Json                // [{ name: "Nirjala", desc: "...", recommended: bool }]
+  fastNote          String              @db.Text            // the Bhranti correction line for fasting
+  steps             RitualStep[]
+  mantras           Mantra[]
+  kathaTitle        String
+  kathaBody         String              @db.Text
+  aartiBody         String?             @db.Text
+  samagriItems      SamagriItem[]
+  dpbEntries        DPBEntry[]
+  sources           RitualGuideSource[]
+  faqs              RitualGuideFAQ[]
+  thumbnailUrl      String?
+  audioUrl          String?
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+}
+
+model RitualStep {
+  id            String      @id @default(cuid())
+  ritualGuideId String
+  ritualGuide   RitualGuide @relation(fields: [ritualGuideId], references: [id], onDelete: Cascade)
+  order         Int
+  title         String
+  description   String      @db.Text
+  note          String?     @db.Text            // Pratha correction embedded in a step, e.g. "Green attire is regional custom"
+}
+
+model Mantra {
+  id              String      @id @default(cuid())
+  ritualGuideId   String
+  ritualGuide     RitualGuide @relation(fields: [ritualGuideId], references: [id], onDelete: Cascade)
+  devanagari      String
+  transliteration String
+  meaning         String
+  audioUrl        String?
+}
+
+model SamagriItem {
+  id            String      @id @default(cuid())
+  ritualGuideId String
+  ritualGuide   RitualGuide @relation(fields: [ritualGuideId], references: [id], onDelete: Cascade)
+  name          String      // "Sindoor"
+  function      String      // "For Maa Parvati's offering" — item · function pattern from content spec
+  order         Int
+}
+
+model DharmicConcept {
+  id           String        @id @default(cuid())
+  title        String
+  slug         String        @unique
+  status       ContentStatus @default(DRAFT)
+  body         String        @db.Text            // paragraph-led, Tiptap JSON stored as text
+  thumbnailUrl String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model PanchangEntry {
+  id           String   @id @default(cuid())
+  date         DateTime @unique
+  city         String   @default("Delhi-NCR")
+  tithi        String
+  tithiSub     String   // "7th day"
+  paksha       String   // "Shukla" / "Krishna"
+  pakshaSub    String   // "Waxing moon" / "Waning moon"
+  nakshatra    String
+  nakshatraSub String?  // "Auspicious" — only when genuinely true, per content spec
+  sunrise      String   // "5:28"
+  sunset       String?
+  createdAt    DateTime @default(now())
+}
+
+model VratEntry {
+  id            String   @id @default(cuid())
+  name          String   // "Yogini Ekadashi"
+  date          DateTime
+  category      String   // "Ekadashi" / "Pradosh" / "Purnima" / etc. — for filter chips
+  description   String?  @db.Text
+  linkedGuideId String?  // optional link to a RitualGuide if one exists for this vrat
+  createdAt     DateTime @default(now())
+}
+
+model Source {
+  id           String              @id @default(cuid())
+  name         String              // "Shiva Purana"
+  reference    String              // "Rudra Samhita / Parvati Khanda"
+  type         SourceType
+  ritualGuides RitualGuideSource[]
+  createdAt    DateTime            @default(now())
+}
+
+model RitualGuideSource {
+  ritualGuideId String
+  ritualGuide   RitualGuide @relation(fields: [ritualGuideId], references: [id], onDelete: Cascade)
+  sourceId      String
+  source        Source      @relation(fields: [sourceId], references: [id])
+
+  @@id([ritualGuideId, sourceId])
+}
+
+model FAQ {
+  id           String           @id @default(cuid())
+  question     String
+  answer       String           @db.Text
+  ritualGuides RitualGuideFAQ[]
+  createdAt    DateTime         @default(now())
+}
+
+model RitualGuideFAQ {
+  ritualGuideId String
+  ritualGuide   RitualGuide @relation(fields: [ritualGuideId], references: [id], onDelete: Cascade)
+  faqId         String
+  faq           FAQ         @relation(fields: [faqId], references: [id])
+  order         Int
+
+  @@id([ritualGuideId, faqId])
+}
+
+model DPBEntry {
+  id               String       @id @default(cuid())
+  ritualGuideId    String
+  ritualGuide      RitualGuide  @relation(fields: [ritualGuideId], references: [id], onDelete: Cascade)
+  elementName      String
+  tag              DPBTag
+  confidenceScore  Int
+  claim            String?      @db.Text
+  correction       String?      @db.Text
+  sourceOfTruth    String?      @db.Text
+  regionalVariance String?      @db.Text
+  reviewStatus     ReviewStatus @default(PENDING_FOUNDER_REVIEW)
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+}

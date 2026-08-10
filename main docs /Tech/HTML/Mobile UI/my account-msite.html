@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>My Account — The Tapa Co.</title>
+<style>
+
+/* ============================================================
+   THE TAPA CO. — MY ACCOUNT PAGE
+   Mobile-first. 390px max-width.
+   Sections: Profile · Stat tiles · Saved Rituals ·
+             Orders & Bookings · My Subscriptions ·
+             Language · Notification Preferences ·
+             Help & Support · Log out
+   ============================================================ */
+
+:root {
+  --bg:           #F2EDE4;
+  --card:         #FFFFFF;
+  --dark:         #1C1712;
+  --pink:         #D4175A;
+  --amber:        #E8A020;
+  --amber-light:  #FFF8E8;
+  --amber-border: #E8D8A0;
+  --amber-text:   #8B6914;
+  --gold:         #E3B567;
+  --body-text:    #2C2010;
+  --mid-text:     #5C4B12;
+  --sub-text:     #8A7A68;
+  --border:       #E8E0D0;
+  --border-light: #F0E8D8;
+  --green-bg:     #EBF5EC;
+  --green-text:   #1A5C28;
+  --red-light:    #FEF0F4;
+  --hero-text:    #FFFDF5;
+  --hero-sub:     #C4A882;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  font-family:system-ui,-apple-system,'Segoe UI',sans-serif;
+  background:var(--bg);color:var(--body-text);
+  font-size:13px;line-height:1.5;
+  max-width:390px;margin:0 auto;
+  -webkit-font-smoothing:antialiased;
+  padding-bottom:40px;
+}
+button{font-family:inherit;cursor:pointer}
+a{text-decoration:none;color:inherit}
+
+/* ── NAV ────────────────────────────────────────────────── */
+.topnav{
+  background:var(--card);border-bottom:1px solid var(--border);
+  padding:0 14px;position:sticky;top:0;z-index:40;
+  box-shadow:0 1px 8px rgba(28,23,18,.06);
+}
+.topnav-row{display:flex;align-items:center;justify-content:space-between;padding:11px 0 10px}
+.nav-back{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:500;color:var(--body-text);background:none;border:none;padding:0}
+.nav-back-arrow{font-size:18px;color:var(--pink)}
+.nav-title{font-size:15px;font-weight:700;color:var(--dark)}
+.nav-edit-btn{font-size:12px;font-weight:600;color:var(--pink);background:none;border:none;padding:0}
+
+/* ── PROFILE HEADER ─────────────────────────────────────── */
+.profile-header{
+  background:var(--dark);padding:24px 16px 20px;
+  position:relative;overflow:hidden;
+}
+.profile-header::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 80% at 85% 20%,rgba(232,160,32,.12) 0%,transparent 65%);
+}
+.ph-inner{display:flex;align-items:center;gap:14px;position:relative}
+
+/* Avatar */
+.avatar-wrap{position:relative;flex-shrink:0}
+.avatar{
+  width:64px;height:64px;border-radius:50%;
+  background:linear-gradient(135deg,var(--amber),var(--pink));
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;font-weight:700;color:#fff;
+  border:2.5px solid rgba(255,255,255,.18);
+}
+.avatar-edit{
+  position:absolute;bottom:0;right:0;
+  width:22px;height:22px;border-radius:50%;
+  background:var(--pink);border:2px solid var(--dark);
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;color:#fff;cursor:pointer;
+}
+
+/* Name + phone */
+.ph-info{flex:1}
+.ph-name{font-size:17px;font-weight:700;color:var(--hero-text);margin-bottom:2px;display:flex;align-items:center;gap:6px}
+.ph-edit-name{background:none;border:none;font-size:11px;color:rgba(255,255,255,.4);padding:0;cursor:pointer}
+.ph-phone{font-size:12px;color:var(--sub-text)}
+.ph-city{display:flex;align-items:center;gap:4px;margin-top:5px;font-size:11px;color:var(--hero-sub);cursor:pointer}
+.ph-city-dot{font-size:13px}
+
+/* Profile edit form (hidden by default) */
+.profile-edit-form{
+  position:relative;margin-top:14px;
+  background:rgba(255,255,255,.07);border-radius:12px;
+  padding:14px;display:none;
+}
+.profile-edit-form.open{display:block}
+.pef-field{margin-bottom:10px}
+.pef-label{font-size:10px;font-weight:700;color:var(--gold);letter-spacing:.4px;margin-bottom:4px}
+.pef-input{
+  width:100%;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.16);
+  border-radius:8px;padding:9px 12px;font-size:13px;color:var(--hero-text);
+  font-family:inherit;outline:none;
+}
+.pef-input::placeholder{color:rgba(255,255,255,.28)}
+.pef-input:focus{border-color:var(--pink)}
+.pef-city-row{display:flex;gap:6px}
+.pef-city-opt{
+  flex:1;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);
+  border-radius:8px;padding:8px 6px;font-size:11px;color:var(--sub-text);text-align:center;
+}
+.pef-city-opt.sel{background:var(--pink);border-color:var(--pink);color:#fff;font-weight:600}
+.pef-save{
+  width:100%;background:var(--pink);border:none;border-radius:9px;
+  padding:10px;font-size:13px;font-weight:700;color:#fff;margin-top:4px;
+}
+
+/* ── STAT TILES ──────────────────────────────────────────── */
+.stat-row{
+  display:grid;grid-template-columns:1fr 1fr 1fr;
+  gap:8px;padding:14px 14px 0;
+}
+.stat-tile{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:12px;padding:12px 10px;text-align:center;
+  cursor:pointer;transition:border-color .15s,box-shadow .15s;
+}
+.stat-tile:active,.stat-tile:hover{border-color:var(--pink);box-shadow:0 2px 10px rgba(212,23,90,.10)}
+.stat-num{font-size:22px;font-weight:700;color:var(--dark);margin-bottom:2px;line-height:1.1}
+.stat-label{font-size:10px;color:var(--sub-text);line-height:1.3}
+.stat-badge{
+  display:inline-block;font-size:9px;font-weight:700;
+  padding:2px 7px;border-radius:10px;margin-top:3px;
+}
+.stat-badge.active{background:var(--green-bg);color:var(--green-text)}
+.stat-badge.inactive{background:var(--amber-light);color:var(--amber-text)}
+.stat-badge.none{background:var(--bg);color:var(--sub-text)}
+
+/* ── SECTION HEADER ─────────────────────────────────────── */
+.sec-head{
+  padding:20px 14px 8px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.sec-title{font-size:13.5px;font-weight:700;color:var(--dark);display:flex;align-items:center;gap:5px}
+.sec-plus{color:var(--pink);font-size:16px;font-weight:700}
+.sec-link{font-size:11px;color:var(--pink);font-weight:500}
+
+/* ── SAVED RITUALS ───────────────────────────────────────── */
+.saved-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:12px;margin:0 14px 8px;
+  display:flex;align-items:center;gap:12px;
+  overflow:hidden;cursor:pointer;
+  transition:border-color .15s;
+}
+.saved-card:active{border-color:var(--pink)}
+.saved-img{
+  width:64px;height:72px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:9px;color:rgba(255,255,255,.2);letter-spacing:.3px;text-align:center;
+}
+.saved-body{flex:1;padding:11px 0}
+.saved-tag{
+  display:inline-block;font-size:9px;font-weight:700;
+  padding:2px 7px;border-radius:3px;margin-bottom:4px;
+}
+.saved-name{font-size:13px;font-weight:600;color:var(--dark);margin-bottom:3px;line-height:1.3}
+.saved-meta{font-size:10px;color:var(--sub-text)}
+.saved-remove{
+  padding:0 14px;background:none;border:none;
+  font-size:18px;color:var(--border);flex-shrink:0;
+}
+.saved-remove:active{color:var(--pink)}
+
+/* swipe hint */
+.swipe-hint{text-align:center;font-size:10px;color:var(--sub-text);padding:4px 0 8px;font-style:italic}
+
+/* empty state */
+.empty-state{
+  background:var(--card);border:1px dashed var(--border);
+  border-radius:14px;margin:0 14px;padding:28px 20px;
+  text-align:center;
+}
+.empty-icon{font-size:32px;margin-bottom:8px}
+.empty-t{font-size:13px;font-weight:600;color:var(--dark);margin-bottom:4px}
+.empty-s{font-size:11px;color:var(--sub-text);line-height:1.6}
+.empty-cta{
+  display:inline-block;margin-top:12px;
+  background:var(--pink);border:none;border-radius:20px;
+  padding:8px 18px;font-size:11px;font-weight:700;color:#fff;
+}
+
+/* ── ORDERS & BOOKINGS ───────────────────────────────────── */
+.order-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:12px;margin:0 14px 8px;overflow:hidden;
+}
+.order-head{padding:12px 14px;border-bottom:1px solid var(--border-light);display:flex;align-items:center;gap:8px}
+.order-type-badge{
+  font-size:9px;font-weight:700;padding:3px 8px;border-radius:4px;
+}
+.order-type-badge.kit{background:var(--amber-light);color:var(--amber-text)}
+.order-type-badge.purohit{background:var(--green-bg);color:var(--green-text)}
+.order-type-badge.mandali{background:#F0EDF8;color:#5A2080}
+.order-id{font-size:11px;color:var(--sub-text);margin-left:auto}
+.order-body{padding:12px 14px}
+.order-name{font-size:14px;font-weight:600;color:var(--dark);margin-bottom:4px}
+.order-detail{font-size:11px;color:var(--sub-text);margin-bottom:8px;line-height:1.55}
+
+/* status pill */
+.status-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.status-pill{font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px}
+.status-pill.confirmed{background:#EBF5EC;color:#1A5C28}
+.status-pill.dispatched{background:#FFF8E8;color:#8B6914}
+.status-pill.delivered{background:#F2EDE4;color:#5C4B12}
+.status-pill.pending{background:#FEF0F4;color:#D4175A}
+.status-pill.complete{background:#1C1712;color:#E3B567}
+.status-pill.cancelled{background:#F5F5F5;color:#999}
+
+/* progress track */
+.progress-track{display:flex;align-items:center;gap:0;margin-bottom:10px}
+.pt-step{display:flex;flex-direction:column;align-items:center;flex:1}
+.pt-dot{width:10px;height:10px;border-radius:50%;border:2px solid var(--border);background:var(--card);flex-shrink:0;position:relative;z-index:1}
+.pt-dot.done{background:var(--green-text);border-color:var(--green-text)}
+.pt-dot.active{background:var(--amber);border-color:var(--amber);box-shadow:0 0 0 3px rgba(232,160,32,.2)}
+.pt-line{flex:1;height:2px;background:var(--border);margin-top:-1px}
+.pt-line.done{background:var(--green-text)}
+.pt-label-row{display:flex;justify-content:space-between;margin-top:4px;padding:0 0}
+.pt-label{font-size:9px;color:var(--sub-text);text-align:center;flex:1}
+.pt-label.done{color:var(--green-text);font-weight:600}
+.pt-label.active{color:var(--amber-text);font-weight:600}
+
+.order-footer{display:flex;gap:7px;padding:10px 14px;border-top:1px solid var(--border-light)}
+.order-btn-ghost{flex:1;background:var(--card);border:1.5px solid var(--border);border-radius:9px;padding:9px;font-size:11px;color:var(--dark);font-weight:500}
+.order-btn-pink{flex:1;background:var(--pink);border:none;border-radius:9px;padding:9px;font-size:11px;color:#fff;font-weight:600}
+.order-btn-cancel{flex:1;background:none;border:1.5px solid var(--border);border-radius:9px;padding:9px;font-size:11px;color:var(--sub-text)}
+
+/* ── SUBSCRIPTIONS ───────────────────────────────────────── */
+.sub-card{
+  background:var(--dark);border-radius:14px;
+  margin:0 14px 8px;overflow:hidden;
+}
+.sub-head{padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between}
+.sub-brand{font-size:13px;font-weight:700;color:var(--hero-text);display:flex;align-items:center;gap:6px}
+.sub-status-pill{font-size:9px;font-weight:700;padding:3px 9px;border-radius:10px}
+.sub-status-pill.active{background:var(--green-bg);color:var(--green-text)}
+.sub-status-pill.inactive{background:rgba(255,255,255,.10);color:var(--sub-text)}
+.sub-body{padding:14px 16px}
+.sub-expiry-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.sub-expiry-label{font-size:10px;color:var(--sub-text)}
+.sub-expiry-val{font-size:12px;font-weight:600;color:var(--gold)}
+.sub-includes{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.sub-include-item{display:flex;align-items:flex-start;gap:7px;font-size:11px;color:var(--hero-sub)}
+.sub-include-check{color:var(--green-text);font-size:12px;flex-shrink:0;margin-top:1px}
+.sub-renew-btn{width:100%;background:var(--pink);border:none;border-radius:10px;padding:11px;font-size:12px;font-weight:700;color:#fff}
+.sub-cancel-link{display:block;text-align:center;font-size:10px;color:var(--sub-text);margin-top:8px}
+
+/* inactive sub card */
+.sub-card.inactive-card{background:var(--card);border:1px solid var(--border)}
+.inactive-card .sub-head{border-bottom-color:var(--border-light)}
+.inactive-card .sub-brand{color:var(--dark)}
+.inactive-card .sub-body-inner{padding:14px 16px;text-align:center}
+.inactive-icon{font-size:28px;margin-bottom:8px}
+.inactive-t{font-size:13px;font-weight:600;color:var(--dark);margin-bottom:4px}
+.inactive-s{font-size:11px;color:var(--sub-text);line-height:1.6;margin-bottom:14px}
+.inactive-join-btn{width:100%;background:var(--pink);border:none;border-radius:10px;padding:11px;font-size:12px;font-weight:700;color:#fff}
+
+/* ── SETTINGS ROWS ───────────────────────────────────────── */
+.settings-group{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:14px;margin:0 14px 10px;overflow:hidden;
+}
+.settings-row{
+  display:flex;align-items:center;padding:14px 16px;
+  border-bottom:.5px solid var(--border-light);
+  cursor:pointer;
+}
+.settings-row:last-child{border-bottom:none}
+.settings-row:active{background:var(--bg)}
+.settings-icon{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;margin-right:12px}
+.settings-label{font-size:13px;font-weight:500;color:var(--dark);flex:1}
+.settings-value{font-size:12px;color:var(--sub-text);margin-right:8px}
+.settings-arrow{font-size:16px;color:var(--border);flex-shrink:0}
+.settings-row.danger .settings-label{color:#D4175A}
+
+/* language toggle inline */
+.lang-inline{display:flex;gap:4px;background:var(--bg);border-radius:8px;padding:3px}
+.lang-pill{border:none;border-radius:6px;padding:4px 11px;font-size:11px;font-weight:700;background:none;color:var(--sub-text);cursor:pointer}
+.lang-pill.on{background:var(--pink);color:#fff}
+
+/* ── NOTIFICATION PREFERENCES ───────────────────────────── */
+.notif-section{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:14px;margin:0 14px 10px;overflow:hidden;
+  display:none;
+}
+.notif-section.open{display:block}
+.notif-header{padding:12px 16px;border-bottom:1px solid var(--border-light)}
+.notif-header-t{font-size:12px;font-weight:700;color:var(--dark)}
+.notif-header-s{font-size:10px;color:var(--sub-text);margin-top:2px}
+.notif-row{
+  display:flex;align-items:center;padding:13px 16px;
+  border-bottom:.5px solid var(--border-light);
+}
+.notif-row:last-child{border-bottom:none}
+.notif-icon{font-size:16px;flex-shrink:0;margin-right:10px}
+.notif-text{flex:1}
+.notif-label{font-size:12px;font-weight:500;color:var(--dark)}
+.notif-sub{font-size:10px;color:var(--sub-text);margin-top:1px}
+
+/* toggle switch */
+.toggle{position:relative;width:40px;height:22px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0;position:absolute}
+.toggle-slider{
+  position:absolute;inset:0;border-radius:22px;
+  background:var(--border);cursor:pointer;transition:background .2s;
+}
+.toggle-slider::before{
+  content:'';position:absolute;
+  width:16px;height:16px;border-radius:50%;
+  background:#fff;top:3px;left:3px;
+  transition:transform .2s;
+  box-shadow:0 1px 4px rgba(0,0,0,.15);
+}
+.toggle input:checked + .toggle-slider{background:var(--pink)}
+.toggle input:checked + .toggle-slider::before{transform:translateX(18px)}
+
+/* ── HELP & SUPPORT ─────────────────────────────────────── */
+.help-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 14px 8px}
+.help-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:12px;padding:14px 12px;
+  display:flex;flex-direction:column;gap:5px;cursor:pointer;
+}
+.help-card:active{border-color:var(--pink)}
+.help-icon{font-size:20px}
+.help-label{font-size:12px;font-weight:600;color:var(--dark)}
+.help-sub{font-size:10px;color:var(--sub-text);line-height:1.4}
+
+/* ── DANGER ZONE ─────────────────────────────────────────── */
+.danger-row{
+  display:flex;align-items:center;padding:14px 16px;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:12px;margin:0 14px;cursor:pointer;
+}
+.danger-row:active{background:var(--red-light);border-color:var(--pink)}
+.danger-icon{font-size:18px;margin-right:12px}
+.danger-label{font-size:13px;font-weight:600;color:var(--pink)}
+
+/* ── APP VERSION ─────────────────────────────────────────── */
+.app-version{text-align:center;font-size:10px;color:var(--border);padding:20px 14px 8px}
+
+</style>
+</head>
+<body>
+
+<!-- ── TOP NAV ─────────────────────────────────────────── -->
+<nav class="topnav">
+  <div class="topnav-row">
+    <button class="nav-back" aria-label="Go back">
+      <span class="nav-back-arrow">‹</span>
+      <span>Home</span>
+    </button>
+    <span class="nav-title">My Account</span>
+    <button class="nav-edit-btn" onclick="toggleEditForm()" aria-label="Edit profile">Edit</button>
+  </div>
+</nav>
+
+<!-- ── PROFILE HEADER ──────────────────────────────────── -->
+<div class="profile-header">
+  <div class="ph-inner">
+    <div class="avatar-wrap">
+      <div class="avatar">प</div>
+      <div class="avatar-edit" onclick="toggleEditForm()" title="Change photo">✏</div>
+    </div>
+    <div class="ph-info">
+      <div class="ph-name">
+        Priya Sharma
+        <button class="ph-edit-name" onclick="toggleEditForm()" aria-label="Edit name">✏</button>
+      </div>
+      <div class="ph-phone">+91 98765 43210</div>
+      <div class="ph-city" onclick="toggleEditForm()">
+        <span class="ph-city-dot">📍</span>
+        <span>Delhi–NCR · Panchang defaults to this city</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Profile edit form -->
+  <div class="profile-edit-form" id="editForm">
+    <div class="pef-field">
+      <div class="pef-label">YOUR NAME</div>
+      <input class="pef-input" type="text" value="Priya Sharma" placeholder="Your name">
+    </div>
+    <div class="pef-field">
+      <div class="pef-label">CITY — PANCHANG DEFAULTS TO THIS</div>
+      <div class="pef-city-row">
+        <button class="pef-city-opt sel" onclick="selectCity(this)">Delhi–NCR</button>
+        <button class="pef-city-opt" onclick="selectCity(this)">Mumbai</button>
+        <button class="pef-city-opt" onclick="selectCity(this)">Bengaluru</button>
+        <button class="pef-city-opt" onclick="selectCity(this)">Other</button>
+      </div>
+    </div>
+    <button class="pef-save" onclick="saveProfile()">Save changes</button>
+  </div>
+</div>
+
+<!-- ── STAT TILES ──────────────────────────────────────── -->
+<div class="stat-row" role="list">
+  <button class="stat-tile" onclick="scrollTo('saved')" aria-label="Go to saved rituals">
+    <div class="stat-num">4</div>
+    <div class="stat-label">Saved Rituals</div>
+  </button>
+  <button class="stat-tile" onclick="scrollTo('orders')" aria-label="Go to orders and bookings">
+    <div class="stat-num">2</div>
+    <div class="stat-label">Orders &amp; Bookings</div>
+  </button>
+  <button class="stat-tile" onclick="scrollTo('subscriptions')" aria-label="Go to subscriptions">
+    <div class="stat-num" style="font-size:14px;padding-top:4px">Circle</div>
+    <div class="stat-label">Subscription</div>
+    <div class="stat-badge active">Active</div>
+  </button>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     SAVED RITUALS
+     ════════════════════════════════════════════════════ -->
+<div id="saved">
+  <div class="sec-head">
+    <h2 class="sec-title"><span class="sec-plus">+</span> Saved Rituals</h2>
+    <a href="#" class="sec-link">Browse guides →</a>
+  </div>
+  <p class="swipe-hint">Swipe left to remove</p>
+
+  <!-- Saved card 1 — Dharma -->
+  <div class="saved-card" role="listitem">
+    <div class="saved-img" style="background:linear-gradient(135deg,#2A4A1A,#4A7C3F)">
+      [ image ]
+    </div>
+    <div class="saved-body">
+      <span class="saved-tag" style="background:#EBF5EC;color:#1A5C28">Dharma</span>
+      <div class="saved-name">Hariyali Teej</div>
+      <div class="saved-meta">Saved 14 Jul · Festive · Shiva Purana</div>
+    </div>
+    <button class="saved-remove" onclick="removeSaved(this)" aria-label="Remove">×</button>
+  </div>
+
+  <!-- Saved card 2 — Dharma -->
+  <div class="saved-card" role="listitem">
+    <div class="saved-img" style="background:linear-gradient(135deg,#3A1C08,#7A3A18)">
+      [ image ]
+    </div>
+    <div class="saved-body">
+      <span class="saved-tag" style="background:#EBF5EC;color:#1A5C28">Dharma</span>
+      <div class="saved-name">Sawan Somwar Vrat</div>
+      <div class="saved-meta">Saved 2 Jul · Vrat · Shiva Purana</div>
+    </div>
+    <button class="saved-remove" onclick="removeSaved(this)" aria-label="Remove">×</button>
+  </div>
+
+  <!-- Saved card 3 — Mixed -->
+  <div class="saved-card" role="listitem">
+    <div class="saved-img" style="background:linear-gradient(135deg,#1A2A4A,#3A4A7A)">
+      [ image ]
+    </div>
+    <div class="saved-body">
+      <span class="saved-tag" style="background:#FFF8E8;color:#8B6914">Mixed</span>
+      <div class="saved-name">Kajari Teej</div>
+      <div class="saved-meta">Saved 9 Jul · Festive · Dharma + Pratha</div>
+    </div>
+    <button class="saved-remove" onclick="removeSaved(this)" aria-label="Remove">×</button>
+  </div>
+
+  <!-- Saved card 4 — Dharma -->
+  <div class="saved-card" role="listitem">
+    <div class="saved-img" style="background:linear-gradient(135deg,#2A1A4A,#4A2A7A)">
+      [ image ]
+    </div>
+    <div class="saved-body">
+      <span class="saved-tag" style="background:#EBF5EC;color:#1A5C28">Dharma</span>
+      <div class="saved-name">Rudrabhishek</div>
+      <div class="saved-meta">Saved 1 Jul · Year-round · Shiva Purana</div>
+    </div>
+    <button class="saved-remove" onclick="removeSaved(this)" aria-label="Remove">×</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     ORDERS & BOOKINGS
+     ════════════════════════════════════════════════════ -->
+<div id="orders">
+  <div class="sec-head">
+    <h2 class="sec-title"><span class="sec-plus">+</span> Orders &amp; Bookings</h2>
+    <a href="#" class="sec-link">View all →</a>
+  </div>
+
+  <!-- KIT ORDER — Dispatched -->
+  <div class="order-card">
+    <div class="order-head">
+      <span class="order-type-badge kit">Ritual Kit</span>
+      <span class="order-id">TK-2026-0042</span>
+    </div>
+    <div class="order-body">
+      <div class="order-name">Hariyali Teej Ritual Kit</div>
+      <div class="order-detail">8 items · Sindoor, Bangles, Flowers + more<br>Ordered 12 Jul · ₹799 · Delhi–NCR</div>
+
+      <div class="status-row">
+        <span class="status-pill dispatched">Dispatched</span>
+        <span style="font-size:10px;color:var(--amber-text);font-weight:600">Expected 15 Jul</span>
+      </div>
+
+      <!-- Progress track -->
+      <div class="progress-track">
+        <div class="pt-step">
+          <div class="pt-dot done"></div>
+        </div>
+        <div class="pt-line done"></div>
+        <div class="pt-step">
+          <div class="pt-dot done"></div>
+        </div>
+        <div class="pt-line done"></div>
+        <div class="pt-step">
+          <div class="pt-dot active"></div>
+        </div>
+        <div class="pt-line"></div>
+        <div class="pt-step">
+          <div class="pt-dot"></div>
+        </div>
+      </div>
+      <div class="pt-label-row">
+        <span class="pt-label done">Placed</span>
+        <span class="pt-label done">Confirmed</span>
+        <span class="pt-label active">Dispatched</span>
+        <span class="pt-label">Delivered</span>
+      </div>
+    </div>
+    <div class="order-footer">
+      <button class="order-btn-ghost">Track order</button>
+      <button class="order-btn-pink">View details</button>
+    </div>
+  </div>
+
+  <!-- KIT ORDER — Delivered -->
+  <div class="order-card">
+    <div class="order-head">
+      <span class="order-type-badge kit">Ritual Kit</span>
+      <span class="order-id">TK-2026-0011</span>
+    </div>
+    <div class="order-body">
+      <div class="order-name">Sawan Somwar Vrat Kit</div>
+      <div class="order-detail">6 items · Gangajal, Bilva Patra + more<br>Ordered 1 Jul · ₹599 · Delhi–NCR</div>
+
+      <div class="status-row">
+        <span class="status-pill delivered">Delivered</span>
+        <span style="font-size:10px;color:var(--sub-text)">Delivered 4 Jul</span>
+      </div>
+
+      <div class="progress-track">
+        <div class="pt-step"><div class="pt-dot done"></div></div>
+        <div class="pt-line done"></div>
+        <div class="pt-step"><div class="pt-dot done"></div></div>
+        <div class="pt-line done"></div>
+        <div class="pt-step"><div class="pt-dot done"></div></div>
+        <div class="pt-line done"></div>
+        <div class="pt-step"><div class="pt-dot done"></div></div>
+      </div>
+      <div class="pt-label-row">
+        <span class="pt-label done">Placed</span>
+        <span class="pt-label done">Confirmed</span>
+        <span class="pt-label done">Dispatched</span>
+        <span class="pt-label done">Delivered</span>
+      </div>
+    </div>
+    <div class="order-footer">
+      <button class="order-btn-ghost">Buy again</button>
+      <button class="order-btn-pink">View details</button>
+    </div>
+  </div>
+
+  <!-- EMPTY STATE (shown when no orders exist) — hidden by default here -->
+  <!--
+  <div class="empty-state" style="margin:0 14px">
+    <div class="empty-icon">🛒</div>
+    <div class="empty-t">No orders yet</div>
+    <div class="empty-s">Browse Ritual Kits to find the complete samagri for your next puja.</div>
+    <button class="empty-cta">Browse Ritual Kits →</button>
+  </div>
+  -->
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     MY SUBSCRIPTIONS
+     ════════════════════════════════════════════════════ -->
+<div id="subscriptions">
+  <div class="sec-head">
+    <h2 class="sec-title"><span class="sec-plus">+</span> My Subscriptions</h2>
+  </div>
+
+  <!-- ACTIVE SUBSCRIPTION -->
+  <div class="sub-card">
+    <div class="sub-head">
+      <span class="sub-brand">💬 The Tapa Circle</span>
+      <span class="sub-status-pill active">Active</span>
+    </div>
+    <div class="sub-body">
+      <div class="sub-expiry-row">
+        <span class="sub-expiry-label">Active until</span>
+        <span class="sub-expiry-val">20 July 2027</span>
+      </div>
+      <div class="sub-includes">
+        <div class="sub-include-item">
+          <span class="sub-include-check">✓</span>
+          <span>Weekly Panchang — every Sunday at 7 am</span>
+        </div>
+        <div class="sub-include-item">
+          <span class="sub-include-check">✓</span>
+          <span>Eve-of reminders before every vrat</span>
+        </div>
+        <div class="sub-include-item">
+          <span class="sub-include-check">✓</span>
+          <span>Festival guides and samagri alerts</span>
+        </div>
+      </div>
+      <button class="sub-renew-btn">Renew early — ₹499/year</button>
+      <a href="#" class="sub-cancel-link">Manage subscription</a>
+    </div>
+  </div>
+
+  <!-- INACTIVE STATE (alternate — toggle display to show this instead) -->
+  <!--
+  <div class="sub-card inactive-card">
+    <div class="sub-head">
+      <span class="sub-brand" style="color:var(--dark)">💬 The Tapa Circle</span>
+      <span class="sub-status-pill inactive">Not active</span>
+    </div>
+    <div class="sub-body-inner">
+      <div class="inactive-icon">🪔</div>
+      <div class="inactive-t">Never miss a vrat or tithi</div>
+      <div class="inactive-s">Weekly Panchang, eve-of vrat reminders, and festival alerts — straight to your WhatsApp.</div>
+      <button class="inactive-join-btn">Join The Tapa Circle — ₹499/year</button>
+    </div>
+  </div>
+  -->
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     SETTINGS
+     ════════════════════════════════════════════════════ -->
+<div class="sec-head" style="padding-top:20px">
+  <h2 class="sec-title"><span class="sec-plus">+</span> Settings</h2>
+</div>
+
+<div class="settings-group">
+
+  <!-- Language -->
+  <div class="settings-row" onclick="">
+    <div class="settings-icon" style="background:#FFF8E8">🌐</div>
+    <span class="settings-label">Language</span>
+    <div class="lang-inline">
+      <button class="lang-pill on" onclick="setLang(this,'en')">EN</button>
+      <button class="lang-pill" onclick="setLang(this,'hi')">हिं</button>
+    </div>
+  </div>
+
+  <!-- Notification preferences -->
+  <div class="settings-row" onclick="toggleNotifPanel()">
+    <div class="settings-icon" style="background:#FEF0F4">🔔</div>
+    <span class="settings-label">Notification Preferences</span>
+    <span class="settings-arrow" id="notifArrow">›</span>
+  </div>
+
+</div>
+
+<!-- Notification preferences panel -->
+<div class="notif-section" id="notifPanel">
+  <div class="notif-header">
+    <div class="notif-header-t">Choose what you hear from us</div>
+    <div class="notif-header-s">You can change these at any time</div>
+  </div>
+
+  <div class="notif-row">
+    <span class="notif-icon">🪔</span>
+    <div class="notif-text">
+      <div class="notif-label">Vrat reminders</div>
+      <div class="notif-sub">Eve-of alerts for every vrat and observance</div>
+    </div>
+    <label class="toggle">
+      <input type="checkbox" checked onchange="saveNotifPref(this,'vrat')">
+      <span class="toggle-slider"></span>
+    </label>
+  </div>
+
+  <div class="notif-row">
+    <span class="notif-icon">📅</span>
+    <div class="notif-text">
+      <div class="notif-label">Weekly Panchang</div>
+      <div class="notif-sub">Sunday 7 am — this week's tithi and upcoming vrats</div>
+    </div>
+    <label class="toggle">
+      <input type="checkbox" checked onchange="saveNotifPref(this,'panchang')">
+      <span class="toggle-slider"></span>
+    </label>
+  </div>
+
+  <div class="notif-row">
+    <span class="notif-icon">🛒</span>
+    <div class="notif-text">
+      <div class="notif-label">Ritual Kit alerts</div>
+      <div class="notif-sub">When a kit launches for an upcoming festival</div>
+    </div>
+    <label class="toggle">
+      <input type="checkbox" checked onchange="saveNotifPref(this,'kits')">
+      <span class="toggle-slider"></span>
+    </label>
+  </div>
+
+  <div class="notif-row">
+    <span class="notif-icon">📦</span>
+    <div class="notif-text">
+      <div class="notif-label">Order &amp; booking updates</div>
+      <div class="notif-sub">Dispatch, delivery, and booking confirmations</div>
+    </div>
+    <label class="toggle">
+      <input type="checkbox" checked onchange="saveNotifPref(this,'orders')">
+      <span class="toggle-slider"></span>
+    </label>
+  </div>
+</div>
+
+<!-- ── HELP & SUPPORT ──────────────────────────────────── -->
+<div class="sec-head">
+  <h2 class="sec-title"><span class="sec-plus">+</span> Help &amp; Support</h2>
+</div>
+
+<div class="help-grid">
+  <div class="help-card">
+    <div class="help-icon">💬</div>
+    <div class="help-label">Chat with us</div>
+    <div class="help-sub">WhatsApp · Usually responds in a few hours</div>
+  </div>
+  <div class="help-card">
+    <div class="help-icon">📧</div>
+    <div class="help-label">Email us</div>
+    <div class="help-sub">hello@thetapaco.com</div>
+  </div>
+  <div class="help-card">
+    <div class="help-icon">📋</div>
+    <div class="help-label">Order issue</div>
+    <div class="help-sub">Kit not arrived? Wrong item?</div>
+  </div>
+  <div class="help-card">
+    <div class="help-icon">📖</div>
+    <div class="help-label">FAQs</div>
+    <div class="help-sub">Rituals, kits, bookings</div>
+  </div>
+</div>
+
+<div class="settings-group" style="margin-top:0">
+  <div class="settings-row">
+    <div class="settings-icon" style="background:#F5F5F5">🔒</div>
+    <span class="settings-label">Privacy policy</span>
+    <span class="settings-arrow">›</span>
+  </div>
+  <div class="settings-row">
+    <div class="settings-icon" style="background:#F5F5F5">📃</div>
+    <span class="settings-label">Terms of service</span>
+    <span class="settings-arrow">›</span>
+  </div>
+  <div class="settings-row">
+    <div class="settings-icon" style="background:#FEF0F4">⚖️</div>
+    <span class="settings-label">Grievance Officer</span>
+    <span class="settings-value">grievance@thetapaco.com</span>
+    <span class="settings-arrow">›</span>
+  </div>
+</div>
+
+<!-- ── LOG OUT ─────────────────────────────────────────── -->
+<div style="padding:8px 14px 4px">
+  <div class="danger-row" onclick="confirmLogout()">
+    <span class="danger-icon">🚪</span>
+    <span class="danger-label">Log out</span>
+  </div>
+</div>
+
+<!-- App version -->
+<div class="app-version">
+  The Tapa Co. · thetapaco.com<br>
+  तप् · The Tapa Co. © 2026 · Tale Scale Networks Pvt Ltd
+</div>
+
+<script>
+// ── Profile edit ─────────────────────────────────────────
+function toggleEditForm() {
+  const f = document.getElementById('editForm');
+  f.classList.toggle('open');
+}
+function selectCity(el) {
+  document.querySelectorAll('.pef-city-opt').forEach(b => b.classList.remove('sel'));
+  el.classList.add('sel');
+}
+function saveProfile() {
+  // In production: PATCH /api/user/profile
+  toggleEditForm();
+}
+
+// ── Stat tiles → scroll ──────────────────────────────────
+function scrollTo(id) {
+  document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ── Saved ritual remove ──────────────────────────────────
+function removeSaved(btn) {
+  const card = btn.closest('.saved-card');
+  card.style.transition = 'opacity .25s, transform .25s';
+  card.style.opacity = '0';
+  card.style.transform = 'translateX(40px)';
+  setTimeout(() => {
+    card.remove();
+    updateSavedCount();
+  }, 250);
+}
+function updateSavedCount() {
+  const count = document.querySelectorAll('.saved-card').length;
+  document.querySelector('.stat-tile:nth-child(1) .stat-num').textContent = count;
+}
+
+// ── Language ─────────────────────────────────────────────
+function setLang(btn, lang) {
+  document.querySelectorAll('.lang-pill').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  document.documentElement.setAttribute('data-lang', lang);
+  // In production: PATCH /api/user/language
+}
+
+// ── Notification prefs panel ─────────────────────────────
+function toggleNotifPanel() {
+  const panel = document.getElementById('notifPanel');
+  const arrow  = document.getElementById('notifArrow');
+  panel.classList.toggle('open');
+  arrow.textContent = panel.classList.contains('open') ? '‹' : '›';
+}
+function saveNotifPref(input, type) {
+  // In production: PATCH /api/user/notifications
+  console.log(`Pref ${type}: ${input.checked}`);
+}
+
+// ── Log out ───────────────────────────────────────────────
+function confirmLogout() {
+  if (confirm('Log out of your Tapa account?')) {
+    // In production: DELETE /api/session, clear localStorage, redirect to /
+    alert('Logged out');
+  }
+}
+</script>
+
+</body>
+</html>

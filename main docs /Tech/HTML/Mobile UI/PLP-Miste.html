@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Ritual Kits — Complete samagri for every puja · The Tapa Co.</title>
+<meta name="description" content="Ritually verified samagri kits for Navratri, Diwali, Satyanarayan, Ekadashi and more. Every item sourced and verified against scripture. Delivered before your festival date.">
+<style>
+
+/* ============================================================
+   THE TAPA CO. — RITUAL KITS LISTING PAGE
+   Mobile-first · 390px · All 13 kits · Live filters
+   
+   SCROLL ORDER:
+   1.  Announcement bar
+   2.  Top nav (sticky)
+   3.  Page hero band (dark, with trust strip)
+   4.  Category tabs (sticky below nav)
+   5.  Occasion filter chips
+   6.  Early-bird acknowledgement bar
+   7.  Results row (count + sort)
+   8.  Featured kit card — Shubh Sampada (wide)
+   9.  Kit grid — remaining 12 kits, 2-column
+   10. Empty state (when filters return nothing)
+   11. "Not finding what you need?" — WhatsApp chat CTA
+   12. Footer
+   ============================================================ */
+
+:root {
+  --bg:           #F2EDE4;
+  --card:         #FFFFFF;
+  --dark:         #1C1712;
+  --pink:         #D4175A;
+  --amber:        #E8A020;
+  --amber-light:  #FFF8E8;
+  --amber-border: #E8D8A0;
+  --amber-text:   #8B6914;
+  --gold:         #E3B567;
+  --body-text:    #2C2010;
+  --mid-text:     #5C4B12;
+  --sub-text:     #8A7A68;
+  --border:       #E8E0D0;
+  --border-light: #F0E8D8;
+  --green-bg:     #EBF5EC;
+  --green-text:   #1A5C28;
+  --green-border: #C5DFB8;
+  --red-light:    #FEF0F4;
+  --hero-text:    #FFFDF5;
+  --hero-sub:     #C4A882;
+  --wa-green:     #22C35E;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0 }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth }
+body {
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--body-text);
+  font-size: 13px;
+  line-height: 1.5;
+  max-width: 390px;
+  margin: 0 auto;
+  -webkit-font-smoothing: antialiased;
+  padding-bottom: 40px;
+}
+button { font-family: inherit; cursor: pointer }
+a { text-decoration: none; color: inherit }
+
+/* ── 1. ANNOUNCEMENT BAR ────────────────────────────────── */
+.announce {
+  background: var(--pink);
+  padding: 9px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.ann-new {
+  background: rgba(255,255,255,.28);
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 9px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: .4px;
+  flex-shrink: 0;
+}
+.ann-text {
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: .2px;
+}
+
+/* ── 2. TOP NAV (sticky) ─────────────────────────────────── */
+.topnav {
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  box-shadow: 0 1px 8px rgba(28,23,18,.05);
+}
+.topnav-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px 9px;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.logo-flame {
+  width: 22px;
+  height: 27px;
+  flex-shrink: 0;
+}
+.logo-deva {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--amber);
+  line-height: 1;
+}
+.logo-latin {
+  font-size: 8px;
+  color: var(--pink);
+  font-weight: 500;
+  letter-spacing: .3px;
+  line-height: 1;
+  margin-top: 1px;
+}
+.nav-icons {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.nav-icon-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+}
+.nav-search {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 6px 12px;
+  font-size: 12px;
+  color: var(--sub-text);
+  flex: 1;
+  margin: 0 8px;
+  max-width: 160px;
+}
+.cart-rel { position: relative }
+.cart-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--pink);
+  border: 1.5px solid var(--card);
+  font-size: 8px;
+  font-weight: 700;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.nav-login {
+  background: var(--pink);
+  border: none;
+  border-radius: 7px;
+  padding: 7px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+/* NAV TABS */
+.nav-tabs {
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+  border-top: 1px solid var(--border);
+  padding: 0 14px;
+}
+.nav-tabs::-webkit-scrollbar { display: none }
+.nav-tab {
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--sub-text);
+  padding: 9px 12px;
+  border-bottom: 2.5px solid transparent;
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color .15s, border-color .15s;
+}
+.nav-tab.active {
+  color: var(--pink);
+  border-bottom-color: var(--pink);
+  font-weight: 600;
+}
+
+/* ── 3. PAGE HERO BAND ───────────────────────────────────── */
+.page-hero {
+  background: var(--dark);
+  padding: 20px 16px 0;
+  position: relative;
+  overflow: hidden;
+}
+.page-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 80% at 90% 30%, rgba(232,160,32,.12) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 60% at 5% 80%, rgba(212,23,90,.08) 0%, transparent 55%);
+}
+.hero-inner { position: relative }
+.hero-eyebrow {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--pink);
+  letter-spacing: .6px;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+.hero-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--hero-text);
+  line-height: 1.2;
+  margin-bottom: 5px;
+}
+.hero-sub {
+  font-size: 12px;
+  color: var(--hero-sub);
+  line-height: 1.65;
+  margin-bottom: 14px;
+}
+.hero-trust {
+  border-top: 1px solid rgba(255,255,255,.07);
+  padding: 10px 0;
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.hero-trust::-webkit-scrollbar { display: none }
+.htrust {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding-right: 14px;
+  flex-shrink: 0;
+}
+.htrust-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--green-text);
+  flex-shrink: 0;
+}
+.htrust-text {
+  font-size: 10px;
+  color: rgba(255,253,245,.6);
+  white-space: nowrap;
+}
+.htrust-sep {
+  width: 1px;
+  height: 11px;
+  background: rgba(255,255,255,.1);
+  margin-right: 14px;
+  flex-shrink: 0;
+  align-self: center;
+}
+
+/* ── 4. CATEGORY TABS (sticky below nav) ─────────────────── */
+.cat-tabs-wrap {
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 102px;
+  z-index: 40;
+}
+.cat-tabs {
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 0 14px;
+}
+.cat-tabs::-webkit-scrollbar { display: none }
+.cat-tab {
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--sub-text);
+  padding: 11px 13px;
+  border-bottom: 2.5px solid transparent;
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color .15s, border-color .15s;
+}
+.cat-tab.active {
+  color: var(--pink);
+  border-bottom-color: var(--pink);
+  font-weight: 600;
+}
+
+/* ── 5. FILTER CHIPS ─────────────────────────────────────── */
+.filter-wrap {
+  padding: 10px 14px 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.filter-wrap::-webkit-scrollbar { display: none }
+.filter-row { display: flex; gap: 7px }
+.fchip {
+  flex-shrink: 0;
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  padding: 5px 13px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--sub-text);
+  background: var(--card);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all .14s;
+}
+.fchip.active {
+  background: var(--pink);
+  border-color: var(--pink);
+  color: #fff;
+  font-weight: 600;
+}
+
+/* ── 6. EARLY BIRD BAR ───────────────────────────────────── */
+.early-bar {
+  background: var(--green-bg);
+  border-top: 1px solid var(--green-border);
+  border-bottom: 1px solid var(--green-border);
+  padding: 8px 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 8px;
+}
+.early-bar-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px }
+.early-bar-body {}
+.early-bar-title { font-size: 11px; font-weight: 700; color: var(--green-text) }
+.early-bar-sub { font-size: 10px; color: var(--mid-text); margin-top: 1px }
+
+/* ── 7. RESULTS ROW ──────────────────────────────────────── */
+.results-row {
+  padding: 10px 14px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.results-count { font-size: 11px; color: var(--sub-text) }
+.sort-btn {
+  font-size: 11px;
+  color: var(--pink);
+  font-weight: 500;
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ── 8. FEATURED KIT CARD (wide) ─────────────────────────── */
+.featured-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  margin: 0 14px 10px;
+  cursor: pointer;
+  display: flex;
+  transition: border-color .14s;
+}
+.featured-card:active { border-color: var(--pink) }
+.featured-img {
+  width: 120px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  min-height: 160px;
+}
+.featured-img-icon { font-size: 30px; color: rgba(255,255,255,.22) }
+.featured-body { flex: 1; padding: 13px 12px }
+.featured-eyebrow {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--sub-text);
+  letter-spacing: .4px;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.featured-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--dark);
+  line-height: 1.25;
+  margin-bottom: 1px;
+}
+.featured-hindi {
+  font-size: 11px;
+  color: var(--amber-text);
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+.featured-items { font-size: 10px; color: var(--sub-text); margin-bottom: 8px }
+.featured-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+.featured-price { font-size: 17px; font-weight: 700; color: var(--dark) }
+.featured-mrp { font-size: 10px; color: var(--sub-text); text-decoration: line-through }
+.featured-save {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--green-text);
+  background: var(--green-bg);
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+.featured-low {
+  font-size: 9px;
+  font-weight: 700;
+  color: #8B4A00;
+  background: #FFF0D4;
+  border-radius: 4px;
+  padding: 2px 7px;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+.featured-btn {
+  width: 100%;
+  background: var(--pink);
+  border: none;
+  border-radius: 8px;
+  padding: 9px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+.featured-delivery {
+  font-size: 9px;
+  color: var(--sub-text);
+  text-align: center;
+  margin-top: 5px;
+}
+.featured-ribbon {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: var(--pink);
+  color: #fff;
+  font-size: 8px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 4px;
+  letter-spacing: .3px;
+}
+
+/* ── 9. KIT GRID (2 columns) ─────────────────────────────── */
+.kit-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 0 14px;
+}
+.kit-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color .14s, box-shadow .14s;
+}
+.kit-card:active { border-color: var(--pink); box-shadow: 0 2px 12px rgba(212,23,90,.1) }
+.kit-card.low-stock { border-color: #F4A520 }
+.kit-card.sold-out { opacity: .68 }
+
+.kit-img {
+  height: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.kit-img-icon { font-size: 26px; color: rgba(255,255,255,.22) }
+.kit-ribbon {
+  position: absolute;
+  top: 7px;
+  left: 7px;
+  font-size: 8px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  letter-spacing: .3px;
+}
+.kit-ribbon.bestseller { background: var(--pink); color: #fff }
+.kit-ribbon.low { background: #F4A520; color: var(--dark) }
+.kit-ribbon.soldout { background: var(--sub-text); color: #fff }
+.kit-ribbon.new { background: var(--dark); color: var(--gold) }
+
+.kit-body { padding: 10px 10px 11px }
+.kit-occ {
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--sub-text);
+  letter-spacing: .4px;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+.kit-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--dark);
+  line-height: 1.3;
+  margin-bottom: 1px;
+}
+.kit-hindi {
+  font-size: 10px;
+  color: var(--amber-text);
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+.kit-items { font-size: 10px; color: var(--sub-text); margin-bottom: 5px }
+
+/* state indicators */
+.kit-low-warn {
+  font-size: 9px;
+  font-weight: 700;
+  color: #8B4A00;
+  background: #FFF0D4;
+  border-radius: 4px;
+  padding: 2px 7px;
+  display: inline-block;
+  margin-bottom: 5px;
+}
+.kit-eb-saved {
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--green-text);
+  background: var(--green-bg);
+  border-radius: 3px;
+  padding: 2px 6px;
+  display: inline-block;
+  margin-bottom: 5px;
+}
+
+.kit-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-bottom: 7px;
+}
+.kit-price { font-size: 14px; font-weight: 700; color: var(--dark) }
+.kit-mrp { font-size: 9px; color: var(--sub-text); text-decoration: line-through }
+.kit-pct { font-size: 9px; font-weight: 600; color: var(--green-text) }
+
+.kit-btn {
+  width: 100%;
+  background: var(--pink);
+  border: none;
+  border-radius: 8px;
+  padding: 8px 4px;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #fff;
+}
+.kit-btn.soldout-btn {
+  background: var(--border);
+  color: var(--sub-text);
+  cursor: default;
+}
+.kit-notify {
+  display: block;
+  text-align: center;
+  font-size: 9px;
+  color: var(--pink);
+  font-weight: 500;
+  margin-top: 4px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  width: 100%;
+}
+.kit-delivery {
+  font-size: 9px;
+  color: var(--sub-text);
+  text-align: center;
+  margin-top: 4px;
+}
+
+/* ── 10. EMPTY STATE ─────────────────────────────────────── */
+.empty-state {
+  display: none;
+  text-align: center;
+  padding: 40px 24px;
+  grid-column: 1 / -1;
+}
+.empty-state.visible { display: block }
+.empty-icon { font-size: 36px; margin-bottom: 12px }
+.empty-title { font-size: 14px; font-weight: 700; color: var(--dark); margin-bottom: 5px }
+.empty-sub { font-size: 12px; color: var(--sub-text); line-height: 1.65; margin-bottom: 16px }
+.empty-reset {
+  background: var(--pink);
+  border: none;
+  border-radius: 20px;
+  padding: 9px 20px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+}
+
+/* ── 11. CHAT CTA ────────────────────────────────────────── */
+.chat-cta {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  margin: 16px 14px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.chat-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+}
+.chat-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--wa-green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 22px;
+}
+.chat-body {}
+.chat-title { font-size: 13px; font-weight: 700; color: var(--dark); margin-bottom: 3px }
+.chat-sub { font-size: 11px; color: var(--sub-text); line-height: 1.55 }
+.chat-btn {
+  width: 100%;
+  background: var(--wa-green);
+  border: none;
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+.chat-note { font-size: 9px; color: var(--sub-text); text-align: center }
+
+/* ── 12. FOOTER ──────────────────────────────────────────── */
+.footer { background: var(--dark); margin-top: 24px }
+.footer-brand {
+  padding: 26px 16px 18px;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+  text-align: center;
+}
+.footer-lotus {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.footer-lotus-line { height: 1px; width: 40px; background: rgba(227,181,103,.22) }
+.footer-logo-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+.footer-deva { font-size: 19px; font-weight: 700; color: var(--amber); line-height: 1 }
+.footer-latin { font-size: 9px; color: var(--pink); font-weight: 500; letter-spacing: .3px }
+.footer-tag { font-size: 12px; color: var(--hero-sub); font-style: italic }
+.footer-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  border-top: 1px solid rgba(255,255,255,.07);
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+.fn-col { padding: 14px }
+.fn-col:not(:last-child) { border-right: 1px solid rgba(255,255,255,.07) }
+.fn-label {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: .5px;
+  margin-bottom: 10px;
+}
+.fn-link { font-size: 10px; color: var(--sub-text); display: block; margin-bottom: 8px }
+.fn-link:last-child { margin-bottom: 0 }
+.footer-trust {
+  padding: 11px 14px;
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+.footer-trust::-webkit-scrollbar { display: none }
+.ft-pill { display: flex; align-items: center; gap: 4px; flex-shrink: 0; font-size: 9px; color: var(--sub-text) }
+.ft-icon { font-size: 11px; color: var(--gold) }
+.ft-sep { width: 1px; height: 11px; background: rgba(255,255,255,.07); flex-shrink: 0; align-self: center }
+.footer-legal {
+  padding: 11px 14px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.fp-links { display: flex; gap: 10px; flex-wrap: wrap }
+.fp-link { font-size: 9px; color: #3A2C08 }
+.footer-copy { font-size: 9px; color: #3A2C08; line-height: 1.6 }
+
+/* ── SORT SHEET (bottom modal) ───────────────────────────── */
+.sort-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(28,23,18,.5);
+  z-index: 80;
+}
+.sort-backdrop.open { display: block }
+.sort-sheet {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 390px;
+  max-width: 100%;
+  background: var(--card);
+  border-radius: 16px 16px 0 0;
+  padding: 16px 0 24px;
+}
+.sort-handle {
+  width: 36px; height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  margin: 0 auto 16px;
+}
+.sort-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--dark);
+  padding: 0 16px;
+  margin-bottom: 10px;
+}
+.sort-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--border-light);
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--dark);
+}
+.sort-option:last-child { border-bottom: none }
+.sort-option.selected { color: var(--pink); font-weight: 600 }
+.sort-check { font-size: 16px; color: var(--pink) }
+
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════
+     1. ANNOUNCEMENT BAR
+     ════════════════════════════════════════════════════ -->
+<div class="announce" role="banner">
+  <span class="ann-new">LIVE</span>
+  <span class="ann-text">Ritual Kits are live — shop now</span>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     2. TOP NAV (sticky)
+     ════════════════════════════════════════════════════ -->
+<nav class="topnav" aria-label="Site navigation">
+  <div class="topnav-main">
+    <a href="/" class="logo" aria-label="The Tapa Co. — home">
+      <svg class="logo-flame" viewBox="0 0 28 34" fill="none" aria-hidden="true">
+        <path d="M14 2C17 8 21 13 18 20C16.5 23.5 14 25 14 25C14 25 11.5 23.5 10 20C7 13 11 8 14 2Z" fill="#D4175A"/>
+        <path d="M14 11C15.5 15 16.5 18 15 21C14.5 22 13.5 22 13 21C11.5 18 12.5 15 14 11Z" fill="#E8A020"/>
+      </svg>
+      <div>
+        <div class="logo-deva">तप</div>
+        <div class="logo-latin">the tapa company</div>
+      </div>
+    </a>
+    <div class="nav-search" role="search">
+      <span aria-hidden="true">🔍</span>
+      <span>Search kits...</span>
+    </div>
+    <div class="nav-icons">
+      <button class="nav-icon-btn cart-rel" aria-label="Cart" onclick="openCart()">
+        🛒
+        <span class="cart-badge" id="cartBadge">0</span>
+      </button>
+      <button class="nav-login">LOGIN</button>
+    </div>
+  </div>
+  <div class="nav-tabs" role="tablist" aria-label="Main categories">
+    <button class="nav-tab" role="tab" onclick="setNavTab(this)" aria-selected="false">Ritual Guides</button>
+    <button class="nav-tab active" role="tab" onclick="setNavTab(this)" aria-selected="true">Ritual Kits</button>
+    <button class="nav-tab" role="tab" onclick="setNavTab(this)" aria-selected="false">Pujan with Purohit</button>
+    <button class="nav-tab" role="tab" onclick="setNavTab(this)" aria-selected="false">Panchang</button>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════════════════════════════
+     3. PAGE HERO BAND
+     ════════════════════════════════════════════════════ -->
+<div class="page-hero" role="region" aria-label="Ritual Kits">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">+ RITUAL KITS · LIVE NOW · OCTOBER 2026</div>
+    <h1 class="hero-title">Complete samagri.<br>For every puja.</h1>
+    <p class="hero-sub">Ritually verified. Sourced right. Delivered before your festival date.</p>
+  </div>
+  <div class="hero-trust">
+    <div class="htrust">
+      <div class="htrust-dot"></div>
+      <span class="htrust-text">13 kits available</span>
+    </div>
+    <div class="htrust-sep"></div>
+    <div class="htrust">
+      <div class="htrust-dot"></div>
+      <span class="htrust-text">Ships before your ritual</span>
+    </div>
+    <div class="htrust-sep"></div>
+    <div class="htrust">
+      <div class="htrust-dot"></div>
+      <span class="htrust-text">Exchange on wrong item</span>
+    </div>
+    <div class="htrust-sep"></div>
+    <div class="htrust">
+      <div class="htrust-dot"></div>
+      <span class="htrust-text">No COD · UPI and card</span>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     4. CATEGORY TABS (sticky)
+     ════════════════════════════════════════════════════ -->
+<div class="cat-tabs-wrap">
+  <div class="cat-tabs" role="tablist" aria-label="Kit categories">
+    <button class="cat-tab active" role="tab" aria-selected="true" onclick="setCat(this,'all')">All kits</button>
+    <button class="cat-tab" role="tab" aria-selected="false" onclick="setCat(this,'navratri')">Navratri</button>
+    <button class="cat-tab" role="tab" aria-selected="false" onclick="setCat(this,'diwali')">Diwali</button>
+    <button class="cat-tab" role="tab" aria-selected="false" onclick="setCat(this,'satyanarayan')">Satyanarayan</button>
+    <button class="cat-tab" role="tab" aria-selected="false" onclick="setCat(this,'havan')">Havan &amp; Yagna</button>
+    <button class="cat-tab" role="tab" aria-selected="false" onclick="setCat(this,'yearround')">Year-round</button>
+    <button class="cat-tab" role="tab" aria-selected="false" onclick="setCat(this,'gift')">Gift</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     5. FILTER CHIPS
+     ════════════════════════════════════════════════════ -->
+<div class="filter-wrap" role="group" aria-label="Filter by occasion">
+  <div class="filter-row">
+    <button class="fchip active" onclick="setChip(this,'all')" aria-pressed="true">All occasions</button>
+    <button class="fchip" onclick="setChip(this,'navratri')" aria-pressed="false">Navratri</button>
+    <button class="fchip" onclick="setChip(this,'diwali')" aria-pressed="false">Diwali</button>
+    <button class="fchip" onclick="setChip(this,'satyanarayan')" aria-pressed="false">Satyanarayan</button>
+    <button class="fchip" onclick="setChip(this,'ekadashi')" aria-pressed="false">Ekadashi</button>
+    <button class="fchip" onclick="setChip(this,'sundarkand')" aria-pressed="false">Sundarkand</button>
+    <button class="fchip" onclick="setChip(this,'havan')" aria-pressed="false">Havan</button>
+    <button class="fchip" onclick="setChip(this,'gift')" aria-pressed="false">Gift</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     6. EARLY BIRD BAR
+     ════════════════════════════════════════════════════ -->
+<div class="early-bar" role="note" aria-label="Pricing information">
+  <span class="early-bar-icon" aria-hidden="true">🎁</span>
+  <div class="early-bar-body">
+    <div class="early-bar-title">Pre-bookers got the early-bird price</div>
+    <div class="early-bar-sub">Kits are now live at full price · Exchange on wrong item · No COD</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     7. RESULTS ROW
+     ════════════════════════════════════════════════════ -->
+<div class="results-row">
+  <span class="results-count" id="resultsCount" aria-live="polite">13 kits · Ships before your festival</span>
+  <button class="sort-btn" onclick="openSort()" aria-label="Sort kits">
+    <span aria-hidden="true">⇅</span> Sort
+  </button>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     8. FEATURED KIT — SHUBH SAMPADA (wide card)
+     Shown only when filter = all or navratri
+     ════════════════════════════════════════════════════ -->
+<div class="featured-card" id="featuredCard" onclick="openKit('shubh-sampada')" role="article" aria-label="Shubh Sampada — featured kit">
+  <div class="featured-img" style="background: linear-gradient(155deg,#5C2A08,#A06020,#3A1208)">
+    <span class="featured-ribbon">Bestseller</span>
+    <span class="featured-img-icon" aria-hidden="true">📦</span>
+  </div>
+  <div class="featured-body">
+    <div class="featured-eyebrow">Navratri · Dussehra</div>
+    <div class="featured-name">Shubh Sampada</div>
+    <div class="featured-hindi">शुभ सम्पदा</div>
+    <div class="featured-items">16 items · Complete Ghatasthapana</div>
+    <div class="featured-low">⚡ Only 4 left</div>
+    <div class="featured-price-row">
+      <span class="featured-price">₹2,749</span>
+      <span class="featured-mrp">₹3,200</span>
+      <span class="featured-save">−14%</span>
+    </div>
+    <button class="featured-btn" onclick="event.stopPropagation();addToCart('Shubh Sampada',2749)">
+      🛒 Add to cart
+    </button>
+    <div class="featured-delivery">🚚 Delivered before Navratri</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     9. KIT GRID — remaining 12 kits
+     ════════════════════════════════════════════════════ -->
+<div class="kit-grid" id="kitGrid" role="list" aria-label="Ritual kits">
+
+  <!-- SHAKTI ARADHANA — low stock -->
+  <div class="kit-card low-stock" role="listitem" data-cat="navratri" data-occ="navratri" onclick="openKit('shakti-aradhana')">
+    <div class="kit-img" style="background:linear-gradient(135deg,#1A2A4A,#3A5A8A)">
+      <span class="kit-ribbon low">⚡ 3 left</span>
+      <span class="kit-img-icon" aria-hidden="true">✨</span>
+    </div>
+    <div class="kit-body">
+      <div class="kit-occ">Navratri</div>
+      <div class="kit-name">Shakti Aradhana</div>
+      <div class="kit-items">12 items</div>
+      <div class="kit-low-warn">⚡ Only 3 left</div>
+      <div class="kit-price-row">
+        <span class="kit-price">₹2,199</span>
+        <span class="kit-mrp">₹2,600</span>
+        <span class="kit-pct">−15%</span>
+      </div>
+      <button class="kit-btn" onclick="event.stopPropagation();addToCart('Shakti Aradhana',2199)">Add to cart</button>
+      <div class="kit-delivery">🚚 Before Navratri</div>
+    </div>
+  </div>
+
+  <!-- PURNA GHATASTHAPANA — sold out -->
+  <div class="kit-card sold-out" role="listitem" data-cat="navratri" data-occ="navratri">
+    <div class="kit-img" style="background:linear-gradient(135deg,#2A2A2A,#4A4A4A)">
+      <span class="kit-ribbon soldout">Sold out</span>
+      <span class="kit-img-icon" aria-hidden="true">🏺</span>
+    </div>
+    <div class="kit-body">
+      <div class="kit-occ">Navratri</div>
+      <div class="kit-name">Purna Ghatasthapana</div>
+      <div class="kit-hindi">पूर्ण घटस्थापना</div>
+      <div class="kit-items">10 items</div>
+      <div class="kit-price-row">
+        <span class="kit-price" style="color:var(--sub-text)">₹1,099</span>
+      </div>
+      <button class="kit-btn soldout-btn" disabled>Sold out</button>
+      <button class="kit-notify" onclick="event.stopPropagation();notifyMe('Purna Ghatasthapana')">🔔 Notify me when back</button>
+    </div>
+  </div>
+
+  <!-- SHUBH AKSHAYA THALI -->
+  <div class="kit-card" role="listitem" data-cat="diwali" data-occ="diwali" onclick="openKit('shubh-akshaya-thali')">
+    <div class="kit-img" style="background:linear-gradient(135deg,#3A2A08,#8A5A14)">
+      <span class="kit-ribbon new">New</span>
+      <span class="kit-img-icon" aria-hidden="true">🪔</span>
+    </div>
+    <div class="kit-body">
+      <div class="kit-occ">Diwali · Festive</div>
+      <div class="kit-name">Shubh Akshaya Thali</div>
+      <div class="kit-hindi">शुभ अक्षय थाली</div>
+      <div class="kit-items">13 items</div>
+      <div class="kit-eb-saved">🎁 Pre-bookers saved ₹150</div>
+      <div class="kit-price-row">
+        <span class="kit-price">₹1,649</span>
+        <span class="kit-mrp">₹1,950</span>
+        <span class="kit-pct">−15%</span>
+      </div>
+      <button class="kit-btn" onclick="event.stopPropagation();addToCart('Shubh Akshaya Thali',1649)">Add to cart</button>
+      <div class="kit-delivery">🚚 Before Diwali</div>
+    </div>
+  </div>
+
+  <!-- SHASHTI DEEPAM — low stock -->
+  <div class="kit-card low-stock" role="listitem" data-cat="diwali" data-occ="diwali" onclick="openKit('shashti-deepam')">
+    <div class="kit-img" style="background:linear-gradient(135deg,#2A1A08,#6A3A14)">
+      <span class="kit-ribbon low">⚡ 4 left</span>
+      <span class="kit-img-icon" aria-hidden="true">🕯️</span>
+    </div>
+    <div class="kit-body">
+      <div class="kit-occ">Diwali · Kartik</div>
+      <div class="kit-name">Shashti Deepam</div>
+      <div class="kit-hindi">षष्टि दीपम्</div>
+      <div class="kit-items">6 items</div>
+      <div class="kit-low-warn">⚡ Only 4 left</div>
+      <div class="kit-price-row">
+        <span class="kit-price">₹1,099</span>
+        <span class="kit-mrp">₹1,299</span>
+        <span class="kit-pct">−15%</span>
+      </div>
+      <button class="kit-btn" onclick="event.stopPropagation();addToCart('Shashti Deepam',1099)">Add to cart</button>
+      <div class="kit-delivery">🚚 Before Diwali</div>
+    </div>
+  </div>
+
+  <!-- DEEPA VAIBHAVA -->
+  <div class="kit-card" role="listitem" data-cat="diwali" data-occ="diwali" onclick="openKit('deepa-vaibhava')">
+    <div class="kit-img" style="background:linear-gradient(135deg,#3A2208,#7A4A18)">
+      <span class="kit-ribbon new">New</span>
+      <span class="kit-img-icon" aria-hidden="true">💡</span>
+    </div>
+    <div class="kit-body">
+      <div class="kit-occ">Diwali · Festive</div>
+      <div class="kit-name">Deepa Vaibhava</div>
+      <div class="kit-hindi">दीप वैभव</div>
+      <div class="kit-items">8 items</div>
+      <div class="kit-price-row">
+        <span class="kit-price">₹934</span>
+        <span class="kit-mrp">₹1,099</span>
+        <span class="kit-pct">−15%</span>
+      </div>
+      <button class="kit-btn" onclick="event.stopPropagation();addToCart('Deepa Vaibhava',934)">Add to cart</button>
+      <div class="kit-delivery">🚚 Before Diwali</div>
+    </div>
+  </div>
+
+  <!-- TRIMSHAT DEEPAM -->
+  <div class="kit-card" role="listitem" data-cat="diwali" data-occ="diwali" onclick="openKit('trimshat-deepam')">
+    <div class="kit-img" style="background:linear-gradient(135deg,#2A1A04,#5A3A10)">
+      <span class="kit-ribbon new">New</span>
+      <span class="kit-img-icon" aria-hidden="true">✨</span>
+    </div>
+    <div class="kit-body">
+      <div class="kit-occ">Diwali · Kartik</div>
+      <div class="kit-name">Trimshat Deepam</div>
+      <div class="kit-hindi">त्रिंशत् दीपम्</div>
+      <div class="kit-items">4 items</div>
+      <div class="kit-price-row">
+        <span class="kit-price">₹604</span>
+        <span class="kit-mrp">₹699</span>
+        <span class="kit-pct">−14%</span>
+      </div>
+      <button class="kit-btn" onclick="event.stopPropagation();addToCart('Trimshat Deepam',604)">Add to cart</button>
+      <div class="kit-delivery">🚚 Before Diwali</div>
+    </div>
+  </div>
+
+  <!-- TULSI KALYANAM COLLECTION -->
+  <div class="kit-card" role="listitem" data-cat="satyanarayan" data-occ="satyanarayan" onclick="openKit('tulsi-kalyanam')">
+    <div class="kit-img" style="background:linear-gradient(135deg,#1A3A1A,#3A6A2A)">
+      <span class="kit-ribbon new">New</span>
+      <span class="kit-img-icon" aria-hidden="true">🌿</span>
+    </div>
+    <div class="kit-body">
+      <div class="kit-occ">Satyanarayan</div>
+      <div class="kit-name">Tulsi Kalyanam Collection</div>
+      <div class="kit-items">10 items</div>
+      <div class="kit-eb-saved">🎁 Pre-bookers saved ₹180</div>
+      <div class="kit-price-row">
+        <span class="kit-price">₹1,979</span>
+        <span class="kit-mrp">₹2,300</span>
+        <span class="kit-pct">−14%</span>
+      </div>
+      <button class="kit-btn" onclick="event.stopPropagation();addToCart('Tulsi Kalyanam Collection',1979)">Add to cart</button>
+      <div class="kit-delivery">🚚 Year-round</div>
+    </div>
+  </div>
+
+  <!-- SATYANARAYAN PUJAN -->
+  <div class="kit-card" role="listitem" data-cat="satyanarayan" data-occ="satyanarayan" onclick="openKit('satyanarayan-pujan')">
+    <div class="kit-img" style="background:linear-gradient(135deg,#1A3A2A,#3A6A4A)">
+      <span class="kit-ribbon new">New</span>
+      <span class="kit-img-icon" aria-hidden="true">🙏</span>
+    </div>
+    <div class="kit-body">
+      <div class="kit-occ">Satyanarayan</div>
+      <div class="kit-name">Satyanarayan Pujan</div>
+      <div class="kit-items">11 items</div>
+      <div class="kit-price-row">
+        <span class="kit-price">₹1,979</span>
+        <span class="kit-mrp">₹2,300</span>
+        <span class="kit-pct">−14%</span>
+      </div>
+      <button class="kit-btn" onclick="event.stopPropagation();addToCart('Satyanarayan Pujan',1979)">Add to cart</button>
+      <div class="kit-delivery">🚚 Year-round</div>
+    </div>
+  </div>
+
+  <!-- SUNDARKAND PATH KIT -->
+  <div class="kit-card" role="listitem" data-cat="yearround" data-occ="sundarkand" onclick="openKit('sundarkand-path')">
+    <div class="kit-img" style="background:linear-gradient(135deg,#3A1A1A,#6A3A2A)">
+      <span class="kit-ribbon new">New</span>
+      <span class="kit-img-icon" aria-hidden="true">📖</span>
+    </div>
+    <div class="kit-body">
+      <div class="kit-occ">Sundarkand Path</div>
+      <div class="kit-name">Sundarkand Path Kit Essentials</div>
+      <div class="kit-items">9 items</div>
+      <div class="kit-price-row">
+        <span class="kit-price">₹2,419</span>
+        <span class="kit-mrp">₹2,800</span>
+        <span class="kit-pct">−14%</span>
+      </div>
+      <button class="kit-btn" onclick="event.stopPropagation();addToCart('Sundarkand Path Kit Essentials',2419)">Add to cart</button>
+      <div class="kit-delivery">🚚 Year-round</div>
+    </div>
+  </div>
+
+  <!-- YAJÑA -->
+  <div class="kit-card" role="listitem" data-cat="havan" data-occ="havan" onclick="openKit('yajna')">
+    <div class="kit-img" style="background:linear-gradient(135deg,#3A2A08,#7A5A18)">
+      <span class="kit-ribbon new">New</span>
+      <span class="kit-img-icon" aria-hidden="true">🔥</span>
+    </div>
+    <div class="kit-body">
+      <div class="kit-occ">Havan · Year-round</div>
+      <div class="kit-name">Yajña</div>
+      <div class="kit-hindi">यज्ञ</div>
+      <div class="kit-items">8 items</div>
+      <div class="kit-price-row">
+        <span class="kit-price">₹1,209</span>
+        <span class="kit-mrp">₹1,400</span>
+        <span class="kit-pct">−14%</span>
+      </div>
+      <button class="kit-btn" onclick="event.stopPropagation();addToCart('Yajña',1209)">Add to cart</button>
+      <div class="kit-delivery">🚚 Year-round</div>
+    </div>
+  </div>
+
+  <!-- EKADASH -->
+  <div class="kit-card" role="listitem" data-cat="yearround" data-occ="ekadashi" onclick="openKit('ekadash')">
+    <div class="kit-img" style="background:linear-gradient(135deg,#1A3A3A,#2A6A6A)">
+      <span class="kit-ribbon new">New</span>
+      <span class="kit-img-icon" aria-hidden="true">🌙</span>
+    </div>
+    <div class="kit-body">
+      <div class="kit-occ">Ekadashi · Year-round</div>
+      <div class="kit-name">Ekadash</div>
+      <div class="kit-hindi">एकादश</div>
+      <div class="kit-items">7 items</div>
+      <div class="kit-price-row">
+        <span class="kit-price">₹879</span>
+        <span class="kit-mrp">₹999</span>
+        <span class="kit-pct">−12%</span>
+      </div>
+      <button class="kit-btn" onclick="event.stopPropagation();addToCart('Ekadash',879)">Add to cart</button>
+      <div class="kit-delivery">🚚 Year-round</div>
+    </div>
+  </div>
+
+  <!-- PANCH JYOTI GIFT TRAY -->
+  <div class="kit-card" role="listitem" data-cat="gift" data-occ="gift" onclick="openKit('panch-jyoti')">
+    <div class="kit-img" style="background:linear-gradient(135deg,#3A1A3A,#6A2A6A)">
+      <span class="kit-ribbon new">New</span>
+      <span class="kit-img-icon" aria-hidden="true">🎁</span>
+    </div>
+    <div class="kit-body">
+      <div class="kit-occ">Gift · Festive</div>
+      <div class="kit-name">Panch Jyoti Gift Tray</div>
+      <div class="kit-items">5 items · Gift-ready</div>
+      <div class="kit-price-row">
+        <span class="kit-price">₹659</span>
+        <span class="kit-mrp">₹799</span>
+        <span class="kit-pct">−18%</span>
+      </div>
+      <button class="kit-btn" onclick="event.stopPropagation();addToCart('Panch Jyoti Gift Tray',659)">Add to cart</button>
+      <div class="kit-delivery">🚚 Year-round</div>
+    </div>
+  </div>
+
+  <!-- EMPTY STATE -->
+  <div class="empty-state" id="emptyState" role="status">
+    <div class="empty-icon">🔍</div>
+    <div class="empty-title">No kits match this filter</div>
+    <div class="empty-sub">Try a different occasion or browse all kits. More kits are being added through 2026.</div>
+    <button class="empty-reset" onclick="resetFilters()">Show all kits</button>
+  </div>
+
+</div><!-- /kit-grid -->
+
+<!-- ════════════════════════════════════════════════════════
+     11. CHAT CTA
+     ════════════════════════════════════════════════════ -->
+<div class="chat-cta" role="complementary" aria-label="WhatsApp support">
+  <div class="chat-top">
+    <div class="chat-icon-wrap" aria-hidden="true">💬</div>
+    <div class="chat-body">
+      <div class="chat-title">Not finding the right kit?</div>
+      <div class="chat-sub">Tell us your puja, occasion, or budget — we'll point you to the right one. Usually responds within a few hours.</div>
+    </div>
+  </div>
+  <button class="chat-btn" onclick="openWASupport()">
+    <span aria-hidden="true">💬</span>
+    Chat with us on WhatsApp
+  </button>
+  <div class="chat-note">Opens WhatsApp · Free · No commitment</div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     12. FOOTER
+     ════════════════════════════════════════════════════ -->
+<footer class="footer" role="contentinfo">
+  <div class="footer-brand">
+    <div class="footer-lotus" aria-hidden="true">
+      <div class="footer-lotus-line"></div>
+      <svg width="18" height="14" viewBox="0 0 20 16" aria-hidden="true">
+        <path d="M10 2C13 6 16 7 16 10C16 13 13 14 10 12C7 14 4 13 4 10C4 7 7 6 10 2Z" fill="#D4175A" opacity=".7"/>
+      </svg>
+      <div class="footer-lotus-line"></div>
+    </div>
+    <div class="footer-logo-row">
+      <span class="footer-deva">तप</span>
+      <span class="footer-latin">the tapa company</span>
+    </div>
+    <div class="footer-tag">For every ritual, the right way.</div>
+  </div>
+  <nav class="footer-nav" aria-label="Footer navigation">
+    <div class="fn-col">
+      <div class="fn-label">LEARN</div>
+      <a href="/ritual-guides" class="fn-link">Ritual Guides</a>
+      <a href="/panchang" class="fn-link">Panchang</a>
+      <a href="/ritual-guides/dharmic-concepts" class="fn-link">Dharmic Concepts</a>
+      <a href="/ritual-guides/by-month" class="fn-link">By Month</a>
+    </div>
+    <div class="fn-col">
+      <div class="fn-label">DO</div>
+      <a href="/ritual-kits" class="fn-link">Ritual Kits</a>
+      <a href="/pujan-with-purohit" class="fn-link">Pujan with Purohit</a>
+      <a href="/subscribe" class="fn-link">WA Reminders</a>
+      <a href="/ritual-guides" class="fn-link">Download cards</a>
+    </div>
+    <div class="fn-col">
+      <div class="fn-label">ABOUT</div>
+      <a href="/about" class="fn-link">Why तप्</a>
+      <a href="/about" class="fn-link">Our story</a>
+      <a href="/purohit-network" class="fn-link">Join network</a>
+      <a href="/contact" class="fn-link">Contact us</a>
+    </div>
+  </nav>
+  <div class="footer-trust" aria-label="Trust signals">
+    <div class="ft-pill"><span class="ft-icon" aria-hidden="true">📜</span> Scripturally sourced</div>
+    <div class="ft-sep" aria-hidden="true"></div>
+    <div class="ft-pill"><span class="ft-icon" aria-hidden="true">🛡</span> Vidhi-verified kits</div>
+    <div class="ft-sep" aria-hidden="true"></div>
+    <div class="ft-pill"><span class="ft-icon" aria-hidden="true">🔄</span> Exchange policy</div>
+    <div class="ft-sep" aria-hidden="true"></div>
+    <div class="ft-pill"><span class="ft-icon" aria-hidden="true">🔒</span> Secure payments</div>
+  </div>
+  <div class="footer-legal">
+    <div class="fp-links">
+      <a href="/privacy" class="fp-link">Privacy</a>
+      <a href="/terms" class="fp-link">Terms</a>
+      <a href="/cancellation" class="fp-link">Cancellation</a>
+      <a href="/exchange" class="fp-link">Exchange</a>
+      <a href="/grievance" class="fp-link">Grievance officer</a>
+    </div>
+    <div class="footer-copy">
+      तप् · The Tapa Co. © 2026<br>
+      Tale Scale Networks Pvt Ltd
+    </div>
+  </div>
+</footer>
+
+<!-- ════════════════════════════════════════════════════════
+     SORT BOTTOM SHEET
+     ════════════════════════════════════════════════════ -->
+<div class="sort-backdrop" id="sortBackdrop" onclick="closeSort()" role="dialog" aria-modal="true" aria-label="Sort options">
+  <div class="sort-sheet" onclick="event.stopPropagation()">
+    <div class="sort-handle" aria-hidden="true"></div>
+    <div class="sort-title">Sort by</div>
+    <div class="sort-option selected" onclick="setSort(this,'recommended')" role="option" aria-selected="true">
+      Recommended
+      <span class="sort-check" aria-hidden="true">✓</span>
+    </div>
+    <div class="sort-option" onclick="setSort(this,'price-low')" role="option" aria-selected="false">Price — low to high</div>
+    <div class="sort-option" onclick="setSort(this,'price-high')" role="option" aria-selected="false">Price — high to low</div>
+    <div class="sort-option" onclick="setSort(this,'occasion')" role="option" aria-selected="false">By occasion</div>
+    <div class="sort-option" onclick="setSort(this,'new')" role="option" aria-selected="false">New arrivals</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     JAVASCRIPT
+     ════════════════════════════════════════════════════ -->
+<script>
+
+/* ── STATE ───────────────────────────────────────────────── */
+let cartCount    = 0;
+let activeTab    = 'all';   // category tab
+let activeChip   = 'all';   // occasion chip
+let activeSort   = 'recommended';
+
+/* ── NAV TABS ────────────────────────────────────────────── */
+function setNavTab(el) {
+  document.querySelectorAll('.nav-tab').forEach(t => {
+    t.classList.remove('active');
+    t.setAttribute('aria-selected', 'false');
+  });
+  el.classList.add('active');
+  el.setAttribute('aria-selected', 'true');
+}
+
+/* ── CATEGORY TABS + CHIPS ───────────────────────────────── */
+function setCat(el, cat) {
+  document.querySelectorAll('.cat-tab').forEach(t => {
+    t.classList.remove('active');
+    t.setAttribute('aria-selected', 'false');
+  });
+  el.classList.add('active');
+  el.setAttribute('aria-selected', 'true');
+  activeTab = cat;
+  // Sync chip to 'all' when category changes
+  activeChip = 'all';
+  document.querySelectorAll('.fchip').forEach(c => {
+    c.classList.remove('active');
+    c.setAttribute('aria-pressed', 'false');
+  });
+  document.querySelector('.fchip').classList.add('active');
+  document.querySelector('.fchip').setAttribute('aria-pressed', 'true');
+  applyFilters();
+}
+
+function setChip(el, occ) {
+  document.querySelectorAll('.fchip').forEach(c => {
+    c.classList.remove('active');
+    c.setAttribute('aria-pressed', 'false');
+  });
+  el.classList.add('active');
+  el.setAttribute('aria-pressed', 'true');
+  activeChip = occ;
+  applyFilters();
+}
+
+/* ── FILTER LOGIC ────────────────────────────────────────── */
+function applyFilters() {
+  const cards = document.querySelectorAll('#kitGrid .kit-card');
+  const featured = document.getElementById('featuredCard');
+  let visible = 0;
+
+  // Featured card (Shubh Sampada = navratri)
+  const featuredMatch =
+    (activeTab === 'all' || activeTab === 'navratri') &&
+    (activeChip === 'all' || activeChip === 'navratri');
+  featured.style.display = featuredMatch ? 'flex' : 'none';
+  if (featuredMatch) visible++;
+
+  cards.forEach(card => {
+    const cardCat = card.getAttribute('data-cat');
+    const cardOcc = card.getAttribute('data-occ');
+    const catMatch = activeTab === 'all' || cardCat === activeTab;
+    const occMatch = activeChip === 'all' || cardOcc === activeChip;
+    const show = catMatch && occMatch;
+    card.style.display = show ? 'block' : 'none';
+    if (show) visible++;
+  });
+
+  // Empty state
+  const empty = document.getElementById('emptyState');
+  if (visible === 0) {
+    empty.classList.add('visible');
+  } else {
+    empty.classList.remove('visible');
+  }
+
+  // Results count
+  const count = document.getElementById('resultsCount');
+  count.textContent = visible + ' kit' + (visible !== 1 ? 's' : '') +
+    (visible > 0 ? ' · Ships before your festival' : '');
+}
+
+function resetFilters() {
+  activeTab  = 'all';
+  activeChip = 'all';
+  document.querySelectorAll('.cat-tab').forEach((t,i) => {
+    t.classList.toggle('active', i === 0);
+    t.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+  });
+  document.querySelectorAll('.fchip').forEach((c,i) => {
+    c.classList.toggle('active', i === 0);
+    c.setAttribute('aria-pressed', i === 0 ? 'true' : 'false');
+  });
+  applyFilters();
+}
+
+/* ── SORT ────────────────────────────────────────────────── */
+function openSort()  { document.getElementById('sortBackdrop').classList.add('open') }
+function closeSort() { document.getElementById('sortBackdrop').classList.remove('open') }
+
+function setSort(el, sort) {
+  document.querySelectorAll('.sort-option').forEach(o => {
+    o.classList.remove('selected');
+    o.setAttribute('aria-selected', 'false');
+    const check = o.querySelector('.sort-check');
+    if (check) check.remove();
+  });
+  el.classList.add('selected');
+  el.setAttribute('aria-selected', 'true');
+  el.insertAdjacentHTML('beforeend', '<span class="sort-check" aria-hidden="true">✓</span>');
+  activeSort = sort;
+  closeSort();
+  // In production: re-fetch or re-sort kit cards by activeSort
+}
+
+/* ── CART ────────────────────────────────────────────────── */
+function addToCart(name, price) {
+  cartCount++;
+  document.getElementById('cartBadge').textContent = cartCount;
+  // Animate — find the clicked button
+  const btn = event.currentTarget || event.target;
+  if (btn && btn.tagName === 'BUTTON') {
+    const orig = btn.textContent;
+    btn.textContent = '✓ Added';
+    btn.style.background = '#1A5C28';
+    setTimeout(() => {
+      btn.textContent = orig;
+      btn.style.background = 'var(--pink)';
+    }, 1400);
+  }
+}
+
+function openCart() {
+  alert('Cart — ' + cartCount + ' item' + (cartCount !== 1 ? 's' : ''));
+}
+
+/* ── SECONDARY ACTIONS ───────────────────────────────────── */
+function openKit(slug) {
+  // In production: window.location.href = '/ritual-kits/' + slug
+  alert('Opening: /ritual-kits/' + slug);
+}
+
+function notifyMe(name) {
+  alert('Notify me when ' + name + ' is back in stock\n\n(Captures phone number and adds to restock list)');
+}
+
+function openWASupport() {
+  alert('Opening WhatsApp support\n\nwa.me/91XXXXXXXXXX?text=Hi, I need help finding the right ritual kit');
+}
+
+</script>
+</body>
+</html>

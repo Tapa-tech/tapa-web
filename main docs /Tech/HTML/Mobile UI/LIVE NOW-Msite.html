@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Ritual Kits Live — October 3 · The Tapa Co.</title>
+<style>
+
+/* ============================================================
+   THE TAPA CO. — OCTOBER 3 FULL COMMERCE LAUNCH
+   5 screens:
+   A — Homepage (launch state, 1-week only)
+   B — Kit listing page (live commerce)
+   C — Kit product page (Add to cart, MRP, low stock)
+   D — Checkout (live purchase)
+   E — My Account (pre-booker progress tracker + WA)
+   ============================================================ */
+
+:root {
+  --bg:#F2EDE4; --card:#FFFFFF; --dark:#1C1712;
+  --pink:#D4175A; --amber:#E8A020; --amber-light:#FFF8E8;
+  --amber-border:#E8D8A0; --amber-text:#8B6914; --gold:#E3B567;
+  --body-text:#2C2010; --mid-text:#5C4B12; --sub-text:#8A7A68;
+  --border:#E8E0D0; --border-light:#F0E8D8;
+  --green-bg:#EBF5EC; --green-text:#1A5C28;
+  --red-light:#FEF0F4; --hero-text:#FFFDF5; --hero-sub:#C4A882;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;background:var(--bg);
+  color:var(--body-text);font-size:13px;line-height:1.5;
+  max-width:390px;margin:0 auto;-webkit-font-smoothing:antialiased;padding-bottom:80px}
+button{font-family:inherit;cursor:pointer}
+a{text-decoration:none;color:inherit}
+
+/* ── SCREEN SWITCHER ────────────────────────────────────── */
+.screen-nav{background:var(--dark);padding:8px 10px;display:flex;gap:5px;
+  overflow-x:auto;scrollbar-width:none;position:sticky;top:0;z-index:99}
+.screen-nav::-webkit-scrollbar{display:none}
+.snav-btn{flex-shrink:0;border:1px solid rgba(255,255,255,.16);border-radius:6px;
+  padding:5px 10px;font-size:10px;font-weight:600;color:rgba(255,255,255,.5);
+  background:none;white-space:nowrap}
+.snav-btn.active{background:var(--pink);border-color:var(--pink);color:#fff}
+
+/* ── SHARED NAV ─────────────────────────────────────────── */
+.topnav{background:var(--card);border-bottom:1px solid var(--border);
+  padding:0 14px;z-index:40;box-shadow:0 1px 8px rgba(28,23,18,.06)}
+.tnav-row{display:flex;align-items:center;justify-content:space-between;padding:11px 0 10px}
+.tnav-back{display:flex;align-items:center;gap:5px;font-size:13px;color:var(--body-text);background:none;border:none;padding:0}
+.tnav-back-arrow{font-size:18px;color:var(--pink)}
+.tnav-title{font-size:15px;font-weight:700;color:var(--dark)}
+.tnav-cart{position:relative;background:none;border:none;font-size:20px}
+.cart-badge{position:absolute;top:-4px;right:-4px;width:16px;height:16px;border-radius:50%;
+  background:var(--pink);border:2px solid var(--card);font-size:8px;font-weight:700;
+  color:#fff;display:flex;align-items:center;justify-content:center}
+
+.screen{display:none;padding-bottom:20px}
+.screen.active{display:block}
+
+
+/* ═══════════════════════════════════════════════════════
+   SCREEN A — HOMEPAGE · LAUNCH STATE
+   Oct 3–10 only. Kit shelf above Panchang. Launch hero.
+   ═══════════════════════════════════════════════════ */
+
+/* Announcement bar — LAUNCH MODE */
+.announce-launch{background:var(--pink);padding:9px 16px;
+  display:flex;align-items:center;justify-content:center;gap:8px}
+.ann-launch-text{font-size:11px;font-weight:700;color:#fff;letter-spacing:.3px}
+.ann-launch-new{background:rgba(255,255,255,.25);border-radius:4px;
+  padding:2px 7px;font-size:9px;font-weight:700;color:#fff}
+
+/* Launch hero — full width, kits featured */
+.launch-hero{position:relative;height:340px;overflow:hidden}
+.lh-img{width:100%;height:100%;
+  background:
+    radial-gradient(ellipse 70% 60% at 80% 30%,rgba(232,160,32,.35) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 50% at 10% 80%,rgba(212,23,90,.25) 0%,transparent 55%),
+    linear-gradient(155deg,#1C1712 0%,#3A1C08 40%,#1A0E06 100%);
+  display:flex;align-items:center;justify-content:center}
+.lh-placeholder{opacity:.2;text-align:center}
+.lh-placeholder .icon{font-size:40px;margin-bottom:6px}
+.lh-placeholder .lbl{font-size:9px;color:#fff;letter-spacing:.4px;line-height:1.6}
+.lh-overlay{position:absolute;inset:0;
+  background:linear-gradient(to bottom,rgba(0,0,0,.02) 0%,rgba(28,23,18,.55) 50%,rgba(28,23,18,.95) 100%)}
+.lh-content{position:absolute;bottom:0;left:0;right:0;padding:16px 16px 18px;z-index:5}
+.lh-eyebrow{font-size:9px;color:var(--gold);letter-spacing:.8px;margin-bottom:5px;display:flex;align-items:center;gap:6px}
+.lh-new-badge{background:var(--pink);color:#fff;font-size:8px;font-weight:700;
+  padding:2px 8px;border-radius:4px;letter-spacing:.3px}
+.lh-title{font-size:28px;font-weight:700;color:var(--hero-text);line-height:1.1;margin-bottom:5px}
+.lh-sub{font-size:12px;color:var(--hero-sub);line-height:1.6;margin-bottom:14px}
+.lh-btns{display:flex;gap:8px}
+.lhbtn-pink{background:var(--pink);border:none;border-radius:20px;padding:10px 18px;
+  font-size:12px;font-weight:700;color:#fff;display:flex;align-items:center;gap:5px}
+.lhbtn-ghost{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.28);
+  border-radius:20px;padding:10px 14px;font-size:12px;color:var(--hero-text)}
+
+/* Trust strip */
+.trust-strip{background:var(--card);border-bottom:1px solid var(--border);
+  padding:9px 14px;display:flex;gap:0;overflow-x:auto;scrollbar-width:none}
+.trust-strip::-webkit-scrollbar{display:none}
+.tbadge{display:flex;align-items:center;gap:5px;padding-right:12px;flex-shrink:0}
+.tbadge-icon{font-size:13px}
+.tbadge-text{font-size:10px;color:var(--mid-text);white-space:nowrap;font-weight:500}
+.tbadge-sep{width:1px;height:13px;background:var(--border);margin-right:12px;flex-shrink:0}
+
+/* sec heading */
+.sec-head{padding:16px 14px 9px;display:flex;align-items:center;justify-content:space-between}
+.sec-title{font-size:13.5px;font-weight:700;color:var(--dark);display:flex;align-items:center;gap:5px}
+.sec-plus{color:var(--pink);font-size:16px;font-weight:700}
+.sec-link{font-size:11px;color:var(--pink);font-weight:500}
+
+/* KITS SHELF — LIVE, above Panchang for week 1 */
+.kits-live-shelf{overflow-x:auto;scrollbar-width:none;display:flex;
+  gap:10px;padding:0 14px 4px}
+.kits-live-shelf::-webkit-scrollbar{display:none}
+.kit-shelf-card{flex-shrink:0;width:155px;background:var(--card);
+  border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer}
+.ks-img{height:100px;display:flex;align-items:center;justify-content:center;
+  position:relative;font-size:9px;color:rgba(255,255,255,.18);text-align:center}
+.ks-badge{position:absolute;top:7px;left:7px;background:var(--dark);
+  color:var(--gold);font-size:8px;font-weight:700;padding:2px 7px;border-radius:4px}
+.ks-badge.hot{background:var(--pink);color:#fff}
+.ks-badge.low{background:#F4A520;color:var(--dark)}
+.ks-body{padding:9px 10px 10px}
+.ks-occasion{font-size:9px;color:var(--sub-text);letter-spacing:.4px;margin-bottom:2px;text-transform:uppercase}
+.ks-name{font-size:12px;font-weight:700;color:var(--dark);line-height:1.25;margin-bottom:4px}
+.ks-price-row{display:flex;align-items:baseline;gap:4px;margin-bottom:6px}
+.ks-price{font-size:13px;font-weight:700;color:var(--dark)}
+.ks-mrp{font-size:9px;color:var(--sub-text);text-decoration:line-through}
+.ks-cart-btn{width:100%;background:var(--pink);border:none;border-radius:7px;
+  padding:7px;font-size:10.5px;font-weight:700;color:#fff}
+
+/* Panchang — BELOW kits for week 1 */
+.panchang-card{background:var(--dark);margin:0 14px;border-radius:14px;overflow:hidden}
+.pc-head{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.07);
+  display:flex;align-items:center;justify-content:space-between}
+.pc-head-label{font-size:10px;font-weight:700;color:var(--gold);letter-spacing:.5px}
+.pc-head-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);
+  border-radius:7px;padding:4px 10px;font-size:10px;color:var(--gold)}
+.pc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;padding:10px 14px 8px}
+.pc-cell{text-align:center}
+.pc-key{font-size:9px;color:var(--sub-text);margin-bottom:3px}
+.pc-val{font-size:14px;font-weight:700;color:var(--hero-text);line-height:1.2}
+.pc-sub{font-size:9px;color:var(--gold);margin-top:1px}
+.pc-next{background:rgba(255,255,255,.05);border-top:1px solid rgba(255,255,255,.07);
+  padding:9px 14px;display:flex;align-items:center;justify-content:space-between}
+.pc-next-val{font-size:12px;font-weight:600;color:var(--hero-text)}
+.pc-next-badge{background:var(--pink);border:none;border-radius:7px;
+  padding:4px 10px;font-size:10px;font-weight:700;color:#fff}
+
+/* revert notice */
+.revert-notice{margin:12px 14px 0;background:var(--amber-light);
+  border:1px solid var(--amber-border);border-radius:10px;
+  padding:8px 12px;font-size:10px;color:var(--amber-text);
+  display:flex;align-items:center;gap:6px}
+
+
+/* ═══════════════════════════════════════════════════════
+   SCREEN B — KIT LISTING · LIVE COMMERCE
+   ═══════════════════════════════════════════════════ */
+
+/* Category tabs */
+.cat-tabs{background:var(--card);border-bottom:1px solid var(--border);
+  display:flex;overflow-x:auto;scrollbar-width:none;padding:0 14px}
+.cat-tabs::-webkit-scrollbar{display:none}
+.cat-tab{flex-shrink:0;font-size:12px;font-weight:500;color:var(--sub-text);
+  padding:12px 14px;border-bottom:2.5px solid transparent;
+  background:none;border-top:none;border-left:none;border-right:none;
+  white-space:nowrap;cursor:pointer;transition:color .15s,border-color .15s}
+.cat-tab:first-child{padding-left:0}
+.cat-tab.active{color:var(--pink);border-bottom-color:var(--pink);font-weight:600}
+
+/* filter chips */
+.filter-wrap{padding:10px 14px 4px;overflow-x:auto;scrollbar-width:none}
+.filter-wrap::-webkit-scrollbar{display:none}
+.filter-row{display:flex;gap:7px}
+.fchip{flex-shrink:0;border:1.5px solid var(--border);border-radius:20px;
+  padding:5px 13px;font-size:11px;font-weight:500;color:var(--sub-text);
+  background:var(--card);cursor:pointer;white-space:nowrap;transition:all .15s}
+.fchip.active{background:var(--pink);border-color:var(--pink);color:#fff;font-weight:600}
+
+/* early bird banner */
+.early-bird-banner{background:var(--green-bg);border-bottom:1px solid var(--green-text);
+  padding:8px 14px;display:flex;align-items:center;gap:7px}
+.ebb-icon{font-size:14px;flex-shrink:0}
+.ebb-text{font-size:11px;color:var(--green-text);font-weight:600}
+.ebb-sub{font-size:10px;color:var(--mid-text);margin-top:1px}
+
+/* results row */
+.results-row{padding:9px 14px 5px;display:flex;align-items:center;justify-content:space-between}
+.results-count{font-size:11px;color:var(--sub-text)}
+.sort-btn{font-size:11px;color:var(--pink);font-weight:500;background:none;border:none;padding:0}
+
+/* kit grid */
+.kit-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 14px 8px}
+.kit-card{background:var(--card);border:1px solid var(--border);border-radius:14px;
+  overflow:hidden;cursor:pointer;transition:border-color .15s,box-shadow .15s}
+.kit-card:active{border-color:var(--pink);box-shadow:0 2px 12px rgba(212,23,90,.12)}
+.kit-card.low-stock{border-color:#F4A520}
+
+.kit-img{height:110px;position:relative;display:flex;align-items:center;
+  justify-content:center;font-size:9px;color:rgba(255,255,255,.18);text-align:center}
+.kit-ribbon{position:absolute;top:7px;left:7px;font-size:8px;font-weight:700;
+  padding:2px 8px;border-radius:4px;letter-spacing:.3px}
+.kit-ribbon.new{background:var(--dark);color:var(--gold)}
+.kit-ribbon.low{background:#F4A520;color:var(--dark)}
+.kit-ribbon.soldout{background:var(--sub-text);color:#fff}
+
+.kit-body{padding:10px 10px 12px}
+.kit-occasion{font-size:9px;font-weight:600;color:var(--sub-text);
+  letter-spacing:.4px;margin-bottom:3px;text-transform:uppercase}
+.kit-name{font-size:13px;font-weight:700;color:var(--dark);line-height:1.3;margin-bottom:5px}
+.kit-price-row{display:flex;align-items:baseline;gap:5px;margin-bottom:3px}
+.kit-price{font-size:15px;font-weight:700;color:var(--dark)}
+.kit-mrp{font-size:10px;color:var(--sub-text);text-decoration:line-through}
+
+/* early bird saved badge */
+.early-bird-tag{font-size:9px;color:var(--green-text);font-weight:600;
+  background:var(--green-bg);padding:2px 6px;border-radius:3px;
+  display:inline-block;margin-bottom:7px}
+
+/* low stock warning */
+.low-stock-warn{font-size:9px;font-weight:700;color:#8B4A00;
+  background:#FFF0D4;border-radius:4px;padding:3px 7px;
+  display:inline-block;margin-bottom:6px}
+
+.kit-cart-btn{width:100%;background:var(--pink);border:none;border-radius:8px;
+  padding:8px 6px;font-size:10.5px;font-weight:700;color:#fff}
+.kit-cart-btn.soldout-btn{background:var(--border);color:var(--sub-text)}
+.kit-notify-link{display:block;text-align:center;font-size:9px;
+  color:var(--pink);font-weight:500;margin-top:4px}
+
+
+/* ═══════════════════════════════════════════════════════
+   SCREEN C — PRODUCT PAGE · LIVE COMMERCE
+   ═══════════════════════════════════════════════════ */
+
+.breadcrumb{background:var(--card);border-bottom:1px solid var(--border);
+  padding:9px 14px;display:flex;align-items:center;gap:5px;font-size:12px;color:var(--sub-text)}
+.bc-sep{color:var(--border)}
+.bc-current{color:var(--body-text);font-weight:500}
+
+.product-hero{height:220px;position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;color:rgba(255,255,255,.18);letter-spacing:.4px;text-align:center}
+.hero-gallery-dots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:5px}
+.gdot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.4)}
+.gdot.active{background:#fff;width:18px;border-radius:3px}
+
+.product-id{padding:16px 14px 0}
+.product-occasion{font-size:10px;font-weight:700;color:var(--sub-text);
+  letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px}
+.product-name{font-size:22px;font-weight:700;color:var(--dark);line-height:1.2;margin-bottom:2px}
+.product-name-hindi{font-size:14px;color:var(--amber-text);font-weight:500;margin-bottom:10px}
+
+/* pricing block — live MRP */
+.pricing-block{background:var(--amber-light);border:1px solid var(--amber-border);
+  border-radius:12px;padding:12px 14px;margin:0 14px 10px}
+.price-row{display:flex;align-items:baseline;gap:8px;margin-bottom:4px}
+.price-main{font-size:26px;font-weight:700;color:var(--dark)}
+.price-mrp{font-size:13px;color:var(--sub-text);text-decoration:line-through}
+.price-save{font-size:11px;font-weight:700;color:var(--green-text);
+  background:var(--green-bg);padding:2px 8px;border-radius:4px}
+.price-note{font-size:10px;color:var(--amber-text)}
+
+/* early bird callout on product page */
+.early-bird-callout{background:var(--green-bg);border:1px solid var(--green-text);
+  border-radius:10px;padding:10px 13px;margin:0 14px 10px;
+  display:flex;align-items:flex-start;gap:8px}
+.ebc-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+.ebc-text{font-size:11px;color:var(--green-text);line-height:1.6}
+.ebc-text strong{font-weight:700}
+
+/* low stock alert */
+.low-stock-alert{background:#FFF3D4;border:1px solid #F4A520;
+  border-radius:10px;padding:10px 13px;margin:0 14px 10px;
+  display:flex;align-items:center;gap:8px}
+.lsa-icon{font-size:16px;flex-shrink:0}
+.lsa-text{font-size:11px;color:#7A4A00;font-weight:600}
+
+/* standard delivery promise */
+.delivery-promise{background:var(--green-bg);border:1px solid var(--green-text);
+  border-radius:11px;padding:11px 14px;margin:0 14px 10px;
+  display:flex;align-items:flex-start;gap:9px}
+.dp-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.dp-title{font-size:12px;font-weight:700;color:var(--green-text);margin-bottom:2px}
+.dp-sub{font-size:11px;color:var(--mid-text);line-height:1.55}
+
+/* exchange policy */
+.exchange-note{display:flex;align-items:center;gap:7px;padding:6px 14px;margin-bottom:4px}
+.exchange-icon{font-size:14px;color:var(--sub-text);flex-shrink:0}
+.exchange-text{font-size:10px;color:var(--sub-text);line-height:1.5}
+.exchange-link{color:var(--pink);font-weight:500}
+
+.prod-divider{height:1px;background:var(--border);margin:12px 14px}
+
+/* contents */
+.contents-head{padding:12px 14px 8px;display:flex;align-items:center;justify-content:space-between}
+.contents-label{font-size:13px;font-weight:700;color:var(--dark)}
+.contents-count{font-size:11px;color:var(--sub-text)}
+.contents-list{padding:0 14px}
+.content-item{display:flex;align-items:center;gap:10px;
+  padding:9px 0;border-bottom:.5px solid var(--border-light)}
+.content-item:last-child{border-bottom:none}
+.content-bullet{width:6px;height:6px;border-radius:50%;background:var(--amber);flex-shrink:0}
+.content-name{font-size:12px;color:var(--dark);flex:1}
+.content-purpose{font-size:10px;color:var(--sub-text)}
+
+/* sticky CTA */
+.qty-cta-wrap{position:fixed;bottom:0;left:50%;transform:translateX(-50%);
+  width:390px;max-width:100%;background:var(--card);
+  border-top:1px solid var(--border);padding:12px 14px;
+  display:flex;gap:10px;align-items:center;
+  box-shadow:0 -2px 16px rgba(28,23,18,.08);z-index:40}
+.qty-control{display:flex;align-items:center;gap:0;
+  background:var(--bg);border:1.5px solid var(--border);
+  border-radius:10px;overflow:hidden;flex-shrink:0}
+.qty-btn{width:36px;height:40px;border:none;background:none;
+  font-size:18px;color:var(--mid-text);display:flex;align-items:center;justify-content:center}
+.qty-num{width:32px;text-align:center;font-size:14px;font-weight:700;color:var(--dark)}
+.add-cart-btn{flex:1;background:var(--pink);border:none;border-radius:12px;
+  padding:0 14px;height:48px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:1px}
+.acb-top{font-size:13px;font-weight:700;color:#fff}
+.acb-sub{font-size:9px;color:rgba(255,255,255,.65)}
+
+
+/* ═══════════════════════════════════════════════════════
+   SCREEN D — CHECKOUT · LIVE PURCHASE
+   ═══════════════════════════════════════════════════ */
+
+.order-summary-bar{background:var(--card);border-bottom:1px solid var(--border);
+  padding:12px 14px;display:flex;align-items:center;gap:10px}
+.osb-img{width:52px;height:52px;border-radius:10px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:9px;color:rgba(255,255,255,.2);text-align:center}
+.osb-body{flex:1}
+.osb-name{font-size:13px;font-weight:600;color:var(--dark)}
+.osb-meta{font-size:10px;color:var(--sub-text);margin-top:2px}
+.osb-price{font-size:15px;font-weight:700;color:var(--dark)}
+
+.checkout-delivery{background:var(--green-bg);border-bottom:1px solid var(--green-text);
+  padding:10px 14px;display:flex;align-items:center;gap:8px}
+.cd-icon{font-size:14px;flex-shrink:0}
+.cd-text{font-size:11px;color:var(--green-text);font-weight:600}
+
+.form-section{padding:16px 14px 0}
+.form-label{font-size:10px;font-weight:700;color:var(--amber-text);letter-spacing:.5px;margin-bottom:10px}
+.form-field{margin-bottom:10px}
+.field-label{font-size:11px;font-weight:600;color:var(--mid-text);margin-bottom:4px}
+.field-input{width:100%;background:var(--card);border:1.5px solid var(--border);
+  border-radius:10px;padding:11px 12px;font-size:13px;color:var(--dark);
+  font-family:inherit;outline:none;transition:border-color .15s}
+.field-input:focus{border-color:var(--pink)}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.save-toggle{display:flex;align-items:center;gap:8px;padding:6px 0}
+.save-toggle input{accent-color:var(--pink);width:15px;height:15px}
+.save-toggle label{font-size:11px;color:var(--mid-text)}
+.pincode-wrap{position:relative}
+.pincode-check-btn{position:absolute;right:10px;top:50%;transform:translateY(-50%);
+  background:var(--pink);border:none;border-radius:7px;
+  padding:5px 10px;font-size:10px;font-weight:700;color:#fff}
+.pincode-result{font-size:10px;margin-top:4px;padding:5px 10px;border-radius:6px}
+.pincode-result.ok{background:var(--green-bg);color:var(--green-text)}
+
+.payment-options{display:flex;flex-direction:column;gap:8px;margin-bottom:4px}
+.pay-option{background:var(--card);border:1.5px solid var(--border);
+  border-radius:11px;padding:12px 14px;display:flex;align-items:center;
+  gap:10px;cursor:pointer;transition:border-color .15s}
+.pay-option.selected{border-color:var(--pink);background:var(--red-light)}
+.pay-radio{width:16px;height:16px;border-radius:50%;border:2px solid var(--border);
+  flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.pay-radio.checked{border-color:var(--pink)}
+.pay-radio.checked::after{content:'';width:8px;height:8px;border-radius:50%;background:var(--pink)}
+.pay-label{font-size:13px;font-weight:500;color:var(--dark);flex:1}
+.pay-logos{display:flex;gap:4px}
+.pay-logo-pill{background:var(--bg);border:1px solid var(--border);
+  border-radius:4px;padding:2px 6px;font-size:9px;color:var(--sub-text)}
+
+/* Exchange policy box — replaces cancellation policy */
+.exchange-policy-box{background:var(--amber-light);border:1px solid var(--amber-border);
+  border-radius:11px;padding:12px 14px;margin:12px 14px}
+.epb-title{font-size:11px;font-weight:700;color:var(--dark);margin-bottom:4px;
+  display:flex;align-items:center;gap:5px}
+.epb-text{font-size:10px;color:var(--mid-text);line-height:1.65}
+.epb-highlight{color:var(--pink);font-weight:600}
+
+/* checkout sticky */
+.checkout-sticky{position:fixed;bottom:0;left:50%;transform:translateX(-50%);
+  width:390px;max-width:100%;background:var(--card);border-top:1px solid var(--border);
+  padding:12px 14px;box-shadow:0 -2px 16px rgba(28,23,18,.08);z-index:40}
+.checkout-total-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.checkout-total-label{font-size:11px;color:var(--sub-text)}
+.checkout-total-val{font-size:16px;font-weight:700;color:var(--dark)}
+.checkout-pay-btn{width:100%;background:var(--pink);border:none;border-radius:12px;
+  padding:14px;font-size:14px;font-weight:700;color:#fff}
+.checkout-terms{font-size:9px;color:var(--sub-text);text-align:center;margin-top:6px;line-height:1.5}
+
+
+/* ═══════════════════════════════════════════════════════
+   SCREEN E — MY ACCOUNT · PRE-BOOKER EXPERIENCE
+   ═══════════════════════════════════════════════════ */
+
+.account-topbar{background:var(--dark);padding:20px 16px;position:relative;overflow:hidden}
+.account-topbar::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 70% at 85% 20%,rgba(232,160,32,.12) 0%,transparent 65%)}
+.atb-inner{display:flex;align-items:center;gap:12px;position:relative}
+.atb-avatar{width:52px;height:52px;border-radius:50%;
+  background:linear-gradient(135deg,var(--amber),var(--pink));
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;font-weight:700;color:#fff;flex-shrink:0}
+.atb-name{font-size:16px;font-weight:700;color:var(--hero-text)}
+.atb-phone{font-size:11px;color:var(--sub-text);margin-top:2px}
+
+/* pre-booker highlight banner */
+.prebook-status-banner{background:var(--green-bg);border:1px solid var(--green-text);
+  border-radius:14px;margin:14px 14px 0;padding:13px 14px;overflow:hidden}
+.psb-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.psb-title{font-size:12px;font-weight:700;color:var(--green-text);display:flex;align-items:center;gap:6px}
+.psb-id{font-size:10px;color:var(--sub-text);font-weight:500}
+
+/* 4-step tracker */
+.tracker{display:flex;align-items:flex-start;gap:0;margin-bottom:10px}
+.tracker-step{display:flex;flex-direction:column;align-items:center;flex:1}
+.tracker-step-inner{display:flex;align-items:center;width:100%}
+.t-dot{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;flex-shrink:0;font-size:9px;font-weight:700;border:2px solid var(--border);
+  background:var(--card);color:var(--sub-text);position:relative;z-index:1}
+.t-dot.done{background:var(--green-text);border-color:var(--green-text);color:#fff}
+.t-dot.active{background:var(--amber);border-color:var(--amber);color:var(--dark);
+  box-shadow:0 0 0 4px rgba(232,160,32,.2)}
+.t-line{flex:1;height:2px;background:var(--border);margin-top:-1px}
+.t-line.done{background:var(--green-text)}
+.t-label{font-size:9px;color:var(--sub-text);text-align:center;margin-top:4px;
+  line-height:1.3;max-width:52px}
+.t-label.done{color:var(--green-text);font-weight:600}
+.t-label.active{color:var(--amber-text);font-weight:600}
+
+.psb-kit-row{display:flex;align-items:center;gap:8px;padding-top:8px;
+  border-top:1px solid var(--green-border,#C5DFB8)}
+.psb-kit-thumb{width:40px;height:40px;border-radius:8px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:8px;color:rgba(255,255,255,.2)}
+.psb-kit-name{font-size:12px;font-weight:600;color:var(--dark);flex:1}
+.psb-kit-eta{font-size:10px;color:var(--green-text);font-weight:700;margin-top:2px}
+.psb-track-link{font-size:11px;color:var(--pink);font-weight:500;flex-shrink:0}
+
+/* WA message that was sent */
+.wa-message-card{background:var(--dark);border-radius:14px;margin:10px 14px 0;overflow:hidden}
+.wmc-head{padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.07);
+  display:flex;align-items:center;gap:7px}
+.wmc-icon{font-size:16px}
+.wmc-label{font-size:11px;font-weight:700;color:var(--hero-text)}
+.wmc-time{font-size:10px;color:var(--sub-text);margin-left:auto}
+.wmc-bubble{margin:12px 14px;background:rgba(255,255,255,.07);
+  border-radius:12px;border-radius:4px 12px 12px 12px;
+  padding:12px 13px}
+.wmc-bubble-text{font-size:11px;color:var(--hero-sub);line-height:1.75}
+.wmc-bubble-text strong{color:var(--hero-text);font-weight:600}
+.wmc-btns{display:flex;flex-direction:column;gap:6px;margin:0 14px 14px}
+.wmc-btn{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.16);
+  border-radius:9px;padding:10px;font-size:11px;font-weight:600;
+  color:var(--hero-text);text-align:center}
+.wmc-btn.pink{background:var(--pink);border-color:var(--pink)}
+
+/* stat tiles */
+.stat-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:14px 14px 0}
+.stat-tile{background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:12px 10px;text-align:center;cursor:pointer;transition:border-color .15s}
+.stat-tile:active{border-color:var(--pink)}
+.stat-num{font-size:22px;font-weight:700;color:var(--dark);margin-bottom:2px;line-height:1.1}
+.stat-label{font-size:10px;color:var(--sub-text);line-height:1.3}
+.stat-badge{display:inline-block;font-size:9px;font-weight:700;
+  padding:2px 7px;border-radius:10px;margin-top:3px}
+.stat-badge.active{background:var(--green-bg);color:var(--green-text)}
+
+</style>
+</head>
+<body>
+
+<!-- SCREEN SWITCHER -->
+<div class="screen-nav">
+  <button class="snav-btn active" onclick="showScreen('a')">A · Homepage</button>
+  <button class="snav-btn" onclick="showScreen('b')">B · Kit Listing</button>
+  <button class="snav-btn" onclick="showScreen('c')">C · Kit Detail</button>
+  <button class="snav-btn" onclick="showScreen('d')">D · Checkout</button>
+  <button class="snav-btn" onclick="showScreen('e')">E · My Account</button>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SCREEN A — HOMEPAGE · OCT 3 LAUNCH STATE
+     ═══════════════════════════════════════════════════ -->
+<div class="screen active" id="screen-a">
+
+  <!-- Announcement bar — PINK, launch mode -->
+  <div class="announce-launch">
+    <span class="ann-launch-new">NEW</span>
+    <span class="ann-launch-text">Ritual Kits are live — shop now</span>
+  </div>
+
+  <!-- Nav -->
+  <nav class="topnav">
+    <div class="tnav-row">
+      <div style="display:flex;align-items:center;gap:7px">
+        <svg width="22" height="28" viewBox="0 0 28 34" fill="none">
+          <path d="M14 2C17 8 21 13 18 20C16.5 23.5 14 25 14 25C14 25 11.5 23.5 10 20C7 13 11 8 14 2Z" fill="#D4175A"/>
+          <path d="M14 11C15.5 15 16.5 18 15 21C14.5 22 13.5 22 13 21C11.5 18 12.5 15 14 11Z" fill="#E8A020"/>
+        </svg>
+        <div>
+          <div style="font-size:17px;font-weight:700;color:var(--amber);line-height:1">तप</div>
+          <div style="font-size:8px;color:var(--pink);font-weight:500;letter-spacing:.3px;line-height:1;margin-top:1px">the tapa company</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <button style="background:none;border:none;font-size:15px">🔍</button>
+        <button class="tnav-cart">🛒<span class="cart-badge">0</span></button>
+        <button style="background:var(--pink);border:none;border-radius:8px;padding:7px 13px;font-size:11px;font-weight:700;color:#fff">LOGIN</button>
+      </div>
+    </div>
+    <!-- Nav tabs -->
+    <div style="display:flex;overflow-x:auto;scrollbar-width:none;margin:0 -14px;padding:0 14px">
+      <button style="flex-shrink:0;font-size:11.5px;font-weight:500;color:var(--sub-text);padding:10px 12px 9px;border-bottom:2.5px solid transparent;background:none;border-top:none;border-left:none;border-right:none;white-space:nowrap;cursor:pointer">Ritual Guides</button>
+      <button style="flex-shrink:0;font-size:11.5px;font-weight:700;color:var(--pink);padding:10px 12px 9px;border-bottom:2.5px solid var(--pink);background:none;border-top:none;border-left:none;border-right:none;white-space:nowrap">Ritual Kits ✦</button>
+      <button style="flex-shrink:0;font-size:11.5px;font-weight:500;color:var(--sub-text);padding:10px 12px 9px;border-bottom:2.5px solid transparent;background:none;border-top:none;border-left:none;border-right:none;white-space:nowrap">Pujan with Purohit</button>
+      <button style="flex-shrink:0;font-size:11.5px;font-weight:500;color:var(--sub-text);padding:10px 12px 9px;border-bottom:2.5px solid transparent;background:none;border-top:none;border-left:none;border-right:none;white-space:nowrap">Panchang</button>
+    </div>
+  </nav>
+
+  <!-- LAUNCH HERO — kits featured, not today's ritual -->
+  <div class="launch-hero">
+    <div class="lh-img">
+      <div class="lh-placeholder">
+        <div class="icon">🛒</div>
+        <div class="lbl">HERO IMAGE<br>Multiple kit products<br>styled flat-lay photography</div>
+      </div>
+    </div>
+    <div class="lh-overlay"></div>
+    <div class="lh-content">
+      <div class="lh-eyebrow">
+        <span class="lh-new-badge">LIVE TODAY</span>
+        RITUAL KITS · 3 OCTOBER 2026
+      </div>
+      <h1 class="lh-title">Complete samagri.<br>At your door.</h1>
+      <p class="lh-sub">13 ritual kits — ritually correct, sourced right, delivered before your festival date.</p>
+      <div class="lh-btns">
+        <button class="lhbtn-pink" onclick="showScreen('b')">🛒 Shop all kits</button>
+        <button class="lhbtn-ghost" onclick="showScreen('b')">View all 13 →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trust strip -->
+  <div class="trust-strip">
+    <div class="tbadge"><span class="tbadge-icon">📜</span><span class="tbadge-text">Scripturally sourced</span></div>
+    <div class="tbadge-sep"></div>
+    <div class="tbadge"><span class="tbadge-icon">🚚</span><span class="tbadge-text">Delivered before your ritual</span></div>
+    <div class="tbadge-sep"></div>
+    <div class="tbadge"><span class="tbadge-icon">🔄</span><span class="tbadge-text">Exchange on wrong item</span></div>
+    <div class="tbadge-sep"></div>
+    <div class="tbadge"><span class="tbadge-icon">🕊️</span><span class="tbadge-text">Fear-free</span></div>
+  </div>
+
+  <!-- ══ KITS SHELF — ABOVE PANCHANG (Oct 3–10 only) ══ -->
+  <div class="sec-head">
+    <h2 class="sec-title"><span class="sec-plus">+</span> Ritual Kits — now live</h2>
+    <a href="#" class="sec-link" onclick="showScreen('b')">All 13 kits →</a>
+  </div>
+
+  <div class="kits-live-shelf">
+
+    <div class="kit-shelf-card" onclick="showScreen('c')">
+      <div class="ks-img" style="background:linear-gradient(135deg,#5C2A08,#A06020)">
+        <div class="ks-badge hot">Bestseller</div>[ img ]
+      </div>
+      <div class="ks-body">
+        <div class="ks-occasion">Navratri</div>
+        <div class="ks-name">Shubh Sampada</div>
+        <div class="ks-price-row"><span class="ks-price">₹2,749</span><span class="ks-mrp">₹3,200</span></div>
+        <button class="ks-cart-btn" onclick="event.stopPropagation();showScreen('d')">Add to cart</button>
+      </div>
+    </div>
+
+    <div class="kit-shelf-card" onclick="showScreen('c')">
+      <div class="ks-img" style="background:linear-gradient(135deg,#1A2A4A,#3A5A8A)">
+        <div class="ks-badge low">3 left</div>[ img ]
+      </div>
+      <div class="ks-body">
+        <div class="ks-occasion">Navratri</div>
+        <div class="ks-name">Shakti Aradhana</div>
+        <div class="ks-price-row"><span class="ks-price">₹2,199</span><span class="ks-mrp">₹2,600</span></div>
+        <button class="ks-cart-btn" onclick="event.stopPropagation();showScreen('d')">Add to cart</button>
+      </div>
+    </div>
+
+    <div class="kit-shelf-card" onclick="showScreen('c')">
+      <div class="ks-img" style="background:linear-gradient(135deg,#2A1A4A,#5A2A8A)">
+        <div class="ks-badge">Year-round</div>[ img ]
+      </div>
+      <div class="ks-body">
+        <div class="ks-occasion">Satyanarayan</div>
+        <div class="ks-name">Tulsi Kalyanam</div>
+        <div class="ks-price-row"><span class="ks-price">₹1,979</span><span class="ks-mrp">₹2,300</span></div>
+        <button class="ks-cart-btn" onclick="event.stopPropagation();showScreen('d')">Add to cart</button>
+      </div>
+    </div>
+
+    <div class="kit-shelf-card" onclick="showScreen('c')">
+      <div class="ks-img" style="background:linear-gradient(135deg,#1A3A1A,#3A6A3A)">
+        <div class="ks-badge">Year-round</div>[ img ]
+      </div>
+      <div class="ks-body">
+        <div class="ks-occasion">Ekadashi</div>
+        <div class="ks-name">Ekadash</div>
+        <div class="ks-price-row"><span class="ks-price">₹879</span><span class="ks-mrp">₹999</span></div>
+        <button class="ks-cart-btn" onclick="event.stopPropagation();showScreen('d')">Add to cart</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Panchang — BELOW kits for week 1 -->
+  <div class="sec-head" style="padding-top:18px">
+    <h2 class="sec-title"><span class="sec-plus">+</span> Panchang today</h2>
+    <a href="#" class="sec-link">Full calendar →</a>
+  </div>
+  <div class="panchang-card">
+    <div class="pc-head">
+      <span class="pc-head-label">SATURDAY, 3 OCTOBER 2026 · DELHI–NCR</span>
+      <button class="pc-head-btn">Full →</button>
+    </div>
+    <div class="pc-grid">
+      <div class="pc-cell"><div class="pc-key">Tithi</div><div class="pc-val">Ekadashi</div><div class="pc-sub">11th day</div></div>
+      <div class="pc-cell"><div class="pc-key">Paksha</div><div class="pc-val">Shukla</div><div class="pc-sub">Waxing</div></div>
+      <div class="pc-cell"><div class="pc-key">Nakshatra</div><div class="pc-val">Hasta</div><div class="pc-sub">Auspicious</div></div>
+      <div class="pc-cell"><div class="pc-key">Sunrise</div><div class="pc-val">6:11</div><div class="pc-sub">am</div></div>
+    </div>
+    <div class="pc-next">
+      <div>
+        <div style="font-size:9px;color:var(--sub-text);font-weight:700;letter-spacing:.4px;margin-bottom:3px">NAVRATRI BEGINS</div>
+        <div class="pc-next-val">Navratri Ghatasthapana — Monday, 5 October</div>
+      </div>
+      <button class="pc-next-badge">In 2 days</button>
+    </div>
+  </div>
+
+  <!-- Revert notice — internal/CMS team reminder -->
+  <div class="revert-notice">
+    <span>📅</span>
+    <span><strong>CMS reminder:</strong> Kits shelf reverts below Panchang on 10 October. Hero reverts to today's ritual. Set revert_date = 2026-10-10 in CMS.</span>
+  </div>
+
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SCREEN B — KIT LISTING · LIVE COMMERCE
+     ═══════════════════════════════════════════════════ -->
+<div class="screen" id="screen-b">
+
+  <nav class="topnav">
+    <div class="tnav-row">
+      <button class="tnav-back" onclick="showScreen('a')"><span class="tnav-back-arrow">‹</span> Home</button>
+      <span class="tnav-title">Ritual Kits</span>
+      <button class="tnav-cart">🛒<span class="cart-badge">0</span></button>
+    </div>
+  </nav>
+
+  <!-- Early bird acknowledgement banner -->
+  <div class="early-bird-banner">
+    <span class="ebb-icon">🎁</span>
+    <div>
+      <div class="ebb-text">Pre-bookers got the early-bird price</div>
+      <div class="ebb-sub">Kits are now live at full price · Exchange on wrong item</div>
+    </div>
+  </div>
+
+  <div class="cat-tabs">
+    <button class="cat-tab active" onclick="setCatTab(this)">All kits</button>
+    <button class="cat-tab" onclick="setCatTab(this)">Festive Pujans</button>
+    <button class="cat-tab" onclick="setCatTab(this)">Year-round</button>
+    <button class="cat-tab" onclick="setCatTab(this)">Gift Collections</button>
+    <button class="cat-tab" onclick="setCatTab(this)">Havan &amp; Yagna</button>
+  </div>
+
+  <div class="filter-wrap">
+    <div class="filter-row">
+      <button class="fchip active" onclick="setChip(this)">All occasions</button>
+      <button class="fchip" onclick="setChip(this)">Navratri</button>
+      <button class="fchip" onclick="setChip(this)">Diwali</button>
+      <button class="fchip" onclick="setChip(this)">Satyanarayan</button>
+      <button class="fchip" onclick="setChip(this)">Ekadashi</button>
+      <button class="fchip" onclick="setChip(this)">All-year</button>
+    </div>
+  </div>
+
+  <div class="results-row">
+    <span class="results-count">13 kits · Ships before your festival</span>
+    <button class="sort-btn">Sort ↕</button>
+  </div>
+
+  <div class="kit-grid">
+
+    <!-- BESTSELLER — normal stock -->
+    <div class="kit-card" onclick="showScreen('c')">
+      <div class="kit-img" style="background:linear-gradient(135deg,#5C2A08,#A06020)">
+        <div class="kit-ribbon new">Bestseller</div>[ img ]
+      </div>
+      <div class="kit-body">
+        <div class="kit-occasion">Navratri · Dussehra</div>
+        <div class="kit-name">Shubh Sampada</div>
+        <div class="kit-price-row"><span class="kit-price">₹2,749</span><span class="kit-mrp">₹3,200</span></div>
+        <button class="kit-cart-btn" onclick="event.stopPropagation();showScreen('d')">Add to cart</button>
+      </div>
+    </div>
+
+    <!-- LOW STOCK — 3 left -->
+    <div class="kit-card low-stock" onclick="showScreen('c')">
+      <div class="kit-img" style="background:linear-gradient(135deg,#1A2A4A,#3A5A8A)">
+        <div class="kit-ribbon low">⚡ 3 left</div>[ img ]
+      </div>
+      <div class="kit-body">
+        <div class="kit-occasion">Navratri</div>
+        <div class="kit-name">Shakti Aradhana</div>
+        <div class="low-stock-warn">⚡ Only 3 left</div>
+        <div class="kit-price-row"><span class="kit-price">₹2,199</span><span class="kit-mrp">₹2,600</span></div>
+        <button class="kit-cart-btn" onclick="event.stopPropagation();showScreen('d')">Add to cart</button>
+      </div>
+    </div>
+
+    <!-- NORMAL STOCK with early bird note -->
+    <div class="kit-card" onclick="showScreen('c')">
+      <div class="kit-img" style="background:linear-gradient(135deg,#2A1A4A,#5A2A8A)">
+        <div class="kit-ribbon new">New</div>[ img ]
+      </div>
+      <div class="kit-body">
+        <div class="kit-occasion">Satyanarayan</div>
+        <div class="kit-name">Tulsi Kalyanam</div>
+        <div class="early-bird-tag">🎁 Pre-bookers saved ₹180</div>
+        <div class="kit-price-row"><span class="kit-price">₹1,979</span><span class="kit-mrp">₹2,300</span></div>
+        <button class="kit-cart-btn" onclick="event.stopPropagation();showScreen('d')">Add to cart</button>
+      </div>
+    </div>
+
+    <!-- SOLD OUT -->
+    <div class="kit-card" style="opacity:.7">
+      <div class="kit-img" style="background:linear-gradient(135deg,#2A2A2A,#4A4A4A)">
+        <div class="kit-ribbon soldout">Sold out</div>[ img ]
+      </div>
+      <div class="kit-body">
+        <div class="kit-occasion">Navratri</div>
+        <div class="kit-name">Purna Ghatasthapana</div>
+        <div class="kit-price-row"><span class="kit-price" style="color:var(--sub-text)">₹1,099</span></div>
+        <button class="kit-cart-btn soldout-btn">Sold out</button>
+        <a class="kit-notify-link">🔔 Notify me when back</a>
+      </div>
+    </div>
+
+    <div class="kit-card" onclick="showScreen('c')">
+      <div class="kit-img" style="background:linear-gradient(135deg,#3A2A08,#7A5A18)">
+        <div class="kit-ribbon new">New</div>[ img ]
+      </div>
+      <div class="kit-body">
+        <div class="kit-occasion">Havan &amp; Yagna</div>
+        <div class="kit-name">Yajña</div>
+        <div class="kit-price-row"><span class="kit-price">₹1,209</span><span class="kit-mrp">₹1,400</span></div>
+        <button class="kit-cart-btn" onclick="event.stopPropagation();showScreen('d')">Add to cart</button>
+      </div>
+    </div>
+
+    <div class="kit-card" onclick="showScreen('c')">
+      <div class="kit-img" style="background:linear-gradient(135deg,#1A3A3A,#2A6A6A)">
+        <div class="kit-ribbon new">New</div>[ img ]
+      </div>
+      <div class="kit-body">
+        <div class="kit-occasion">Ekadashi</div>
+        <div class="kit-name">Ekadash</div>
+        <div class="kit-price-row"><span class="kit-price">₹879</span><span class="kit-mrp">₹999</span></div>
+        <button class="kit-cart-btn" onclick="event.stopPropagation();showScreen('d')">Add to cart</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SCREEN C — KIT PRODUCT PAGE · LIVE
+     ═══════════════════════════════════════════════════ -->
+<div class="screen" id="screen-c">
+
+  <nav class="topnav">
+    <div class="tnav-row">
+      <button class="tnav-back" onclick="showScreen('b')"><span class="tnav-back-arrow">‹</span> Ritual Kits</button>
+      <button class="tnav-cart">🛒<span class="cart-badge">0</span></button>
+    </div>
+  </nav>
+
+  <div class="breadcrumb">
+    <span>Home</span><span class="bc-sep"> › </span>
+    <span>Ritual Kits</span><span class="bc-sep"> › </span>
+    <span class="bc-current">Shubh Sampada</span>
+  </div>
+
+  <div class="product-hero" style="background:linear-gradient(155deg,#5C2A08 0%,#A06020 50%,#3A1208 100%)">
+    [ KIT PHOTOGRAPHY · Styled flat-lay · Multiple angles ]
+    <div class="hero-gallery-dots">
+      <div class="gdot active"></div><div class="gdot"></div><div class="gdot"></div>
+    </div>
+  </div>
+
+  <div class="product-id">
+    <div class="product-occasion">For Navratri · Dussehra · October 2026</div>
+    <div class="product-name">Shubh Sampada</div>
+    <div class="product-name-hindi">शुभ सम्पदा — Auspicious Abundance</div>
+  </div>
+
+  <!-- Pricing at full MRP -->
+  <div class="pricing-block">
+    <div class="price-row">
+      <span class="price-main">₹2,749</span>
+      <span class="price-mrp">₹3,200 MRP</span>
+      <span class="price-save">Save ₹451</span>
+    </div>
+    <div class="price-note">Live price · UPI and card accepted · No COD</div>
+  </div>
+
+  <!-- Early bird callout — what pre-bookers saved -->
+  <div class="early-bird-callout">
+    <span class="ebc-icon">🎁</span>
+    <span class="ebc-text">Pre-bookers paid <strong>₹2,499</strong> — saving ₹250 more. Early-bird pricing for pre-bookings was a thank-you for committing early.</span>
+  </div>
+
+  <!-- Low stock alert -->
+  <div class="low-stock-alert">
+    <span class="lsa-icon">⚡</span>
+    <span class="lsa-text">Low stock — only 4 left at this price</span>
+  </div>
+
+  <!-- Delivery promise — standard (no pre-booking language) -->
+  <div class="delivery-promise">
+    <span class="dp-icon">🚚</span>
+    <div>
+      <div class="dp-title">Delivered before Navratri begins</div>
+      <div class="dp-sub">Order by 4 October, 2 pm for delivery by 5 October. Delhi-NCR same-day available on select orders.</div>
+    </div>
+  </div>
+
+  <!-- Exchange policy (replaces 48-hr cancellation) -->
+  <div class="exchange-note">
+    <span class="exchange-icon">🔄</span>
+    <span class="exchange-text">
+      Wrong item or damaged? We'll exchange it.
+      <span class="exchange-link">Exchange policy →</span>
+      · No returns on ritual items.
+    </span>
+  </div>
+
+  <div class="prod-divider"></div>
+
+  <div class="contents-head">
+    <span class="contents-label">What's in this kit</span>
+    <span class="contents-count">16 items</span>
+  </div>
+  <div class="contents-list">
+    <div class="content-item"><div class="content-bullet"></div><span class="content-name">Gangajal (250 ml)</span><span class="content-purpose">For abhishek</span></div>
+    <div class="content-item"><div class="content-bullet"></div><span class="content-name">Sindoor</span><span class="content-purpose">For Devi offering</span></div>
+    <div class="content-item"><div class="content-bullet"></div><span class="content-name">Kumkum (30 g)</span><span class="content-purpose">Tilak and offering</span></div>
+    <div class="content-item"><div class="content-bullet"></div><span class="content-name">Kalash (brass, 6")</span><span class="content-purpose">Ghatasthapana vessel</span></div>
+    <div class="content-item"><div class="content-bullet"></div><span class="content-name">Mango leaves (11)</span><span class="content-purpose">Kalash adornment</span></div>
+    <div class="content-item"><div class="content-bullet"></div><span class="content-name">Jau (barley seeds, 100 g)</span><span class="content-purpose">Sowing for Navratri</span></div>
+    <div class="content-item"><div class="content-bullet"></div><span class="content-name">Deepak (clay, set of 9)</span><span class="content-purpose">Nine nights lighting</span></div>
+    <div class="content-item"><div class="content-bullet"></div><span class="content-name">Ritual card — Navratri Ghatasthapana</span><span class="content-purpose">Step-by-step vidhi inside the kit</span></div>
+  </div>
+
+  <div style="height:80px"></div>
+
+  <!-- Sticky Add to cart -->
+  <div class="qty-cta-wrap">
+    <div class="qty-control">
+      <button class="qty-btn" onclick="changeQty(-1)">−</button>
+      <span class="qty-num" id="qty">1</span>
+      <button class="qty-btn" onclick="changeQty(1)">+</button>
+    </div>
+    <button class="add-cart-btn" onclick="showScreen('d')">
+      <span class="acb-top">Add to cart — ₹2,749</span>
+      <span class="acb-sub">Ships before Navratri · Exchange on wrong item</span>
+    </button>
+  </div>
+
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SCREEN D — CHECKOUT · LIVE
+     ═══════════════════════════════════════════════════ -->
+<div class="screen" id="screen-d">
+
+  <nav class="topnav">
+    <div class="tnav-row">
+      <button class="tnav-back" onclick="showScreen('c')"><span class="tnav-back-arrow">‹</span> Kit details</button>
+      <span class="tnav-title">Checkout</span>
+      <div style="width:36px"></div>
+    </div>
+  </nav>
+
+  <div style="padding-bottom:120px">
+
+    <div class="order-summary-bar">
+      <div class="osb-img" style="background:linear-gradient(135deg,#5C2A08,#A06020)">[ img ]</div>
+      <div class="osb-body">
+        <div class="osb-name">Shubh Sampada</div>
+        <div class="osb-meta">Navratri · 16 items · Qty 1</div>
+      </div>
+      <div class="osb-price">₹2,749</div>
+    </div>
+
+    <div class="checkout-delivery">
+      <span class="cd-icon">🚚</span>
+      <span class="cd-text">Delivery before 5 October · Order by 4 Oct, 2 pm</span>
+    </div>
+
+    <div class="form-section">
+      <div class="form-label">DELIVER TO</div>
+      <div class="form-field"><div class="field-label">Your name</div>
+        <input class="field-input" type="text" value="Priya Sharma"></div>
+      <div class="form-field"><div class="field-label">Mobile number</div>
+        <input class="field-input" type="tel" value="+91 98765 43210"></div>
+      <div class="form-field"><div class="field-label">House / Flat / Building</div>
+        <input class="field-input" type="text" placeholder="House no., flat, building name"></div>
+      <div class="form-field"><div class="field-label">Area / Colony / Street</div>
+        <input class="field-input" type="text" placeholder="Area, colony, street"></div>
+      <div class="form-field field-row">
+        <div><div class="field-label">City</div><input class="field-input" type="text" value="New Delhi"></div>
+        <div><div class="field-label">State</div><input class="field-input" type="text" value="Delhi"></div>
+      </div>
+      <div class="form-field">
+        <div class="field-label">Pincode</div>
+        <div class="pincode-wrap">
+          <input class="field-input" type="text" value="110001" id="pincode2">
+          <button class="pincode-check-btn" onclick="checkPin()">Check</button>
+        </div>
+        <div class="pincode-result ok" id="pinRes">✓ Delivered by 5 October to 110001</div>
+      </div>
+      <div class="save-toggle">
+        <input type="checkbox" id="sv2" checked>
+        <label for="sv2">Save this address</label>
+      </div>
+    </div>
+
+    <div class="form-section" style="margin-top:16px">
+      <div class="form-label">PAY WITH</div>
+      <div class="payment-options">
+        <div class="pay-option selected" onclick="selPay(this)">
+          <div class="pay-radio checked"></div>
+          <span class="pay-label">UPI</span>
+          <div class="pay-logos">
+            <span class="pay-logo-pill">GPay</span>
+            <span class="pay-logo-pill">PhonePe</span>
+            <span class="pay-logo-pill">Paytm</span>
+          </div>
+        </div>
+        <div class="pay-option" onclick="selPay(this)">
+          <div class="pay-radio"></div>
+          <span class="pay-label">Credit / Debit card</span>
+        </div>
+        <div class="pay-option" onclick="selPay(this)">
+          <div class="pay-radio"></div>
+          <span class="pay-label">Net banking</span>
+        </div>
+      </div>
+      <!-- NOTE: No COD option -->
+      <p style="font-size:10px;color:var(--sub-text);padding:6px 0">Cash on delivery not available for Ritual Kits.</p>
+    </div>
+
+    <!-- Exchange policy box — NOT cancellation policy -->
+    <div class="exchange-policy-box">
+      <div class="epb-title">🔄 Exchange policy</div>
+      <div class="epb-text">
+        Received the wrong item or something damaged? We'll send a replacement at no charge.
+        Raise an exchange request within <span class="epb-highlight">48 hours of delivery</span> with a photo.
+        Ritual items cannot be returned for a refund — they are consumable goods prepared specifically for your puja.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="checkout-sticky">
+    <div class="checkout-total-row">
+      <span class="checkout-total-label">Total (free delivery)</span>
+      <span class="checkout-total-val">₹2,749</span>
+    </div>
+    <button class="checkout-pay-btn">Confirm &amp; pay — ₹2,749</button>
+    <div class="checkout-terms">By ordering you agree to our <u>Terms of Service</u>, <u>Privacy Policy</u>, and <u>Exchange Policy</u>.</div>
+  </div>
+
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SCREEN E — MY ACCOUNT · PRE-BOOKER ON OCT 3
+     Shows: progress tracker + WhatsApp message received
+     ═══════════════════════════════════════════════════ -->
+<div class="screen" id="screen-e">
+
+  <nav class="topnav">
+    <div class="tnav-row">
+      <button class="tnav-back"><span class="tnav-back-arrow">‹</span> Home</button>
+      <span class="tnav-title">My Account</span>
+      <button style="font-size:12px;font-weight:600;color:var(--pink);background:none;border:none">Edit</button>
+    </div>
+  </nav>
+
+  <!-- Profile bar -->
+  <div class="account-topbar">
+    <div class="atb-inner">
+      <div class="atb-avatar">प</div>
+      <div>
+        <div class="atb-name">Priya Sharma</div>
+        <div class="atb-phone">+91 98765 43210 · Delhi–NCR</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stat tiles -->
+  <div class="stat-row">
+    <div class="stat-tile"><div class="stat-num">4</div><div class="stat-label">Saved Rituals</div></div>
+    <div class="stat-tile"><div class="stat-num">1</div><div class="stat-label">Orders</div></div>
+    <div class="stat-tile"><div class="stat-num" style="font-size:14px;padding-top:4px">Circle</div><div class="stat-label">Subscription</div><div class="stat-badge active">Active</div></div>
+  </div>
+
+  <!-- PRE-BOOKER PROGRESS TRACKER — the key new element -->
+  <div class="sec-head" style="padding-top:18px">
+    <h2 class="sec-title"><span class="sec-plus">+</span> Your kit is on its way</h2>
+    <a href="#" class="sec-link">Track →</a>
+  </div>
+
+  <div class="prebook-status-banner">
+    <div class="psb-head">
+      <div class="psb-title">🛒 Shubh Sampada · Navratri Kit</div>
+      <div class="psb-id">TK-2026-0147</div>
+    </div>
+
+    <!-- 4-step progress tracker -->
+    <div class="tracker">
+      <div class="tracker-step">
+        <div class="tracker-step-inner">
+          <div class="t-dot done">✓</div>
+          <div class="t-line done"></div>
+        </div>
+        <div class="t-label done">Pre-booked<br>15 Aug</div>
+      </div>
+      <div class="tracker-step">
+        <div class="tracker-step-inner">
+          <div class="t-dot active">⚙</div>
+          <div class="t-line"></div>
+        </div>
+        <div class="t-label active">Assembling<br>Now</div>
+      </div>
+      <div class="tracker-step">
+        <div class="tracker-step-inner">
+          <div class="t-dot">📦</div>
+          <div class="t-line"></div>
+        </div>
+        <div class="t-label">Dispatched<br>~27 Sep</div>
+      </div>
+      <div class="tracker-step">
+        <div class="tracker-step-inner">
+          <div class="t-dot">🏠</div>
+        </div>
+        <div class="t-label">Delivered<br>30 Sep</div>
+      </div>
+    </div>
+
+    <div class="psb-kit-row">
+      <div class="psb-kit-thumb" style="background:linear-gradient(135deg,#5C2A08,#A06020)">[ img ]</div>
+      <div style="flex:1">
+        <div class="psb-kit-name">16 items being assembled</div>
+        <div class="psb-kit-eta">Expected delivery: 30 September 2026</div>
+      </div>
+      <a href="#" class="psb-track-link">Track →</a>
+    </div>
+  </div>
+
+  <!-- WhatsApp message received today -->
+  <div class="sec-head" style="padding-top:16px">
+    <h2 class="sec-title"><span class="sec-plus">+</span> Message from Tapa Circle</h2>
+    <a href="#" class="sec-link">Open WhatsApp →</a>
+  </div>
+
+  <div class="wa-message-card">
+    <div class="wmc-head">
+      <span class="wmc-icon">💬</span>
+      <span class="wmc-label">The Tapa Circle · WhatsApp</span>
+      <span class="wmc-time">Today, 7:02 am</span>
+    </div>
+    <div class="wmc-bubble">
+      <div class="wmc-bubble-text">
+        🛒 <strong>Your Shubh Sampada kit is being assembled.</strong><br><br>
+        Here is what's going in:<br>
+        • Gangajal (250 ml) · For abhishek<br>
+        • Kalash (brass, 6") · Ghatasthapana vessel<br>
+        • Mango leaves (11) · Kalash adornment<br>
+        • Jau (barley seeds) · For sowing<br>
+        • Deepak (clay, set of 9) · Nine nights<br>
+        + 11 more items<br><br>
+        <strong>Expected delivery: 30 September</strong> — the day before Navratri.<br><br>
+        You'll get a WhatsApp with the tracking link when it's dispatched.<br><br>
+        — The Tapa Co. 🪔
+      </div>
+    </div>
+    <div class="wmc-btns">
+      <button class="wmc-btn">📖 Read the Navratri Ghatasthapana guide</button>
+      <button class="wmc-btn pink" onclick="showScreen('b')">🛒 Gift a kit to someone →</button>
+    </div>
+  </div>
+
+</div>
+
+
+<script>
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.snav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('screen-'+id).classList.add('active');
+  ['a','b','c','d','e'].forEach((s,i)=>{
+    if(s===id) document.querySelectorAll('.snav-btn')[i].classList.add('active');
+  });
+  window.scrollTo(0,0);
+}
+function setCatTab(el){document.querySelectorAll('.cat-tab').forEach(t=>t.classList.remove('active'));el.classList.add('active')}
+function setChip(el){document.querySelectorAll('.fchip').forEach(c=>c.classList.remove('active'));el.classList.add('active')}
+function changeQty(d){
+  const el=document.getElementById('qty');
+  const n=Math.max(1,Math.min(5,parseInt(el.textContent)+d));
+  el.textContent=n;
+  document.querySelector('.acb-top').textContent=`Add to cart — ₹${(2749*n).toLocaleString('en-IN')}`;
+}
+function selPay(el){
+  document.querySelectorAll('.pay-option').forEach(o=>{
+    o.classList.remove('selected');
+    const r=o.querySelector('.pay-radio');
+    r.classList.remove('checked');r.innerHTML='';
+  });
+  el.classList.add('selected');
+  const r=el.querySelector('.pay-radio');
+  r.classList.add('checked');
+}
+function checkPin(){
+  const v=document.getElementById('pincode2').value;
+  const r=document.getElementById('pinRes');
+  r.className='pincode-result ok';
+  r.textContent=`✓ Delivered by 5 October to ${v}`;
+}
+</script>
+</body>
+</html>

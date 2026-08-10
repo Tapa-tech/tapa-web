@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
+import { useRouter } from "next/navigation";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import TopNav from "@/components/TopNav";
 import Footer from "@/components/Footer";
@@ -22,6 +23,7 @@ interface KitItem {
 }
 
 export default function RitualKitsPLP() {
+  const router = useRouter();
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   // Filter States
@@ -634,7 +636,7 @@ export default function RitualKitsPLP() {
                     className="f-view-btn font-semibold cursor-pointer hover:bg-bg"
                     onClick={(e) => {
                       e.stopPropagation();
-                      triggerToast(`Opening ${featuredKit.name} detail card...`);
+                      router.push("/ritual-kits/shubh-sampada");
                     }}
                   >
                     View details →
@@ -658,7 +660,7 @@ export default function RitualKitsPLP() {
                 key={kit.id}
                 className={`kit-card font-sans ${kit.stockLeft ? "low-stock" : ""} ${!kit.inStock ? "sold-out" : ""}`}
                 role="listitem"
-                onClick={() => kit.inStock && handleAddToCart(kit.name, kit.price)}
+                onClick={() => router.push(`/ritual-kits/${kit.id}`)}
               >
                 <div
                   className="kit-img select-none"

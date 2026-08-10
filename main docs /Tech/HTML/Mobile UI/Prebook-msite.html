@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Ritual Kits — Pre-booking · The Tapa Co.</title>
+<style>
+
+/* ============================================================
+   THE TAPA CO. — PHASE 2 · PRE-BOOKING FLOW
+   5 screens in one file:
+   Screen A — Kit listing page
+   Screen B — Kit product page
+   Screen C — Checkout
+   Screen D — Order confirmed
+   Screen E — Article inline pre-booking banner (component)
+   ============================================================ */
+
+:root {
+  --bg:           #F2EDE4;
+  --card:         #FFFFFF;
+  --dark:         #1C1712;
+  --pink:         #D4175A;
+  --amber:        #E8A020;
+  --amber-light:  #FFF8E8;
+  --amber-border: #E8D8A0;
+  --amber-text:   #8B6914;
+  --gold:         #E3B567;
+  --body-text:    #2C2010;
+  --mid-text:     #5C4B12;
+  --sub-text:     #8A7A68;
+  --border:       #E8E0D0;
+  --border-light: #F0E8D8;
+  --green-bg:     #EBF5EC;
+  --green-text:   #1A5C28;
+  --red-light:    #FEF0F4;
+  --hero-text:    #FFFDF5;
+  --hero-sub:     #C4A882;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  font-family:system-ui,-apple-system,'Segoe UI',sans-serif;
+  background:var(--bg);color:var(--body-text);
+  font-size:13px;line-height:1.5;
+  max-width:390px;margin:0 auto;
+  -webkit-font-smoothing:antialiased;
+}
+button{font-family:inherit;cursor:pointer}
+a{text-decoration:none;color:inherit}
+
+/* ── SCREEN SWITCHER (demo nav) ─────────────────────────── */
+.screen-nav{
+  background:var(--dark);padding:8px 10px;
+  display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;
+  position:sticky;top:0;z-index:99;
+}
+.screen-nav::-webkit-scrollbar{display:none}
+.snav-btn{
+  flex-shrink:0;border:1px solid rgba(255,255,255,.16);
+  border-radius:6px;padding:5px 10px;
+  font-size:10px;font-weight:600;color:rgba(255,255,255,.5);
+  background:none;white-space:nowrap;
+}
+.snav-btn.active{background:var(--pink);border-color:var(--pink);color:#fff}
+
+/* ── SHARED: TOP NAV ────────────────────────────────────── */
+.topnav{
+  background:var(--card);border-bottom:1px solid var(--border);
+  padding:0 14px;z-index:40;
+  box-shadow:0 1px 8px rgba(28,23,18,.06);
+}
+.tnav-row{display:flex;align-items:center;justify-content:space-between;padding:11px 0 10px}
+.tnav-back{display:flex;align-items:center;gap:5px;font-size:13px;color:var(--body-text);background:none;border:none;padding:0}
+.tnav-back-arrow{font-size:18px;color:var(--pink)}
+.tnav-title{font-size:15px;font-weight:700;color:var(--dark)}
+.tnav-cart{position:relative;background:none;border:none;font-size:20px}
+.cart-badge{
+  position:absolute;top:-4px;right:-4px;
+  width:16px;height:16px;border-radius:50%;
+  background:var(--pink);border:2px solid var(--card);
+  font-size:8px;font-weight:700;color:#fff;
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* ── SCREEN WRAPPER ─────────────────────────────────────── */
+.screen{display:none;padding-bottom:100px}
+.screen.active{display:block}
+
+/* ═══════════════════════════════════════════════════════════
+   SCREEN A — KIT LISTING PAGE
+   ═══════════════════════════════════════════════════════ */
+
+/* Hero band — pre-booking announcement */
+.listing-hero{
+  background:var(--dark);padding:20px 16px 0;
+  position:relative;overflow:hidden;
+}
+.listing-hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 70% at 90% 30%,rgba(232,160,32,.12) 0%,transparent 65%);
+}
+.lh-eyebrow{font-size:9px;font-weight:700;color:var(--pink);letter-spacing:.6px;margin-bottom:5px;position:relative}
+.lh-title{font-size:22px;font-weight:700;color:var(--hero-text);line-height:1.2;margin-bottom:5px;position:relative}
+.lh-sub{font-size:12px;color:var(--hero-sub);line-height:1.6;margin-bottom:14px;position:relative}
+
+/* Pre-booking trust strip */
+.prebook-strip{
+  background:rgba(255,255,255,.07);border-top:1px solid rgba(255,255,255,.07);
+  padding:10px 16px;display:flex;gap:0;overflow-x:auto;scrollbar-width:none;
+}
+.prebook-strip::-webkit-scrollbar{display:none}
+.pb-badge{display:flex;align-items:center;gap:5px;padding-right:14px;flex-shrink:0}
+.pb-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--green-text);flex-shrink:0}
+.pb-badge-text{font-size:10px;color:rgba(255,253,245,.65);white-space:nowrap}
+.pb-badge-sep{width:1px;height:12px;background:rgba(255,255,255,.12);margin-right:14px;flex-shrink:0}
+
+/* Category tabs */
+.cat-tabs{
+  background:var(--card);border-bottom:1px solid var(--border);
+  display:flex;overflow-x:auto;scrollbar-width:none;
+  padding:0 14px;
+}
+.cat-tabs::-webkit-scrollbar{display:none}
+.cat-tab{
+  flex-shrink:0;font-size:12px;font-weight:500;color:var(--sub-text);
+  padding:12px 14px;border-bottom:2.5px solid transparent;
+  background:none;border-top:none;border-left:none;border-right:none;
+  white-space:nowrap;cursor:pointer;transition:color .15s,border-color .15s;
+}
+.cat-tab:first-child{padding-left:0}
+.cat-tab.active{color:var(--pink);border-bottom-color:var(--pink);font-weight:600}
+
+/* Occasion filter chips */
+.filter-wrap{padding:12px 14px 4px;overflow-x:auto;scrollbar-width:none}
+.filter-wrap::-webkit-scrollbar{display:none}
+.filter-row{display:flex;gap:7px}
+.fchip{
+  flex-shrink:0;border:1.5px solid var(--border);border-radius:20px;
+  padding:5px 13px;font-size:11px;font-weight:500;color:var(--sub-text);
+  background:var(--card);cursor:pointer;white-space:nowrap;
+  transition:all .15s;
+}
+.fchip.active{background:var(--pink);border-color:var(--pink);color:#fff;font-weight:600}
+
+/* Results count + sort */
+.results-row{
+  padding:10px 14px 6px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.results-count{font-size:11px;color:var(--sub-text)}
+.sort-btn{font-size:11px;color:var(--pink);font-weight:500;background:none;border:none;padding:0}
+
+/* Kit grid — 2 columns */
+.kit-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:10px;padding:0 14px 8px;
+}
+.kit-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:14px;overflow:hidden;cursor:pointer;
+  transition:border-color .15s,box-shadow .15s;
+}
+.kit-card:active{border-color:var(--pink);box-shadow:0 2px 12px rgba(212,23,90,.12)}
+
+.kit-img{
+  height:120px;position:relative;
+  display:flex;align-items:center;justify-content:center;
+  font-size:9px;color:rgba(255,255,255,.2);letter-spacing:.3px;text-align:center;
+}
+/* pre-book ribbon */
+.kit-ribbon{
+  position:absolute;top:8px;left:8px;
+  background:var(--pink);color:#fff;
+  font-size:8px;font-weight:700;padding:3px 8px;border-radius:4px;
+  letter-spacing:.3px;
+}
+.kit-ribbon.bestseller{background:var(--amber);color:var(--dark)}
+
+.kit-body{padding:10px 10px 12px}
+.kit-occasion{font-size:9px;font-weight:600;color:var(--sub-text);letter-spacing:.4px;margin-bottom:3px;text-transform:uppercase}
+.kit-name{font-size:13px;font-weight:700;color:var(--dark);line-height:1.3;margin-bottom:2px}
+.kit-name-hindi{font-size:11px;color:var(--amber-text);font-weight:500;margin-bottom:5px}
+.kit-items{font-size:10px;color:var(--sub-text);margin-bottom:7px}
+.kit-price-row{display:flex;align-items:baseline;gap:5px;margin-bottom:8px}
+.kit-price{font-size:15px;font-weight:700;color:var(--dark)}
+.kit-mrp{font-size:10px;color:var(--sub-text);text-decoration:line-through}
+.kit-save{font-size:9px;font-weight:600;color:var(--green-text)}
+.kit-prebook-btn{
+  width:100%;background:var(--pink);border:none;
+  border-radius:8px;padding:8px 6px;
+  font-size:10.5px;font-weight:700;color:#fff;
+}
+.kit-delivery{font-size:9px;color:var(--sub-text);text-align:center;margin-top:5px}
+
+/* Full-width featured kit card */
+.kit-card-wide{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:14px;overflow:hidden;
+  margin:0 14px 10px;cursor:pointer;
+  display:flex;
+}
+.kit-card-wide .kit-img{width:110px;height:auto;flex-shrink:0;border-radius:0}
+.kit-card-wide .kit-body{flex:1}
+
+/* ═══════════════════════════════════════════════════════════
+   SCREEN B — KIT PRODUCT PAGE
+   ═══════════════════════════════════════════════════════ */
+
+/* Breadcrumb */
+.breadcrumb{
+  background:var(--card);border-bottom:1px solid var(--border);
+  padding:9px 14px;display:flex;align-items:center;gap:5px;
+  font-size:12px;color:var(--sub-text);
+}
+.bc-sep{color:var(--border)}
+.bc-current{color:var(--body-text);font-weight:500}
+
+/* Product hero */
+.product-hero{
+  height:220px;position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;color:rgba(255,255,255,.18);letter-spacing:.4px;text-align:center;
+}
+.hero-gallery-dots{
+  position:absolute;bottom:10px;left:50%;transform:translateX(-50%);
+  display:flex;gap:5px;
+}
+.gdot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.4)}
+.gdot.active{background:#fff;width:18px;border-radius:3px}
+
+/* Product identity */
+.product-id{padding:16px 14px 0}
+.product-occasion{font-size:10px;font-weight:700;color:var(--sub-text);letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px}
+.product-name{font-size:22px;font-weight:700;color:var(--dark);line-height:1.2;margin-bottom:2px}
+.product-name-hindi{font-size:14px;color:var(--amber-text);font-weight:500;margin-bottom:10px}
+.product-tagline{font-size:12px;color:var(--mid-text);line-height:1.65;font-style:italic;margin-bottom:12px}
+
+/* Pricing block */
+.pricing-block{
+  background:var(--amber-light);border:1px solid var(--amber-border);
+  border-radius:12px;padding:12px 14px;margin:0 14px 14px;
+}
+.price-row{display:flex;align-items:baseline;gap:8px;margin-bottom:3px}
+.price-main{font-size:26px;font-weight:700;color:var(--dark)}
+.price-mrp{font-size:13px;color:var(--sub-text);text-decoration:line-through}
+.price-save{font-size:11px;font-weight:700;color:var(--green-text);background:var(--green-bg);padding:2px 8px;border-radius:4px}
+.price-note{font-size:10px;color:var(--amber-text)}
+
+/* Pre-booking delivery promise */
+.delivery-promise{
+  background:var(--green-bg);border:1px solid var(--green-text);
+  border-radius:11px;padding:11px 14px;margin:0 14px 14px;
+  display:flex;align-items:flex-start;gap:9px;
+}
+.dp-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.dp-title{font-size:12px;font-weight:700;color:var(--green-text);margin-bottom:2px}
+.dp-sub{font-size:11px;color:var(--mid-text);line-height:1.55}
+.dp-city{font-size:10px;color:var(--sub-text);margin-top:3px}
+
+/* Cancellation note */
+.cancel-note{
+  display:flex;align-items:center;gap:7px;
+  padding:8px 14px;margin-bottom:4px;
+}
+.cancel-note-icon{font-size:14px;color:var(--sub-text)}
+.cancel-note-text{font-size:10px;color:var(--sub-text);line-height:1.5}
+.cancel-note-link{color:var(--pink);font-weight:500}
+
+/* Section divider */
+.prod-divider{height:1px;background:var(--border);margin:12px 14px}
+
+/* Contents section */
+.contents-head{
+  padding:12px 14px 8px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.contents-label{font-size:13px;font-weight:700;color:var(--dark)}
+.contents-count{font-size:11px;color:var(--sub-text)}
+.contents-list{padding:0 14px}
+.content-item{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 0;border-bottom:.5px solid var(--border-light);
+}
+.content-item:last-child{border-bottom:none}
+.content-bullet{width:6px;height:6px;border-radius:50%;background:var(--amber);flex-shrink:0}
+.content-name{font-size:12px;color:var(--dark);flex:1}
+.content-purpose{font-size:10px;color:var(--sub-text)}
+
+/* Dharma note on the kit */
+.kit-dharma-note{
+  background:var(--amber-light);border:1px solid var(--amber-border);
+  border-radius:11px;margin:10px 14px;padding:11px 13px;
+  display:flex;gap:8px;align-items:flex-start;
+}
+.kdn-icon{font-size:15px;flex-shrink:0;margin-top:1px}
+.kdn-text{font-size:11px;color:var(--amber-text);line-height:1.6}
+.kdn-text strong{color:var(--dark);font-weight:600}
+
+/* Qty + CTA */
+.qty-cta-wrap{
+  position:fixed;bottom:0;left:50%;transform:translateX(-50%);
+  width:390px;max-width:100%;
+  background:var(--card);border-top:1px solid var(--border);
+  padding:12px 14px;display:flex;gap:10px;align-items:center;
+  box-shadow:0 -2px 16px rgba(28,23,18,.08);z-index:40;
+}
+.qty-control{
+  display:flex;align-items:center;gap:0;
+  background:var(--bg);border:1.5px solid var(--border);border-radius:10px;overflow:hidden;
+  flex-shrink:0;
+}
+.qty-btn{
+  width:36px;height:40px;border:none;background:none;
+  font-size:18px;color:var(--mid-text);display:flex;align-items:center;justify-content:center;
+}
+.qty-num{
+  width:32px;text-align:center;font-size:14px;
+  font-weight:700;color:var(--dark);
+}
+.prebook-main-btn{
+  flex:1;background:var(--pink);border:none;border-radius:12px;
+  padding:0 14px;height:48px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
+}
+.pmb-top{font-size:13px;font-weight:700;color:#fff}
+.pmb-sub{font-size:9px;color:rgba(255,255,255,.65)}
+
+/* ═══════════════════════════════════════════════════════════
+   SCREEN C — CHECKOUT
+   ═══════════════════════════════════════════════════════ */
+
+.checkout-wrap{padding:0 0 120px}
+
+/* Order summary at top */
+.order-summary-bar{
+  background:var(--card);border-bottom:1px solid var(--border);
+  padding:12px 14px;display:flex;align-items:center;gap:10px;
+}
+.osb-img{
+  width:52px;height:52px;border-radius:10px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:9px;color:rgba(255,255,255,.2);text-align:center;
+}
+.osb-body{flex:1}
+.osb-name{font-size:13px;font-weight:600;color:var(--dark)}
+.osb-meta{font-size:10px;color:var(--sub-text);margin-top:2px}
+.osb-price{font-size:15px;font-weight:700;color:var(--dark)}
+
+/* Pre-booking delivery promise (compact) */
+.checkout-promise{
+  background:var(--green-bg);border-bottom:1px solid var(--green-text);
+  padding:10px 14px;display:flex;align-items:center;gap:8px;
+}
+.cp-icon{font-size:14px;flex-shrink:0}
+.cp-text{font-size:11px;color:var(--green-text);font-weight:600}
+
+/* Form sections */
+.form-section{padding:16px 14px 0}
+.form-label{font-size:10px;font-weight:700;color:var(--amber-text);letter-spacing:.5px;margin-bottom:10px}
+.form-field{margin-bottom:10px}
+.field-label{font-size:11px;font-weight:600;color:var(--mid-text);margin-bottom:4px}
+.field-input{
+  width:100%;background:var(--card);border:1.5px solid var(--border);
+  border-radius:10px;padding:11px 12px;font-size:13px;color:var(--dark);
+  font-family:inherit;outline:none;transition:border-color .15s;
+}
+.field-input:focus{border-color:var(--pink)}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.save-toggle{display:flex;align-items:center;gap:8px;padding:6px 0}
+.save-toggle input{accent-color:var(--pink);width:15px;height:15px}
+.save-toggle label{font-size:11px;color:var(--mid-text)}
+
+/* Pincode check */
+.pincode-wrap{position:relative}
+.pincode-check-btn{
+  position:absolute;right:10px;top:50%;transform:translateY(-50%);
+  background:var(--pink);border:none;border-radius:7px;
+  padding:5px 10px;font-size:10px;font-weight:700;color:#fff;
+}
+.pincode-result{
+  font-size:10px;margin-top:4px;padding:5px 10px;border-radius:6px;
+}
+.pincode-result.ok{background:var(--green-bg);color:var(--green-text)}
+.pincode-result.fail{background:var(--red-light);color:var(--pink)}
+
+/* Payment methods */
+.payment-options{display:flex;flex-direction:column;gap:8px;margin-bottom:4px}
+.pay-option{
+  background:var(--card);border:1.5px solid var(--border);
+  border-radius:11px;padding:12px 14px;
+  display:flex;align-items:center;gap:10px;cursor:pointer;
+  transition:border-color .15s;
+}
+.pay-option.selected{border-color:var(--pink);background:var(--red-light)}
+.pay-radio{width:16px;height:16px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.pay-radio.checked{border-color:var(--pink)}
+.pay-radio.checked::after{content:'';width:8px;height:8px;border-radius:50%;background:var(--pink)}
+.pay-label{font-size:13px;font-weight:500;color:var(--dark);flex:1}
+.pay-logos{display:flex;gap:5px;font-size:9px;color:var(--sub-text)}
+.pay-logo-pill{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:2px 6px;font-size:9px;color:var(--sub-text)}
+
+/* Cancellation policy */
+.cancel-policy-box{
+  background:var(--amber-light);border:1px solid var(--amber-border);
+  border-radius:11px;padding:12px 14px;margin:12px 14px;
+}
+.cpb-title{font-size:11px;font-weight:700;color:var(--dark);margin-bottom:4px;display:flex;align-items:center;gap:5px}
+.cpb-text{font-size:10px;color:var(--mid-text);line-height:1.65}
+.cpb-highlight{color:var(--pink);font-weight:600}
+
+/* Checkout sticky CTA */
+.checkout-sticky{
+  position:fixed;bottom:0;left:50%;transform:translateX(-50%);
+  width:390px;max-width:100%;
+  background:var(--card);border-top:1px solid var(--border);
+  padding:12px 14px;
+  box-shadow:0 -2px 16px rgba(28,23,18,.08);z-index:40;
+}
+.checkout-total-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.checkout-total-label{font-size:11px;color:var(--sub-text)}
+.checkout-total-val{font-size:16px;font-weight:700;color:var(--dark)}
+.checkout-pay-btn{
+  width:100%;background:var(--pink);border:none;border-radius:12px;
+  padding:14px;font-size:14px;font-weight:700;color:#fff;
+}
+.checkout-terms{font-size:9px;color:var(--sub-text);text-align:center;margin-top:6px;line-height:1.5}
+
+/* ═══════════════════════════════════════════════════════════
+   SCREEN D — ORDER CONFIRMED
+   ═══════════════════════════════════════════════════════ */
+
+.confirmed-wrap{padding-bottom:40px}
+
+/* Confetti-style success band */
+.success-band{
+  background:var(--dark);padding:32px 16px 24px;text-align:center;
+  position:relative;overflow:hidden;
+}
+.success-band::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 60% at 30% 20%,rgba(232,160,32,.15) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 50% at 80% 80%,rgba(212,23,90,.12) 0%,transparent 55%);
+}
+.success-icon{font-size:44px;margin-bottom:10px;position:relative}
+.success-title{font-size:22px;font-weight:700;color:var(--hero-text);margin-bottom:5px;position:relative}
+.success-sub{font-size:13px;color:var(--hero-sub);line-height:1.6;margin-bottom:14px;position:relative}
+.success-order-id{
+  display:inline-block;background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.16);border-radius:8px;
+  padding:6px 16px;font-size:11px;color:var(--gold);
+  font-weight:600;letter-spacing:.4px;position:relative;
+}
+
+/* Delivery card */
+.delivery-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:14px;margin:16px 14px 10px;overflow:hidden;
+}
+.dc-head{
+  padding:12px 14px;background:var(--green-bg);
+  border-bottom:1px solid var(--green-text);
+  display:flex;align-items:center;gap:8px;
+}
+.dc-head-icon{font-size:16px}
+.dc-head-text{font-size:12px;font-weight:700;color:var(--green-text)}
+.dc-body{padding:14px}
+.dc-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:.5px solid var(--border-light)}
+.dc-row:last-child{border-bottom:none}
+.dc-key{font-size:11px;color:var(--sub-text)}
+.dc-val{font-size:12px;font-weight:600;color:var(--dark);text-align:right;max-width:55%}
+
+/* What happens next */
+.next-steps{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:14px;margin:0 14px 10px;padding:14px;
+}
+.ns-title{font-size:12px;font-weight:700;color:var(--dark);margin-bottom:12px}
+.ns-step{display:flex;gap:10px;align-items:flex-start;margin-bottom:12px}
+.ns-step:last-child{margin-bottom:0}
+.ns-num{
+  width:22px;height:22px;border-radius:50%;
+  background:var(--dark);color:var(--gold);
+  font-size:10px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;
+}
+.ns-text{font-size:12px;color:var(--body-text);line-height:1.6}
+.ns-channel{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;margin-left:4px}
+.ns-channel.wa{background:#E8F5E4;color:#1A6B2A}
+.ns-channel.sms{background:var(--amber-light);color:var(--amber-text)}
+
+/* 48hr cancellation reminder */
+.cancel-reminder{
+  background:var(--amber-light);border:1px solid var(--amber-border);
+  border-radius:12px;margin:0 14px 10px;padding:11px 13px;
+  display:flex;gap:9px;align-items:flex-start;
+}
+.cr-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+.cr-title{font-size:11px;font-weight:700;color:var(--dark);margin-bottom:2px}
+.cr-text{font-size:10px;color:var(--mid-text);line-height:1.6}
+.cr-link{color:var(--pink);font-weight:600}
+
+/* WA subscription nudge (post-booking, high intent) */
+.wa-nudge-confirmed{
+  background:var(--dark);border-radius:14px;
+  margin:0 14px 10px;padding:14px 16px;
+}
+.wanc-top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.wanc-icon{font-size:22px;flex-shrink:0}
+.wanc-title{font-size:13px;font-weight:700;color:var(--hero-text);margin-bottom:1px}
+.wanc-sub{font-size:10px;color:var(--sub-text);line-height:1.5}
+.wanc-btn{width:100%;background:var(--pink);border:none;border-radius:10px;padding:11px;font-size:12px;font-weight:700;color:#fff}
+.wanc-price{font-size:10px;color:var(--sub-text);text-align:center;margin-top:5px}
+
+/* Back to home */
+.back-home-btn{
+  display:block;text-align:center;margin:6px 14px;
+  background:var(--card);border:1.5px solid var(--border);
+  border-radius:12px;padding:13px;font-size:13px;font-weight:600;color:var(--dark);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SCREEN E — ARTICLE INLINE PRE-BOOKING BANNER
+   (Component shown in situ inside an article page)
+   ═══════════════════════════════════════════════════════ */
+
+.article-context{padding:0 14px;background:var(--bg)}
+
+/* Simulate article samagri section */
+.art-section-head{padding:14px 0 8px;font-size:13.5px;font-weight:700;color:var(--dark);display:flex;align-items:center;gap:5px}
+.art-plus{color:var(--pink);font-size:16px}
+
+/* Samagri checklist mock */
+.art-samagri{background:var(--card);border:1px solid var(--border);border-radius:12px;margin-bottom:12px;overflow:hidden}
+.art-samagri-head{padding:10px 13px;border-bottom:1px solid var(--border-light);display:flex;justify-content:space-between}
+.art-samagri-label{font-size:12px;font-weight:700;color:var(--dark)}
+.art-samagri-count{font-size:10px;color:var(--sub-text)}
+.art-sam-item{padding:8px 13px;border-bottom:.5px solid #FAF5EE;display:flex;align-items:center;gap:8px}
+.art-sam-item:last-child{border-bottom:none}
+.art-sam-cb{width:15px;height:15px;border:1.5px solid #C8BCA8;border-radius:4px;flex-shrink:0;cursor:pointer;appearance:none;-webkit-appearance:none;position:relative}
+.art-sam-cb:checked{background:var(--pink);border-color:var(--pink)}
+.art-sam-cb:checked::after{content:'✓';position:absolute;top:-2px;left:1px;font-size:10px;color:#fff;font-weight:700}
+.art-sam-label{font-size:12px;color:var(--dark);flex:1}
+.art-sam-note{font-size:9.5px;color:var(--sub-text)}
+
+/* THE PRE-BOOKING BANNER — the main component */
+.prebook-banner{
+  background:var(--dark);border-radius:14px;
+  margin-bottom:14px;overflow:hidden;
+  position:relative;
+}
+.prebook-banner::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 65% 70% at 90% 30%,rgba(232,160,32,.14) 0%,transparent 60%);
+}
+.pbb-head{
+  padding:13px 14px 10px;border-bottom:1px solid rgba(255,255,255,.07);
+  display:flex;align-items:center;justify-content:space-between;position:relative;
+}
+.pbb-label{font-size:9px;font-weight:700;color:var(--pink);letter-spacing:.5px}
+.pbb-delivery-badge{
+  background:var(--green-bg);border-radius:5px;
+  padding:3px 9px;font-size:9px;font-weight:700;color:var(--green-text);
+}
+.pbb-body{padding:12px 14px 14px;position:relative}
+.pbb-kit-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.pbb-kit-thumb{
+  width:52px;height:52px;border-radius:10px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:8px;color:rgba(255,255,255,.15);text-align:center;
+}
+.pbb-kit-info{flex:1}
+.pbb-kit-name{font-size:13px;font-weight:700;color:var(--hero-text);margin-bottom:2px}
+.pbb-kit-occasion{font-size:10px;color:var(--hero-sub)}
+.pbb-price-row{display:flex;align-items:baseline;gap:6px}
+.pbb-price{font-size:16px;font-weight:700;color:var(--hero-text)}
+.pbb-mrp{font-size:10px;color:var(--sub-text);text-decoration:line-through}
+.pbb-save{font-size:9px;font-weight:700;color:var(--green-text);background:var(--green-bg);padding:2px 7px;border-radius:4px}
+.pbb-items{font-size:10px;color:var(--hero-sub);margin-bottom:12px}
+.pbb-promise{
+  background:rgba(255,255,255,.07);border-radius:8px;
+  padding:8px 10px;margin-bottom:12px;
+  display:flex;align-items:center;gap:7px;
+}
+.pbb-promise-icon{font-size:13px;flex-shrink:0}
+.pbb-promise-text{font-size:10px;color:var(--hero-sub);line-height:1.55}
+.pbb-promise-text strong{color:var(--gold)}
+.pbb-cta-row{display:flex;gap:8px}
+.pbb-cta-main{
+  flex:1;background:var(--pink);border:none;border-radius:10px;
+  padding:11px;font-size:12px;font-weight:700;color:#fff;
+}
+.pbb-cta-ghost{
+  background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);
+  border-radius:10px;padding:11px 14px;font-size:12px;color:var(--hero-text);
+}
+
+/* ── UTILITY BAR button state demo ─────────────────────── */
+.util-bar-demo{
+  background:var(--card);border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  padding:8px 14px;display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;
+  margin-bottom:12px;
+}
+.util-bar-demo::-webkit-scrollbar{display:none}
+.ubtn{
+  flex-shrink:0;border-radius:20px;padding:7px 13px;font-size:11px;font-weight:600;
+  border:none;white-space:nowrap;
+}
+.ubtn.pink-active{background:var(--pink);color:#fff}
+.ubtn.dark{background:var(--dark);color:var(--hero-text)}
+.ubtn.ghost{background:var(--card);border:1.5px solid var(--border);color:var(--dark)}
+
+</style>
+</head>
+<body>
+
+<!-- SCREEN SWITCHER (prototype nav) -->
+<div class="screen-nav" role="navigation" aria-label="Screen switcher">
+  <button class="snav-btn active" onclick="showScreen('a')">A · Kit Listing</button>
+  <button class="snav-btn" onclick="showScreen('b')">B · Kit Detail</button>
+  <button class="snav-btn" onclick="showScreen('c')">C · Checkout</button>
+  <button class="snav-btn" onclick="showScreen('d')">D · Confirmed</button>
+  <button class="snav-btn" onclick="showScreen('e')">E · Article Banner</button>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SCREEN A — KIT LISTING PAGE
+     ═══════════════════════════════════════════════════ -->
+<div class="screen active" id="screen-a">
+
+  <nav class="topnav">
+    <div class="tnav-row">
+      <button class="tnav-back"><span class="tnav-back-arrow">‹</span> Home</button>
+      <span class="tnav-title">Ritual Kits</span>
+      <button class="tnav-cart" aria-label="Cart, 0 items">🛒<span class="cart-badge">0</span></button>
+    </div>
+  </nav>
+
+  <!-- Hero announcement -->
+  <div class="listing-hero">
+    <div class="lh-eyebrow">NOW OPEN FOR PRE-BOOKING · SHIPS BEFORE YOUR RITUAL</div>
+    <h1 class="lh-title">Complete samagri<br>for every puja.</h1>
+    <p class="lh-sub">Ritually correct. Sourced right. Pre-book now — delivered before your festival date.</p>
+    <div class="prebook-strip">
+      <div class="pb-badge"><div class="pb-badge-dot"></div><span class="pb-badge-text">Full price. Ships before the ritual.</span></div>
+      <div class="pb-badge-sep"></div>
+      <div class="pb-badge"><div class="pb-badge-dot"></div><span class="pb-badge-text">48-hr cancellation</span></div>
+      <div class="pb-badge-sep"></div>
+      <div class="pb-badge"><div class="pb-badge-dot"></div><span class="pb-badge-text">13 kits available</span></div>
+    </div>
+  </div>
+
+  <!-- Category tabs -->
+  <div class="cat-tabs">
+    <button class="cat-tab active" onclick="setCatTab(this)">All kits</button>
+    <button class="cat-tab" onclick="setCatTab(this)">Festive Pujans</button>
+    <button class="cat-tab" onclick="setCatTab(this)">Year-round</button>
+    <button class="cat-tab" onclick="setCatTab(this)">Gift Collections</button>
+    <button class="cat-tab" onclick="setCatTab(this)">Havan &amp; Yagna</button>
+  </div>
+
+  <!-- Occasion filter chips -->
+  <div class="filter-wrap">
+    <div class="filter-row">
+      <button class="fchip active" onclick="setChip(this)">All occasions</button>
+      <button class="fchip" onclick="setChip(this)">Navratri</button>
+      <button class="fchip" onclick="setChip(this)">Diwali</button>
+      <button class="fchip" onclick="setChip(this)">Satyanarayan</button>
+      <button class="fchip" onclick="setChip(this)">Ekadashi</button>
+      <button class="fchip" onclick="setChip(this)">All-year</button>
+    </div>
+  </div>
+
+  <!-- Results row -->
+  <div class="results-row">
+    <span class="results-count">13 kits · Pre-booking open</span>
+    <button class="sort-btn">Sort ↕</button>
+  </div>
+
+  <!-- Featured wide card -->
+  <div class="kit-card-wide" onclick="showScreen('b')">
+    <div class="kit-img" style="background:linear-gradient(135deg,#5C2A08,#A06020);width:110px;height:auto;border-radius:0">
+      <div class="kit-ribbon bestseller">Best seller</div>
+      [ KIT IMAGE ]
+    </div>
+    <div class="kit-body" style="padding:12px">
+      <div class="kit-occasion">Navratri · Dussehra</div>
+      <div class="kit-name">Shubh Sampada</div>
+      <div class="kit-items">Premium festive collection · 16 items</div>
+      <div class="kit-price-row">
+        <span class="kit-price">₹2,499</span>
+        <span class="kit-mrp">₹3,200</span>
+        <span class="kit-save">Save ₹701</span>
+      </div>
+      <button class="kit-prebook-btn" onclick="event.stopPropagation();showScreen('c')">Pre-book now →</button>
+      <div class="kit-delivery">🚚 Delivered before 2 October</div>
+    </div>
+  </div>
+
+  <!-- 2-column grid -->
+  <div class="kit-grid">
+
+    <div class="kit-card" onclick="showScreen('b')">
+      <div class="kit-img" style="background:linear-gradient(135deg,#1A2A4A,#3A5A8A)">
+        <div class="kit-ribbon">Pre-book</div>
+        [ IMAGE ]
+      </div>
+      <div class="kit-body">
+        <div class="kit-occasion">Navratri</div>
+        <div class="kit-name">Shakti Aradhana</div>
+        <div class="kit-items">12 items</div>
+        <div class="kit-price-row"><span class="kit-price">₹1,999</span><span class="kit-mrp">₹2,600</span></div>
+        <button class="kit-prebook-btn" onclick="event.stopPropagation();showScreen('c')">Pre-book →</button>
+        <div class="kit-delivery">🚚 Before 2 Oct</div>
+      </div>
+    </div>
+
+    <div class="kit-card" onclick="showScreen('b')">
+      <div class="kit-img" style="background:linear-gradient(135deg,#2A1A4A,#5A2A8A)">
+        <div class="kit-ribbon">Pre-book</div>
+        [ IMAGE ]
+      </div>
+      <div class="kit-body">
+        <div class="kit-occasion">Satyanarayan</div>
+        <div class="kit-name">Tulsi Kalyanam</div>
+        <div class="kit-items">10 items</div>
+        <div class="kit-price-row"><span class="kit-price">₹1,799</span><span class="kit-mrp">₹2,300</span></div>
+        <button class="kit-prebook-btn" onclick="event.stopPropagation();showScreen('c')">Pre-book →</button>
+        <div class="kit-delivery">🚚 Before 15 Oct</div>
+      </div>
+    </div>
+
+    <div class="kit-card" onclick="showScreen('b')">
+      <div class="kit-img" style="background:linear-gradient(135deg,#1A3A1A,#3A6A3A)">
+        <div class="kit-ribbon">Pre-book</div>
+        [ IMAGE ]
+      </div>
+      <div class="kit-body">
+        <div class="kit-occasion">Satyanarayan</div>
+        <div class="kit-name">Satyanarayan Pujan</div>
+        <div class="kit-items">11 items</div>
+        <div class="kit-price-row"><span class="kit-price">₹1,799</span><span class="kit-mrp">₹2,300</span></div>
+        <button class="kit-prebook-btn" onclick="event.stopPropagation();showScreen('c')">Pre-book →</button>
+        <div class="kit-delivery">🚚 Year-round</div>
+      </div>
+    </div>
+
+    <div class="kit-card" onclick="showScreen('b')">
+      <div class="kit-img" style="background:linear-gradient(135deg,#3A1A1A,#6A3A2A)">
+        <div class="kit-ribbon">Pre-book</div>
+        [ IMAGE ]
+      </div>
+      <div class="kit-body">
+        <div class="kit-occasion">Sundarkand Path</div>
+        <div class="kit-name">Sundarkand Path Kit Essentials</div>
+        <div class="kit-items">9 items</div>
+        <div class="kit-price-row"><span class="kit-price">₹2,199</span><span class="kit-mrp">₹2,800</span></div>
+        <button class="kit-prebook-btn" onclick="event.stopPropagation();showScreen('c')">Pre-book →</button>
+        <div class="kit-delivery">🚚 Year-round</div>
+      </div>
+    </div>
+
+    <div class="kit-card" onclick="showScreen('b')">
+      <div class="kit-img" style="background:linear-gradient(135deg,#3A2A08,#7A5A18)">
+        <div class="kit-ribbon">Pre-book</div>
+        [ IMAGE ]
+      </div>
+      <div class="kit-body">
+        <div class="kit-occasion">Havan &amp; Yagna</div>
+        <div class="kit-name">Yajña</div>
+        <div class="kit-items">8 items</div>
+        <div class="kit-price-row"><span class="kit-price">₹1,099</span><span class="kit-mrp">₹1,400</span></div>
+        <button class="kit-prebook-btn" onclick="event.stopPropagation();showScreen('c')">Pre-book →</button>
+        <div class="kit-delivery">🚚 Year-round</div>
+      </div>
+    </div>
+
+    <div class="kit-card" onclick="showScreen('b')">
+      <div class="kit-img" style="background:linear-gradient(135deg,#1A3A3A,#2A6A6A)">
+        <div class="kit-ribbon">Pre-book</div>
+        [ IMAGE ]
+      </div>
+      <div class="kit-body">
+        <div class="kit-occasion">Ekadashi</div>
+        <div class="kit-name">Ekadash</div>
+        <div class="kit-name-hindi">एकादश</div>
+        <div class="kit-items">7 items</div>
+        <div class="kit-price-row"><span class="kit-price">₹799</span><span class="kit-mrp">₹999</span></div>
+        <button class="kit-prebook-btn" onclick="event.stopPropagation();showScreen('c')">Pre-book →</button>
+        <div class="kit-delivery">🚚 Year-round</div>
+      </div>
+    </div>
+
+    <div class="kit-card" onclick="showScreen('b')">
+      <div class="kit-img" style="background:linear-gradient(135deg,#3A1A3A,#6A2A6A)">
+        <div class="kit-ribbon">Pre-book</div>
+        [ IMAGE ]
+      </div>
+      <div class="kit-body">
+        <div class="kit-occasion">Gift · Festive</div>
+        <div class="kit-name">Panch Jyoti Gift Tray</div>
+        <div class="kit-items">5 items · Gift-ready</div>
+        <div class="kit-price-row"><span class="kit-price">₹599</span><span class="kit-mrp">₹799</span></div>
+        <button class="kit-prebook-btn" onclick="event.stopPropagation();showScreen('c')">Pre-book →</button>
+        <div class="kit-delivery">🚚 Year-round</div>
+      </div>
+    </div>
+
+    <div class="kit-card" onclick="showScreen('b')">
+      <div class="kit-img" style="background:linear-gradient(135deg,#1A2A1A,#2A4A2A)">
+        <div class="kit-ribbon">Pre-book</div>
+        [ IMAGE ]
+      </div>
+      <div class="kit-body">
+        <div class="kit-occasion">Navratri</div>
+        <div class="kit-name">Purna Ghatasthapana</div>
+        <div class="kit-items">10 items</div>
+        <div class="kit-price-row"><span class="kit-price">₹999</span><span class="kit-mrp">₹1,299</span></div>
+        <button class="kit-prebook-btn" onclick="event.stopPropagation();showScreen('c')">Pre-book →</button>
+        <div class="kit-delivery">🚚 Before 2 Oct</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SCREEN B — KIT PRODUCT PAGE
+     ═══════════════════════════════════════════════════ -->
+<div class="screen" id="screen-b">
+
+  <nav class="topnav">
+    <div class="tnav-row">
+      <button class="tnav-back" onclick="showScreen('a')"><span class="tnav-back-arrow">‹</span> Ritual Kits</button>
+      <button class="tnav-cart" aria-label="Cart">🛒<span class="cart-badge">0</span></button>
+    </div>
+  </nav>
+
+  <div class="breadcrumb">
+    <span>Home</span><span class="bc-sep"> › </span>
+    <span>Ritual Kits</span><span class="bc-sep"> › </span>
+    <span class="bc-current">Shubh Sampada</span>
+  </div>
+
+  <!-- Product image gallery -->
+  <div class="product-hero" style="background:linear-gradient(155deg,#5C2A08 0%,#A06020 50%,#3A1208 100%)">
+    [ KIT PRODUCT PHOTOGRAPHY · Multiple angles ]
+    <div class="hero-gallery-dots">
+      <div class="gdot active"></div>
+      <div class="gdot"></div>
+      <div class="gdot"></div>
+    </div>
+  </div>
+
+  <!-- Identity -->
+  <div class="product-id">
+    <div class="product-occasion">For Navratri · Dussehra · October 2026</div>
+    <div class="product-name">Shubh Sampada</div>
+    <div class="product-name-hindi">शुभ सम्पदा — Auspicious Abundance</div>
+    <p class="product-tagline">"A complete offering for nine nights of Shakti worship — every item chosen for ritual integrity, not convenience."</p>
+  </div>
+
+  <!-- Pricing -->
+  <div class="pricing-block">
+    <div class="price-row">
+      <span class="price-main">₹2,499</span>
+      <span class="price-mrp">₹3,200 MRP</span>
+      <span class="price-save">Save ₹701</span>
+    </div>
+    <div class="price-note">Pre-booking price · Full amount collected now · Ships before Navratri</div>
+  </div>
+
+  <!-- Delivery promise -->
+  <div class="delivery-promise">
+    <span class="dp-icon">🚚</span>
+    <div>
+      <div class="dp-title">Delivered before Navratri begins</div>
+      <div class="dp-sub">Your kit will arrive before 2 October 2026 — the first day of Navratri. Enough time to review every item before Ghatasthapana.</div>
+      <div class="dp-city">📍 Delhi-NCR: by 30 Sept · Other cities: by 1 Oct</div>
+    </div>
+  </div>
+
+  <!-- Cancellation note -->
+  <div class="cancel-note">
+    <span class="cancel-note-icon">🔄</span>
+    <span class="cancel-note-text">
+      Free cancellation within 48 hours of pre-booking.
+      <span class="cancel-note-link">Cancellation policy →</span>
+    </span>
+  </div>
+
+  <div class="prod-divider"></div>
+
+  <!-- Contents -->
+  <div class="contents-head">
+    <span class="contents-label">What's in this kit</span>
+    <span class="contents-count">16 items</span>
+  </div>
+  <div class="contents-list">
+    <div class="content-item"><div class="content-bullet"></div><span class="content-name">Gangajal (250 ml)</span><span class="content-purpose">For abhishek</span></div>
+    <div class="content-item"><div class="content-bullet"></div><span class="content-name">Sindoor</span><span class="content-purpose">For Devi offering</span></div>
+    <div class="content-item"><div class="content-bullet"></div><span class="content-name">Kumkum (30 g)</span><span class="content-purpose">Tilak and offering</span></div>
+    <div class="content-item"><div class="content-bullet"></div><span class="content-name">Kalash (brass, 6")</span><span class="content-purpose">Ghatasthapana vessel</span></div>
+    <div class="content-item"><div class="content-bullet"></div><span class="content-name">Mango leaves (11)</span><span class="content-purpose">Kalash adornment</span></div>
+    <div class="content-item"><div class="content-bullet"></div><span class="content-name">Coconut (1)</span><span class="content-purpose">Kalash top</span></div>
+    <div class="content-item"><div class="content-bullet"></div><span class="content-name">Jau (barley seeds, 100 g)</span><span class="content-purpose">Sowing for Navratri</span></div>
+    <div class="content-item"><div class="content-bullet"></div><span class="content-name">Akshata (coloured rice)</span><span class="content-purpose">For puja offerings</span></div>
+    <div class="content-item"><div class="content-bullet"></div><span class="content-name">Panchamrit ingredients</span><span class="content-purpose">Milk, curd, honey, ghee, sugar</span></div>
+    <div class="content-item"><div class="content-bullet"></div><span class="content-name">Incense — Mogra (10 sticks)</span><span class="content-purpose">Daily puja</span></div>
+    <div class="content-item"><div class="content-bullet"></div><span class="content-name">Deepak (clay, set of 9)</span><span class="content-purpose">Nine nights lighting</span></div>
+    <div class="content-item"><div class="content-bullet"></div><span class="content-name">Ghee (50 g)</span><span class="content-purpose">Deepak fuel</span></div>
+    <div class="content-item"><div class="content-bullet"></div><span class="content-name">Red cloth (1 yard)</span><span class="content-purpose">Altar dressing</span></div>
+    <div class="content-item"><div class="content-bullet"></div><span class="content-name">Red flowers (dried)</span><span class="content-purpose">Devi offering</span></div>
+    <div class="content-item"><div class="content-bullet"></div><span class="content-name">Durva grass</span><span class="content-purpose">Ganesh puja</span></div>
+    <div class="content-item"><div class="content-bullet"></div><span class="content-name">Ritual card — Navratri Ghatasthapana</span><span class="content-purpose">Step-by-step vidhi inside the kit</span></div>
+  </div>
+
+  <!-- Dharma note on kit -->
+  <div class="kit-dharma-note">
+    <span class="kdn-icon">🛡</span>
+    <span class="kdn-text"><strong>Every item in this kit is included for a reason.</strong> The sourcing list, the quantities, and the purposes are verified against the Navratri Ghatasthapana vidhi. No filler. No generic puja items added for weight.</span>
+  </div>
+
+  <div class="prod-divider"></div>
+
+  <!-- Qty + CTA (sticky) -->
+  <div style="height:80px"></div>
+  <div class="qty-cta-wrap">
+    <div class="qty-control">
+      <button class="qty-btn" onclick="changeQty(-1)">−</button>
+      <span class="qty-num" id="qty">1</span>
+      <button class="qty-btn" onclick="changeQty(1)">+</button>
+    </div>
+    <button class="prebook-main-btn" onclick="showScreen('c')">
+      <span class="pmb-top">Pre-book now — ₹2,499</span>
+      <span class="pmb-sub">Ships before Navratri · 48-hr cancellation</span>
+    </button>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SCREEN C — CHECKOUT
+     ═══════════════════════════════════════════════════ -->
+<div class="screen" id="screen-c">
+
+  <nav class="topnav">
+    <div class="tnav-row">
+      <button class="tnav-back" onclick="showScreen('b')"><span class="tnav-back-arrow">‹</span> Kit details</button>
+      <span class="tnav-title">Pre-book</span>
+      <div style="width:36px"></div>
+    </div>
+  </nav>
+
+  <div class="checkout-wrap">
+
+    <!-- Order summary bar -->
+    <div class="order-summary-bar">
+      <div class="osb-img" style="background:linear-gradient(135deg,#5C2A08,#A06020)">[ img ]</div>
+      <div class="osb-body">
+        <div class="osb-name">Shubh Sampada</div>
+        <div class="osb-meta">For Navratri · 16 items · Qty 1</div>
+      </div>
+      <div class="osb-price">₹2,499</div>
+    </div>
+
+    <!-- Delivery promise compact -->
+    <div class="checkout-promise">
+      <span class="cp-icon">🚚</span>
+      <span class="cp-text">Delivered before 2 October · Delhi-NCR by 30 Sept</span>
+    </div>
+
+    <!-- Address -->
+    <div class="form-section">
+      <div class="form-label">DELIVER TO</div>
+
+      <div class="form-field">
+        <div class="field-label">Your name</div>
+        <input class="field-input" type="text" placeholder="Full name" value="Priya Sharma">
+      </div>
+
+      <div class="form-field">
+        <div class="field-label">Mobile number</div>
+        <input class="field-input" type="tel" placeholder="+91" value="+91 98765 43210">
+      </div>
+
+      <div class="form-field">
+        <div class="field-label">House / Flat / Building</div>
+        <input class="field-input" type="text" placeholder="House no., flat, building name">
+      </div>
+
+      <div class="form-field">
+        <div class="field-label">Area / Colony / Street</div>
+        <input class="field-input" type="text" placeholder="Area, colony, street">
+      </div>
+
+      <div class="form-field field-row">
+        <div>
+          <div class="field-label">City</div>
+          <input class="field-input" type="text" placeholder="City" value="New Delhi">
+        </div>
+        <div>
+          <div class="field-label">State</div>
+          <input class="field-input" type="text" placeholder="State" value="Delhi">
+        </div>
+      </div>
+
+      <div class="form-field">
+        <div class="field-label">Pincode</div>
+        <div class="pincode-wrap">
+          <input class="field-input" type="text" placeholder="6-digit pincode" value="110001" id="pincode">
+          <button class="pincode-check-btn" onclick="checkPincode()">Check</button>
+        </div>
+        <div class="pincode-result ok" id="pincodeResult">✓ Delivered by 30 September to 110001</div>
+      </div>
+
+      <div class="save-toggle">
+        <input type="checkbox" id="saveAddr" checked>
+        <label for="saveAddr">Save this address for next time</label>
+      </div>
+    </div>
+
+    <!-- Payment -->
+    <div class="form-section" style="margin-top:16px">
+      <div class="form-label">PAY WITH</div>
+      <div class="payment-options">
+
+        <div class="pay-option selected" onclick="selectPay(this)">
+          <div class="pay-radio checked"></div>
+          <span class="pay-label">UPI</span>
+          <div class="pay-logos">
+            <span class="pay-logo-pill">GPay</span>
+            <span class="pay-logo-pill">PhonePe</span>
+            <span class="pay-logo-pill">Paytm</span>
+          </div>
+        </div>
+
+        <div class="pay-option" onclick="selectPay(this)">
+          <div class="pay-radio"></div>
+          <span class="pay-label">Credit / Debit card</span>
+        </div>
+
+        <div class="pay-option" onclick="selectPay(this)">
+          <div class="pay-radio"></div>
+          <span class="pay-label">Net banking</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Cancellation policy -->
+    <div class="cancel-policy-box">
+      <div class="cpb-title">🔄 Pre-booking cancellation policy</div>
+      <div class="cpb-text">
+        You can cancel this pre-booking within <span class="cpb-highlight">48 hours</span> of placing it for a full refund. After 48 hours, the pre-booking is final and cannot be cancelled, as we begin sourcing and assembling your kit. Refunds are processed within 5–7 business days.
+      </div>
+    </div>
+
+    <!-- Spacer for sticky footer -->
+    <div style="height:100px"></div>
+
+  </div>
+
+  <!-- Sticky checkout CTA -->
+  <div class="checkout-sticky">
+    <div class="checkout-total-row">
+      <span class="checkout-total-label">Total (incl. delivery)</span>
+      <span class="checkout-total-val">₹2,499</span>
+    </div>
+    <button class="checkout-pay-btn" onclick="showScreen('d')">
+      Confirm &amp; pay — ₹2,499
+    </button>
+    <div class="checkout-terms">
+      By pre-booking you agree to our <u>Terms of Service</u>, <u>Privacy Policy</u>, and <u>Cancellation Policy</u>.
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SCREEN D — ORDER CONFIRMED
+     ═══════════════════════════════════════════════════ -->
+<div class="screen" id="screen-d">
+
+  <nav class="topnav">
+    <div class="tnav-row">
+      <div style="width:36px"></div>
+      <span class="tnav-title">Pre-booking confirmed</span>
+      <div style="width:36px"></div>
+    </div>
+  </nav>
+
+  <div class="confirmed-wrap">
+
+    <!-- Success band -->
+    <div class="success-band">
+      <div class="success-icon">✓</div>
+      <h1 class="success-title">Pre-booking placed</h1>
+      <p class="success-sub">Your Shubh Sampada kit is reserved.<br>It will be with you before Navratri.</p>
+      <div class="success-order-id">TK-2026-0147</div>
+    </div>
+
+    <!-- Delivery card -->
+    <div class="delivery-card">
+      <div class="dc-head">
+        <span class="dc-head-icon">🚚</span>
+        <span class="dc-head-text">Your kit · delivery details</span>
+      </div>
+      <div class="dc-body">
+        <div class="dc-row"><span class="dc-key">Kit</span><span class="dc-val">Shubh Sampada · 16 items</span></div>
+        <div class="dc-row"><span class="dc-key">For</span><span class="dc-val">Navratri Ghatasthapana · 2 October</span></div>
+        <div class="dc-row"><span class="dc-key">Deliver to</span><span class="dc-val">Priya Sharma · 110001, New Delhi</span></div>
+        <div class="dc-row"><span class="dc-key">Expected delivery</span><span class="dc-val" style="color:var(--green-text);font-weight:700">By 30 September 2026</span></div>
+        <div class="dc-row"><span class="dc-key">Amount paid</span><span class="dc-val">₹2,499</span></div>
+      </div>
+    </div>
+
+    <!-- What happens next -->
+    <div class="next-steps">
+      <div class="ns-title">What happens next</div>
+
+      <div class="ns-step">
+        <div class="ns-num">1</div>
+        <div class="ns-text">
+          You'll receive a confirmation
+          <span class="ns-channel sms">SMS</span>
+          <span class="ns-channel wa">💬 WhatsApp</span>
+          within 5 minutes with your order details and delivery date.
+        </div>
+      </div>
+
+      <div class="ns-step">
+        <div class="ns-num">2</div>
+        <div class="ns-text">We begin sourcing and assembling your kit by 15 September. Each item is verified before packing.</div>
+      </div>
+
+      <div class="ns-step">
+        <div class="ns-num">3</div>
+        <div class="ns-text">
+          Your kit is dispatched by 27 September. You'll get a
+          <span class="ns-channel sms">SMS</span>
+          with the tracking link.
+        </div>
+      </div>
+
+      <div class="ns-step">
+        <div class="ns-num">4</div>
+        <div class="ns-text">Kit arrives by 30 September — with the Navratri Ghatasthapana ritual card inside. Your puja is ready.</div>
+      </div>
+
+    </div>
+
+    <!-- 48-hr cancellation reminder -->
+    <div class="cancel-reminder">
+      <span class="cr-icon">🔄</span>
+      <div>
+        <div class="cr-title">48-hour cancellation window</div>
+        <div class="cr-text">
+          You can cancel this pre-booking for a full refund until
+          <span class="cr-link">17 August 2026, 11:42 am</span>.
+          After that, cancellation is not possible as we begin sourcing your kit.
+        </div>
+      </div>
+    </div>
+
+    <!-- WA nudge — highest intent moment -->
+    <div class="wa-nudge-confirmed">
+      <div class="wanc-top">
+        <span class="wanc-icon">💬</span>
+        <div>
+          <div class="wanc-title">Stay close to your practice</div>
+          <div class="wanc-sub">Get reminders for Navratri prep, the vidhi on the morning of Ghatasthapana, and every ritual after it.</div>
+        </div>
+      </div>
+      <button class="wanc-btn">Join The Tapa Circle — ₹499/year</button>
+      <div class="wanc-price">First 100 subscribers free · Weekly Panchang + vrat reminders</div>
+    </div>
+
+    <button class="back-home-btn" onclick="showScreen('a')">← Back to home</button>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SCREEN E — ARTICLE INLINE BANNER
+     Shows how the pre-booking surfaces inside an article
+     ═══════════════════════════════════════════════════ -->
+<div class="screen" id="screen-e">
+
+  <nav class="topnav">
+    <div class="tnav-row">
+      <button class="tnav-back"><span class="tnav-back-arrow">‹</span> Ritual Guides</button>
+      <span class="tnav-title" style="font-size:12px">Navratri Ghatasthapana</span>
+      <button style="background:none;border:none;font-size:20px">🔖</button>
+    </div>
+  </nav>
+
+  <!-- Utility bar — showing ACTIVATED state -->
+  <div style="padding:6px 0 4px;background:var(--card);border-bottom:1px solid var(--border)">
+    <div style="padding:0 14px 3px;font-size:9px;font-weight:700;color:var(--amber-text);letter-spacing:.4px">ENTRY POINT 1 — Utility bar: 'Buy Ritual Kit' activates on August 15</div>
+    <div class="util-bar-demo">
+      <button class="ubtn pink-active" onclick="showScreen('b')">🛒 Pre-book Ritual Kit →</button>
+      <button class="ubtn dark">🙏 Book Purohit</button>
+      <button class="ubtn ghost">⬇ Download</button>
+      <button class="ubtn ghost">💬 WhatsApp</button>
+      <button class="ubtn ghost">🔖 Save</button>
+    </div>
+  </div>
+
+  <!-- Simulated article content -->
+  <div class="article-context" style="padding-top:14px">
+
+    <!-- Context text -->
+    <div style="font-size:12px;color:var(--sub-text);padding:0 0 8px;font-style:italic">↓ Article content — scrolling down to the samagri section...</div>
+
+    <!-- Samagri checklist -->
+    <div class="art-section-head"><span class="art-plus">+</span> What you'll need</div>
+
+    <div class="art-samagri">
+      <div class="art-samagri-head">
+        <span class="art-samagri-label">Samagri checklist</span>
+        <span class="art-samagri-count">16 items</span>
+      </div>
+      <label class="art-sam-item"><input type="checkbox" class="art-sam-cb"><span class="art-sam-label">Gangajal (250 ml)</span><span class="art-sam-note">Abhishek</span></label>
+      <label class="art-sam-item"><input type="checkbox" class="art-sam-cb"><span class="art-sam-label">Kalash (brass)</span><span class="art-sam-note">Ghatasthapana</span></label>
+      <label class="art-sam-item"><input type="checkbox" class="art-sam-cb"><span class="art-sam-label">Mango leaves (11)</span><span class="art-sam-note">Kalash adornment</span></label>
+      <label class="art-sam-item"><input type="checkbox" class="art-sam-cb"><span class="art-sam-label">Jau (barley seeds)</span><span class="art-sam-note">For sowing</span></label>
+      <label class="art-sam-item" style="border-bottom:none"><input type="checkbox" class="art-sam-cb"><span class="art-sam-label" style="color:var(--sub-text)">+ 12 more items in this kit</span></label>
+    </div>
+
+    <!-- ENTRY POINT 2 — Pre-booking banner, immediately after samagri -->
+    <div style="font-size:9px;font-weight:700;color:var(--amber-text);letter-spacing:.4px;padding-bottom:6px">ENTRY POINT 2 — Pre-booking banner, appears immediately after the samagri checklist</div>
+
+    <div class="prebook-banner">
+      <div class="pbb-head">
+        <span class="pbb-label">🛒 RITUAL KIT · NOW AVAILABLE FOR PRE-BOOKING</span>
+        <span class="pbb-delivery-badge">Ships before Navratri</span>
+      </div>
+      <div class="pbb-body">
+        <div class="pbb-kit-row">
+          <div class="pbb-kit-thumb" style="background:linear-gradient(135deg,#5C2A08,#A06020)">[ img ]</div>
+          <div class="pbb-kit-info">
+            <div class="pbb-kit-name">Shubh Sampada</div>
+            <div class="pbb-kit-occasion">For Navratri Ghatasthapana · 16 items</div>
+          </div>
+        </div>
+        <div class="pbb-price-row">
+          <span class="pbb-price">₹2,499</span>
+          <span class="pbb-mrp">₹3,200</span>
+          <span class="pbb-save">Save ₹701</span>
+        </div>
+        <div class="pbb-items" style="margin-top:4px">Gangajal · Kalash · Mango leaves · Jau · Deepak (9) + 11 more</div>
+        <div class="pbb-promise">
+          <span class="pbb-promise-icon">🚚</span>
+          <span class="pbb-promise-text">Delivered before <strong>2 October</strong> — the first day of Navratri. Full refund if cancelled within 48 hours.</span>
+        </div>
+        <div class="pbb-cta-row">
+          <button class="pbb-cta-main" onclick="showScreen('b')">Pre-book this kit — ₹2,499</button>
+          <button class="pbb-cta-ghost" onclick="showScreen('b')">View kit →</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="font-size:11px;color:var(--sub-text);line-height:1.7;padding-bottom:20px">
+      ↓ Article continues below — myths, intelligence layer, related pujans, WA nudge...
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ── Screen switcher ──────────────────────────────────────
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.snav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+  document.querySelectorAll('.snav-btn')[['a','b','c','d','e'].indexOf(id)].classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// ── Category tabs ────────────────────────────────────────
+function setCatTab(el) {
+  document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ── Filter chips ─────────────────────────────────────────
+function setChip(el) {
+  document.querySelectorAll('.fchip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ── Qty control ──────────────────────────────────────────
+function changeQty(delta) {
+  const el = document.getElementById('qty');
+  const n = Math.max(1, Math.min(5, parseInt(el.textContent) + delta));
+  el.textContent = n;
+  const price = 2499 * n;
+  document.querySelector('.pmb-top').textContent = `Pre-book now — ₹${price.toLocaleString('en-IN')}`;
+}
+
+// ── Payment option select ────────────────────────────────
+function selectPay(el) {
+  document.querySelectorAll('.pay-option').forEach(o => {
+    o.classList.remove('selected');
+    o.querySelector('.pay-radio').classList.remove('checked');
+    o.querySelector('.pay-radio').innerHTML = '';
+  });
+  el.classList.add('selected');
+  const r = el.querySelector('.pay-radio');
+  r.classList.add('checked');
+}
+
+// ── Pincode check ─────────────────────────────────────────
+function checkPincode() {
+  const val = document.getElementById('pincode').value;
+  const res = document.getElementById('pincodeResult');
+  if (val.length === 6) {
+    res.className = 'pincode-result ok';
+    res.textContent = `✓ Delivered by 30 September to ${val}`;
+  } else {
+    res.className = 'pincode-result fail';
+    res.textContent = 'Please enter a valid 6-digit pincode';
+  }
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Shubh Sampada — Ritual Kit · The Tapa Co.</title>
+<style>
+
+/* ============================================================
+   THE TAPA CO. — PRODUCT DETAIL PAGE (PDP)
+   Kit: Shubh Sampada · Navratri · ₹2,749 · 16 items
+   Mobile-first · 390px · Complete scroll
+   ============================================================
+
+   SCROLL ORDER:
+   1.  Topbar (sticky, dark)
+   2.  Hero (full-width image, 310px, gallery)
+   3.  Identity band (overlay on hero — name, hindi, price)
+   4.  Utility bar (Add to cart · Buy now · Guide · WA · Download · Share)
+   5.  Low stock warning
+   6.  Trust pills
+   7.  Pincode check
+   8.  Delivery promise
+   9.  Exchange policy strip
+   10. Contents (5 visible, expand to 16)
+   11. Guide nudge card
+   12. WhatsApp nudge card
+   13. Dharma note (brand closer)
+   14. Related kits (You may also need)
+   15. Occasion guides
+   16. Deity cluster guides
+   17. Chat CTA (WhatsApp support)
+   18. Footer
+*/
+
+:root {
+  --bg:           #F2EDE4;
+  --card:         #FFFFFF;
+  --dark:         #1C1712;
+  --pink:         #D4175A;
+  --amber:        #E8A020;
+  --amber-light:  #FFF8E8;
+  --amber-border: #E8D8A0;
+  --amber-text:   #8B6914;
+  --gold:         #E3B567;
+  --body-text:    #2C2010;
+  --mid-text:     #5C4B12;
+  --sub-text:     #8A7A68;
+  --border:       #E8E0D0;
+  --border-light: #F0E8D8;
+  --green-bg:     #EBF5EC;
+  --green-text:   #1A5C28;
+  --green-border: #C5DFB8;
+  --red-light:    #FEF0F4;
+  --hero-text:    #FFFDF5;
+  --hero-sub:     #C4A882;
+  --wa-green:     #22C35E;
+}
+
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0 }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth }
+body {
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--body-text);
+  font-size: 13px;
+  line-height: 1.5;
+  max-width: 390px;
+  margin: 0 auto;
+  -webkit-font-smoothing: antialiased;
+  padding-bottom: 96px;
+}
+button { font-family: inherit; cursor: pointer }
+a { text-decoration: none; color: inherit }
+input { font-family: inherit }
+
+/* ── 1. TOPBAR ───────────────────────────────────────────── */
+.topbar {
+  background: var(--dark);
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 48px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.tb-back {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  color: var(--hero-sub);
+  background: none;
+  border: none;
+  padding: 0;
+}
+.tb-back-arrow { font-size: 20px; color: var(--gold) }
+.tb-right { display: flex; gap: 7px; align-items: center }
+.tb-btn {
+  width: 34px; height: 34px;
+  border-radius: 9px;
+  background: rgba(255,255,255,.08);
+  border: 0.5px solid rgba(255,255,255,.14);
+  display: flex; align-items: center; justify-content: center;
+}
+.tb-btn-icon { font-size: 16px; color: var(--hero-sub) }
+.cart-rel { position: relative }
+.cart-badge {
+  position: absolute; top: -4px; right: -4px;
+  width: 15px; height: 15px;
+  border-radius: 50%;
+  background: var(--pink);
+  border: 1.5px solid var(--dark);
+  font-size: 8px; font-weight: 700; color: #fff;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ── 2. HERO ─────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  background: #2A1208;
+  overflow: hidden;
+}
+.hero-img {
+  height: 310px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+}
+.hero-placeholder {
+  text-align: center;
+  opacity: .18;
+}
+.hero-placeholder-icon { font-size: 52px; display: block; margin-bottom: 8px }
+.hero-placeholder-lbl {
+  font-size: 9px; color: #fff; letter-spacing: .5px;
+  line-height: 1.7; max-width: 200px; margin: 0 auto;
+}
+.hero-top {
+  position: absolute; top: 0; left: 0; right: 0;
+  padding: 12px 14px;
+  display: flex; align-items: center; justify-content: space-between;
+  z-index: 3;
+}
+.best-pill {
+  background: var(--pink); color: #fff;
+  font-size: 9px; font-weight: 700;
+  padding: 4px 11px; border-radius: 5px;
+  letter-spacing: .3px;
+}
+.low-stock-pill {
+  background: #F4A520; color: var(--dark);
+  font-size: 9px; font-weight: 700;
+  padding: 4px 11px; border-radius: 5px;
+}
+.gallery-dots { display: flex; gap: 5px }
+.gdot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.3);
+  cursor: pointer;
+  transition: all .15s;
+}
+.gdot.on { background: #fff; width: 16px; border-radius: 3px }
+
+/* ── 3. IDENTITY BAND (overlay) ──────────────────────────── */
+.identity-band {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 32px 16px 14px;
+  background: linear-gradient(to top,
+    rgba(28,23,18,1) 0%,
+    rgba(28,23,18,.94) 55%,
+    rgba(28,23,18,0) 100%);
+  z-index: 3;
+}
+.id-occ {
+  font-size: 9px; font-weight: 700;
+  color: var(--gold); letter-spacing: .6px;
+  text-transform: uppercase; margin-bottom: 3px;
+}
+.id-name {
+  font-size: 22px; font-weight: 700;
+  color: var(--hero-text); line-height: 1.15;
+  margin-bottom: 1px;
+}
+.id-hindi {
+  font-size: 11px; color: var(--hero-sub);
+  margin-bottom: 10px;
+}
+.id-price-row { display: flex; align-items: baseline; gap: 8px }
+.id-price { font-size: 22px; font-weight: 700; color: var(--hero-text) }
+.id-mrp { font-size: 11px; color: var(--sub-text); text-decoration: line-through }
+.id-save {
+  font-size: 9px; font-weight: 700;
+  color: var(--green-text);
+  background: var(--green-bg);
+  padding: 2px 7px; border-radius: 3px;
+}
+
+/* ── 4. UTILITY BAR ──────────────────────────────────────── */
+.util-bar {
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 14px;
+  display: flex;
+  gap: 7px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  align-items: center;
+}
+.util-bar::-webkit-scrollbar { display: none }
+
+.util-cart {
+  flex-shrink: 0;
+  background: var(--pink); border: none;
+  border-radius: 10px;
+  padding: 0 18px; height: 44px;
+  display: flex; align-items: center; gap: 6px;
+  font-size: 13px; font-weight: 700; color: #fff;
+  white-space: nowrap;
+}
+.util-buy {
+  flex-shrink: 0;
+  background: var(--card);
+  border: 1.5px solid var(--dark);
+  border-radius: 10px;
+  padding: 0 14px; height: 44px;
+  display: flex; align-items: center; gap: 5px;
+  font-size: 12px; font-weight: 600; color: var(--dark);
+  white-space: nowrap;
+}
+.util-sep {
+  width: 1px; height: 28px;
+  background: var(--border);
+  flex-shrink: 0; margin: 0 2px;
+}
+.util-sec {
+  flex-shrink: 0;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 3px;
+  padding: 6px 10px; height: 44px;
+  justify-content: center;
+  border: 0.5px solid var(--border);
+  border-radius: 10px;
+  background: var(--card);
+  min-width: 56px;
+}
+.util-sec-icon { font-size: 16px; color: var(--pink) }
+.util-sec-icon.wa { color: var(--wa-green) }
+.util-sec-icon.neutral { color: var(--sub-text) }
+.util-sec-label { font-size: 9px; font-weight: 600; color: var(--mid-text); white-space: nowrap }
+
+/* ── 5. LOW STOCK ────────────────────────────────────────── */
+.low-bar {
+  background: #FFF0D4;
+  border: 0.5px solid #F4A520;
+  border-radius: 10px;
+  padding: 9px 13px;
+  margin: 12px 14px 0;
+  display: flex; align-items: center; gap: 8px;
+}
+.low-bar-icon { font-size: 15px; color: #8B4A00; flex-shrink: 0 }
+.low-bar-text { font-size: 11px; font-weight: 700; color: #8B4A00; flex: 1 }
+.low-bar-cta {
+  font-size: 10px; font-weight: 700;
+  color: var(--pink);
+  background: none; border: none;
+  flex-shrink: 0; white-space: nowrap;
+}
+
+/* ── 6. TRUST PILLS ──────────────────────────────────────── */
+.trust-row {
+  display: flex; gap: 6px;
+  overflow-x: auto; scrollbar-width: none;
+  padding: 12px 14px 0;
+}
+.trust-row::-webkit-scrollbar { display: none }
+.tpill {
+  flex-shrink: 0;
+  display: flex; align-items: center; gap: 4px;
+  background: var(--card);
+  border: 0.5px solid var(--border);
+  border-radius: 20px;
+  padding: 5px 10px;
+  font-size: 10px; color: var(--mid-text);
+  font-weight: 500; white-space: nowrap;
+}
+.tpill-icon { font-size: 12px; color: var(--amber-text) }
+
+/* ── 7. PINCODE ──────────────────────────────────────────── */
+.pin-card {
+  background: var(--card);
+  border: 0.5px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 13px;
+  margin: 12px 14px 0;
+}
+.pin-row {
+  display: flex; gap: 6px; align-items: center;
+  margin-bottom: 8px;
+}
+.pin-label {
+  font-size: 11px; font-weight: 700; color: var(--body-text);
+  display: flex; align-items: center; gap: 4px; white-space: nowrap;
+}
+.pin-label-icon { font-size: 12px; color: var(--pink) }
+.pin-input {
+  flex: 1; height: 34px; min-width: 0;
+  background: var(--bg);
+  border: 0.5px solid var(--border);
+  border-radius: 8px;
+  padding: 0 10px;
+  font-size: 13px; color: var(--body-text);
+  outline: none; transition: border-color .15s;
+}
+.pin-input:focus { border-color: var(--pink) }
+.pin-go {
+  height: 34px;
+  background: var(--pink); border: none;
+  border-radius: 8px;
+  padding: 0 13px;
+  font-size: 11px; font-weight: 700; color: #fff;
+  flex-shrink: 0;
+}
+.pin-result {
+  font-size: 11px; padding: 7px 9px;
+  border-radius: 7px;
+  display: flex; align-items: center; gap: 6px;
+}
+.pin-result.ok { background: var(--green-bg); color: var(--green-text) }
+.pin-result.fail { background: var(--red-light); color: var(--pink) }
+.pin-result-icon { font-size: 14px; flex-shrink: 0 }
+
+/* ── 8. DELIVERY ─────────────────────────────────────────── */
+.delivery-card {
+  background: var(--green-bg);
+  border: 0.5px solid var(--green-text);
+  border-radius: 12px;
+  padding: 12px 13px;
+  margin: 10px 14px 0;
+  display: flex; gap: 9px; align-items: flex-start;
+}
+.del-icon { font-size: 18px; color: var(--green-text); flex-shrink: 0; margin-top: 1px }
+.del-title { font-size: 12px; font-weight: 700; color: var(--green-text); margin-bottom: 3px }
+.del-sub { font-size: 11px; color: var(--body-text); line-height: 1.65 }
+.del-city { font-size: 10px; color: var(--mid-text); margin-top: 3px }
+
+/* ── 9. EXCHANGE STRIP ───────────────────────────────────── */
+.exc-strip {
+  background: var(--amber-light);
+  border-top: 0.5px solid var(--amber-border);
+  border-bottom: 0.5px solid var(--amber-border);
+  padding: 9px 14px;
+  margin: 10px 0 0;
+  display: flex; gap: 8px; align-items: flex-start;
+}
+.exc-icon { font-size: 13px; color: var(--amber-text); flex-shrink: 0; margin-top: 1px }
+.exc-text { font-size: 10px; color: var(--mid-text); line-height: 1.6 }
+.exc-link { color: var(--pink); font-weight: 600 }
+
+/* ── SHARED SECTION HEADING ──────────────────────────────── */
+.sec-head {
+  padding: 16px 14px 10px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.sec-title {
+  font-size: 13px; font-weight: 700; color: var(--body-text);
+  display: flex; align-items: center; gap: 5px;
+}
+.sec-plus { color: var(--pink); font-size: 15px; font-weight: 700 }
+.sec-meta { font-size: 11px; color: var(--sub-text) }
+.sec-link-btn {
+  font-size: 11px; color: var(--pink); font-weight: 500;
+  background: none; border: none;
+}
+
+/* ── 10. CONTENTS ────────────────────────────────────────── */
+.contents-card {
+  background: var(--card);
+  border: 0.5px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 0 14px;
+}
+.contents-hd {
+  padding: 10px 13px;
+  border-bottom: 0.5px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.contents-hd-l { font-size: 12px; font-weight: 700; color: var(--body-text) }
+.contents-hd-r { font-size: 10px; color: var(--sub-text); font-style: italic }
+.c-item {
+  padding: 9px 13px;
+  border-bottom: 0.5px solid var(--border-light);
+  display: flex; align-items: center; gap: 9px;
+}
+.c-item:last-child { border-bottom: none }
+.c-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--amber); flex-shrink: 0 }
+.c-name { font-size: 12px; color: var(--body-text); flex: 1; font-weight: 500 }
+.c-purpose { font-size: 10px; color: var(--sub-text) }
+.show-more-row {
+  padding: 10px 13px;
+  text-align: center;
+  border-top: 0.5px solid var(--border);
+  background: #FAFAF8;
+}
+.show-more-btn {
+  font-size: 11px; font-weight: 600; color: var(--pink);
+  background: none; border: none;
+  display: inline-flex; align-items: center; gap: 4px;
+}
+.show-more-icon { font-size: 12px; display: inline-block; transition: transform .2s }
+.show-more-btn.open .show-more-icon { transform: rotate(180deg) }
+
+/* ── 11. GUIDE NUDGE ─────────────────────────────────────── */
+.guide-nudge {
+  background: var(--red-light);
+  border: 0.5px solid #F0B8CC;
+  border-radius: 12px;
+  padding: 13px 14px;
+  margin: 0 14px;
+  display: flex; gap: 11px; align-items: center;
+  cursor: pointer;
+}
+.gn-icon-wrap {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  background: var(--pink);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.gn-icon { font-size: 20px; color: #fff }
+.gn-body { flex: 1 }
+.gn-title { font-size: 12px; font-weight: 700; color: #5C1A30; margin-bottom: 2px }
+.gn-sub { font-size: 10px; color: #A0324A; line-height: 1.55 }
+.gn-arrow { font-size: 18px; color: #F0B8CC; flex-shrink: 0 }
+
+/* ── 12. WHATSAPP NUDGE ──────────────────────────────────── */
+.wa-nudge {
+  background: var(--dark);
+  border-radius: 12px;
+  padding: 14px;
+  margin: 0 14px;
+  display: flex; gap: 11px; align-items: center;
+  cursor: pointer;
+}
+.wan-icon-wrap {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  background: var(--wa-green);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.wan-icon { font-size: 20px; color: #fff }
+.wan-body { flex: 1 }
+.wan-title { font-size: 12px; font-weight: 700; color: var(--hero-text); margin-bottom: 2px }
+.wan-sub { font-size: 10px; color: var(--sub-text); line-height: 1.55 }
+.wan-arrow { font-size: 18px; color: #3A3028; flex-shrink: 0 }
+
+/* ── 13. DHARMA NOTE ─────────────────────────────────────── */
+.dharma-card {
+  background: var(--dark);
+  border-radius: 14px;
+  padding: 16px 14px;
+  margin: 0 14px;
+}
+.dharma-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: rgba(227,181,103,.15);
+  border: 0.5px solid rgba(227,181,103,.25);
+  border-radius: 5px;
+  padding: 3px 9px;
+  font-size: 9px; font-weight: 700; color: var(--gold);
+  letter-spacing: .4px; margin-bottom: 10px;
+}
+.dharma-badge-icon { font-size: 10px }
+.dharma-title { font-size: 14px; font-weight: 700; color: var(--hero-text); margin-bottom: 7px; line-height: 1.3 }
+.dharma-body { font-size: 11px; color: var(--hero-sub); line-height: 1.85 }
+.dharma-body strong { color: var(--hero-text); font-weight: 600 }
+.dharma-source {
+  display: flex; align-items: center; gap: 6px;
+  margin-top: 10px; padding-top: 10px;
+  border-top: 0.5px solid rgba(255,255,255,.08);
+}
+.dharma-source-icon { font-size: 12px; color: var(--gold); flex-shrink: 0 }
+.dharma-source-text { font-size: 10px; color: var(--sub-text); flex: 1 }
+.dharma-source-link { font-size: 10px; color: var(--gold); font-weight: 600 }
+
+/* ── 14. RELATED KITS ────────────────────────────────────── */
+.rel-scroll {
+  display: flex; gap: 10px;
+  overflow-x: auto; scrollbar-width: none;
+  padding: 0 14px 4px;
+}
+.rel-scroll::-webkit-scrollbar { display: none }
+.rel-card {
+  flex-shrink: 0; width: 148px;
+  background: var(--card);
+  border: 0.5px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden; cursor: pointer;
+}
+.rel-img {
+  height: 88px;
+  display: flex; align-items: center; justify-content: center;
+}
+.rel-img-icon { font-size: 22px; color: rgba(255,255,255,.28) }
+.rel-body { padding: 9px 10px 10px }
+.rel-occ { font-size: 9px; color: var(--sub-text); text-transform: uppercase; letter-spacing: .4px; margin-bottom: 2px }
+.rel-name { font-size: 12px; font-weight: 700; color: var(--body-text); line-height: 1.25; margin-bottom: 4px }
+.rel-price { font-size: 13px; font-weight: 700; color: var(--body-text); margin-bottom: 6px }
+.rel-btn {
+  width: 100%; background: var(--pink); border: none;
+  border-radius: 7px; padding: 7px;
+  font-size: 10px; font-weight: 700; color: #fff;
+}
+
+/* ── 15 & 16. GUIDE ROWS ─────────────────────────────────── */
+.guide-scroll {
+  display: flex; gap: 10px;
+  overflow-x: auto; scrollbar-width: none;
+  padding: 0 14px 4px;
+}
+.guide-scroll::-webkit-scrollbar { display: none }
+.guide-card {
+  flex-shrink: 0; width: 152px;
+  background: var(--card);
+  border: 0.5px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden; cursor: pointer;
+  transition: border-color .14s;
+}
+.guide-card:active { border-color: var(--pink) }
+.guide-img {
+  height: 80px;
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.guide-img-icon { font-size: 20px; color: rgba(255,255,255,.28) }
+.guide-dpb-tag {
+  position: absolute; top: 7px; left: 7px;
+  font-size: 8px; font-weight: 700;
+  padding: 2px 7px; border-radius: 4px;
+}
+.guide-dpb-tag.d { background: var(--green-bg); color: var(--green-text) }
+.guide-dpb-tag.p { background: var(--amber-light); color: var(--amber-text) }
+.guide-dpb-tag.m { background: var(--red-light); color: var(--pink) }
+.guide-body { padding: 9px 10px 10px }
+.guide-date { font-size: 9px; color: var(--sub-text); margin-bottom: 2px }
+.guide-name { font-size: 12px; font-weight: 700; color: var(--body-text); line-height: 1.3; margin-bottom: 6px }
+.guide-read-btn {
+  width: 100%; background: none;
+  border: 1px solid var(--border);
+  border-radius: 7px; padding: 6px;
+  font-size: 10px; font-weight: 600; color: var(--pink);
+  display: flex; align-items: center; justify-content: center; gap: 4px;
+}
+.guide-read-btn.soon { color: var(--sub-text); cursor: default }
+.guide-read-icon { font-size: 11px }
+
+.cluster-divider {
+  display: flex; align-items: center; gap: 8px;
+  padding: 14px 14px 10px;
+}
+.cluster-line { flex: 1; height: 0.5px; background: var(--amber-border) }
+.cluster-pill {
+  font-size: 9px; font-weight: 700; color: var(--amber-text);
+  letter-spacing: .5px; white-space: nowrap;
+  background: var(--amber-light);
+  padding: 3px 10px; border-radius: 20px;
+  border: 0.5px solid var(--amber-border);
+}
+
+/* ── 17. CHAT CTA ────────────────────────────────────────── */
+.chat-cta {
+  background: var(--card);
+  border: 0.5px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 16px;
+  margin: 16px 14px 0;
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+  cursor: pointer;
+}
+.chat-cta-top { display: flex; align-items: flex-start; gap: 13px; width: 100% }
+.chat-icon-wrap {
+  width: 48px; height: 48px;
+  border-radius: 13px;
+  background: var(--wa-green);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.chat-icon { font-size: 26px; color: #fff }
+.chat-body { flex: 1 }
+.chat-title { font-size: 14px; font-weight: 700; color: var(--body-text); margin-bottom: 4px; line-height: 1.3 }
+.chat-sub { font-size: 11px; color: var(--sub-text); line-height: 1.6 }
+.chat-btn {
+  width: 100%; background: var(--wa-green); border: none;
+  border-radius: 10px; padding: 13px;
+  font-size: 13px; font-weight: 700; color: #fff;
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+}
+.chat-btn-icon { font-size: 17px }
+.chat-note { font-size: 9px; color: var(--sub-text); text-align: center }
+
+/* ── 18. FOOTER ──────────────────────────────────────────── */
+.footer { background: var(--dark); margin-top: 24px }
+.footer-brand {
+  padding: 28px 16px 20px;
+  border-bottom: 0.5px solid rgba(255,255,255,.07);
+  text-align: center;
+}
+.footer-lotus {
+  display: flex; align-items: center;
+  justify-content: center; gap: 12px;
+  margin-bottom: 12px;
+}
+.footer-lotus-line { height: 0.5px; width: 44px; background: rgba(227,181,103,.25) }
+.footer-logo { display: flex; align-items: center; gap: 8px; justify-content: center; margin-bottom: 5px }
+.footer-deva { font-size: 20px; font-weight: 700; color: var(--amber); line-height: 1 }
+.footer-latin { font-size: 9px; color: var(--pink); font-weight: 500; letter-spacing: .3px }
+.footer-tagline { font-size: 12px; color: var(--hero-sub); font-style: italic }
+.footer-nav {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  border-top: 0.5px solid rgba(255,255,255,.07);
+  border-bottom: 0.5px solid rgba(255,255,255,.07);
+}
+.fn-col { padding: 14px }
+.fn-col:not(:last-child) { border-right: 0.5px solid rgba(255,255,255,.07) }
+.fn-label { font-size: 9px; font-weight: 700; color: var(--gold); letter-spacing: .5px; margin-bottom: 10px }
+.fn-link { font-size: 10px; color: var(--sub-text); display: block; margin-bottom: 8px }
+.fn-link:last-child { margin-bottom: 0 }
+.footer-trust {
+  padding: 12px 14px;
+  display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none;
+  border-bottom: 0.5px solid rgba(255,255,255,.07);
+}
+.footer-trust::-webkit-scrollbar { display: none }
+.ft-pill { display: flex; align-items: center; gap: 4px; flex-shrink: 0; font-size: 9px; color: var(--sub-text) }
+.ft-pill-icon { font-size: 11px; color: var(--gold) }
+.ft-sep { width: 0.5px; height: 11px; background: rgba(255,255,255,.07); flex-shrink: 0; align-self: center }
+.footer-legal {
+  padding: 12px 14px;
+  display: flex; align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px; flex-wrap: wrap;
+}
+.footer-policies { display: flex; gap: 10px; flex-wrap: wrap }
+.fp-link { font-size: 9px; color: #3A2C08 }
+.footer-copy { font-size: 9px; color: #3A2C08; line-height: 1.6 }
+
+/* ── STICKY CTA BAR ──────────────────────────────────────── */
+.sticky-bar {
+  position: fixed; bottom: 0;
+  left: 50%; transform: translateX(-50%);
+  width: 390px; max-width: 100%;
+  background: var(--card);
+  border-top: 0.5px solid var(--border);
+  padding: 10px 14px 14px;
+  box-shadow: 0 -2px 16px rgba(28,23,18,.08);
+  z-index: 45;
+}
+.sticky-meta {
+  display: flex; align-items: baseline;
+  justify-content: space-between; margin-bottom: 8px;
+}
+.sticky-label { font-size: 11px; color: var(--sub-text) }
+.sticky-price { font-size: 16px; font-weight: 700; color: var(--body-text) }
+.sticky-btns { display: grid; grid-template-columns: 1.5fr 1fr; gap: 8px }
+.sticky-cart {
+  background: var(--pink); border: none;
+  border-radius: 10px; padding: 13px;
+  font-size: 13px; font-weight: 700; color: #fff;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.sticky-cart-icon { font-size: 15px }
+.sticky-buy {
+  background: var(--card);
+  border: 1.5px solid var(--body-text);
+  border-radius: 10px; padding: 13px;
+  font-size: 12px; font-weight: 600; color: var(--body-text);
+  display: flex; align-items: center; justify-content: center; gap: 5px;
+}
+.sticky-sub { font-size: 9px; color: var(--sub-text); text-align: center; margin-top: 6px }
+
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════
+     1. TOPBAR
+     ════════════════════════════════════════════════════ -->
+<div class="topbar" role="navigation" aria-label="Page navigation">
+  <button class="tb-back" aria-label="Back to Ritual Kits">
+    <span class="tb-back-arrow">‹</span>
+    <span>Ritual Kits</span>
+  </button>
+  <div class="tb-right">
+    <button class="tb-btn" aria-label="Save this kit">
+      <span class="tb-btn-icon">🔖</span>
+    </button>
+    <button class="tb-btn" aria-label="Share this kit">
+      <span class="tb-btn-icon">↗</span>
+    </button>
+    <button class="tb-btn cart-rel" aria-label="Cart" onclick="openCart()">
+      <span class="tb-btn-icon">🛒</span>
+      <span class="cart-badge" id="cartBadge">0</span>
+    </button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     2. HERO IMAGE (full-width, tap to cycle)
+     ════════════════════════════════════════════════════ -->
+<section class="hero" aria-label="Shubh Sampada kit images">
+  <div class="hero-img" id="heroImg" onclick="nextImage()" role="button" aria-label="Next image">
+    <div class="hero-placeholder">
+      <span class="hero-placeholder-icon" id="heroIcon" aria-hidden="true">📦</span>
+      <div class="hero-placeholder-lbl" id="heroLabel">
+        Kit photography · Flat-lay hero<br>All 16 items arranged
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-top">
+    <span class="best-pill" id="heroPill">Bestseller</span>
+    <div class="gallery-dots" aria-label="Image gallery">
+      <button class="gdot on" onclick="event.stopPropagation();setImage(0)" aria-label="Image 1"></button>
+      <button class="gdot" onclick="event.stopPropagation();setImage(1)" aria-label="Image 2"></button>
+      <button class="gdot" onclick="event.stopPropagation();setImage(2)" aria-label="Image 3"></button>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════
+       3. IDENTITY BAND (overlaid on hero bottom)
+       ════════════════════════════════════════════════ -->
+  <div class="identity-band">
+    <div class="id-occ">Navratri · Dussehra · October 2026</div>
+    <h1 class="id-name">Shubh Sampada</h1>
+    <div class="id-hindi">शुभ सम्पदा — Auspicious Abundance</div>
+    <div class="id-price-row">
+      <span class="id-price">₹2,749</span>
+      <span class="id-mrp">₹3,200</span>
+      <span class="id-save">Save ₹451</span>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════
+     4. UTILITY BAR
+     ════════════════════════════════════════════════════ -->
+<div class="util-bar" role="toolbar" aria-label="Kit actions">
+  <button class="util-cart" onclick="addToCart()" aria-label="Add to cart">
+    🛒 Add to cart
+  </button>
+  <button class="util-buy" onclick="buyNow()" aria-label="Buy now">
+    ⚡ Buy now
+  </button>
+  <div class="util-sep" role="separator" aria-hidden="true"></div>
+  <button class="util-sec" onclick="openGuide()" aria-label="Read the ritual guide">
+    <span class="util-sec-icon">📖</span>
+    <span class="util-sec-label">Read guide</span>
+  </button>
+  <button class="util-sec" onclick="openWA()" aria-label="Get WhatsApp reminders">
+    <span class="util-sec-icon wa">💬</span>
+    <span class="util-sec-label">Reminders</span>
+  </button>
+  <button class="util-sec" onclick="downloadCard()" aria-label="Download ritual card">
+    <span class="util-sec-icon neutral">⬇</span>
+    <span class="util-sec-label">Download</span>
+  </button>
+  <button class="util-sec" onclick="shareKit()" aria-label="Share this kit">
+    <span class="util-sec-icon neutral">↗</span>
+    <span class="util-sec-label">Share</span>
+  </button>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     5. LOW STOCK WARNING
+     ════════════════════════════════════════════════════ -->
+<div class="low-bar" role="alert" aria-live="polite">
+  <span class="low-bar-icon" aria-hidden="true">⚠</span>
+  <span class="low-bar-text">Only 4 left at this price</span>
+  <button class="low-bar-cta" onclick="addToCart()">Add to cart →</button>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     6. TRUST PILLS
+     ════════════════════════════════════════════════════ -->
+<div class="trust-row" aria-label="Trust signals">
+  <div class="tpill"><span class="tpill-icon" aria-hidden="true">📜</span> Shiva Purana sourced</div>
+  <div class="tpill"><span class="tpill-icon" aria-hidden="true">🛡</span> Vidhi-verified items</div>
+  <div class="tpill"><span class="tpill-icon" aria-hidden="true">🔄</span> Exchange on wrong item</div>
+  <div class="tpill"><span class="tpill-icon" aria-hidden="true">🚚</span> Before Navratri</div>
+  <div class="tpill"><span class="tpill-icon" aria-hidden="true">🔒</span> Secure payment</div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     7. PINCODE CHECK
+     ════════════════════════════════════════════════════ -->
+<div class="pin-card">
+  <div class="pin-row">
+    <span class="pin-label">
+      <span class="pin-label-icon" aria-hidden="true">📍</span>
+      Check delivery
+    </span>
+    <input
+      class="pin-input"
+      type="text"
+      inputmode="numeric"
+      placeholder="Enter pincode"
+      maxlength="6"
+      id="pinInput"
+      aria-label="Enter pincode to check delivery"
+      oninput="this.value=this.value.replace(/\D/g,'')"
+      onkeydown="if(event.key==='Enter')checkPincode()"
+    >
+    <button class="pin-go" onclick="checkPincode()">Check</button>
+  </div>
+  <div class="pin-result ok" id="pinResult" role="status">
+    <span class="pin-result-icon" aria-hidden="true">✓</span>
+    Delivered by 30 September · 110001, Delhi–NCR
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     8. DELIVERY PROMISE
+     ════════════════════════════════════════════════════ -->
+<div class="delivery-card">
+  <span class="del-icon" aria-hidden="true">🚚</span>
+  <div>
+    <div class="del-title">Delivered before Navratri begins</div>
+    <div class="del-sub">Order by 4 October, 2 pm. Kit arrives with the Navratri Ghatasthapana ritual card packed inside — ready to use.</div>
+    <div class="del-city">📍 Delhi–NCR: by 30 Sept · Other cities: by 2 Oct</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     9. EXCHANGE POLICY STRIP
+     ════════════════════════════════════════════════════ -->
+<div class="exc-strip">
+  <span class="exc-icon" aria-hidden="true">🔄</span>
+  <span class="exc-text">
+    Wrong item or damaged? We'll exchange it — raise a request within 48 hours of delivery with a photo.
+    <span class="exc-link" role="button" tabindex="0">Exchange policy →</span>
+  </span>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     10. CONTENTS — WHAT'S IN THIS KIT
+     ════════════════════════════════════════════════════ -->
+<div class="sec-head">
+  <h2 class="sec-title"><span class="sec-plus" aria-hidden="true">+</span> What's in this kit</h2>
+  <span class="sec-meta">16 items</span>
+</div>
+
+<div class="contents-card">
+  <div class="contents-hd">
+    <span class="contents-hd-l">Samagri</span>
+    <span class="contents-hd-r">Every item has a ritual purpose</span>
+  </div>
+
+  <!-- Always visible: first 5 -->
+  <div id="itemsVisible">
+    <div class="c-item"><div class="c-dot" aria-hidden="true"></div><span class="c-name">Gangajal (250 ml)</span><span class="c-purpose">Abhishek</span></div>
+    <div class="c-item"><div class="c-dot" aria-hidden="true"></div><span class="c-name">Sindoor</span><span class="c-purpose">Devi offering</span></div>
+    <div class="c-item"><div class="c-dot" aria-hidden="true"></div><span class="c-name">Kalash, brass 6"</span><span class="c-purpose">Ghatasthapana vessel</span></div>
+    <div class="c-item"><div class="c-dot" aria-hidden="true"></div><span class="c-name">Mango leaves (11)</span><span class="c-purpose">Kalash adornment</span></div>
+    <div class="c-item"><div class="c-dot" aria-hidden="true"></div><span class="c-name">Jau — barley seeds (100 g)</span><span class="c-purpose">Navratri sowing</span></div>
+  </div>
+
+  <!-- Hidden: items 6–16 -->
+  <div id="itemsHidden" style="display:none" aria-hidden="true">
+    <div class="c-item"><div class="c-dot" aria-hidden="true"></div><span class="c-name">Coconut (1)</span><span class="c-purpose">Kalash top</span></div>
+    <div class="c-item"><div class="c-dot" aria-hidden="true"></div><span class="c-name">Kumkum (30 g)</span><span class="c-purpose">Tilak and offering</span></div>
+    <div class="c-item"><div class="c-dot" aria-hidden="true"></div><span class="c-name">Akshata — coloured rice</span><span class="c-purpose">Puja offerings</span></div>
+    <div class="c-item"><div class="c-dot" aria-hidden="true"></div><span class="c-name">Panchamrit set</span><span class="c-purpose">Milk, curd, honey, ghee, sugar</span></div>
+    <div class="c-item"><div class="c-dot" aria-hidden="true"></div><span class="c-name">Mogra incense (10 sticks)</span><span class="c-purpose">Daily puja</span></div>
+    <div class="c-item"><div class="c-dot" aria-hidden="true"></div><span class="c-name">Deepak, clay — set of 9</span><span class="c-purpose">Nine nights lighting</span></div>
+    <div class="c-item"><div class="c-dot" aria-hidden="true"></div><span class="c-name">Ghee (50 g)</span><span class="c-purpose">Deepak fuel</span></div>
+    <div class="c-item"><div class="c-dot" aria-hidden="true"></div><span class="c-name">Red cloth (1 yard)</span><span class="c-purpose">Altar dressing</span></div>
+    <div class="c-item"><div class="c-dot" aria-hidden="true"></div><span class="c-name">Red flowers, dried</span><span class="c-purpose">Devi offering</span></div>
+    <div class="c-item"><div class="c-dot" aria-hidden="true"></div><span class="c-name">Durva grass</span><span class="c-purpose">Ganesh puja</span></div>
+    <div class="c-item"><div class="c-dot" aria-hidden="true"></div><span class="c-name">Ritual card — Navratri Ghatasthapana</span><span class="c-purpose">Vidhi inside kit</span></div>
+  </div>
+
+  <div class="show-more-row">
+    <button
+      class="show-more-btn"
+      id="showMoreBtn"
+      onclick="toggleItems()"
+      aria-expanded="false"
+      aria-controls="itemsHidden"
+    >
+      Show all 16 items <span class="show-more-icon" aria-hidden="true">▾</span>
+    </button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     11. GUIDE NUDGE
+     ════════════════════════════════════════════════════ -->
+<div class="sec-head" style="padding-bottom:0">
+  <h2 class="sec-title"><span class="sec-plus" aria-hidden="true">+</span> Before you begin</h2>
+</div>
+<div class="guide-nudge" onclick="openGuide()" role="button" tabindex="0" aria-label="Read the Navratri Ghatasthapana guide">
+  <div class="gn-icon-wrap"><span class="gn-icon" aria-hidden="true">📖</span></div>
+  <div class="gn-body">
+    <div class="gn-title">Read the complete Ghatasthapana guide</div>
+    <div class="gn-sub">Step-by-step vidhi, mantras, and the significance of every item in this kit — sourced from Devi Bhagavatam</div>
+  </div>
+  <span class="gn-arrow" aria-hidden="true">›</span>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     12. WHATSAPP NUDGE
+     ════════════════════════════════════════════════════ -->
+<div style="padding: 10px 14px 0">
+  <div class="wa-nudge" onclick="openWA()" role="button" tabindex="0" aria-label="Join The Tapa Circle WhatsApp reminders">
+    <div class="wan-icon-wrap"><span class="wan-icon" aria-hidden="true">💬</span></div>
+    <div class="wan-body">
+      <div class="wan-title">Get reminded for Navratri — and every ritual after</div>
+      <div class="wan-sub">Weekly Panchang · Eve-of vrat alerts · Tapa Circle — ₹499/year</div>
+    </div>
+    <span class="wan-arrow" aria-hidden="true">›</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     13. DHARMA NOTE — brand closer
+     ════════════════════════════════════════════════════ -->
+<div style="padding: 10px 14px 0">
+  <div class="dharma-card">
+    <div class="dharma-badge">
+      <span class="dharma-badge-icon" aria-hidden="true">🛡</span>
+      Tapa editorial standard
+    </div>
+    <h2 class="dharma-title">Every item is included for a reason</h2>
+    <p class="dharma-body">
+      The sourcing list, quantities, and purposes in this kit are verified against the
+      <strong>Navratri Ghatasthapana vidhi</strong> from the Devi Bhagavatam.
+      No filler. No generic puja items added for weight.
+      If it's in this kit, it has a named place in the ritual.
+    </p>
+    <div class="dharma-source">
+      <span class="dharma-source-icon" aria-hidden="true">📜</span>
+      <span class="dharma-source-text">Devi Bhagavatam · Navratri Ghatasthapana chapter</span>
+      <span class="dharma-source-link" role="button" tabindex="0">Read source →</span>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     14. RELATED KITS — You may also need
+     ════════════════════════════════════════════════════ -->
+<div class="sec-head">
+  <h2 class="sec-title"><span class="sec-plus" aria-hidden="true">+</span> You may also need</h2>
+</div>
+<div class="rel-scroll" aria-label="Related ritual kits">
+  <div class="rel-card" onclick="openKit('shakti-aradhana')">
+    <div class="rel-img" style="background:linear-gradient(135deg,#1A2A4A,#3A5A8A)">
+      <span class="rel-img-icon" aria-hidden="true">✨</span>
+    </div>
+    <div class="rel-body">
+      <div class="rel-occ">Navratri</div>
+      <div class="rel-name">Shakti Aradhana</div>
+      <div class="rel-price">₹2,199</div>
+      <button class="rel-btn" onclick="event.stopPropagation();addToCartItem('Shakti Aradhana')">Add to cart</button>
+    </div>
+  </div>
+  <div class="rel-card" onclick="openKit('yajña')">
+    <div class="rel-img" style="background:linear-gradient(135deg,#3A2A08,#7A5A18)">
+      <span class="rel-img-icon" aria-hidden="true">🔥</span>
+    </div>
+    <div class="rel-body">
+      <div class="rel-occ">Havan · Year-round</div>
+      <div class="rel-name">Yajña</div>
+      <div class="rel-price">₹1,209</div>
+      <button class="rel-btn" onclick="event.stopPropagation();addToCartItem('Yajña')">Add to cart</button>
+    </div>
+  </div>
+  <div class="rel-card" onclick="openKit('panch-jyoti')">
+    <div class="rel-img" style="background:linear-gradient(135deg,#3A1A3A,#6A2A6A)">
+      <span class="rel-img-icon" aria-hidden="true">🎁</span>
+    </div>
+    <div class="rel-body">
+      <div class="rel-occ">Gift · Festive</div>
+      <div class="rel-name">Panch Jyoti Gift Tray</div>
+      <div class="rel-price">₹659</div>
+      <button class="rel-btn" onclick="event.stopPropagation();addToCartItem('Panch Jyoti Gift Tray')">Add to cart</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     15. OCCASION GUIDES
+     ════════════════════════════════════════════════════ -->
+<div class="sec-head">
+  <h2 class="sec-title"><span class="sec-plus" aria-hidden="true">+</span> Guides for this occasion</h2>
+  <button class="sec-link-btn">See all →</button>
+</div>
+<div class="guide-scroll" aria-label="Navratri ritual guides">
+  <div class="guide-card">
+    <div class="guide-img" style="background:linear-gradient(135deg,#2A1A08,#5A3A18)">
+      <span class="guide-dpb-tag d">Dharma</span>
+      <span class="guide-img-icon" aria-hidden="true">🔥</span>
+    </div>
+    <div class="guide-body">
+      <div class="guide-date">5 Oct 2026</div>
+      <div class="guide-name">Navratri Ghatasthapana</div>
+      <button class="guide-read-btn" onclick="openGuide()">
+        <span class="guide-read-icon" aria-hidden="true">📖</span> Read guide
+      </button>
+    </div>
+  </div>
+  <div class="guide-card">
+    <div class="guide-img" style="background:linear-gradient(135deg,#1A0A2A,#3A1A5A)">
+      <span class="guide-dpb-tag d">Dharma</span>
+      <span class="guide-img-icon" aria-hidden="true">🌙</span>
+    </div>
+    <div class="guide-body">
+      <div class="guide-date">5–13 Oct 2026</div>
+      <div class="guide-name">Navratri Vrat — nine nights</div>
+      <button class="guide-read-btn">
+        <span class="guide-read-icon" aria-hidden="true">📖</span> Read guide
+      </button>
+    </div>
+  </div>
+  <div class="guide-card">
+    <div class="guide-img" style="background:linear-gradient(135deg,#0A1A2A,#1A3A5A)">
+      <span class="guide-dpb-tag p">Pratha</span>
+      <span class="guide-img-icon" aria-hidden="true">⚔</span>
+    </div>
+    <div class="guide-body">
+      <div class="guide-date">13 Oct 2026</div>
+      <div class="guide-name">Dussehra</div>
+      <button class="guide-read-btn">
+        <span class="guide-read-icon" aria-hidden="true">📖</span> Read guide
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     16. DEITY CLUSTER GUIDES — Devi · Shakti
+     ════════════════════════════════════════════════════ -->
+<div class="cluster-divider" aria-label="More from this deity cluster">
+  <div class="cluster-line"></div>
+  <span class="cluster-pill">More from Devi · Shakti cluster</span>
+  <div class="cluster-line"></div>
+</div>
+<div class="guide-scroll" aria-label="Devi and Shakti ritual guides">
+  <div class="guide-card">
+    <div class="guide-img" style="background:linear-gradient(135deg,#1A3A1A,#2A6A2A)">
+      <span class="guide-dpb-tag d">Dharma</span>
+      <span class="guide-img-icon" aria-hidden="true">🌿</span>
+    </div>
+    <div class="guide-body">
+      <div class="guide-date">15 Aug 2026</div>
+      <div class="guide-name">Hariyali Teej</div>
+      <button class="guide-read-btn">
+        <span class="guide-read-icon" aria-hidden="true">📖</span> Read guide
+      </button>
+    </div>
+  </div>
+  <div class="guide-card">
+    <div class="guide-img" style="background:linear-gradient(135deg,#2A1A08,#5A3A18)">
+      <span class="guide-dpb-tag m">Mixed</span>
+      <span class="guide-img-icon" aria-hidden="true">⭐</span>
+    </div>
+    <div class="guide-body">
+      <div class="guide-date">23 Aug 2026</div>
+      <div class="guide-name">Kajari Teej</div>
+      <button class="guide-read-btn">
+        <span class="guide-read-icon" aria-hidden="true">📖</span> Read guide
+      </button>
+    </div>
+  </div>
+  <div class="guide-card">
+    <div class="guide-img" style="background:linear-gradient(135deg,#3A1A08,#6A3A18)">
+      <span class="guide-dpb-tag d">Dharma</span>
+      <span class="guide-img-icon" aria-hidden="true">✨</span>
+    </div>
+    <div class="guide-body">
+      <div class="guide-date">Coming soon</div>
+      <div class="guide-name">Durga Puja</div>
+      <button class="guide-read-btn soon" disabled>
+        <span class="guide-read-icon" aria-hidden="true">🕐</span> Coming soon
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     17. CHAT CTA — WhatsApp support closer
+     ════════════════════════════════════════════════════ -->
+<div class="chat-cta" onclick="openChatSupport()" role="button" tabindex="0" aria-label="Chat with us on WhatsApp to find the right kit">
+  <div class="chat-cta-top">
+    <div class="chat-icon-wrap">
+      <span class="chat-icon" aria-hidden="true">💬</span>
+    </div>
+    <div class="chat-body">
+      <div class="chat-title">Not sure which kit is right for your puja?</div>
+      <div class="chat-sub">Tell us the occasion, deity, or budget — we'll point you to the right kit. Usually responds within a few hours.</div>
+    </div>
+  </div>
+  <button class="chat-btn" onclick="event.stopPropagation();openChatSupport()">
+    <span class="chat-btn-icon" aria-hidden="true">💬</span>
+    Chat with us on WhatsApp
+  </button>
+  <div class="chat-note">Opens WhatsApp · Free · No commitment</div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     18. FOOTER
+     ════════════════════════════════════════════════════ -->
+<footer class="footer" role="contentinfo">
+
+  <div class="footer-brand">
+    <div class="footer-lotus" aria-hidden="true">
+      <div class="footer-lotus-line"></div>
+      <svg width="18" height="14" viewBox="0 0 20 16" aria-hidden="true">
+        <path d="M10 2C13 6 16 7 16 10C16 13 13 14 10 12C7 14 4 13 4 10C4 7 7 6 10 2Z" fill="#D4175A" opacity=".7"/>
+      </svg>
+      <div class="footer-lotus-line"></div>
+    </div>
+    <div class="footer-logo">
+      <span class="footer-deva">तप</span>
+      <span class="footer-latin">the tapa company</span>
+    </div>
+    <div class="footer-tagline">For every ritual, the right way.</div>
+  </div>
+
+  <nav class="footer-nav" aria-label="Site navigation">
+    <div class="fn-col">
+      <div class="fn-label">LEARN</div>
+      <a href="#" class="fn-link">Ritual Guides</a>
+      <a href="#" class="fn-link">Panchang</a>
+      <a href="#" class="fn-link">Dharmic Concepts</a>
+      <a href="#" class="fn-link">Scripture refs</a>
+    </div>
+    <div class="fn-col">
+      <div class="fn-label">DO</div>
+      <a href="#" class="fn-link">Ritual Kits</a>
+      <a href="#" class="fn-link">Pujan with Purohit</a>
+      <a href="#" class="fn-link">WA Reminders</a>
+      <a href="#" class="fn-link">Download cards</a>
+    </div>
+    <div class="fn-col">
+      <div class="fn-label">ABOUT</div>
+      <a href="#" class="fn-link">Why तप्</a>
+      <a href="#" class="fn-link">Our story</a>
+      <a href="#" class="fn-link">Join our network</a>
+      <a href="#" class="fn-link">Contact us</a>
+    </div>
+  </nav>
+
+  <div class="footer-trust" aria-label="Trust signals">
+    <div class="ft-pill"><span class="ft-pill-icon" aria-hidden="true">📜</span> Scripturally sourced</div>
+    <div class="ft-sep" aria-hidden="true"></div>
+    <div class="ft-pill"><span class="ft-pill-icon" aria-hidden="true">🛡</span> Vidhi-verified kits</div>
+    <div class="ft-sep" aria-hidden="true"></div>
+    <div class="ft-pill"><span class="ft-pill-icon" aria-hidden="true">🔄</span> Exchange policy</div>
+    <div class="ft-sep" aria-hidden="true"></div>
+    <div class="ft-pill"><span class="ft-pill-icon" aria-hidden="true">🔒</span> Secure payments</div>
+  </div>
+
+  <div class="footer-legal">
+    <div class="footer-policies">
+      <a href="#" class="fp-link">Privacy</a>
+      <a href="#" class="fp-link">Terms</a>
+      <a href="#" class="fp-link">Cancellation</a>
+      <a href="#" class="fp-link">Exchange policy</a>
+      <a href="#" class="fp-link">Grievance officer</a>
+    </div>
+    <div class="footer-copy">
+      तप् · The Tapa Co. © 2026<br>
+      Tale Scale Networks Pvt Ltd
+    </div>
+  </div>
+
+</footer>
+
+<!-- ════════════════════════════════════════════════════════
+     STICKY CTA BAR (fixed bottom)
+     ════════════════════════════════════════════════════ -->
+<div class="sticky-bar" role="region" aria-label="Purchase actions">
+  <div class="sticky-meta">
+    <span class="sticky-label">Shubh Sampada · 16 items</span>
+    <span class="sticky-price">₹2,749</span>
+  </div>
+  <div class="sticky-btns">
+    <button class="sticky-cart" onclick="addToCart()">
+      <span class="sticky-cart-icon" aria-hidden="true">🛒</span> Add to cart
+    </button>
+    <button class="sticky-buy" onclick="buyNow()">
+      ⚡ Buy now
+    </button>
+  </div>
+  <div class="sticky-sub">Ships before Navratri · Exchange on wrong item · No COD</div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     JAVASCRIPT
+     ════════════════════════════════════════════════════ -->
+<script>
+
+/* ── STATE ──────────────────────────────────────────────── */
+let cartCount = 0;
+let currentImage = 0;
+let itemsExpanded = false;
+
+/* ── IMAGE DATA ─────────────────────────────────────────── */
+const IMAGES = [
+  { bg: '#3A1C08', icon: '📦', label: 'Kit photography · Flat-lay hero\nAll 16 items arranged' },
+  { bg: '#2A1208', icon: '🪔',  label: 'All 16 items laid out individually\nEach with ritual purpose label' },
+  { bg: '#1C0E06', icon: '🎁',  label: 'Kit packaging · Premium box\nWith The Tapa Co. branding' },
+];
+
+/* ── GALLERY ────────────────────────────────────────────── */
+function setImage(i) {
+  currentImage = i;
+  const img = IMAGES[i];
+  const hero = document.getElementById('heroImg');
+  hero.style.background = img.bg;
+  document.getElementById('heroIcon').textContent = img.icon;
+  document.getElementById('heroLabel').textContent = img.label;
+  document.querySelectorAll('.gdot').forEach((d, j) => d.classList.toggle('on', j === i));
+}
+
+function nextImage() {
+  setImage((currentImage + 1) % IMAGES.length);
+}
+
+/* ── CART ───────────────────────────────────────────────── */
+function updateCartBadge() {
+  document.getElementById('cartBadge').textContent = cartCount;
+}
+
+function addToCart() {
+  cartCount++;
+  updateCartBadge();
+  // Visual feedback on the utility bar button
+  const btn = document.querySelector('.util-cart');
+  const orig = btn.textContent;
+  btn.textContent = '✓ Added';
+  btn.style.background = '#1A5C28';
+  setTimeout(() => {
+    btn.textContent = '🛒 Add to cart';
+    btn.style.background = 'var(--pink)';
+  }, 1400);
+  // Also update sticky
+  const stickyBtn = document.querySelector('.sticky-cart');
+  stickyBtn.textContent = '✓ Added';
+  stickyBtn.style.background = '#1A5C28';
+  setTimeout(() => {
+    stickyBtn.innerHTML = '<span class="sticky-cart-icon" aria-hidden="true">🛒</span> Add to cart';
+    stickyBtn.style.background = 'var(--pink)';
+  }, 1400);
+}
+
+function addToCartItem(name) {
+  cartCount++;
+  updateCartBadge();
+}
+
+function buyNow() {
+  cartCount++;
+  updateCartBadge();
+  alert('Proceeding to checkout with Shubh Sampada (₹2,749)');
+}
+
+function openCart() {
+  alert('Cart — ' + cartCount + ' item' + (cartCount !== 1 ? 's' : ''));
+}
+
+/* ── PINCODE ────────────────────────────────────────────── */
+function checkPincode() {
+  const val = document.getElementById('pinInput').value.trim();
+  const result = document.getElementById('pinResult');
+  if (val.length === 6) {
+    result.className = 'pin-result ok';
+    result.innerHTML = '<span class="pin-result-icon" aria-hidden="true">✓</span> Delivered by 30 September to ' + val;
+  } else {
+    result.className = 'pin-result fail';
+    result.innerHTML = '<span class="pin-result-icon" aria-hidden="true">⚠</span> Enter a valid 6-digit pincode';
+  }
+}
+
+/* ── CONTENTS TOGGLE ────────────────────────────────────── */
+function toggleItems() {
+  itemsExpanded = !itemsExpanded;
+  const hidden = document.getElementById('itemsHidden');
+  const btn = document.getElementById('showMoreBtn');
+  hidden.style.display = itemsExpanded ? 'block' : 'none';
+  hidden.setAttribute('aria-hidden', !itemsExpanded);
+  btn.setAttribute('aria-expanded', itemsExpanded);
+  btn.classList.toggle('open', itemsExpanded);
+  btn.innerHTML = itemsExpanded
+    ? 'Show less <span class="show-more-icon" aria-hidden="true">▾</span>'
+    : 'Show all 16 items <span class="show-more-icon" aria-hidden="true">▾</span>';
+}
+
+/* ── SECONDARY ACTIONS ───────────────────────────────────── */
+function openGuide() {
+  alert('Opening Navratri Ghatasthapana ritual guide\n\n(Links to /ritual-guides/navratri-ghatasthapana)');
+}
+
+function openWA() {
+  alert('Opening The Tapa Circle subscription\n\n₹499/year · First 100 subscribers free\n\n(Links to /subscribe)');
+}
+
+function downloadCard() {
+  alert('Downloading Navratri Ghatasthapana ritual card PDF\n\n(Served from CDN — no login required)');
+}
+
+function shareKit() {
+  if (navigator.share) {
+    navigator.share({
+      title: 'Shubh Sampada — Ritual Kit',
+      text: 'Complete Navratri Ghatasthapana samagri — ritually verified, ₹2,749',
+      url: 'https://thetapaco.com/ritual-kits/shubh-sampada'
+    });
+  } else {
+    alert('Share: https://thetapaco.com/ritual-kits/shubh-sampada');
+  }
+}
+
+function openKit(slug) {
+  alert('Opening kit: ' + slug + '\n(Links to /ritual-kits/' + slug + ')');
+}
+
+function openChatSupport() {
+  alert('Opening WhatsApp support\n\nwa.me/91XXXXXXXXXX?text=Hi, I need help finding the right ritual kit\n\n(Replace with actual WhatsApp Business number)');
+}
+
+</script>
+</body>
+</html>

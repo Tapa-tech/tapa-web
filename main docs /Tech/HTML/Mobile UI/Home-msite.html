@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>The Tapa Co. — For every ritual, the right way.</title>
+<style>
+
+/* ============================================================
+   THE TAPA CO. — HOMEPAGE v2
+   Changes from v1:
+   - Panchang moved to first fold (immediately after hero)
+   - Ritual Kits shelf added after Panchang, before articles
+   - Scroll order: Hero → Trust → Panchang → Kits → Journey → Articles → Purohit → WA → Footer
+   ============================================================ */
+
+:root {
+  --bg:           #F2EDE4;
+  --card:         #FFFFFF;
+  --dark:         #1C1712;
+  --pink:         #D4175A;
+  --amber:        #E8A020;
+  --amber-light:  #FFF8E8;
+  --amber-border: #E8D8A0;
+  --amber-text:   #8B6914;
+  --gold:         #E3B567;
+  --body-text:    #2C2010;
+  --mid-text:     #5C4B12;
+  --sub-text:     #8A7A68;
+  --border:       #E8E0D0;
+  --border-light: #F0E8D8;
+  --green-bg:     #EBF5EC;
+  --green-text:   #1A5C28;
+  --red-light:    #FEF0F4;
+  --hero-text:    #FFFDF5;
+  --hero-sub:     #C4A882;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--body-text);
+  font-size: 13px;
+  line-height: 1.5;
+  max-width: 390px;
+  margin: 0 auto;
+  -webkit-font-smoothing: antialiased;
+}
+button { font-family: inherit; cursor: pointer; }
+a { text-decoration: none; }
+
+/* ============================================================
+   ANNOUNCEMENT BAR
+   ============================================================ */
+.announce {
+  background: var(--dark);
+  padding: 7px 16px;
+  text-align: center;
+}
+.announce-text {
+  font-size: 10px; color: var(--gold);
+  letter-spacing: .3px; line-height: 1.4;
+}
+.announce-text strong { color: var(--pink); font-weight: 600; }
+
+/* ============================================================
+   TOP NAV
+   ============================================================ */
+.topnav {
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  padding: 0 14px;
+  position: sticky; top: 0; z-index: 40;
+  box-shadow: 0 1px 8px rgba(28,23,18,.06);
+}
+.topnav-row1 {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 10px 0 8px;
+}
+.logo {
+  display: flex; align-items: center; gap: 7px;
+}
+.logo-flame { width: 26px; height: 32px; flex-shrink: 0; }
+.logo-flame svg { width: 100%; height: 100%; }
+.logo-devanagari {
+  font-size: 17px; font-weight: 700;
+  color: var(--amber); line-height: 1;
+}
+.logo-latin {
+  font-size: 8px; color: var(--pink);
+  font-weight: 500; letter-spacing: .3px;
+  line-height: 1; margin-top: 1px;
+}
+.nav-icons { display: flex; align-items: center; gap: 8px; }
+.nav-icon-btn {
+  width: 32px; height: 32px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px; background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px;
+}
+.nav-login-btn {
+  background: var(--pink); border: none;
+  border-radius: 8px; padding: 7px 13px;
+  font-size: 11px; font-weight: 700; color: #fff;
+}
+.nav-tabs {
+  display: flex; overflow-x: auto; scrollbar-width: none;
+  margin: 0 -14px; padding: 0 14px;
+}
+.nav-tabs::-webkit-scrollbar { display: none; }
+.nav-tab {
+  font-size: 11.5px; font-weight: 500; color: var(--sub-text);
+  padding: 10px 12px 9px;
+  border-bottom: 2.5px solid transparent;
+  background: none; border-top: none; border-left: none; border-right: none;
+  white-space: nowrap; flex-shrink: 0; cursor: pointer;
+  transition: color .15s, border-color .15s;
+}
+.nav-tab:first-child { padding-left: 0; }
+.nav-tab.active { color: var(--pink); border-bottom-color: var(--pink); font-weight: 600; }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero {
+  position: relative; height: 300px; overflow: hidden;
+}
+.hero-img {
+  width: 100%; height: 100%;
+  background:
+    radial-gradient(ellipse 70% 55% at 68% 25%, rgba(180,100,30,.42) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 70% at 15% 80%, rgba(80,30,10,.48) 0%, transparent 55%),
+    linear-gradient(158deg, #3D1C08 0%, #7A3A18 35%, #2A1208 65%, #1A0E06 100%);
+  display: flex; align-items: center; justify-content: center;
+}
+.hero-placeholder {
+  opacity: .28; text-align: center;
+}
+.hero-placeholder .icon { font-size: 38px; margin-bottom: 6px; }
+.hero-placeholder .lbl { font-size: 9px; color: #fff; letter-spacing: .4px; line-height: 1.6; max-width: 170px; }
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,.02) 0%, rgba(28,23,18,.60) 55%, rgba(28,23,18,.94) 100%);
+}
+.hero-share {
+  position: absolute; top: 12px; right: 14px; z-index: 5;
+  background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.28);
+  border-radius: 20px; padding: 5px 12px;
+  display: flex; align-items: center; gap: 5px;
+  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+}
+.hero-share span { font-size: 11px; color: #fff; font-weight: 500; }
+.hero-content {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 14px 16px 16px; z-index: 5;
+}
+.hero-eyebrow { font-size: 9px; color: var(--gold); letter-spacing: .7px; margin-bottom: 4px; }
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: rgba(255,243,204,.18); border: 1px solid rgba(255,243,204,.30);
+  border-radius: 20px; padding: 3px 10px;
+  font-size: 9px; font-weight: 700; color: #FFD88A; margin-bottom: 5px;
+}
+.hero-title { font-size: 26px; font-weight: 700; color: var(--hero-text); line-height: 1.12; margin-bottom: 4px; }
+.hero-sub   { font-size: 11px; color: var(--hero-sub); line-height: 1.55; margin-bottom: 12px; }
+.hero-btns  { display: flex; gap: 7px; flex-wrap: wrap; }
+.hbtn-pink  { background: var(--pink); border: none; border-radius: 20px; padding: 8px 15px; font-size: 11px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 5px; }
+.hbtn-ghost { background: rgba(255,255,255,.13); border: 1px solid rgba(255,255,255,.28); border-radius: 20px; padding: 8px 12px; font-size: 11px; color: var(--hero-text); display: flex; align-items: center; gap: 4px; }
+
+/* ============================================================
+   TRUST BADGE STRIP
+   ============================================================ */
+.trust-strip {
+  background: var(--card); border-bottom: 1px solid var(--border);
+  padding: 9px 14px;
+  display: flex; gap: 0; overflow-x: auto; scrollbar-width: none;
+}
+.trust-strip::-webkit-scrollbar { display: none; }
+.tbadge { display: flex; align-items: center; gap: 5px; padding-right: 12px; flex-shrink: 0; }
+.tbadge-icon { font-size: 13px; }
+.tbadge-text { font-size: 10px; color: var(--mid-text); white-space: nowrap; font-weight: 500; }
+.tbadge-sep  { width: 1px; height: 13px; background: var(--border); margin-right: 12px; flex-shrink: 0; }
+
+/* ============================================================
+   SECTION HEADING
+   ============================================================ */
+.section-head {
+  padding: 14px 14px 9px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.section-title {
+  font-size: 13.5px; font-weight: 700; color: var(--dark);
+  display: flex; align-items: center; gap: 5px;
+}
+.section-plus { color: var(--pink); font-size: 16px; font-weight: 700; }
+.section-link { font-size: 11px; color: var(--pink); font-weight: 500; }
+
+/* ============================================================
+   PANCHANG — FIRST FOLD (immediately after trust strip)
+   ============================================================ */
+.panchang-first {
+  background: var(--dark);
+  margin: 12px 14px 4px;
+  border-radius: 14px;
+  overflow: hidden;
+}
+.panchang-header {
+  padding: 11px 14px 10px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+.panchang-header-left { display: flex; align-items: center; gap: 6px; }
+.panchang-header-icon { font-size: 16px; }
+.panchang-header-label { font-size: 11px; font-weight: 700; color: var(--hero-text); }
+.panchang-header-date  { font-size: 9.5px; color: var(--sub-text); margin-top: 1px; }
+.panchang-full-btn {
+  background: rgba(255,255,255,.10); border: 1px solid rgba(255,255,255,.16);
+  border-radius: 8px; padding: 5px 10px;
+  font-size: 10px; color: var(--gold); font-weight: 500;
+}
+.panchang-grid {
+  display: grid; grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 0; padding: 12px 14px 10px;
+}
+.panch-cell { text-align: center; }
+.panch-key { font-size: 9px; color: var(--sub-text); margin-bottom: 3px; }
+.panch-val { font-size: 13px; font-weight: 700; color: var(--hero-text); line-height: 1.2; }
+.panch-sub { font-size: 9px; color: var(--gold); margin-top: 1px; }
+.panchang-next {
+  background: rgba(255,255,255,.06);
+  border-top: 1px solid rgba(255,255,255,.07);
+  padding: 10px 14px;
+  display: flex; align-items: center; justify-content: space-between;
+  cursor: pointer;
+}
+.panchang-next-label { font-size: 9px; color: var(--sub-text); margin-bottom: 2px; }
+.panchang-next-val   { font-size: 11.5px; font-weight: 600; color: var(--hero-text); }
+.panchang-next-countdown {
+  background: var(--pink); border-radius: 8px;
+  padding: 4px 9px; font-size: 10px; font-weight: 700; color: #fff;
+  white-space: nowrap;
+}
+
+/* ============================================================
+   RITUAL KITS SHELF  (launches later — shown as pre-launch state)
+   ============================================================ */
+.kits-shelf {
+  margin: 16px 0 4px;
+}
+.kits-launch-banner {
+  background: linear-gradient(135deg, var(--dark) 0%, #3A1C08 100%);
+  margin: 0 14px;
+  border-radius: 14px;
+  padding: 14px;
+  display: flex; align-items: center; gap: 12px;
+  position: relative;
+  overflow: hidden;
+}
+.kits-launch-banner::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 80% at 85% 50%, rgba(232,160,32,.18) 0%, transparent 65%);
+}
+.kits-launch-left { flex: 1; position: relative; }
+.kits-launch-eyebrow {
+  font-size: 9px; font-weight: 700;
+  color: var(--pink); letter-spacing: .5px; margin-bottom: 4px;
+}
+.kits-launch-title {
+  font-size: 15px; font-weight: 700;
+  color: var(--hero-text); line-height: 1.25; margin-bottom: 5px;
+}
+.kits-launch-sub {
+  font-size: 10.5px; color: var(--hero-sub); line-height: 1.55; margin-bottom: 10px;
+}
+.kits-launch-cta {
+  background: var(--pink); border: none; border-radius: 20px;
+  padding: 8px 16px; font-size: 11px; font-weight: 700; color: #fff;
+  display: inline-flex; align-items: center; gap: 5px;
+}
+.kits-launch-img {
+  width: 90px; height: 90px; flex-shrink: 0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #5C2A0A, #A06020);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; color: rgba(255,255,255,.25); text-align: center;
+  letter-spacing: .3px; line-height: 1.5; padding: 6px;
+  position: relative;
+}
+
+/* POST-LAUNCH: horizontal kit scroll */
+.kits-scroll {
+  display: flex; gap: 10px;
+  overflow-x: auto; scrollbar-width: none;
+  padding: 0 14px 4px;
+}
+.kits-scroll::-webkit-scrollbar { display: none; }
+.kit-card {
+  flex-shrink: 0; width: 160px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px; overflow: hidden;
+  cursor: pointer;
+}
+.kit-card-img {
+  height: 110px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; color: rgba(255,255,255,.22); letter-spacing: .3px;
+  text-align: center; line-height: 1.5;
+}
+.kit-card-body { padding: 10px 10px; }
+.kit-card-tag {
+  display: inline-block;
+  font-size: 9px; font-weight: 600;
+  background: var(--amber-light); color: var(--amber-text);
+  border-radius: 4px; padding: 2px 7px; margin-bottom: 5px;
+}
+.kit-card-name  { font-size: 12px; font-weight: 600; color: var(--dark); margin-bottom: 2px; line-height: 1.3; }
+.kit-card-items { font-size: 10px; color: var(--sub-text); margin-bottom: 7px; }
+.kit-card-price { font-size: 13px; font-weight: 700; color: var(--dark); }
+.kit-card-price span { font-size: 10px; color: var(--sub-text); font-weight: 400; text-decoration: line-through; margin-left: 4px; }
+.kit-card-btn {
+  width: 100%; background: var(--pink); border: none;
+  border-radius: 8px; padding: 7px;
+  font-size: 10.5px; font-weight: 600; color: #fff;
+  margin-top: 8px;
+}
+
+/* ============================================================
+   TODAY'S RITUAL JOURNEY STEPPER
+   ============================================================ */
+.journey-scroll {
+  display: flex; gap: 0;
+  overflow-x: auto; scrollbar-width: none;
+  padding: 0 14px 4px;
+}
+.journey-scroll::-webkit-scrollbar { display: none; }
+.journey-step { display: flex; flex-direction: column; align-items: center; gap: 5px; flex-shrink: 0; }
+.journey-step-inner { display: flex; align-items: center; }
+.step-circle {
+  width: 50px; height: 50px; border-radius: 50%;
+  background: var(--card); border: 1.5px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 21px; position: relative; flex-shrink: 0;
+}
+.step-circle.done   { background: var(--green-bg); border-color: var(--green-text); }
+.step-circle.active { background: var(--red-light); border-color: var(--pink); box-shadow: 0 0 0 3px rgba(212,23,90,.13); }
+.step-done-badge {
+  position: absolute; top: -2px; right: -2px;
+  width: 15px; height: 15px; border-radius: 50%;
+  background: var(--green-text); border: 1.5px solid var(--card);
+  font-size: 8px; color: #fff;
+  display: flex; align-items: center; justify-content: center;
+}
+.step-connector { width: 20px; height: 1.5px; background: var(--border); flex-shrink: 0; }
+.step-connector.done { background: var(--green-text); }
+.step-label { font-size: 9.5px; color: var(--sub-text); text-align: center; max-width: 54px; line-height: 1.3; }
+.step-label.active { color: var(--pink); font-weight: 600; }
+
+/* ============================================================
+   FEATURED ARTICLES SCROLL
+   ============================================================ */
+.articles-scroll {
+  display: flex; gap: 10px;
+  overflow-x: auto; scrollbar-width: none;
+  padding: 0 14px 4px;
+}
+.articles-scroll::-webkit-scrollbar { display: none; }
+.article-card {
+  flex-shrink: 0; width: 195px;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; overflow: hidden; cursor: pointer;
+}
+.article-img {
+  height: 96px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; color: rgba(255,255,255,.22); letter-spacing: .4px; text-align: center; line-height: 1.5;
+}
+.article-body   { padding: 10px 11px; }
+.article-tag    { display: inline-block; font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 3px; margin-bottom: 5px; }
+.article-title  { font-size: 12px; font-weight: 600; color: var(--dark); line-height: 1.3; margin-bottom: 3px; }
+.article-meta   { font-size: 10px; color: var(--sub-text); }
+
+/* ============================================================
+   PUROHIT BOOKING STRIP
+   ============================================================ */
+.purohit-strip {
+  background: var(--dark);
+  margin: 16px 14px 4px;
+  border-radius: 14px;
+  padding: 14px;
+  display: flex; align-items: center; gap: 12px;
+}
+.purohit-icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: rgba(255,255,255,.08);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; flex-shrink: 0;
+}
+.purohit-t { font-size: 13px; font-weight: 700; color: var(--hero-text); }
+.purohit-s { font-size: 10px; color: var(--sub-text); margin-top: 2px; }
+.purohit-btn {
+  background: var(--pink); border: none; border-radius: 10px;
+  padding: 8px 13px; font-size: 11px; font-weight: 600; color: #fff;
+  white-space: nowrap; margin-left: auto;
+}
+
+/* ============================================================
+   WHATSAPP NUDGE
+   ============================================================ */
+.wa-nudge {
+  background: var(--red-light); border: 1px solid #F0B8CC;
+  border-radius: 14px; margin: 12px 14px 4px;
+  padding: 13px 14px;
+  display: flex; align-items: center; gap: 11px; cursor: pointer;
+}
+.wa-nudge-icon  { font-size: 22px; flex-shrink: 0; }
+.wa-nudge-t     { font-size: 12.5px; font-weight: 700; color: #5C1A30; }
+.wa-nudge-s     { font-size: 10px; color: #A0324A; margin-top: 2px; }
+.wa-nudge-arrow { font-size: 18px; color: var(--pink); margin-left: auto; }
+
+/* ============================================================
+   CATEGORY GRID
+   ============================================================ */
+.cat-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 10px; padding: 0 14px 4px;
+}
+.cat-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 14px 12px;
+  display: flex; flex-direction: column; gap: 7px;
+  cursor: pointer; text-align: left;
+}
+.cat-card:active { border-color: var(--pink); }
+.cat-icon  { width: 36px; height: 36px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+.cat-title { font-size: 12px; font-weight: 700; color: var(--dark); line-height: 1.2; }
+.cat-sub   { font-size: 10px; color: var(--sub-text); line-height: 1.4; }
+.cat-count { display: inline-block; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 2px 8px; font-size: 9px; color: var(--mid-text); font-weight: 500; align-self: flex-start; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer-brand {
+  background: var(--dark); margin-top: 20px;
+  padding: 22px 16px; text-align: center;
+}
+.footer-tagline { font-size: 16px; font-weight: 700; color: var(--hero-text); line-height: 1.4; margin-bottom: 5px; }
+.footer-tagline em { color: var(--pink); font-style: normal; }
+.footer-sub  { font-size: 10.5px; color: var(--sub-text); line-height: 1.6; margin-bottom: 14px; }
+.footer-cta  { background: var(--pink); border: none; border-radius: 20px; padding: 10px 22px; font-size: 12px; font-weight: 700; color: #fff; }
+.footer-links { display: flex; justify-content: center; gap: 14px; margin-top: 16px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,.08); }
+.footer-link  { font-size: 10px; color: var(--sub-text); }
+.footer-copy  { font-size: 9px; color: rgba(138,122,104,.4); margin-top: 10px; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<!-- ANNOUNCEMENT BAR -->
+<div class="announce">
+  <p class="announce-text"><strong>Dharma doesn't demand fear</strong> — it demands pure devotion.</p>
+</div>
+
+<!-- TOP NAV -->
+<nav class="topnav" aria-label="Main navigation">
+  <div class="topnav-row1">
+    <a href="#" class="logo" aria-label="The Tapa Co. home">
+      <div class="logo-flame">
+        <svg viewBox="0 0 26 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M13 2C16 8 20 13 17 19C15.5 22.5 13 24 13 24C13 24 10.5 22.5 9 19C6 13 10 8 13 2Z" fill="#D4175A"/>
+          <path d="M13 11C14.5 15 15.5 17.5 14 20.5C13.5 21.5 12.5 21.5 12 20.5C10.5 17.5 11.5 15 13 11Z" fill="#E8A020"/>
+        </svg>
+      </div>
+      <div>
+        <div class="logo-devanagari">तप</div>
+        <div class="logo-latin">the tapa company</div>
+      </div>
+    </a>
+    <div class="nav-icons">
+      <button class="nav-icon-btn" aria-label="Search">🔍</button>
+      <button class="nav-icon-btn" aria-label="Notifications">🔔</button>
+      <button class="nav-login-btn">LOGIN</button>
+    </div>
+  </div>
+  <div class="nav-tabs" role="tablist">
+    <button class="nav-tab active" role="tab" aria-selected="true"  onclick="setTab(this)">Ritual Guides</button>
+    <button class="nav-tab"        role="tab" aria-selected="false" onclick="setTab(this)">Ritual Kits</button>
+    <button class="nav-tab"        role="tab" aria-selected="false" onclick="setTab(this)">Pujan with Purohit</button>
+    <button class="nav-tab"        role="tab" aria-selected="false" onclick="setTab(this)">Panchang</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" aria-label="Today's featured ritual">
+  <div class="hero-img" role="img" aria-label="Sawan Somwar Vrat — Jalabhishek in a Shiva temple, monsoon morning">
+    <div class="hero-placeholder">
+      <div class="icon">🏔️</div>
+      <div class="lbl">HERO IMAGE<br>Jalabhishek · Shiva temple<br>Monsoon morning light</div>
+    </div>
+  </div>
+  <div class="hero-overlay"></div>
+  <button class="hero-share" aria-label="Share"><span>↗</span><span>Share</span></button>
+  <div class="hero-content">
+    <div class="hero-eyebrow">TODAY'S RITUAL · SAWAN 2026</div>
+    <div class="hero-tag">★ DHARMA</div>
+    <h1 class="hero-title">Sawan Somwar Vrat</h1>
+    <p class="hero-sub">A weekly vow of devotion to Lord Shiva during the holy month of Shravan.</p>
+    <div class="hero-btns">
+      <button class="hbtn-pink">▶ Start today's vrat</button>
+      <button class="hbtn-ghost">📖 Complete vidhi</button>
+      <button class="hbtn-ghost">🎧 Listen</button>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BADGE STRIP -->
+<div class="trust-strip" role="list">
+  <div class="tbadge"><span class="tbadge-icon">📜</span><span class="tbadge-text">Scripturally sourced</span></div>
+  <div class="tbadge-sep" aria-hidden="true"></div>
+  <div class="tbadge"><span class="tbadge-icon">🌍</span><span class="tbadge-text">Region aware</span></div>
+  <div class="tbadge-sep" aria-hidden="true"></div>
+  <div class="tbadge"><span class="tbadge-icon">🕊️</span><span class="tbadge-text">Fear-free</span></div>
+  <div class="tbadge-sep" aria-hidden="true"></div>
+  <div class="tbadge"><span class="tbadge-icon">🙏</span><span class="tbadge-text">Devotion first</span></div>
+</div>
+
+<!-- ============================================================
+     PANCHANG — FIRST FOLD
+     Immediately after hero + trust strip.
+     This is the highest-frequency daily utility.
+     ============================================================ -->
+<div class="section-head">
+  <h2 class="section-title"><span class="section-plus">+</span> Panchang today</h2>
+  <a href="#" class="section-link">Full calendar →</a>
+</div>
+
+<div class="panchang-first" role="region" aria-label="Today's panchang">
+  <div class="panchang-header">
+    <div class="panchang-header-left">
+      <span class="panchang-header-icon">🗓️</span>
+      <div>
+        <div class="panchang-header-label">Wednesday, 15 July 2026</div>
+        <div class="panchang-header-date">Ashadha Shukla Paksha · Delhi–NCR</div>
+      </div>
+    </div>
+    <button class="panchang-full-btn">Full →</button>
+  </div>
+
+  <div class="panchang-grid">
+    <div class="panch-cell">
+      <div class="panch-key">Tithi</div>
+      <div class="panch-val">Saptami</div>
+      <div class="panch-sub">7th day</div>
+    </div>
+    <div class="panch-cell">
+      <div class="panch-key">Paksha</div>
+      <div class="panch-val">Shukla</div>
+      <div class="panch-sub">Waxing</div>
+    </div>
+    <div class="panch-cell">
+      <div class="panch-key">Nakshatra</div>
+      <div class="panch-val">Rohini</div>
+      <div class="panch-sub">Auspicious</div>
+    </div>
+    <div class="panch-cell">
+      <div class="panch-key">Sunrise</div>
+      <div class="panch-val">5:28</div>
+      <div class="panch-sub">am</div>
+    </div>
+  </div>
+
+  <button class="panchang-next" aria-label="View next upcoming vrat">
+    <div>
+      <div class="panchang-next-label">NEXT VRAT</div>
+      <div class="panchang-next-val">Sawan Somwar — Monday, 20 July</div>
+    </div>
+    <div class="panchang-next-countdown">In 5 days</div>
+  </button>
+</div>
+
+<!-- ============================================================
+     RITUAL KITS SHELF
+     Pre-launch state shown now (teaser banner).
+     Post-launch: replace .kits-launch-banner with .kits-scroll cards.
+     ============================================================ -->
+<div class="kits-shelf">
+  <div class="section-head">
+    <h2 class="section-title"><span class="section-plus">+</span> Ritual Kits</h2>
+    <a href="#" class="section-link">View all →</a>
+  </div>
+
+  <!-- PRE-LAUNCH STATE — show this until kits go live -->
+  <div class="kits-launch-banner" role="complementary" aria-label="Ritual kits coming soon">
+    <div class="kits-launch-left">
+      <div class="kits-launch-eyebrow">LAUNCHING SEPT 15</div>
+      <div class="kits-launch-title">Complete samagri for every puja.</div>
+      <div class="kits-launch-sub">Ritually correct. Sourced right. Delivered to your door before the date.</div>
+      <button class="kits-launch-cta">🔔 Notify me</button>
+    </div>
+    <div class="kits-launch-img" role="img" aria-label="Ritual kit product image placeholder">
+      KIT<br>IMAGE<br>HERE
+    </div>
+  </div>
+
+  <!--
+    POST-LAUNCH STATE — uncomment this block and remove the banner above
+    when kits go live on September 15.
+
+  <div class="kits-scroll" role="list">
+
+    <div class="kit-card" role="listitem">
+      <div class="kit-card-img" style="background:linear-gradient(135deg,#3A1C08,#7A3A18)">[ KIT IMAGE ]</div>
+      <div class="kit-card-body">
+        <span class="kit-card-tag">Festive</span>
+        <div class="kit-card-name">Sawan Somwar Vrat Kit</div>
+        <div class="kit-card-items">14 items · Bilva, Gangajal, Panchamrit</div>
+        <div class="kit-card-price">₹499 <span>₹650</span></div>
+        <button class="kit-card-btn">Add to cart</button>
+      </div>
+    </div>
+
+    <div class="kit-card" role="listitem">
+      <div class="kit-card-img" style="background:linear-gradient(135deg,#2A4A1A,#4A7C3F)">[ KIT IMAGE ]</div>
+      <div class="kit-card-body">
+        <span class="kit-card-tag">Festive</span>
+        <div class="kit-card-name">Hariyali Teej Kit</div>
+        <div class="kit-card-items">11 items · Sindoor, Bangles, Flowers</div>
+        <div class="kit-card-price">₹399 <span>₹520</span></div>
+        <button class="kit-card-btn">Add to cart</button>
+      </div>
+    </div>
+
+    <div class="kit-card" role="listitem">
+      <div class="kit-card-img" style="background:linear-gradient(135deg,#1A1A4A,#3A3A7A)">[ KIT IMAGE ]</div>
+      <div class="kit-card-body">
+        <span class="kit-card-tag">Year-round</span>
+        <div class="kit-card-name">Rudrabhishek Kit</div>
+        <div class="kit-card-items">16 items · Complete set</div>
+        <div class="kit-card-price">₹699 <span>₹900</span></div>
+        <button class="kit-card-btn">Add to cart</button>
+      </div>
+    </div>
+
+  </div>
+  -->
+
+</div>
+
+<!-- TODAY'S RITUAL JOURNEY STEPPER -->
+<div class="section-head">
+  <h2 class="section-title"><span class="section-plus">+</span> Today's ritual journey</h2>
+  <a href="#" class="section-link">View all →</a>
+</div>
+<div class="journey-scroll" role="list">
+  <div class="journey-step" role="listitem">
+    <div class="journey-step-inner">
+      <div class="step-circle done">🚿<span class="step-done-badge" aria-hidden="true">✓</span></div>
+      <div class="step-connector done"></div>
+    </div>
+    <div class="step-label">Preparation</div>
+  </div>
+  <div class="journey-step" role="listitem">
+    <div class="journey-step-inner">
+      <div class="step-circle active">🙏</div>
+      <div class="step-connector"></div>
+    </div>
+    <div class="step-label active">Sankalp</div>
+  </div>
+  <div class="journey-step" role="listitem">
+    <div class="journey-step-inner">
+      <div class="step-circle">🫙</div>
+      <div class="step-connector"></div>
+    </div>
+    <div class="step-label">Abhishek</div>
+  </div>
+  <div class="journey-step" role="listitem">
+    <div class="journey-step-inner">
+      <div class="step-circle">📿</div>
+      <div class="step-connector"></div>
+    </div>
+    <div class="step-label">Japa &amp; Dhyan</div>
+  </div>
+  <div class="journey-step" role="listitem">
+    <div class="journey-step-inner">
+      <div class="step-circle">📜</div>
+      <div class="step-connector"></div>
+    </div>
+    <div class="step-label">Vrat Katha</div>
+  </div>
+  <div class="journey-step" role="listitem">
+    <div class="journey-step-inner">
+      <div class="step-circle">🪔</div>
+    </div>
+    <div class="step-label">Evening Puja</div>
+  </div>
+</div>
+
+<!-- FEATURED ARTICLES -->
+<div class="section-head">
+  <h2 class="section-title"><span class="section-plus">+</span> From Ritual Guides</h2>
+  <a href="#" class="section-link">See all →</a>
+</div>
+<div class="articles-scroll" role="list">
+  <div class="article-card" role="listitem">
+    <div class="article-img" style="background:linear-gradient(135deg,#2A4A1A,#4A7C3F)">[ IMAGE: Hariyali Teej ]</div>
+    <div class="article-body">
+      <span class="article-tag" style="background:#EBF5EC;color:#1A5C28">Dharma</span>
+      <div class="article-title">Hariyali Teej</div>
+      <div class="article-meta">15 Aug · Shravan Shukla Tritiya</div>
+    </div>
+  </div>
+  <div class="article-card" role="listitem">
+    <div class="article-img" style="background:linear-gradient(135deg,#1A2A4A,#3A4A7A)">[ IMAGE: Nag Panchami ]</div>
+    <div class="article-body">
+      <span class="article-tag" style="background:#EBF5EC;color:#1A5C28">Dharma</span>
+      <div class="article-title">Nag Panchami</div>
+      <div class="article-meta">17 Aug · Shravan Shukla Panchami</div>
+    </div>
+  </div>
+  <div class="article-card" role="listitem">
+    <div class="article-img" style="background:linear-gradient(135deg,#4A2A1A,#7A4A3A)">[ IMAGE: Kajari Teej ]</div>
+    <div class="article-body">
+      <span class="article-tag" style="background:#FFF8E8;color:#8B6914">Mixed</span>
+      <div class="article-title">Kajari Teej</div>
+      <div class="article-meta">23 Aug · Bhadrapada Krishna Tritiya</div>
+    </div>
+  </div>
+  <div class="article-card" role="listitem">
+    <div class="article-img" style="background:linear-gradient(135deg,#2A1A4A,#4A2A7A)">[ IMAGE: Rudrabhishek ]</div>
+    <div class="article-body">
+      <span class="article-tag" style="background:#EBF5EC;color:#1A5C28">Dharma</span>
+      <div class="article-title">Rudrabhishek</div>
+      <div class="article-meta">Year-round · Sawan special</div>
+    </div>
+  </div>
+</div>
+
+<!-- PUROHIT BOOKING STRIP -->
+<div class="section-head" style="padding-bottom:6px">
+  <h2 class="section-title"><span class="section-plus">+</span> Pujan with Purohit</h2>
+  <a href="#" class="section-link">View all →</a>
+</div>
+<div class="purohit-strip" role="complementary">
+  <div class="purohit-icon">🙏</div>
+  <div>
+    <div class="purohit-t">Need a pandit?</div>
+    <div class="purohit-s">Verified purohits · Kit included · 6 puja types</div>
+  </div>
+  <button class="purohit-btn">Book now</button>
+</div>
+
+<!-- WHATSAPP NUDGE -->
+<div class="wa-nudge" role="complementary">
+  <span class="wa-nudge-icon">💬</span>
+  <div>
+    <div class="wa-nudge-t">Never miss a vrat or ritual</div>
+    <div class="wa-nudge-s">Weekly WhatsApp reminders — ₹99 / year</div>
+  </div>
+  <span class="wa-nudge-arrow">›</span>
+</div>
+
+<!-- EXPLORE BY CATEGORY -->
+<div class="section-head">
+  <h2 class="section-title"><span class="section-plus">+</span> Explore by category</h2>
+</div>
+<div class="cat-grid" role="list">
+  <button class="cat-card" role="listitem">
+    <div class="cat-icon" style="background:#FEF0F4">📖</div>
+    <div class="cat-title">Ritual Guides</div>
+    <div class="cat-sub">Step-by-step vidhi, mantras &amp; significance</div>
+    <span class="cat-count">48 guides</span>
+  </button>
+  <button class="cat-card" role="listitem">
+    <div class="cat-icon" style="background:#FFF8E8">🛒</div>
+    <div class="cat-title">Ritual Kits</div>
+    <div class="cat-sub">Complete samagri delivered before the date</div>
+    <span class="cat-count">Launching soon</span>
+  </button>
+  <button class="cat-card" role="listitem">
+    <div class="cat-icon" style="background:#EBF5EC">🙏</div>
+    <div class="cat-title">Pujan with Purohit</div>
+    <div class="cat-sub">Book a verified pandit with kit included</div>
+    <span class="cat-count">6 pujas</span>
+  </button>
+  <button class="cat-card" role="listitem">
+    <div class="cat-icon" style="background:#F0EDF8">🗓️</div>
+    <div class="cat-title">Panchang</div>
+    <div class="cat-sub">Tithi, nakshatra, vrat dates &amp; muhurat</div>
+    <span class="cat-count">2026 calendar</span>
+  </button>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer-brand">
+  <p class="footer-tagline">Not fear. <em>Only devotion.</em></p>
+  <p class="footer-sub">Offer water with devotion, and Shiva will accept it with love.<br>For every ritual, the right way.</p>
+  <button class="footer-cta">▶ Start today's vrat</button>
+  <div class="footer-links">
+    <a href="#" class="footer-link">About</a>
+    <a href="#" class="footer-link">Scripture references</a>
+    <a href="#" class="footer-link">Authenticity</a>
+    <a href="#" class="footer-link">Contact</a>
+  </div>
+  <p class="footer-copy">© The Tapa Co. 2026 · Tale Scale Networks Pvt Ltd</p>
+</footer>
+
+<script>
+function setTab(el) {
+  document.querySelectorAll('.nav-tab').forEach(t => {
+    t.classList.remove('active');
+    t.setAttribute('aria-selected','false');
+  });
+  el.classList.add('active');
+  el.setAttribute('aria-selected','true');
+}
+</script>
+
+</body>
+</html>
