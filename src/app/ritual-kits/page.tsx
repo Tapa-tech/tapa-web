@@ -20,6 +20,7 @@ interface KitItem {
   ribbon?: string;
   delivery: string;
   isFeatured?: boolean;
+  imageUrl?: string;
 }
 
 export default function RitualKitsPLP() {
@@ -68,6 +69,7 @@ export default function RitualKitsPLP() {
       itemsCount: "16 items",
       delivery: "🚚 Delivered before Navratri begins · Delhi-NCR by 30 Sept",
       isFeatured: true,
+      imageUrl: "/uploads/shubh-sampada.png",
     },
     {
       id: "shakti-aradhana",
@@ -81,6 +83,7 @@ export default function RitualKitsPLP() {
       itemsCount: "12 items",
       ribbon: "low",
       delivery: "🚚 Before Navratri",
+      imageUrl: "/uploads/shakti-aradhana.png",
     },
     {
       id: "purna-ghatasthapana",
@@ -93,6 +96,7 @@ export default function RitualKitsPLP() {
       itemsCount: "10 items",
       ribbon: "soldout",
       delivery: "🚚 Ships soon",
+      imageUrl: "/uploads/shubh-sampada.png",
     },
     {
       id: "shubh-akshaya-thali",
@@ -106,6 +110,7 @@ export default function RitualKitsPLP() {
       itemsCount: "13 items",
       ribbon: "new",
       delivery: "🚚 Before Diwali",
+      imageUrl: "/uploads/shashti-deepam.png",
     },
     {
       id: "shashti-deepam",
@@ -120,6 +125,7 @@ export default function RitualKitsPLP() {
       itemsCount: "6 items",
       ribbon: "low",
       delivery: "🚚 Before Diwali",
+      imageUrl: "/uploads/shashti-deepam.png",
     },
     {
       id: "deepa-vaibhava",
@@ -133,6 +139,7 @@ export default function RitualKitsPLP() {
       itemsCount: "8 items",
       ribbon: "new",
       delivery: "🚚 Before Diwali",
+      imageUrl: "/uploads/shashti-deepam.png",
     },
     {
       id: "trimshat-deepam",
@@ -146,6 +153,7 @@ export default function RitualKitsPLP() {
       itemsCount: "4 items",
       ribbon: "new",
       delivery: "🚚 Before Diwali",
+      imageUrl: "/uploads/shashti-deepam.png",
     },
     {
       id: "tulsi-kalyanam",
@@ -158,6 +166,7 @@ export default function RitualKitsPLP() {
       itemsCount: "10 items",
       ribbon: "new",
       delivery: "🚚 Year-round",
+      imageUrl: "/uploads/tulsi-kalyanam.png",
     },
     {
       id: "satyanarayan-pujan",
@@ -170,6 +179,7 @@ export default function RitualKitsPLP() {
       itemsCount: "11 items",
       ribbon: "new",
       delivery: "🚚 Year-round",
+      imageUrl: "/uploads/satyanarayan-pujan.png",
     },
     {
       id: "sundarkand-path",
@@ -182,6 +192,7 @@ export default function RitualKitsPLP() {
       itemsCount: "9 items",
       ribbon: "new",
       delivery: "🚚 Year-round",
+      imageUrl: "/uploads/sundarkand-path.png",
     },
     {
       id: "yajna",
@@ -195,6 +206,7 @@ export default function RitualKitsPLP() {
       itemsCount: "8 items",
       ribbon: "new",
       delivery: "🚚 Year-round",
+      imageUrl: "/uploads/yajna.png",
     },
     {
       id: "ekadash",
@@ -208,6 +220,7 @@ export default function RitualKitsPLP() {
       itemsCount: "7 items",
       ribbon: "new",
       delivery: "🚚 Year-round",
+      imageUrl: "/uploads/ekadash.png",
     },
     {
       id: "panch-jyoti",
@@ -220,6 +233,7 @@ export default function RitualKitsPLP() {
       itemsCount: "5 items · Gift-ready",
       ribbon: "new",
       delivery: "🚚 Year-round",
+      imageUrl: "/uploads/panch-jyoti.png",
     },
   ], []);
 
@@ -644,12 +658,17 @@ export default function RitualKitsPLP() {
                 </div>
                 <div className="featured-delivery text-xs font-semibold">{featuredKit.delivery}</div>
               </div>
-              <div className="bg-gradient-to-br from-[#5C2A08] via-[#A06020] to-[#3A1208] flex items-center justify-center p-6 md:p-8 h-48 md:h-auto font-sans" aria-label="Featured kit photo flatlay">
-                <div className="text-center">
-                  <div className="featured-img-icon">📦</div>
-                  <div className="featured-img-label">Kit photography<br />Flat-lay · 16 items arranged</div>
-                </div>
-              </div>
+              <div
+                className="flex items-center justify-center p-6 md:p-8 h-48 md:h-auto font-sans select-none"
+                style={{
+                  backgroundImage: "url(/uploads/shubh-sampada.png)",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
+                  backgroundColor: "#A06020",
+                }}
+                aria-label="Featured kit photo flatlay"
+              />
             </div>
           )}
 
@@ -665,18 +684,23 @@ export default function RitualKitsPLP() {
                 <div
                   className="kit-img select-none"
                   style={{
-                    background:
+                    backgroundImage: kit.imageUrl ? `url(${kit.imageUrl})` : undefined,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    backgroundRepeat: "no-repeat",
+                    background: !kit.imageUrl ? (
                       kit.occ === "diwali"
                         ? "linear-gradient(135deg,#3A2A08,#8A5A14)"
                         : kit.occ === "satyanarayan"
                         ? "linear-gradient(135deg,#1A3A1A,#3A6A2A)"
-                        : "linear-gradient(135deg,#1A2A4A,#3A5A8A)",
+                        : "linear-gradient(135deg,#1A2A4A,#3A5A8A)"
+                    ) : undefined,
                   }}
                 >
                   {kit.stockLeft && <span className="kit-ribbon low font-bold">⚡ {kit.stockLeft} left</span>}
                   {!kit.inStock && <span className="kit-ribbon soldout font-bold">Sold out</span>}
                   {kit.ribbon === "new" && kit.inStock && <span className="kit-ribbon new font-bold">New</span>}
-                  <span className="kit-img-icon text-white/20 font-bold">📦</span>
+                  {!kit.imageUrl && <span className="kit-img-icon text-white/20 font-bold">📦</span>}
                 </div>
                 <div className="kit-body">
                   <div className="kit-occ font-bold text-[10px]">{kit.occ}</div>

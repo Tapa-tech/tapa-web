@@ -20,6 +20,11 @@ export async function GET(req: NextRequest) {
             title: true,
           },
         },
+        dharmicConcept: {
+          select: {
+            title: true,
+          },
+        },
       },
       orderBy: { createdAt: "desc" },
     });

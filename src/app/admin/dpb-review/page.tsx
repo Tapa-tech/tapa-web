@@ -12,9 +12,12 @@ interface DPBReviewItem {
   correction?: string;
   sourceOfTruth?: string;
   reviewStatus: string;
-  ritualGuide: {
+  ritualGuide?: {
     title: string;
-  };
+  } | null;
+  dharmicConcept?: {
+    title: string;
+  } | null;
 }
 
 export default function DPBReviewQueue() {
@@ -105,7 +108,7 @@ export default function DPBReviewQueue() {
                   <div className="h-4 w-[1px] bg-[#EADFC9]"></div>
                   <span className="flex items-center gap-1 text-xs font-bold text-[#6A5A4E]">
                     <BookOpen size={12} />
-                    <span>Guide: {item.ritualGuide?.title}</span>
+                    <span>Parent: {item.ritualGuide?.title || item.dharmicConcept?.title || "General"}</span>
                   </span>
                 </div>
 

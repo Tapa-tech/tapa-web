@@ -164,6 +164,7 @@ model DharmicConcept {
   status       ContentStatus @default(DRAFT)
   body         String        @db.Text            // paragraph-led, Tiptap JSON stored as text
   thumbnailUrl String?
+  dpbEntries   DPBEntry[]
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
 }
@@ -230,17 +231,19 @@ model RitualGuideFAQ {
 }
 
 model DPBEntry {
-  id               String       @id @default(cuid())
-  ritualGuideId    String
-  ritualGuide      RitualGuide  @relation(fields: [ritualGuideId], references: [id], onDelete: Cascade)
+  id               String          @id @default(cuid())
+  ritualGuideId    String?
+  ritualGuide      RitualGuide?    @relation(fields: [ritualGuideId], references: [id], onDelete: Cascade)
+  dharmicConceptId String?
+  dharmicConcept   DharmicConcept? @relation(fields: [dharmicConceptId], references: [id], onDelete: Cascade)
   elementName      String
   tag              DPBTag
   confidenceScore  Int
-  claim            String?      @db.Text
-  correction       String?      @db.Text
-  sourceOfTruth    String?      @db.Text
-  regionalVariance String?      @db.Text
-  reviewStatus     ReviewStatus @default(PENDING_FOUNDER_REVIEW)
-  createdAt        DateTime     @default(now())
-  updatedAt        DateTime     @updatedAt
+  claim            String?         @db.Text
+  correction       String?         @db.Text
+  sourceOfTruth    String?         @db.Text
+  regionalVariance String?         @db.Text
+  reviewStatus     ReviewStatus    @default(PENDING_FOUNDER_REVIEW)
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
 }
