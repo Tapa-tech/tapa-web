@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import TopNav from "@/components/TopNav";
@@ -18,9 +18,9 @@ interface KitItem {
   inStock: boolean;
   stockLeft?: number;
   itemsCount: string;
-  ribbon?: string;
   delivery: string;
   isFeatured?: boolean;
+  description: string;
 }
 
 const KITS_LIST: KitItem[] = [
@@ -37,6 +37,7 @@ const KITS_LIST: KitItem[] = [
     itemsCount: "16 items",
     delivery: "🚚 Delivered before Navratri begins · Delhi-NCR by 30 Sept",
     isFeatured: true,
+    description: "Premium, scripturally aligned Navratri Ghatasthapana and daily pujan kit. Sourced from organic, high-vibration farms.",
   },
   {
     id: "shakti-aradhana",
@@ -50,6 +51,7 @@ const KITS_LIST: KitItem[] = [
     stockLeft: 3,
     itemsCount: "12 items",
     delivery: "🚚 Delivered before Navratri begins · Delhi-NCR by 30 Sept",
+    description: "Essential Navratri kit containing 12 key components for Durga Puja. Sourced and packaged in compliance with Devi Bhagavatam.",
   },
   {
     id: "purna-ghatasthapana",
@@ -62,6 +64,7 @@ const KITS_LIST: KitItem[] = [
     inStock: false,
     itemsCount: "10 items",
     delivery: "🚚 Restocking soon · Ships in October",
+    description: "Dedicated set with premium copper Kalash, coconut, mango leaves, and holy thread for ritual establishment of the divine pot.",
   },
   {
     id: "shubh-akshaya-thali",
@@ -74,6 +77,7 @@ const KITS_LIST: KitItem[] = [
     inStock: true,
     itemsCount: "13 items",
     delivery: "🚚 Delivered before Diwali begins · Ships late October",
+    description: "Elegant brass puja platter with 13 key items including organic haldi, kumkum, and gangajal for Diwali Lakshmi-Ganesh Puja.",
   },
   {
     id: "shashti-deepam",
@@ -87,6 +91,7 @@ const KITS_LIST: KitItem[] = [
     stockLeft: 4,
     itemsCount: "6 items",
     delivery: "🚚 Delivered before Diwali begins · Ships late October",
+    description: "Authentic Diwali diya kit containing 60 hand-poured clay lamps from local potters to bring warm, positive light to your home.",
   },
   {
     id: "deepa-vaibhava",
@@ -99,6 +104,7 @@ const KITS_LIST: KitItem[] = [
     inStock: true,
     itemsCount: "8 items",
     delivery: "🚚 Shipped before Diwali · Express delivery option available",
+    description: "Premium brass deepak and ghee wicks package, handpicked to elevate your temple's festive aesthetic and energy.",
   },
   {
     id: "trimshat-deepam",
@@ -111,6 +117,7 @@ const KITS_LIST: KitItem[] = [
     inStock: true,
     itemsCount: "4 items",
     delivery: "🚚 Delivered before Diwali begins · Ships late October",
+    description: "Set of 30 traditional clay lamps with pure cow ghee wicks for daily lighting during the holy month of Kartik.",
   },
   {
     id: "tulsi-kalyanam",
@@ -123,6 +130,7 @@ const KITS_LIST: KitItem[] = [
     inStock: true,
     itemsCount: "10 items",
     delivery: "🚚 Year-round delivery · Shipped within 48 hours",
+    description: "Complete Tulsi Vivah samagri including shringar items, sacred thread, and prasad, verified by Shastri scholars.",
   },
   {
     id: "satyanarayan-pujan",
@@ -135,6 +143,7 @@ const KITS_LIST: KitItem[] = [
     inStock: true,
     itemsCount: "11 items",
     delivery: "🚚 Year-round delivery · Shipped within 48 hours",
+    description: "Authentic Sri Satyanarayan Vrat Katha kit containing banana stems, panchamrit essentials, and yellow altar cloth.",
   },
   {
     id: "sundarkand-path",
@@ -147,18 +156,20 @@ const KITS_LIST: KitItem[] = [
     inStock: true,
     itemsCount: "9 items",
     delivery: "🚚 Year-round delivery · Shipped within 48 hours",
+    description: "Complete Sundarkand path kit containing clean-text path books, red offerings, and standard prasad ingredients.",
   },
   {
     id: "yajna",
     name: "Yajña",
     hindi: "यज्ञ — Sacred Havan Samagri",
-    occ: "havan",
-    deity: "all-deity",
+    occ: "yearround",
+    deity: "vishnu",
     price: 1209,
     mrp: 1400,
     inStock: true,
     itemsCount: "8 items",
     delivery: "🚚 Year-round delivery · Shipped within 48 hours",
+    description: "Himalayan herb-infused pure havan samagri, dried mango wood, and cow dung cakes for scriptural purification yajñas.",
   },
   {
     id: "ekadash",
@@ -171,38 +182,71 @@ const KITS_LIST: KitItem[] = [
     inStock: true,
     itemsCount: "7 items",
     delivery: "🚚 Year-round delivery · Shipped within 48 hours",
+    description: "Set of 11 premium elements for daily temple purification, including premium dhoop, chandan, and gangajal.",
   },
   {
     id: "panch-jyoti",
     name: "Panch Jyoti Gift Tray",
-    hindi: "पंच ज्योति — Auspicious Gift Tray",
-    occ: "gift",
-    deity: "all-deity",
+    hindi: "पंच ज्योति — Festive Gifting Platter",
+    occ: "yearround",
+    deity: "devi",
     price: 659,
     mrp: 799,
     inStock: true,
-    itemsCount: "5 items · Gift-ready",
+    itemsCount: "5 items",
     delivery: "🚚 Year-round delivery · Shipped within 48 hours",
+    description: "Five-wick heavy brass aarti lamp set with pure cotton wicks for a daily high-energy shringar aarti.",
   },
 ];
 
-const IMAGES = [
-  {
-    bg: "linear-gradient(155deg,#3A1C08,#A06020,#2A1208)",
-    icon: "📦",
-    label: "Kit photography · Flat-lay hero\nAll items arranged · Tap to browse",
-  },
-  {
-    bg: "linear-gradient(155deg,#2A1208,#7A4018,#1A0E06)",
-    icon: "🪔",
-    label: "All items laid out individually\nEach with ritual purpose label",
-  },
-  {
-    bg: "linear-gradient(155deg,#1C0E06,#5A2A14,#100806)",
-    icon: "🎁",
-    label: "Kit packaging · Premium dark box\nWith The Tapa Co. branding",
-  },
-];
+interface DpbEntry {
+  tag: string;
+  confidenceScore: number;
+}
+
+interface SourceDetails {
+  name: string;
+  reference?: string;
+}
+
+interface GuideSource {
+  source: SourceDetails;
+}
+
+interface SamagriItem {
+  id?: string;
+  name: string;
+  function: string;
+}
+
+interface Guide {
+  id?: string;
+  title: string;
+  slug: string;
+  status: string;
+  category: string;
+  samagriItems?: SamagriItem[];
+  dpbEntries?: DpbEntry[];
+  sources?: GuideSource[];
+}
+
+// Helper to determine the primary tag from guide dpbEntries
+const getGuideTag = (guide: Guide): "DHARMA" | "PRATHA" | "BHRANTI" => {
+  if (!guide || !guide.dpbEntries || guide.dpbEntries.length === 0) return "DHARMA";
+  const tags = guide.dpbEntries.map((e) => e.tag);
+  if (tags.includes("BHRANTI")) return "BHRANTI";
+  if (tags.includes("PRATHA")) return "PRATHA";
+  return "DHARMA";
+};
+
+const kitToGuideMap: Record<string, string> = {
+  "satyanarayan-pujan": "satyanarayan-katha",
+  "sundarkand-path": "sundarkand-path-home-vidhi",
+  "shubh-sampada": "hariyali-teej",
+  "shakti-aradhana": "hariyali-teej",
+  "purna-ghatasthapana": "hariyali-teej",
+  "yajna": "sundarkand-path-home-vidhi",
+};
 
 export default function ShubhSampadaPDP({ params }: { params: { slug: string } }) {
   const router = useRouter();
@@ -221,6 +265,175 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
   const kit = useMemo(() => {
     return KITS_LIST.find((k) => k.id === params.slug) || KITS_LIST[0];
   }, [params.slug]);
+
+  const IMAGES = useMemo(() => {
+    let firstIcon = "📦";
+    const firstLabel = `Flat-lay hero for ${kit.name}\nAll items arranged · Tap to browse`;
+    let firstBg = "linear-gradient(155deg,#3A1C08,#A06020,#2A1208)";
+
+    if (kit.occ === "navratri") {
+      firstIcon = "✨";
+      firstBg = "linear-gradient(155deg,#4A121A,#9E2A2B,#2D080A)";
+    } else if (kit.occ === "diwali") {
+      firstIcon = "🪔";
+      firstBg = "linear-gradient(155deg,#2B1D0C,#C89D3C,#1C1307)";
+    } else if (kit.occ === "satyanarayan") {
+      firstIcon = "🙏";
+      firstBg = "linear-gradient(155deg,#0E2E1D,#2E6F40,#081D10)";
+    } else if (kit.id === "yajna") {
+      firstIcon = "🔥";
+      firstBg = "linear-gradient(155deg,#3D1405,#F46A06,#210902)";
+    }
+
+    return [
+      {
+        bg: firstBg,
+        icon: firstIcon,
+        label: firstLabel,
+      },
+      {
+        bg: "linear-gradient(155deg,#2A1208,#7A4018,#1A0E06)",
+        icon: "🪔",
+        label: `All ${kit.itemsCount} laid out individually\nEach with scriptural verified purpose`,
+      },
+      {
+        bg: "linear-gradient(155deg,#1C0E06,#5A2A14,#100806)",
+        icon: "🎁",
+        label: "Kit packaging · Premium dark box\nWith The Tapa Co. branding",
+      },
+    ];
+  }, [kit]);
+
+  // Dynamic guides state
+  const [allGuides, setAllGuides] = useState<Guide[]>([]);
+
+  useEffect(() => {
+    async function fetchGuides() {
+      try {
+        const res = await fetch("/api/public/ritual-guides");
+        if (res.ok) {
+          const data = await res.json();
+          setAllGuides(data || []);
+        }
+      } catch (err) {
+        console.error("Failed to fetch public guides in PDP:", err);
+      }
+    }
+    fetchGuides();
+  }, []);
+
+  const getConfidenceScore = (g: Guide) => {
+    if (!g || !g.dpbEntries || g.dpbEntries.length === 0) return 4;
+    const scores = g.dpbEntries.map((e) => e.confidenceScore);
+    const avg = Math.round(scores.reduce((a: number, b: number) => a + b, 0) / scores.length);
+    return Math.max(1, Math.min(5, avg));
+  };
+
+  const linkedGuide = useMemo(() => {
+    if (!allGuides || allGuides.length === 0) return null;
+    
+    // 1. Exact map slug
+    const mappedSlug = kitToGuideMap[kit.id];
+    if (mappedSlug) {
+      const match = allGuides.find((g) => g.slug === mappedSlug);
+      if (match) return match;
+    }
+    
+    // 2. Keyword matching on deity
+    const deity = kit.deity?.toLowerCase();
+    if (deity) {
+      const match = allGuides.find((g) => {
+        const titleLower = g.title.toLowerCase();
+        if (deity === "devi" && (titleLower.includes("teej") || titleLower.includes("devi") || titleLower.includes("shakti") || titleLower.includes("durga") || titleLower.includes("radha") || titleLower.includes("raksha"))) {
+          return true;
+        }
+        if (deity === "vishnu" && (titleLower.includes("satyanarayan") || titleLower.includes("ram") || titleLower.includes("krishna") || titleLower.includes("hanuman") || titleLower.includes("ekadashi"))) {
+          return true;
+        }
+        return false;
+      });
+      if (match) return match;
+    }
+    
+    // 3. Fallback to any published guide
+    return allGuides.find(g => g.status === "PUBLISHED") || null;
+  }, [allGuides, kit]);
+
+  const dynamicSamagri = useMemo(() => {
+    return (linkedGuide && linkedGuide.samagriItems && linkedGuide.samagriItems.length > 0)
+      ? linkedGuide.samagriItems
+      : null;
+  }, [linkedGuide]);
+
+  const visibleSamagri = useMemo(() => {
+    return dynamicSamagri ? dynamicSamagri.slice(0, 5) : null;
+  }, [dynamicSamagri]);
+
+  const hiddenSamagri = useMemo(() => {
+    return dynamicSamagri ? dynamicSamagri.slice(5) : null;
+  }, [dynamicSamagri]);
+
+  const occGuides = useMemo(() => {
+    if (!allGuides || allGuides.length === 0) return null;
+    const occ = kit.occ?.toLowerCase();
+    const filtered = allGuides.filter((g) => {
+      const titleLower = g.title.toLowerCase();
+      const catLower = g.category.toLowerCase();
+      return titleLower.includes(occ) || catLower.includes(occ);
+    });
+    return filtered.length > 0 ? filtered.slice(0, 3) : null;
+  }, [allGuides, kit]);
+
+  const deityGuides = useMemo(() => {
+    if (!allGuides || allGuides.length === 0) return null;
+    const deity = kit.deity?.toLowerCase();
+    const filtered = allGuides.filter((g) => {
+      const titleLower = g.title.toLowerCase();
+      if (deity === "devi") {
+        return titleLower.includes("teej") || titleLower.includes("devi") || titleLower.includes("shakti") || titleLower.includes("durga") || titleLower.includes("radha");
+      } else if (deity === "vishnu") {
+        return titleLower.includes("satyanarayan") || titleLower.includes("ram") || titleLower.includes("krishna") || titleLower.includes("hanuman") || titleLower.includes("ekadashi");
+      }
+      return false;
+    });
+    return filtered.length > 0 ? filtered.slice(0, 3) : null;
+  }, [allGuides, kit]);
+
+  const renderGuideCard = (g: Guide, idx: number) => {
+    const tag = getGuideTag(g);
+    const tagClass = tag === "DHARMA" ? "d" : tag === "PRATHA" ? "p" : "m";
+    const tagLabel = tag.charAt(0) + tag.slice(1).toLowerCase();
+    
+    const gradients = [
+      "linear-gradient(135deg,#2A1A08,#5A3A18)",
+      "linear-gradient(135deg,#1A0A2A,#3A1A5A)",
+      "linear-gradient(135deg,#0A1A2A,#1A3A5A)",
+    ];
+    const grad = gradients[idx % gradients.length];
+    
+    const emojis = ["🌿", "⭐", "✨", "🔥", "🌙", "⚔"];
+    const emoji = emojis[idx % emojis.length];
+
+    return (
+      <div
+        className="guide-card cursor-pointer hover:shadow-lg transition-shadow duration-200"
+        key={g.id || idx}
+        onClick={() => triggerToast(`Opening ${g.title} guide...`)}
+      >
+        <div className="guide-img" style={{ background: grad }}>
+          <span className={`guide-dpb-tag ${tagClass}`}>{tagLabel}</span>
+          <span className="guide-img-icon" aria-hidden="true">
+            {emoji}
+          </span>
+        </div>
+        <div className="guide-body">
+          <div className="guide-date">{g.category || "Festive Pujans"}</div>
+          <div className="guide-name">{g.title}</div>
+          <button className="guide-read-btn">📖 Read guide</button>
+        </div>
+      </div>
+    );
+  };
 
   const triggerToast = (message: string) => {
     setToastMessage(message);
@@ -388,9 +601,14 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
             </div>
             <h1 className="id-name">{kit.name}</h1>
             {kit.hindi && <div className="id-hindi">{kit.hindi}</div>}
+            {kit.description && (
+              <p className="id-description font-sans text-xs text-sub-text mt-3 leading-relaxed">
+                {kit.description}
+              </p>
+            )}
             <div className="id-source-row">
               <div className="id-source-pill">
-                <span aria-hidden="true">📜</span> Devi Bhagavatam sourced
+                <span aria-hidden="true">📜</span> {linkedGuide?.sources?.[0]?.source?.name || (kit.deity === "devi" ? "Devi Bhagavatam" : kit.id.includes("satyanarayan") ? "Satyanarayan Katha" : "Shiva Purana")} sourced
               </div>
               <div className="id-source-pill">
                 <span aria-hidden="true">🛡</span> Vidhi-verified · {kit.itemsCount}
@@ -498,7 +716,7 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
               <span className="tp-icon" aria-hidden="true">
                 📜
               </span>{" "}
-              Shiva Purana sourced
+              {linkedGuide?.sources?.[0]?.source?.name || (kit.deity === "devi" ? "Devi Bhagavatam" : kit.id.includes("satyanarayan") ? "Satyanarayan Katha" : "Shiva Purana")} sourced
             </div>
             <div className="tpill">
               <span className="tp-icon" aria-hidden="true">
@@ -605,90 +823,114 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
               <span className="contents-hd-r">Every item has a ritual purpose</span>
             </div>
             <div id="itemsVisible">
-              <div className="c-item">
-                <div className="c-dot" aria-hidden="true" />
-                <span className="c-name">Gangajal (250 ml)</span>
-                <span className="c-purpose">Abhishek</span>
-              </div>
-              <div className="c-item">
-                <div className="c-dot" aria-hidden="true" />
-                <span className="c-name">Sindoor</span>
-                <span className="c-purpose">Devi offering</span>
-              </div>
-              <div className="c-item">
-                <div className="c-dot" aria-hidden="true" />
-                <span className="c-name">Kalash, brass 6&quot;</span>
-                <span className="c-purpose">Ghatasthapana vessel</span>
-              </div>
-              <div className="c-item">
-                <div className="c-dot" aria-hidden="true" />
-                <span className="c-name">Mango leaves (11)</span>
-                <span className="c-purpose">Kalash adornment</span>
-              </div>
-              <div className="c-item">
-                <div className="c-dot" aria-hidden="true" />
-                <span className="c-name">Jau — barley seeds (100 g)</span>
-                <span className="c-purpose">Navratri sowing</span>
-              </div>
+              {visibleSamagri ? (
+                visibleSamagri.map((item: SamagriItem, idx: number) => (
+                  <div className="c-item" key={item.id || idx}>
+                    <div className="c-dot" aria-hidden="true" />
+                    <span className="c-name">{item.name}</span>
+                    <span className="c-purpose">{item.function}</span>
+                  </div>
+                ))
+              ) : (
+                <>
+                  <div className="c-item">
+                    <div className="c-dot" aria-hidden="true" />
+                    <span className="c-name">Gangajal (250 ml)</span>
+                    <span className="c-purpose">Abhishek</span>
+                  </div>
+                  <div className="c-item">
+                    <div className="c-dot" aria-hidden="true" />
+                    <span className="c-name">Sindoor</span>
+                    <span className="c-purpose">Devi offering</span>
+                  </div>
+                  <div className="c-item">
+                    <div className="c-dot" aria-hidden="true" />
+                    <span className="c-name">Kalash, brass 6&quot;</span>
+                    <span className="c-purpose">Ghatasthapana vessel</span>
+                  </div>
+                  <div className="c-item">
+                    <div className="c-dot" aria-hidden="true" />
+                    <span className="c-name">Mango leaves (11)</span>
+                    <span className="c-purpose">Kalash adornment</span>
+                  </div>
+                  <div className="c-item">
+                    <div className="c-dot" aria-hidden="true" />
+                    <span className="c-name">Jau — barley seeds (100 g)</span>
+                    <span className="c-purpose">Navratri sowing</span>
+                  </div>
+                </>
+              )}
             </div>
 
             {itemsExpanded && (
               <div id="itemsHidden">
-                <div className="c-item">
-                  <div className="c-dot" aria-hidden="true" />
-                  <span className="c-name">Coconut (1)</span>
-                  <span className="c-purpose">Kalash top</span>
-                </div>
-                <div className="c-item">
-                  <div className="c-dot" aria-hidden="true" />
-                  <span className="c-name">Kumkum (30 g)</span>
-                  <span className="c-purpose">Tilak and offering</span>
-                </div>
-                <div className="c-item">
-                  <div className="c-dot" aria-hidden="true" />
-                  <span className="c-name">Akshata — coloured rice</span>
-                  <span className="c-purpose">Puja offerings</span>
-                </div>
-                <div className="c-item">
-                  <div className="c-dot" aria-hidden="true" />
-                  <span className="c-name">Panchamrit set</span>
-                  <span className="c-purpose">Milk, curd, honey, ghee, sugar</span>
-                </div>
-                <div className="c-item">
-                  <div className="c-dot" aria-hidden="true" />
-                  <span className="c-name">Mogra incense (10 sticks)</span>
-                  <span className="c-purpose">Daily puja</span>
-                </div>
-                <div className="c-item">
-                  <div className="c-dot" aria-hidden="true" />
-                  <span className="c-name">Deepak, clay — set of 9</span>
-                  <span className="c-purpose">Nine nights lighting</span>
-                </div>
-                <div className="c-item">
-                  <div className="c-dot" aria-hidden="true" />
-                  <span className="c-name">Ghee (50 g)</span>
-                  <span className="c-purpose">Deepak fuel</span>
-                </div>
-                <div className="c-item">
-                  <div className="c-dot" aria-hidden="true" />
-                  <span className="c-name">Red cloth (1 yard)</span>
-                  <span className="c-purpose">Altar dressing</span>
-                </div>
-                <div className="c-item">
-                  <div className="c-dot" aria-hidden="true" />
-                  <span className="c-name">Red flowers, dried</span>
-                  <span className="c-purpose">Devi offering</span>
-                </div>
-                <div className="c-item">
-                  <div className="c-dot" aria-hidden="true" />
-                  <span className="c-name">Durva grass</span>
-                  <span className="c-purpose">Ganesh puja</span>
-                </div>
-                <div className="c-item">
-                  <div className="c-dot" aria-hidden="true" />
-                  <span className="c-name">Ritual card — Navratri Ghatasthapana</span>
-                  <span className="c-purpose">Vidhi inside kit</span>
-                </div>
+                {hiddenSamagri ? (
+                  hiddenSamagri.map((item: SamagriItem, idx: number) => (
+                    <div className="c-item" key={item.id || idx}>
+                      <div className="c-dot" aria-hidden="true" />
+                      <span className="c-name">{item.name}</span>
+                      <span className="c-purpose">{item.function}</span>
+                    </div>
+                  ))
+                ) : (
+                  <>
+                    <div className="c-item">
+                      <div className="c-dot" aria-hidden="true" />
+                      <span className="c-name">Coconut (1)</span>
+                      <span className="c-purpose">Kalash top</span>
+                    </div>
+                    <div className="c-item">
+                      <div className="c-dot" aria-hidden="true" />
+                      <span className="c-name">Kumkum (30 g)</span>
+                      <span className="c-purpose">Tilak and offering</span>
+                    </div>
+                    <div className="c-item">
+                      <div className="c-dot" aria-hidden="true" />
+                      <span className="c-name">Akshata — coloured rice</span>
+                      <span className="c-purpose">Puja offerings</span>
+                    </div>
+                    <div className="c-item">
+                      <div className="c-dot" aria-hidden="true" />
+                      <span className="c-name">Panchamrit set</span>
+                      <span className="c-purpose">Milk, curd, honey, ghee, sugar</span>
+                    </div>
+                    <div className="c-item">
+                      <div className="c-dot" aria-hidden="true" />
+                      <span className="c-name">Mogra incense (10 sticks)</span>
+                      <span className="c-purpose">Daily puja</span>
+                    </div>
+                    <div className="c-item">
+                      <div className="c-dot" aria-hidden="true" />
+                      <span className="c-name">Deepak, clay — set of 9</span>
+                      <span className="c-purpose">Nine nights lighting</span>
+                    </div>
+                    <div className="c-item">
+                      <div className="c-dot" aria-hidden="true" />
+                      <span className="c-name">Ghee (50 g)</span>
+                      <span className="c-purpose">Deepak fuel</span>
+                    </div>
+                    <div className="c-item">
+                      <div className="c-dot" aria-hidden="true" />
+                      <span className="c-name">Red cloth (1 yard)</span>
+                      <span className="c-purpose">Altar dressing</span>
+                    </div>
+                    <div className="c-item">
+                      <div className="c-dot" aria-hidden="true" />
+                      <span className="c-name">Red flowers, dried</span>
+                      <span className="c-purpose">Devi offering</span>
+                    </div>
+                    <div className="c-item">
+                      <div className="c-dot" aria-hidden="true" />
+                      <span className="c-name">Durva grass</span>
+                      <span className="c-purpose">Ganesh puja</span>
+                    </div>
+                    <div className="c-item">
+                      <div className="c-dot" aria-hidden="true" />
+                      <span className="c-name">Ritual card — Navratri Ghatasthapana</span>
+                      <span className="c-purpose">Vidhi inside kit</span>
+                    </div>
+                  </>
+                )}
               </div>
             )}
 
@@ -699,7 +941,7 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
                 aria-expanded={itemsExpanded}
                 aria-controls="itemsHidden"
               >
-                {itemsExpanded ? "Show less" : "Show all 16 items"}{" "}
+                {itemsExpanded ? "Show less" : `Show all ${dynamicSamagri ? dynamicSamagri.length : 16} items`}{" "}
                 <span className="show-more-icon" aria-hidden="true">
                   ▾
                 </span>
@@ -722,12 +964,19 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
                 📜
               </span>
               <div>
-                <div className="ctx-source-label">Devi Bhagavatam</div>
-                <div className="ctx-source-sub">Navratri Ghatasthapana chapter · Confidence score 4/5</div>
+                <div className="ctx-source-label">
+                  {linkedGuide?.sources?.[0]?.source?.name || "Devi Bhagavatam"}
+                </div>
+                <div className="ctx-source-sub">
+                  {linkedGuide?.sources?.[0]?.source?.reference 
+                    ? `${linkedGuide.sources[0].source.reference} · Confidence score ${getConfidenceScore(linkedGuide)}/5` 
+                    : "Navratri Ghatasthapana chapter · Confidence score 4/5"
+                  }
+                </div>
               </div>
               <span
                 className="ctx-source-link"
-                onClick={() => triggerToast("Opening Devi Bhagavatam reference guide...")}
+                onClick={() => triggerToast(`Opening ${linkedGuide?.sources?.[0]?.source?.name || "Devi Bhagavatam"} reference guide...`)}
               >
                 Read source →
               </span>
@@ -831,7 +1080,12 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
               <span className="dharma-source-icon" aria-hidden="true">
                 📜
               </span>
-              <span className="dharma-source-text">Devi Bhagavatam &amp; Related Puranic texts</span>
+              <span className="dharma-source-text">
+                {linkedGuide?.sources?.[0]?.source?.name 
+                  ? `${linkedGuide.sources[0].source.name} & Related texts` 
+                  : "Devi Bhagavatam & Related Puranic texts"
+                }
+              </span>
               <span
                 className="dharma-source-link"
                 role="button"
@@ -978,103 +1232,115 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
             </span>{" "}
             Guides for this occasion
           </h2>
-          <button className="sec-link" onClick={() => triggerToast("Opening all Navratri guides...")}>
-            See all Navratri guides →
+          <button className="sec-link" onClick={() => triggerToast(`Opening all ${kit.occ} guides...`)}>
+            See all {kit.occ.charAt(0).toUpperCase() + kit.occ.slice(1)} guides →
           </button>
         </div>
         <div className="guides-grid">
-          <div
-            className="guide-card"
-            onClick={() => triggerToast("Opening Navratri Ghatasthapana guide...")}
-          >
-            <div className="guide-img" style={{ background: "linear-gradient(135deg,#2A1A08,#5A3A18)" }}>
-              <span className="guide-dpb-tag d">Dharma</span>
-              <span className="guide-img-icon" aria-hidden="true">
-                🔥
-              </span>
-            </div>
-            <div className="guide-body">
-              <div className="guide-date">5 Oct 2026</div>
-              <div className="guide-name">Navratri Ghatasthapana</div>
-              <button className="guide-read-btn">📖 Read guide</button>
-            </div>
-          </div>
-          <div className="guide-card" onClick={() => triggerToast("Opening Navratri Vrat guide...")}>
-            <div className="guide-img" style={{ background: "linear-gradient(135deg,#1A0A2A,#3A1A5A)" }}>
-              <span className="guide-dpb-tag d">Dharma</span>
-              <span className="guide-img-icon" aria-hidden="true">
-                🌙
-              </span>
-            </div>
-            <div className="guide-body">
-              <div className="guide-date">5–13 Oct 2026</div>
-              <div className="guide-name">Navratri Vrat — nine nights</div>
-              <button className="guide-read-btn">📖 Read guide</button>
-            </div>
-          </div>
-          <div className="guide-card" onClick={() => triggerToast("Opening Dussehra guide...")}>
-            <div className="guide-img" style={{ background: "linear-gradient(135deg,#0A1A2A,#1A3A5A)" }}>
-              <span className="guide-dpb-tag p">Pratha</span>
-              <span className="guide-img-icon" aria-hidden="true">
-                ⚔
-              </span>
-            </div>
-            <div className="guide-body">
-              <div className="guide-date">13 Oct 2026</div>
-              <div className="guide-name">Dussehra</div>
-              <button className="guide-read-btn">📖 Read guide</button>
-            </div>
-          </div>
+          {occGuides ? (
+            occGuides.map((g, idx) => renderGuideCard(g, idx))
+          ) : (
+            <>
+              <div
+                className="guide-card"
+                onClick={() => triggerToast("Opening Navratri Ghatasthapana guide...")}
+              >
+                <div className="guide-img" style={{ background: "linear-gradient(135deg,#2A1A08,#5A3A18)" }}>
+                  <span className="guide-dpb-tag d">Dharma</span>
+                  <span className="guide-img-icon" aria-hidden="true">
+                    🔥
+                  </span>
+                </div>
+                <div className="guide-body">
+                  <div className="guide-date">5 Oct 2026</div>
+                  <div className="guide-name">Navratri Ghatasthapana</div>
+                  <button className="guide-read-btn">📖 Read guide</button>
+                </div>
+              </div>
+              <div className="guide-card" onClick={() => triggerToast("Opening Navratri Vrat guide...")}>
+                <div className="guide-img" style={{ background: "linear-gradient(135deg,#1A0A2A,#3A1A5A)" }}>
+                  <span className="guide-dpb-tag d">Dharma</span>
+                  <span className="guide-img-icon" aria-hidden="true">
+                    🌙
+                  </span>
+                </div>
+                <div className="guide-body">
+                  <div className="guide-date">5–13 Oct 2026</div>
+                  <div className="guide-name">Navratri Vrat — nine nights</div>
+                  <button className="guide-read-btn">📖 Read guide</button>
+                </div>
+              </div>
+              <div className="guide-card" onClick={() => triggerToast("Opening Dussehra guide...")}>
+                <div className="guide-img" style={{ background: "linear-gradient(135deg,#0A1A2A,#1A3A5A)" }}>
+                  <span className="guide-dpb-tag p">Pratha</span>
+                  <span className="guide-img-icon" aria-hidden="true">
+                    ⚔
+                  </span>
+                </div>
+                <div className="guide-body">
+                  <div className="guide-date">13 Oct 2026</div>
+                  <div className="guide-name">Dussehra</div>
+                  <button className="guide-read-btn">📖 Read guide</button>
+                </div>
+              </div>
+            </>
+          )}
         </div>
 
         {/* Deity Cluster Divider */}
         <div className="cluster-divider">
           <div className="cluster-line" />
-          <span className="cluster-pill">More from Devi · Shakti cluster</span>
+          <span className="cluster-pill">More from {kit.deity === "devi" ? "Devi · Shakti" : "Vishnu · Krishna"} cluster</span>
           <div className="cluster-line" />
         </div>
         <div className="guides-grid">
-          <div className="guide-card" onClick={() => triggerToast("Opening Hariyali Teej guide...")}>
-            <div className="guide-img" style={{ background: "linear-gradient(135deg,#1A3A1A,#2A6A2A)" }}>
-              <span className="guide-dpb-tag d">Dharma</span>
-              <span className="guide-img-icon" aria-hidden="true">
-                🌿
-              </span>
-            </div>
-            <div className="guide-body">
-              <div className="guide-date">15 Aug 2026</div>
-              <div className="guide-name">Hariyali Teej</div>
-              <button className="guide-read-btn">📖 Read guide</button>
-            </div>
-          </div>
-          <div className="guide-card" onClick={() => triggerToast("Opening Kajari Teej guide...")}>
-            <div className="guide-img" style={{ background: "linear-gradient(135deg,#2A1A08,#5A3A18)" }}>
-              <span className="guide-dpb-tag m">Mixed</span>
-              <span className="guide-img-icon" aria-hidden="true">
-                ⭐
-              </span>
-            </div>
-            <div className="guide-body">
-              <div className="guide-date">23 Aug 2026</div>
-              <div className="guide-name">Kajari Teej</div>
-              <button className="guide-read-btn">📖 Read guide</button>
-            </div>
-          </div>
-          <div className="guide-card">
-            <div className="guide-img" style={{ background: "linear-gradient(135deg,#3A1A08,#6A3A18)" }}>
-              <span className="guide-dpb-tag d">Dharma</span>
-              <span className="guide-img-icon" aria-hidden="true">
-                ✨
-              </span>
-            </div>
-            <div className="guide-body">
-              <div className="guide-date">Coming soon</div>
-              <div className="guide-name">Durga Puja</div>
-              <button className="guide-read-btn soon" disabled>
-                🕐 Coming soon
-              </button>
-            </div>
-          </div>
+          {deityGuides ? (
+            deityGuides.map((g, idx) => renderGuideCard(g, idx))
+          ) : (
+            <>
+              <div className="guide-card" onClick={() => triggerToast("Opening Hariyali Teej guide...")}>
+                <div className="guide-img" style={{ background: "linear-gradient(135deg,#1A3A1A,#2A6A2A)" }}>
+                  <span className="guide-dpb-tag d">Dharma</span>
+                  <span className="guide-img-icon" aria-hidden="true">
+                    🌿
+                  </span>
+                </div>
+                <div className="guide-body">
+                  <div className="guide-date">15 Aug 2026</div>
+                  <div className="guide-name">Hariyali Teej</div>
+                  <button className="guide-read-btn">📖 Read guide</button>
+                </div>
+              </div>
+              <div className="guide-card" onClick={() => triggerToast("Opening Kajari Teej guide...")}>
+                <div className="guide-img" style={{ background: "linear-gradient(135deg,#2A1A08,#5A3A18)" }}>
+                  <span className="guide-dpb-tag m">Mixed</span>
+                  <span className="guide-img-icon" aria-hidden="true">
+                    ⭐
+                  </span>
+                </div>
+                <div className="guide-body">
+                  <div className="guide-date">23 Aug 2026</div>
+                  <div className="guide-name">Kajari Teej</div>
+                  <button className="guide-read-btn">📖 Read guide</button>
+                </div>
+              </div>
+              <div className="guide-card">
+                <div className="guide-img" style={{ background: "linear-gradient(135deg,#3A1A08,#6A3A18)" }}>
+                  <span className="guide-dpb-tag d">Dharma</span>
+                  <span className="guide-img-icon" aria-hidden="true">
+                    ✨
+                  </span>
+                </div>
+                <div className="guide-body">
+                  <div className="guide-date">Coming soon</div>
+                  <div className="guide-name">{kit.deity === "devi" ? "Durga Puja" : "Deepawali Puja"}</div>
+                  <button className="guide-read-btn soon" disabled>
+                    🕐 Coming soon
+                  </button>
+                </div>
+              </div>
+            </>
+          )}
         </div>
 
         <div className="divider" />

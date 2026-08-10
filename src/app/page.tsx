@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import AnnouncementBar from "@/components/AnnouncementBar";
@@ -23,10 +23,103 @@ import {
   CATEGORY_GRID,
 } from "@/lib/mock-data";
 
+interface DpbEntry {
+  id?: string;
+  tag: string;
+  confidenceScore: number;
+  regionalVariance?: string;
+  elementName: string;
+}
+
+interface SourceDetails {
+  name: string;
+  reference?: string;
+}
+
+interface GuideSource {
+  source: SourceDetails;
+}
+
+interface GuideStep {
+  id?: string;
+  title: string;
+}
+
+interface Guide {
+  id?: string;
+  title: string;
+  slug: string;
+  status: string;
+  category: string;
+  introText?: string;
+  steps?: GuideStep[];
+  dpbEntries?: DpbEntry[];
+  sources?: GuideSource[];
+}
+
+interface TiptapContent {
+  text?: string;
+}
+
+interface TiptapBlock {
+  content?: TiptapContent[];
+}
+
+// Helper to extract text from Tiptap JSON blocks
+function extractTextFromTiptap(jsonStr?: string): string {
+  if (!jsonStr) return "";
+  try {
+    const obj = JSON.parse(jsonStr);
+    if (obj.type === "doc" && Array.isArray(obj.content)) {
+      return obj.content
+        .map((block: TiptapBlock) => {
+          if (block.content && Array.isArray(block.content)) {
+            return block.content.map((inline: TiptapContent) => inline.text || "").join("");
+          }
+          return "";
+        })
+        .filter((text: string) => text.trim().length > 0)
+        .join("\n");
+    }
+  } catch {
+    return jsonStr;
+  }
+  return jsonStr;
+}
+
+// Helper to determine the primary tag from guide dpbEntries
+const getGuideTag = (guide: Guide): "DHARMA" | "PRATHA" | "BHRANTI" => {
+  if (!guide || !guide.dpbEntries || guide.dpbEntries.length === 0) return "DHARMA";
+  const tags = guide.dpbEntries.map((e) => e.tag);
+  if (tags.includes("BHRANTI")) return "BHRANTI";
+  if (tags.includes("PRATHA")) return "PRATHA";
+  return "DHARMA";
+};
+
 export default function HomePage() {
   const router = useRouter();
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<string>("Ritual Guides");
+
+  // Dynamic CMS content state
+  const [featuredGuide, setFeaturedGuide] = useState<Guide | null>(null);
+  const [publishedGuides, setPublishedGuides] = useState<Guide[]>([]);
+
+  useEffect(() => {
+    async function loadHomeContent() {
+      try {
+        const res = await fetch("/api/public/home");
+        if (res.ok) {
+          const data = await res.json();
+          if (data.featuredGuide) setFeaturedGuide(data.featuredGuide);
+          if (data.publishedGuides) setPublishedGuides(data.publishedGuides);
+        }
+      } catch (err) {
+        console.error("Failed to load public homepage data:", err);
+      }
+    }
+    loadHomeContent();
+  }, []);
 
   const triggerToast = (message: string = "Feature launching soon!") => {
     setToastMessage(message);
@@ -45,8 +138,102 @@ export default function HomePage() {
     "Evening Puja": "🪔",
   };
 
+  // Helper to parse subtitle (first clean paragraph) from introText
+  const getGuideSubtitle = (guide: Guide | null) => {
+    if (!guide) return FEATURED_RITUAL.subtitle;
+    const text = extractTextFromTiptap(guide.introText);
+    if (!text) return FEATURED_RITUAL.subtitle;
+    
+    const paragraphs = text.split("\n").map(p => p.trim()).filter(p => p.length > 0);
+    const cleanParagraph = paragraphs.find(p => {
+      const pUpper = p.toUpperCase();
+      return !pUpper.includes("PART A") && !pUpper.includes("PART B") && !pUpper.includes("PART C") && !pUpper.includes("IMAGE BRIEF") && !pUpper.includes("BACKEND");
+    });
+    
+    return cleanParagraph || paragraphs[0] || FEATURED_RITUAL.subtitle;
+  };
+
+  // Stepper steps map
+  const dynamicSteps = (featuredGuide && featuredGuide.steps && featuredGuide.steps.length > 0)
+    ? featuredGuide.steps.map((step: GuideStep, idx: number) => ({
+        name: step.title,
+        status: idx === 0 ? ("completed" as const) : idx === 1 ? ("active" as const) : ("pending" as const)
+      }))
+    : TODAY_RITUAL_JOURNEY.steps;
+
+  // Credibility panel helpers
+  const starsCount = featuredGuide ? (() => {
+    if (!featuredGuide.dpbEntries || featuredGuide.dpbEntries.length === 0) return 4;
+    const scores = featuredGuide.dpbEntries.map((e: DpbEntry) => e.confidenceScore);
+    const avg = Math.round(scores.reduce((a: number, b: number) => a + b, 0) / scores.length);
+    return Math.max(1, Math.min(5, avg));
+  })() : 4;
+
+  const getRegionalVariance = (guide: Guide | null) => {
+    if (!guide || !guide.dpbEntries) return "North India, Maharashtra, Gujarat, Karnataka, Tamil Nadu";
+    const variances = guide.dpbEntries
+      .map((e: DpbEntry) => e.regionalVariance)
+      .filter((v: string | undefined): v is string => typeof v === "string" && v.trim().length > 0);
+    if (variances.length === 0) return "North India, Maharashtra, Gujarat, Karnataka, Tamil Nadu";
+    return variances.slice(0, 2).join(", ");
+  };
+
+  const getDpbNotes = (guide: Guide | null) => {
+    if (!guide || !guide.dpbEntries || guide.dpbEntries.length === 0) {
+      return [
+        { label: "Abhishek, Sankalp = Dharma", color: "bg-[#1A5C28]" },
+        { label: "Kanwar Yatra = Pratha", color: "bg-[#E8A020]" },
+        { label: "“Miss one = vrat fails” = Bhranti", color: "bg-[#D4175A]" }
+      ];
+    }
+    const notes: { label: string; color: string }[] = [];
+    const colorMap: Record<string, string> = {
+      DHARMA: "bg-[#1A5C28]",
+      PRATHA: "bg-[#E8A020]",
+      BHRANTI: "bg-[#D4175A]"
+    };
+    
+    ["DHARMA", "PRATHA", "BHRANTI"].forEach(t => {
+      const entry = guide.dpbEntries?.find((e: DpbEntry) => e.tag === t);
+      if (entry) {
+        const label = entry.elementName.replace(/&quot;/g, '"').replace(/"/g, '');
+        const shortLabel = label.length > 22 ? label.substring(0, 22) + "..." : label;
+        notes.push({
+          label: `${shortLabel} = ${t.charAt(0) + t.slice(1).toLowerCase()}`,
+          color: colorMap[t]
+        });
+      }
+    });
+    
+    if (notes.length === 0) {
+      return [
+        { label: "Abhishek, Sankalp = Dharma", color: "bg-[#1A5C28]" },
+        { label: "Kanwar Yatra = Pratha", color: "bg-[#E8A020]" },
+        { label: "“Miss one = vrat fails” = Bhranti", color: "bg-[#D4175A]" }
+      ];
+    }
+    return notes;
+  };
+
+  const credibilityNotes = getDpbNotes(featuredGuide);
+
+  // Dynamic articles shelf list
+  const dynamicArticles = (publishedGuides && publishedGuides.length > 0)
+    ? publishedGuides.map((guide: Guide) => {
+        const desc = extractTextFromTiptap(guide.introText);
+        const cleanDesc = desc ? (desc.length > 120 ? desc.substring(0, 120) + "..." : desc) : "A detailed ritual guide.";
+        return {
+          title: guide.title,
+          tag: getGuideTag(guide),
+          dateMeta: guide.category || "Festive Pujans",
+          description: cleanDesc,
+          slug: guide.slug,
+        };
+      })
+    : RITUAL_GUIDES_ARTICLES.articles;
+
   return (
-    <div className="min-h-screen bg-bg text-body-text font-sans antialiased">
+    <div className="min-h-screen bg-bg text-body-text font-sans antialiased animate-fadeIn">
       {/* 0.1 — Announcement Bar */}
       <AnnouncementBar />
 
@@ -96,16 +283,16 @@ export default function HomePage() {
         <div className="hero-wrap">
           <div className="hero-inner select-none">
             <div className="hero-eyebrow font-sans uppercase">
-              {FEATURED_RITUAL.eyebrow}
+              {featuredGuide ? `TODAY'S RITUAL · ${featuredGuide.category}` : FEATURED_RITUAL.eyebrow}
             </div>
-            <div className="hero-tag font-sans">★ DHARMA</div>
+            <div className="hero-tag font-sans">
+              ★ {featuredGuide ? getGuideTag(featuredGuide) : "DHARMA"}
+            </div>
             <h1 className="hero-title font-serif font-bold text-hero-text leading-tight">
-              Sawan
-              <br />
-              Somwar Vrat
+              {featuredGuide ? featuredGuide.title : "Sawan Somwar Vrat"}
             </h1>
             <p className="hero-sub font-sans text-hero-sub">
-              {FEATURED_RITUAL.subtitle}
+              {getGuideSubtitle(featuredGuide)}
             </p>
 
             {/* 0.5 — Trust Badge Strip */}
@@ -114,13 +301,13 @@ export default function HomePage() {
             {/* CTAs */}
             <div className="hero-btns mt-4">
               <button
-                onClick={() => triggerToast("Starting Sawan Somwar Vrat flow...")}
+                onClick={() => triggerToast(`Starting ${featuredGuide ? featuredGuide.title : "vrat"} flow...`)}
                 className="hbtn-pink font-sans font-bold cursor-pointer hover:opacity-95"
               >
                 ▶ Start today&apos;s vrat
               </button>
               <button
-                onClick={() => triggerToast("Opening complete vidhi guide...")}
+                onClick={() => triggerToast(`Opening complete ${featuredGuide ? featuredGuide.title : "vidhi"} guide...`)}
                 className="hbtn-ghost font-sans cursor-pointer hover:bg-white/20"
               >
                 📖 Read complete vidhi
@@ -141,41 +328,39 @@ export default function HomePage() {
         <div className="wrap grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-0">
           <div className="cred-cell font-sans">
             <div className="cred-key">PRIMARY SOURCE</div>
-            <div className="cred-val">Shiva Purana</div>
-            <div className="cred-sub">Vidyeshvara Samhita &amp; related sections</div>
+            <div className="cred-val">
+              {featuredGuide?.sources?.[0]?.source?.name || "Shiva Purana"}
+            </div>
+            <div className="cred-sub">
+              {featuredGuide?.sources?.[0]?.source?.reference || "Vidyeshvara Samhita & related sections"}
+            </div>
           </div>
           <div className="cred-cell font-sans">
             <div className="cred-key">CONFIDENCE SCORE</div>
             <div className="cred-val">
-              <span className="cred-stars">★★★★</span>
-              <span className="text-[#EDE6D4]">★</span> 4/5
+              <span className="cred-stars">{"★".repeat(starsCount)}</span>
+              <span className="text-[#EDE6D4]">{"★".repeat(5 - starsCount)}</span> {starsCount}/5
             </div>
-            <div className="cred-sub">Clearly stated in a major Purana</div>
+            <div className="cred-sub">
+              {featuredGuide ? "Averaged across approved claims" : "Clearly stated in a major Purana"}
+            </div>
           </div>
           <div className="cred-cell font-sans">
             <div className="cred-key">REGIONAL VARIANCE</div>
             <div className="cred-val text-[13px] font-semibold">Observances differ</div>
             <div className="cred-sub">
-              North India, Maharashtra, Gujarat,
-              <br />
-              Karnataka, Tamil Nadu
+              {getRegionalVariance(featuredGuide)}
             </div>
           </div>
           <div className="cred-cell font-sans">
             <div className="cred-key">DHARMA NOTE</div>
             <div className="flex flex-col gap-1 mt-0.5">
-              <div className="text-[11px] flex items-center">
-                <span className="dhot bg-[#1A5C28]" />
-                Abhishek, Sankalp = Dharma
-              </div>
-              <div className="text-[11px] flex items-center">
-                <span className="dhot bg-[#E8A020]" />
-                Kanwar Yatra = Pratha
-              </div>
-              <div className="text-[11px] flex items-center">
-                <span className="dhot bg-[#D4175A]" />
-                &quot;Miss one = vrat fails&quot; = Bhranti
-              </div>
+              {credibilityNotes.map((note, idx) => (
+                <div key={idx} className="text-[11px] flex items-center">
+                  <span className={`dhot ${note.color}`} />
+                  {note.label}
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -207,10 +392,10 @@ export default function HomePage() {
           </SectionHeading>
 
           <div className="journey-row mt-4 overflow-x-auto scrollbar-none">
-            {TODAY_RITUAL_JOURNEY.steps.map((step, idx) => {
+            {dynamicSteps.map((step, idx) => {
               const isDone = step.status === "completed";
               const isActive = step.status === "active";
-              const isLast = idx === TODAY_RITUAL_JOURNEY.steps.length - 1;
+              const isLast = idx === dynamicSteps.length - 1;
 
               return (
                 <div key={idx} className="j-step select-none">
@@ -242,7 +427,7 @@ export default function HomePage() {
         {/* 0.7 — Ritual Kits Shelf */}
         <div className="kits-band mt-12 select-none">
           <div className="wrap">
-            <div className="kits-launch-inner flex flex-col md:flex-row items-center justify-between gap-6 md:gap-10">
+            <div className="kits-launch-inner">
               <div className="kits-launch-text">
                 <div className="kits-launch-eyebrow font-sans font-bold">
                   + RITUAL KITS · LAUNCHING SEPTEMBER 24
@@ -264,7 +449,7 @@ export default function HomePage() {
               </div>
 
               {/* Kit Images Mock Cards */}
-              <div className="kits-launch-img font-sans shrink-0">
+              <div className="kits-launch-img">
                 <div className="kit-img-card font-bold">
                   KIT IMAGE
                   <br />
@@ -305,7 +490,7 @@ export default function HomePage() {
           </SectionHeading>
 
           <div className="articles-grid mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {RITUAL_GUIDES_ARTICLES.articles.map((article, idx) => (
+            {dynamicArticles.map((article, idx) => (
               <RitualCard key={idx} article={article} index={idx} />
             ))}
           </div>
@@ -380,7 +565,7 @@ export default function HomePage() {
         <div className="wrap mt-10">
           <SectionHeading>Explore by category</SectionHeading>
 
-          <div className="cat-grid mt-4 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className="cat-grid mt-4">
             {CATEGORY_GRID.map((category, idx) => (
               <CategoryGridCard key={idx} category={category} index={idx} />
             ))}

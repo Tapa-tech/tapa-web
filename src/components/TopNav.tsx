@@ -17,14 +17,6 @@ interface SessionData {
   };
 }
 
-const mockSearchIndex = [
-  { title: "Sawan Somwar Vrat", tag: "Dharma" },
-  { title: "Hariyali Teej", tag: "Dharma" },
-  { title: "Nag Panchami", tag: "Dharma" },
-  { title: "Kajari Teej", tag: "Pratha" },
-  { title: "Rudrabhishek", tag: "Dharma" },
-  { title: "Satyanarayan Katha", tag: "Dharma" },
-];
 
 export default function TopNav({ activeTab = "Ritual Guides", onTabChange, onTriggerToast }: TopNavProps) {
   const [isBellOpen, setIsBellOpen] = useState(false);
@@ -37,6 +29,34 @@ export default function TopNav({ activeTab = "Ritual Guides", onTabChange, onTri
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [authView, setAuthView] = useState<"signin" | "signup" | "admin">("signin");
+
+  // Real-time database search results state
+  const [searchResults, setSearchResults] = useState<{
+    guides: { id: string; title: string; slug: string; category: string }[];
+    kits: { id: string; name: string; occ: string; deity: string; price: number; itemsCount: string }[];
+  }>({ guides: [], kits: [] });
+
+  // Database-driven search fetcher with debounce
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setSearchResults({ guides: [], kits: [] });
+      return;
+    }
+
+    const delayDebounceFn = setTimeout(async () => {
+      try {
+        const res = await fetch(`/api/public/search?q=${encodeURIComponent(searchQuery)}`);
+        if (res.ok) {
+          const data = await res.json();
+          setSearchResults(data);
+        }
+      } catch (err) {
+        console.error("Search fetch failed:", err);
+      }
+    }, 150);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchQuery]);
 
   // Form input variables
   const [phone, setPhone] = useState("+91");
@@ -233,9 +253,7 @@ export default function TopNav({ activeTab = "Ritual Guides", onTabChange, onTri
     }
   };
 
-  const filteredResults = mockSearchIndex.filter((item) =>
-    item.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+
 
   const tabs = [
     {
@@ -340,33 +358,70 @@ export default function TopNav({ activeTab = "Ritual Guides", onTabChange, onTri
             {/* Suggestions Dropdown overlay */}
             {isSearchOpen && searchQuery.trim() && (
               <div className="absolute right-0 top-[42px] z-[65] w-80 bg-card border border-border rounded-xl shadow-2xl p-3 select-none">
+                {/* 1. Guides Section */}
                 <div className="text-[10px] text-sub-text font-bold uppercase tracking-wider mb-2 font-sans">
                   Rituals &amp; Guides
                 </div>
-                <div className="flex flex-col gap-1.5 font-sans">
-                  {filteredResults.length > 0 ? (
-                    filteredResults.map((item, idx) => (
+                <div className="flex flex-col gap-1.5 font-sans mb-3">
+                  {searchResults.guides.length > 0 ? (
+                    searchResults.guides.map((item, idx) => (
                       <div
                         key={idx}
                         onClick={() => {
                           triggerToast(`Opening guide: "${item.title}"`);
                           setIsSearchOpen(false);
                           setSearchQuery("");
+                          router.push(`/ritual-kits/${item.slug}`);
                         }}
                         className="flex items-center justify-between text-xs text-body-text hover:bg-bg p-2 rounded-lg cursor-pointer transition-colors"
                       >
                         <div className="flex items-center gap-2">
-                          <span>🔍</span>
+                          <span>📖</span>
                           <span className="font-semibold">{item.title}</span>
                         </div>
                         <span className="text-[9px] text-pink bg-red-light px-1.5 py-0.5 rounded border border-red-200 uppercase font-bold scale-90">
-                          {item.tag}
+                          {item.category}
                         </span>
                       </div>
                     ))
                   ) : (
                     <div className="text-xs text-sub-text p-2">
-                      No matching guides found for &quot;{searchQuery}&quot;
+                      No matching guides found
+                    </div>
+                  )}
+                </div>
+
+                {/* 2. Kits Section */}
+                <div className="text-[10px] text-sub-text font-bold uppercase tracking-wider mb-2 font-sans border-t border-border pt-2">
+                  Ritual Samagri Kits
+                </div>
+                <div className="flex flex-col gap-1.5 font-sans">
+                  {searchResults.kits.length > 0 ? (
+                    searchResults.kits.map((item, idx) => (
+                      <div
+                        key={idx}
+                        onClick={() => {
+                          setIsSearchOpen(false);
+                          setSearchQuery("");
+                          router.push(`/ritual-kits/${item.id}`);
+                        }}
+                        className="flex items-center justify-between text-xs text-body-text hover:bg-bg p-2 rounded-lg cursor-pointer transition-colors"
+                      >
+                        <div className="flex items-center gap-2">
+                          <span>📦</span>
+                          <div>
+                            <div className="font-semibold leading-tight">{item.name}</div>
+                            <div className="text-[9px] text-sub-text leading-none">{item.itemsCount} · {item.occ}</div>
+                          </div>
+                        </div>
+                        <span className="text-[10px] text-amber font-bold">
+                          ₹{item.price}
+                        </span>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="text-xs text-sub-text p-2">
+                      No matching kits found
                     </div>
                   )}
                 </div>
@@ -534,6 +589,72 @@ export default function TopNav({ activeTab = "Ritual Guides", onTabChange, onTri
               Go
             </button>
           </form>
+
+          {searchQuery.trim() && (
+            <div className="mt-2 bg-card border border-border rounded-xl shadow-lg p-3 max-h-80 overflow-y-auto select-none">
+              {/* Guides */}
+              <div className="text-[10px] text-sub-text font-bold uppercase tracking-wider mb-2 font-sans">
+                Rituals &amp; Guides
+              </div>
+              <div className="flex flex-col gap-1.5 font-sans mb-3">
+                {searchResults.guides.length > 0 ? (
+                  searchResults.guides.map((item, idx) => (
+                    <div
+                      key={idx}
+                      onClick={() => {
+                        triggerToast(`Opening guide: "${item.title}"`);
+                        setIsMobileSearchOpen(false);
+                        setSearchQuery("");
+                        router.push(`/ritual-kits/${item.slug}`);
+                      }}
+                      className="flex items-center justify-between text-xs text-body-text hover:bg-bg p-2 rounded-lg cursor-pointer"
+                    >
+                      <div className="flex items-center gap-2">
+                        <span>📖</span>
+                        <span className="font-semibold">{item.title}</span>
+                      </div>
+                      <span className="text-[9px] text-pink bg-red-light px-1.5 py-0.5 rounded border border-red-200 uppercase font-bold scale-90">
+                        {item.category}
+                      </span>
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-xs text-sub-text p-2">No matching guides</div>
+                )}
+              </div>
+
+              {/* Kits */}
+              <div className="text-[10px] text-sub-text font-bold uppercase tracking-wider mb-2 font-sans border-t border-border pt-2">
+                Ritual Samagri Kits
+              </div>
+              <div className="flex flex-col gap-1.5 font-sans">
+                {searchResults.kits.length > 0 ? (
+                  searchResults.kits.map((item, idx) => (
+                    <div
+                      key={idx}
+                      onClick={() => {
+                        setIsMobileSearchOpen(false);
+                        setSearchQuery("");
+                        router.push(`/ritual-kits/${item.id}`);
+                      }}
+                      className="flex items-center justify-between text-xs text-body-text hover:bg-bg p-2 rounded-lg cursor-pointer"
+                    >
+                      <div className="flex items-center gap-2">
+                        <span>📦</span>
+                        <div>
+                          <div className="font-semibold leading-tight">{item.name}</div>
+                          <div className="text-[9px] text-sub-text leading-none">{item.itemsCount}</div>
+                        </div>
+                      </div>
+                      <span className="text-[10px] text-amber font-bold">₹{item.price}</span>
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-xs text-sub-text p-2">No matching kits</div>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       )}
 
