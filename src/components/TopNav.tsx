@@ -248,6 +248,12 @@ export default function TopNav({ activeTab = "Ritual Guides", onTabChange, onTri
     }
     if (tabId === "Ritual Kits") {
       router.push("/ritual-kits");
+    } else if (tabId === "Ritual Guides") {
+      router.push("/ritual-guides");
+    } else if (tabId === "Panchang") {
+      router.push("/panchang");
+    } else if (tabId === "Pujan with Purohit") {
+      router.push("/ritual-guides?view=purohit");
     } else {
       router.push("/");
     }

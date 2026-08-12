@@ -1,12 +1,16 @@
 import React from "react";
+import { useRouter } from "next/navigation";
 import { ArticleCard } from "@/lib/mock-data";
 
 interface RitualCardProps {
-  article: ArticleCard;
+  article: ArticleCard & { slug?: string };
   index: number;
 }
 
 export default function RitualCard({ article, index }: RitualCardProps) {
+  const router = useRouter();
+  const slug = article.slug || article.title.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+
   // Rotate through the background gradient styles defined in the HTML
   const gradients = [
     "linear-gradient(135deg, #2A4A1A, #4A7C3F)", // Hariyali Teej
@@ -33,7 +37,10 @@ export default function RitualCard({ article, index }: RitualCardProps) {
   const tagStyles = getTagStyles(article.tag);
 
   return (
-    <div className="article-card select-none hover:shadow-lg transition-shadow duration-200 cursor-pointer">
+    <div 
+      onClick={() => router.push(`/ritual-guides/${slug}`)}
+      className="article-card select-none hover:shadow-lg transition-shadow duration-200 cursor-pointer"
+    >
       {/* Article Image Area */}
       <div
         className="article-img font-sans text-xs"

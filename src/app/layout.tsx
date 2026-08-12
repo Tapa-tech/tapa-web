@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter, Lora } from "next/font/google";
 import "./globals.css";
 import "./tapa-styles.css";
+import "./ritual-guide.css";
+import "./ritual-guides/guide.css";
 
 const inter = Inter({
   subsets: ["latin"],

@@ -65,7 +65,6 @@ interface TiptapBlock {
   content?: TiptapContent[];
 }
 
-// Helper to extract text from Tiptap JSON blocks
 function extractTextFromTiptap(jsonStr?: string): string {
   if (!jsonStr) return "";
   try {
@@ -87,7 +86,6 @@ function extractTextFromTiptap(jsonStr?: string): string {
   return jsonStr;
 }
 
-// Helper to determine the primary tag from guide dpbEntries
 const getGuideTag = (guide: Guide): "DHARMA" | "PRATHA" | "BHRANTI" => {
   if (!guide || !guide.dpbEntries || guide.dpbEntries.length === 0) return "DHARMA";
   const tags = guide.dpbEntries.map((e) => e.tag);
@@ -99,9 +97,8 @@ const getGuideTag = (guide: Guide): "DHARMA" | "PRATHA" | "BHRANTI" => {
 export default function HomePage() {
   const router = useRouter();
   const [toastMessage, setToastMessage] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<string>("Ritual Guides");
+  const [activeTab, setActiveTab] = useState<string>("");
 
-  // Dynamic CMS content state
   const [featuredGuide, setFeaturedGuide] = useState<Guide | null>(null);
   const [publishedGuides, setPublishedGuides] = useState<Guide[]>([]);
 
@@ -128,7 +125,6 @@ export default function HomePage() {
     }, 3000);
   };
 
-  // Emojis for stepper journey
   const stepEmojis: { [key: string]: string } = {
     "Preparation": "🚿",
     "Sankalp": "🙏",
@@ -138,22 +134,18 @@ export default function HomePage() {
     "Evening Puja": "🪔",
   };
 
-  // Helper to parse subtitle (first clean paragraph) from introText
   const getGuideSubtitle = (guide: Guide | null) => {
     if (!guide) return FEATURED_RITUAL.subtitle;
     const text = extractTextFromTiptap(guide.introText);
     if (!text) return FEATURED_RITUAL.subtitle;
-    
     const paragraphs = text.split("\n").map(p => p.trim()).filter(p => p.length > 0);
     const cleanParagraph = paragraphs.find(p => {
       const pUpper = p.toUpperCase();
       return !pUpper.includes("PART A") && !pUpper.includes("PART B") && !pUpper.includes("PART C") && !pUpper.includes("IMAGE BRIEF") && !pUpper.includes("BACKEND");
     });
-    
     return cleanParagraph || paragraphs[0] || FEATURED_RITUAL.subtitle;
   };
 
-  // Stepper steps map
   const dynamicSteps = (featuredGuide && featuredGuide.steps && featuredGuide.steps.length > 0)
     ? featuredGuide.steps.map((step: GuideStep, idx: number) => ({
         name: step.title,
@@ -161,7 +153,6 @@ export default function HomePage() {
       }))
     : TODAY_RITUAL_JOURNEY.steps;
 
-  // Credibility panel helpers
   const starsCount = featuredGuide ? (() => {
     if (!featuredGuide.dpbEntries || featuredGuide.dpbEntries.length === 0) return 4;
     const scores = featuredGuide.dpbEntries.map((e: DpbEntry) => e.confidenceScore);
@@ -192,7 +183,6 @@ export default function HomePage() {
       PRATHA: "bg-[#E8A020]",
       BHRANTI: "bg-[#D4175A]"
     };
-    
     ["DHARMA", "PRATHA", "BHRANTI"].forEach(t => {
       const entry = guide.dpbEntries?.find((e: DpbEntry) => e.tag === t);
       if (entry) {
@@ -204,7 +194,6 @@ export default function HomePage() {
         });
       }
     });
-    
     if (notes.length === 0) {
       return [
         { label: "Abhishek, Sankalp = Dharma", color: "bg-[#1A5C28]" },
@@ -217,7 +206,6 @@ export default function HomePage() {
 
   const credibilityNotes = getDpbNotes(featuredGuide);
 
-  // Dynamic articles shelf list
   const dynamicArticles = (publishedGuides && publishedGuides.length > 0)
     ? publishedGuides.map((guide: Guide) => {
         const desc = extractTextFromTiptap(guide.introText);
@@ -232,25 +220,28 @@ export default function HomePage() {
       })
     : RITUAL_GUIDES_ARTICLES.articles;
 
-  return (
-    <div className="min-h-screen bg-bg text-body-text font-sans antialiased animate-fadeIn">
-      {/* 0.1 — Announcement Bar */}
-      <AnnouncementBar />
+  const handleTabChange = (tabId: string) => {
+    setActiveTab(tabId);
+    if (tabId === "Ritual Kits") {
+      router.push("/ritual-kits");
+    } else if (tabId === "Ritual Guides") {
+      router.push("/ritual-guides");
+    } else if (tabId === "Panchang") {
+      router.push("/panchang");
+    } else if (tabId === "Pujan with Purohit") {
+      router.push("/ritual-guides?view=purohit");
+    }
+  };
 
-      {/* 0.2 & 0.3 — Top Nav (Integrated Categories) */}
+  return (
+    <div className="min-h-screen bg-[#F2EDE4] text-[#2C2010] font-sans antialiased">
+      <AnnouncementBar />
       <TopNav
         activeTab={activeTab}
-        onTabChange={(tabId) => {
-          if (tabId === "Ritual Kits") {
-            router.push("/ritual-kits");
-          } else {
-            setActiveTab(tabId);
-          }
-        }}
+        onTabChange={handleTabChange}
         onTriggerToast={triggerToast}
       />
 
-      {/* 0.4 — Hero Section */}
       <section className="hero">
         <div
           className="hero-img"
@@ -270,7 +261,6 @@ export default function HomePage() {
         </div>
         <div className="hero-overlay"></div>
 
-        {/* Share Button */}
         <button
           onClick={() => triggerToast("Copied sharing link to clipboard!")}
           className="hero-share font-sans select-none cursor-pointer"
@@ -279,7 +269,6 @@ export default function HomePage() {
           <span>Share</span>
         </button>
 
-        {/* Hero Content Area */}
         <div className="hero-wrap">
           <div className="hero-inner select-none">
             <div className="hero-eyebrow font-sans uppercase">
@@ -295,10 +284,8 @@ export default function HomePage() {
               {getGuideSubtitle(featuredGuide)}
             </p>
 
-            {/* 0.5 — Trust Badge Strip */}
             <TrustBadgeStrip />
 
-            {/* CTAs */}
             <div className="hero-btns mt-4">
               <button
                 onClick={() => triggerToast(`Starting ${featuredGuide ? featuredGuide.title : "vrat"} flow...`)}
@@ -307,7 +294,10 @@ export default function HomePage() {
                 ▶ Start today&apos;s vrat
               </button>
               <button
-                onClick={() => triggerToast(`Opening complete ${featuredGuide ? featuredGuide.title : "vidhi"} guide...`)}
+                onClick={() => {
+                  const slug = featuredGuide ? featuredGuide.slug : "sawan-somwar-vrat";
+                  router.push(`/ritual-guides/${slug}`);
+                }}
                 className="hbtn-ghost font-sans cursor-pointer hover:bg-white/20"
               >
                 📖 Read complete vidhi
@@ -323,7 +313,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Credibility Panel (placed right below Hero) */}
       <div className="cred-panel select-none">
         <div className="wrap grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-0">
           <div className="cred-cell font-sans">
@@ -366,13 +355,9 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* 0.6 — Panchang Today Bar */}
       <PanchangCard />
 
-      {/* Main Wrap (Journey Stepper, Kits, Articles, Booking, WA Nudge, Explore) */}
       <main className="pb-16 mt-6">
-
-        {/* 0.8 — Today's Ritual Journey Stepper */}
         <div className="wrap">
           <SectionHeading
             rightElement={
@@ -380,7 +365,8 @@ export default function HomePage() {
                 href="#"
                 onClick={(e) => {
                   e.preventDefault();
-                  triggerToast("Redirecting to all ritual steps...");
+                  const slug = featuredGuide ? featuredGuide.slug : "sawan-somwar-vrat";
+                  router.push(`/ritual-guides/${slug}`);
                 }}
                 className="sec-link font-sans font-semibold text-pink"
               >
@@ -400,21 +386,16 @@ export default function HomePage() {
               return (
                 <div key={idx} className="j-step select-none">
                   <div className="j-step-inner">
-                    {/* Stepper Node Circle */}
                     <div
-                      className={`j-circle font-sans ${isDone ? "done" : ""} ${isActive ? "active font-bold" : ""
-                        }`}
+                      className={`j-circle font-sans ${isDone ? "done" : ""} ${isActive ? "active font-bold" : ""}`}
                     >
                       {stepEmojis[step.name] || "🙏"}
                       {isDone && <span className="j-done-badge font-sans">✓</span>}
                     </div>
-
-                    {/* Connector line (not for the last step) */}
                     {!isLast && (
                       <div className={`j-connector ${isDone ? "done" : ""}`} />
                     )}
                   </div>
-                  {/* Step Label */}
                   <div className={`j-label font-sans ${isActive ? "active" : ""}`}>
                     {step.name}
                   </div>
@@ -424,7 +405,6 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* 0.7 — Ritual Kits Shelf */}
         <div className="kits-band mt-12 select-none">
           <div className="wrap">
             <div className="kits-launch-inner">
@@ -448,7 +428,6 @@ export default function HomePage() {
                 </button>
               </div>
 
-              {/* Kit Images Mock Cards */}
               <div className="kits-launch-img">
                 <div className="kit-img-card font-bold">
                   KIT IMAGE
@@ -470,7 +449,6 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* 0.9 — From Ritual Guides Grid */}
         <div className="wrap mt-8">
           <SectionHeading
             rightElement={
@@ -478,7 +456,7 @@ export default function HomePage() {
                 href="#"
                 onClick={(e) => {
                   e.preventDefault();
-                  triggerToast("Redirecting to all guides...");
+                  router.push("/ritual-guides");
                 }}
                 className="sec-link font-sans font-semibold text-pink"
               >
@@ -496,7 +474,6 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* 0.10 — Pujan with Purohit Strip */}
         <div className="wrap mt-10 select-none">
           <SectionHeading
             rightElement={
@@ -504,7 +481,7 @@ export default function HomePage() {
                 href="#"
                 onClick={(e) => {
                   e.preventDefault();
-                  triggerToast("Redirecting to all Purohit bookings...");
+                  router.push("/ritual-guides?view=purohit");
                 }}
                 className="sec-link font-sans font-semibold text-pink"
               >
@@ -516,7 +493,6 @@ export default function HomePage() {
           </SectionHeading>
 
           <div className="purohit-strip mt-4 flex flex-col sm:flex-row items-center gap-4 sm:gap-6 justify-between w-full">
-            {/* Circular Purohit Avatar image from assets */}
             <div className="purohit-icon overflow-hidden flex items-center justify-center rounded-xl bg-white/5 border border-white/10 select-none">
               <Image
                 src={purohitDp}
@@ -544,7 +520,6 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* 0.11 — WhatsApp Subscription Nudge */}
         <div className="wrap mt-8 select-none">
           <div
             onClick={() => triggerToast("WhatsApp reminders sign up starting soon!")}
@@ -561,7 +536,6 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* 0.12 — Explore by Category Grid */}
         <div className="wrap mt-10">
           <SectionHeading>Explore by category</SectionHeading>
 
@@ -571,13 +545,10 @@ export default function HomePage() {
             ))}
           </div>
         </div>
-
       </main>
 
-      {/* Reusable Footer Component */}
       <Footer onTriggerToast={triggerToast} />
 
-      {/* Premium Toast Notification */}
       {toastMessage && (
         <div className="fixed bottom-6 right-6 z-[100] bg-dark text-white border border-white/10 px-5 py-3 rounded-xl shadow-2xl flex items-center gap-2 animate-bounce font-sans text-xs">
           <span className="w-1.5 h-1.5 rounded-full bg-pink animate-ping" />

@@ -168,20 +168,31 @@ model DharmicConcept {
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
 }
+enum PanchangDataSource {
+  AUTO_SYNCED
+  MANUAL_OVERRIDE
+}
 
 model PanchangEntry {
-  id           String   @id @default(cuid())
-  date         DateTime @unique
-  city         String   @default("Delhi-NCR")
-  tithi        String
-  tithiSub     String   // "7th day"
-  paksha       String   // "Shukla" / "Krishna"
-  pakshaSub    String   // "Waxing moon" / "Waning moon"
-  nakshatra    String
-  nakshatraSub String?  // "Auspicious" — only when genuinely true, per content spec
-  sunrise      String   // "5:28"
-  sunset       String?
-  createdAt    DateTime @default(now())
+  id            String             @id @default(cuid())
+  date          DateTime
+  city          String             @default("Delhi-NCR")
+  tithi         String
+  tithiSub      String             // "7th day"
+  paksha        String             // "Shukla" / "Krishna"
+  pakshaSub     String             // "Waxing moon" / "Waning moon"
+  nakshatra     String
+  nakshatraSub  String?            // "Auspicious" — only when genuinely true, per content spec
+  sunrise       String             // "5:28"
+  sunset        String?
+  dataSource    PanchangDataSource @default(AUTO_SYNCED)
+  syncedAt      DateTime?          // when the automated sync last wrote/refreshed this record
+  overriddenBy  String?            // admin userId, if manually corrected
+  overriddenAt  DateTime?
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+
+  @@unique([date, city])
 }
 
 model VratEntry {
