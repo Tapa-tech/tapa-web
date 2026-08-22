@@ -7,6 +7,7 @@ import AnnouncementBar from "@/components/AnnouncementBar";
 import TopNav from "@/components/TopNav";
 import Footer from "@/components/Footer";
 import { extractTextFromTiptap } from "@/utils/tiptap";
+import "../prebook.css";
 
 // Types for views
 type ViewKey = "rg" | "pa" | "dc" | "rk" | "purohit";
