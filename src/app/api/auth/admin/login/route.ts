@@ -43,7 +43,14 @@ export async function POST(req: NextRequest) {
       where: { email },
     });
 
-    if (!user || !user.passwordHash || user.role !== "ADMIN") {
+    if (user && user.isActive === false) {
+      return NextResponse.json(
+        { error: "Your account has been deactivated. Please contact support." },
+        { status: 403 }
+      );
+    }
+
+    if (!user || !user.passwordHash || (user.role !== "ADMIN" && user.role !== "SUPER_ADMIN")) {
       // Return generic error to prevent email/account enumeration
       return NextResponse.json(
         { error: "Invalid email or password." },

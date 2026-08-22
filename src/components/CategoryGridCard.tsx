@@ -1,6 +1,11 @@
 import React from "react";
 import { useRouter } from "next/navigation";
-import { CategoryCard } from "@/lib/mock-data";
+
+interface CategoryCard {
+  title: string;
+  sub: string;
+  count: string;
+}
 
 interface CategoryGridCardProps {
   category: CategoryCard;

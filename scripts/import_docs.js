@@ -331,6 +331,105 @@ function buildTiptapJson(paragraphs) {
   });
 }
 
+function isEditorialOrMetadata(p) {
+  const l = p.trim();
+  const lower = l.toLowerCase();
+  
+  if (
+    l.startsWith("PART A") ||
+    l.startsWith("PART B") ||
+    l.startsWith("PART C") ||
+    lower.includes("backend") ||
+    lower.includes("image brief") ||
+    lower.includes("checklist") ||
+    lower.includes("tagging log") ||
+    lower.includes("source-of-truth") ||
+    lower.includes("credibility card") ||
+    lower.includes("panchang card") ||
+    lower.includes("section nav chips") ||
+    lower.includes("intro prose") ||
+    lower.includes("intro (shown to user)") ||
+    lower.includes("comparison table") ||
+    lower.includes("infographic") ||
+    lower.includes("image ") ||
+    lower.startsWith("image") ||
+    lower === "field" ||
+    lower === "what it shows" ||
+    lower === "primary source" ||
+    lower === "confidence" ||
+    lower === "regional variance" ||
+    lower === "optional elements" ||
+    lower === "confidence score" ||
+    lower === "dharma note" ||
+    lower === "element" ||
+    lower === "tag" ||
+    lower === "score" ||
+    lower === "opt/mand" ||
+    lower === "source"
+  ) {
+    return true;
+  }
+
+  if (
+    l.startsWith("A1.") ||
+    l.startsWith("A2.") ||
+    l.startsWith("A3.") ||
+    l.startsWith("↳") ||
+    l.startsWith("☐") ||
+    l.startsWith("✕") ||
+    l.startsWith("✓") ||
+    l.startsWith("★") ||
+    l.startsWith("📅") ||
+    l.startsWith("•") ||
+    l.startsWith("①") ||
+    l.startsWith("②") ||
+    l.startsWith("③") ||
+    l.startsWith("④") ||
+    l.startsWith("⑤") ||
+    l.startsWith("⑥") ||
+    l.startsWith("⑦") ||
+    l.startsWith("⑧") ||
+    l.startsWith("⑨") ||
+    l.startsWith("⑩") ||
+    l.startsWith("[") ||
+    l.endsWith("]") ||
+    l.includes("★") ||
+    l.includes("─────────────────────────") ||
+    l.includes("💬") ||
+    l.includes("The Tapa Co.") ||
+    l.includes("Related")
+  ) {
+    return true;
+  }
+
+  if (
+    l.startsWith("Placement:") ||
+    l.startsWith("Type:") ||
+    l.startsWith("Dimensions:") ||
+    l.startsWith("Ratio:") ||
+    l.startsWith("Subject:") ||
+    l.startsWith("Prompt / Brief:") ||
+    l.startsWith("Caption:") ||
+    l.startsWith("Caption (as shown to user):") ||
+    lower.includes("tier: ai-generated")
+  ) {
+    return true;
+  }
+
+  if (
+    l === "Scripture" ||
+    l === "Puja" ||
+    l === "By region" ||
+    l === "Samagri" ||
+    l === "Myths" ||
+    l === "Related"
+  ) {
+    return true;
+  }
+
+  return false;
+}
+
 async function run() {
   console.log("=== STARTING IMPORT PROCESS ===");
 
@@ -411,23 +510,42 @@ async function run() {
     }
 
     // 5. Separate content sections
-    const partBIndex = paragraphs.findIndex((p) => p.includes("PART B"));
+    let partBIndex = paragraphs.findIndex((p) => p.trim() === "PART B — ARTICLE" || p.trim() === "PART B — THE COMPARISON");
+    if (partBIndex === -1) {
+      // Find the last index containing "PART B" (skips the TOC entry at the top)
+      const indices = [];
+      paragraphs.forEach((p, idx) => {
+        if (p.includes("PART B")) indices.push(idx);
+      });
+      partBIndex = indices.length > 0 ? indices[indices.length - 1] : -1;
+    }
     const bodyParagraphs = partBIndex !== -1 ? paragraphs.slice(partBIndex + 1) : paragraphs;
 
-    // Filter out footer rows in body text
-    const cleanBodyParagraphs = bodyParagraphs.filter((p) => {
-      const l = p.trim();
-      return (
-        !l.includes("Related") &&
-        !l.includes("💬") &&
-        !l.includes("The Tapa Co.") &&
-        !l.includes("─────────────────────────") &&
-        !l.includes("IMAGE 1") &&
-        !l.includes("IMAGE 2") &&
-        !l.startsWith("[") &&
-        !l.endsWith("]")
-      );
-    });
+    // Filter out editorial and metadata rows in body text
+    const cleanBodyParagraphs = [];
+    const hasIntroHeader = bodyParagraphs.some(
+      (p) => p.includes("Intro Prose") || p.includes("Intro (shown to user)") || p.includes("Introduction")
+    );
+
+    let hasStarted = !hasIntroHeader;
+
+    for (let i = 0; i < bodyParagraphs.length; i++) {
+      const p = bodyParagraphs[i];
+      const isHeader = p.includes("Intro Prose") || p.includes("Intro (shown to user)") || p.includes("Introduction");
+
+      if (isHeader) {
+        hasStarted = true;
+        continue;
+      }
+
+      if (!hasStarted) {
+        continue;
+      }
+
+      if (hasStarted && !isEditorialOrMetadata(p)) {
+        cleanBodyParagraphs.push(p);
+      }
+    }
 
     // 6. Extract Myths & Facts (Bhranti DPB entries)
     const bhrantis = [];
@@ -482,24 +600,70 @@ async function run() {
       }
     } else {
       // Create Ritual Guide
+      // Extract steps from paragraphs
       const steps = [];
       const samagri = [];
 
-      // Extract steps from paragraphs
-      paragraphs.forEach((p) => {
-        const stepNumMatch = p.match(/^[①②③④⑤⑥⑦⑧⑨⑩]\s*(.*)/);
-        const stepListMatch = p.match(/^\d+\.\s*(.*)/);
-        if (stepNumMatch) {
-          steps.push(stepNumMatch[1]);
-        } else if (stepListMatch) {
-          steps.push(stepListMatch[1]);
-        }
+      let inPujaOrVidhiSection = false;
+      let hasPujaOrVidhiSection = false;
 
-        // Extract samagri items
-        if (p.startsWith("☐") || p.startsWith("☐ ")) {
-          samagri.push(p.replace(/☐\s*/, "").trim());
+      bodyParagraphs.forEach((p) => {
+        if (p.includes("Section:")) {
+          const secName = p.split("Section:")[1].trim();
+          if (/puja|vidhi|step|kanda|chalisa|path|verses|recite/i.test(secName)) {
+            hasPujaOrVidhiSection = true;
+          }
         }
       });
+
+      for (let idx = 0; idx < bodyParagraphs.length; idx++) {
+        const p = bodyParagraphs[idx].trim();
+
+        if (p.includes("Section:")) {
+          const secName = p.split("Section:")[1].trim();
+          inPujaOrVidhiSection = /puja|vidhi|step|kanda|chalisa|path|verses|recite/i.test(secName);
+          continue;
+        }
+
+        // Extract samagri items (samagri checklist can be anywhere in the body)
+        if (p.startsWith("☐") || p.startsWith("☐ ")) {
+          samagri.push(p.replace(/☐\s*/, "").trim());
+          continue;
+        }
+
+        // If the file has a Puja/Vidhi section, only extract steps when inside it.
+        // If the file does NOT have any Puja/Vidhi section heading, search the whole body.
+        if (hasPujaOrVidhiSection && !inPujaOrVidhiSection) {
+          continue;
+        }
+
+        // Ignore known non-step parts like Myths or Samagri checklists or Related sections
+        if (p.startsWith("✕") || p.startsWith("✓") || p.startsWith("☐") || p.includes("WhatsApp") || p.includes("Sticky Bottom")) {
+          continue;
+        }
+
+        // Style A: inline number
+        const inlineMatch = p.match(/^([①②③④⑤⑥⑦⑧⑨⑩]|\d+)\.?\s+(.*)/);
+        if (inlineMatch) {
+          const title = inlineMatch[2].trim();
+          const nextP = bodyParagraphs[idx + 1] ? bodyParagraphs[idx + 1].trim() : "";
+          const description = (nextP && !nextP.match(/^([①-⑩]|\d+)/) && !nextP.includes("Section:") && !nextP.includes("IMAGE") && !nextP.startsWith("✕") && !nextP.startsWith("✓") && !nextP.startsWith("☐")) ? nextP : title;
+          steps.push({ title, description });
+          continue;
+        }
+
+        // Style B: digit on its own line
+        const digitMatch = p.match(/^([①②③④⑤⑥⑦⑧⑨⑩]|\d+)$/);
+        if (digitMatch) {
+          const title = bodyParagraphs[idx + 1] ? bodyParagraphs[idx + 1].trim() : "";
+          const description = bodyParagraphs[idx + 2] ? bodyParagraphs[idx + 2].trim() : "";
+          if (title && !title.match(/^([①-⑩]|\d+)/) && !title.includes("Section:") && !title.includes("IMAGE") && !title.startsWith("✕") && !title.startsWith("✓") && !title.startsWith("☐")) {
+            steps.push({ title, description });
+            idx += 2;
+            continue;
+          }
+        }
+      }
 
       try {
         const guide = await db.ritualGuide.upsert({
@@ -534,8 +698,8 @@ async function run() {
         for (let idx = 0; idx < steps.length; idx++) {
           await db.ritualStep.create({
             data: {
-              title: steps[idx].substring(0, 60),
-              description: steps[idx],
+              title: steps[idx].title.substring(0, 60),
+              description: steps[idx].description,
               order: idx + 1,
               ritualGuideId: guide.id,
             },

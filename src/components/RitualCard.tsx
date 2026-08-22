@@ -1,6 +1,13 @@
 import React from "react";
 import { useRouter } from "next/navigation";
-import { ArticleCard } from "@/lib/mock-data";
+
+interface ArticleCard {
+  title: string;
+  tag: "DHARMA" | "PRATHA" | "BHRANTI";
+  dateMeta: string;
+  description: string;
+  imageUrl?: string;
+}
 
 interface RitualCardProps {
   article: ArticleCard & { slug?: string };
@@ -8,6 +15,7 @@ interface RitualCardProps {
 }
 
 export default function RitualCard({ article, index }: RitualCardProps) {
+
   const router = useRouter();
   const slug = article.slug || article.title.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 
@@ -37,18 +45,24 @@ export default function RitualCard({ article, index }: RitualCardProps) {
   const tagStyles = getTagStyles(article.tag);
 
   return (
-    <div 
+    <div
       onClick={() => router.push(`/ritual-guides/${slug}`)}
       className="article-card select-none hover:shadow-lg transition-shadow duration-200 cursor-pointer"
     >
       {/* Article Image Area */}
       <div
         className="article-img font-sans text-xs"
-        style={{ background: gradient }}
+        style={{
+          backgroundImage: article.imageUrl
+            ? `url(${article.imageUrl})`
+            : gradient,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
       >
-        {`[ IMAGE: ${article.title} ]`}
+        {!article.imageUrl && `[ IMAGE: ${article.title} ]`}
       </div>
-
       {/* Article Body */}
       <div className="article-body">
         <span

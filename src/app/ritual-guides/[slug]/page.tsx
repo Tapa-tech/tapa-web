@@ -7,6 +7,10 @@ import { useRouter } from "next/navigation";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import TopNav from "@/components/TopNav";
 import Footer from "@/components/Footer";
+import ListenButton from "@/components/ListenButton";
+import { useCartStore } from "@/lib/store/cartStore";
+import { trackAddToCart } from "@/lib/analytics";
+import { formatRichText } from "@/utils/tiptap";
 
 // Fallback static data matching Ritual Guide-Festive.html
 const FALLBACK_GUIDE = {
@@ -147,33 +151,7 @@ interface PageProps {
   };
 }
 
-function formatRichText(text: string | undefined): string {
-  if (!text) return "";
-  const trimmed = text.trim();
-  if (trimmed.startsWith("[") || trimmed.startsWith("{")) {
-    try {
-      const obj = JSON.parse(trimmed);
-      return extractText(obj);
-    } catch (e) {
-      return text;
-    }
-  }
-  return text;
-}
 
-function extractText(obj: any): string {
-  if (!obj) return "";
-  if (typeof obj === "string") return obj;
-  if (Array.isArray(obj)) {
-    return obj.map(extractText).filter(Boolean).join("\n\n");
-  }
-  if (typeof obj === "object") {
-    if (obj.text) return obj.text;
-    if (obj.content) return extractText(obj.content);
-    if (obj.children) return extractText(obj.children);
-  }
-  return "";
-}
 
 export default function RitualGuideDetailPage({ params }: PageProps) {
   const router = useRouter();
@@ -186,10 +164,64 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
 
   // DB Data hooks
   const [guide, setGuide] = useState<Guide | null>(null);
+  const resolvedGuide = (guide || FALLBACK_GUIDE) as any;
+  
   const [loading, setLoading] = useState(true);
+  const [isSaved, setIsSaved] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [linkedProduct, setLinkedProduct] = useState<any>(null);
+
+  // Zustand Cart Store
+  const addToCartStore = useCartStore((state) => state.addToCart);
+
+  useEffect(() => {
+    async function checkLinkedProduct() {
+      if (!resolvedGuide?.id) return;
+      try {
+        const res = await fetch("/api/public/products");
+        if (res.ok) {
+          const products = await res.json();
+          const match = products.find((p: any) => p.linkedRitualGuideId === resolvedGuide.id);
+          if (match) {
+            setLinkedProduct(match);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to check linked product:", err);
+      }
+    }
+    checkLinkedProduct();
+  }, [resolvedGuide?.id]);
+
+  const handleBuyKit = () => {
+    if (linkedProduct) {
+      addToCartStore(linkedProduct.id, 1, {
+        name: linkedProduct.name,
+        price: Number(linkedProduct.price),
+        image: linkedProduct.images?.[0] || undefined,
+        category: linkedProduct.category,
+        codAvailability: linkedProduct.codAvailability,
+      });
+      trackAddToCart(linkedProduct.id, linkedProduct.name, Number(linkedProduct.price), 1, linkedProduct.category);
+      triggerToast(`Added ${linkedProduct.name} to cart! Redirecting...`);
+      setTimeout(() => {
+        router.push("/cart");
+      }, 1000);
+    } else {
+      triggerToast(`We will notify you when the companion kit for ${resolvedGuide.title} launches!`);
+    }
+  };
 
   // Checkbox State
-  const [checklist, setChecklist] = useState<boolean[]>([false, false, false, false, false]);
+  const [checklist, setChecklist] = useState<boolean[]>([]);
+
+  useEffect(() => {
+    if (guide?.steps) {
+      setChecklist(new Array(guide.steps.length).fill(false));
+    } else if (!guide && FALLBACK_GUIDE.steps) {
+      setChecklist(new Array(FALLBACK_GUIDE.steps.length).fill(false));
+    }
+  }, [guide]);
 
   useEffect(() => {
     async function loadGuide() {
@@ -207,6 +239,30 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
     }
     loadGuide();
   }, [params.slug]);
+
+  useEffect(() => {
+    async function checkAuthAndSaved() {
+      try {
+        const sessionRes = await fetch("/api/auth/session");
+        if (sessionRes.ok) {
+          const sessionData = await sessionRes.json();
+          if (sessionData?.session) {
+            setIsLoggedIn(true);
+            const savedRes = await fetch("/api/public/saved-guides");
+            if (savedRes.ok) {
+              const savedData = await savedRes.json();
+              const savedList = savedData.savedGuides || [];
+              const hasSaved = savedList.some((g: any) => g.slug === params.slug);
+              setIsSaved(hasSaved);
+            }
+          }
+        }
+      } catch (err) {
+        console.error("Failed to check auth and saved status:", err);
+      }
+    }
+    checkAuthAndSaved();
+  }, [params.slug, guide]);
 
   // Listen to scroll position for sticky bottom
   useEffect(() => {
@@ -226,6 +282,41 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
     setTimeout(() => {
       setToastMessage(null);
     }, 3000);
+  };
+
+  const handleSaveToggle = async () => {
+    try {
+      // Fetch session check again to be sure
+      const sessionRes = await fetch("/api/auth/session");
+      const sessionData = await sessionRes.json();
+      if (!sessionData?.session) {
+        const currentUrl = window.location.pathname;
+        router.push(`${currentUrl}?login=true`);
+        triggerToast("Please sign in to save this guide.");
+        return;
+      }
+
+      if (!guide) {
+        triggerToast("Guide details are still loading.");
+        return;
+      }
+
+      const res = await fetch("/api/public/saved-guides", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ guideId: guide.id }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setIsSaved(data.saved);
+        triggerToast(data.saved ? "Guide saved to your profile!" : "Removed guide from saved list.");
+      } else {
+        triggerToast("Failed to update saved status.");
+      }
+    } catch (err) {
+      triggerToast("Error updating saved status.");
+    }
   };
 
   const handleCheck = (index: number) => {
@@ -250,15 +341,25 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
     setJapaCount(prev => Math.max(0, prev - 1));
   };
 
-  // Resolve dynamic values with FALLBACK_GUIDE
-  const resolvedGuide = (guide || FALLBACK_GUIDE) as any;
-
   // Format rich text blocks if stored as JSON
   const introText = formatRichText(resolvedGuide.introText);
   const kathaBody = formatRichText(resolvedGuide.kathaBody);
   const sankalpaBody = formatRichText(resolvedGuide.sankalpaBody);
   const sankalpaQuote = formatRichText(resolvedGuide.sankalpaQuote);
   const aartiBody = formatRichText(resolvedGuide.aartiBody);
+
+  const fullTextToRead = useMemo(() => {
+    const stepsText = resolvedGuide.steps
+      ? resolvedGuide.steps.map((s: any) => `Step ${s.order}: ${s.title}. ${s.description}`).join(" ")
+      : "";
+    const kathaText = kathaBody ? `Katha: ${resolvedGuide.kathaTitle || ""}. ${kathaBody}` : "";
+    return `${resolvedGuide.title}. ${introText}. ${stepsText} ${kathaText}`;
+  }, [resolvedGuide, introText, kathaBody]);
+
+  const mantrasTextToRead = useMemo(() => {
+    if (!resolvedGuide.mantras) return "";
+    return resolvedGuide.mantras.map((m: any) => `Mantra: ${m.transliteration}. Meaning: ${m.meaning}`).join(" ");
+  }, [resolvedGuide.mantras]);
 
   const currentCategory = resolvedGuide.category || "Festive Pujans";
   const primarySource = resolvedGuide.sources?.[0]?.source || { name: "Markandeya Purana", reference: "Devi Mahatmya" };
@@ -305,6 +406,21 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
     ];
   }, [resolvedGuide.fastOptions]);
 
+  const resolvedNineFormsTable = useMemo(() => {
+    if (resolvedGuide.nineFormsTable) {
+      if (typeof resolvedGuide.nineFormsTable === "string") {
+        try {
+          return JSON.parse(resolvedGuide.nineFormsTable);
+        } catch {
+          return [];
+        }
+      } else if (Array.isArray(resolvedGuide.nineFormsTable)) {
+        return resolvedGuide.nineFormsTable;
+      }
+    }
+    return [];
+  }, [resolvedGuide.nineFormsTable]);
+
   const handleAudioToggle = () => {
     setAudioPlaying(!audioPlaying);
     if (!audioPlaying) {
@@ -343,8 +459,8 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
                 हिं
               </button>
             </div>
-            <button onClick={() => triggerToast("Guide saved to your profile!")} className="bcb hover:border-pink transition-colors">
-              🔖 Save
+            <button onClick={handleSaveToggle} className={`bcb hover:border-pink transition-colors ${isSaved ? "text-pink font-semibold" : ""}`}>
+              🔖 {isSaved ? "Saved" : "Save"}
             </button>
             <button onClick={() => triggerToast("Copied share link to clipboard!")} className="bcb hover:border-pink transition-colors">
               ↗ Share
@@ -355,7 +471,10 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
 
       {/* Hero Section */}
       <section className="hero">
-        <div className="hero-bg" />
+        <div 
+          className="hero-bg" 
+          style={resolvedGuide.thumbnailUrl ? { backgroundImage: `url(${resolvedGuide.thumbnailUrl})`, backgroundSize: "cover", backgroundPosition: "center" } : {}}
+        />
         <div className="hero-ov" />
         <button 
           onClick={() => triggerToast("Copied share link to clipboard!")} 
@@ -416,9 +535,13 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
             <span className="tpi"><span className="tpd bg-[#EF0F54]" />Fear-free</span>
           </div>
           <div className="audio">
-            <button onClick={handleAudioToggle} className="aplay hover:scale-105 transition-transform">
-              {audioPlaying ? "⏸" : "▶"}
-            </button>
+            <ListenButton
+              text={fullTextToRead}
+              label=""
+              audioUrl={resolvedGuide.audioUrl}
+              iconOnly={true}
+              className="aplay hover:scale-105 transition-transform"
+            />
             <div>
               <div className="alab">Listen to this guide</div>
               <div className="asub">18 min · narrated</div>
@@ -483,28 +606,34 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
               <div className="pan-g">
                 <div className="pc">
                   <div className="pc-k">OBSERVANCE</div>
-                  <div className="pc-v">Festive Period</div>
-                  <div className="pc-s">Shukla Paksha</div>
+                  <div className="pc-v">{resolvedGuide.panchangObservance || "Festive Period"}</div>
+                  <div className="pc-s">{resolvedGuide.panchangObservanceSub || "Shukla Paksha"}</div>
                 </div>
                 <div className="pc">
                   <div className="pc-k">MUHURTA TIME</div>
-                  <div className="pc-v">6:19–10:12 AM</div>
-                  <div className="pc-s">Abhijit Muhurta</div>
+                  <div className="pc-v">{resolvedGuide.panchangMuhurta || "6:19–10:12 AM"}</div>
+                  <div className="pc-s">{resolvedGuide.panchangMuhurtaSub || "Abhijit Muhurta"}</div>
                 </div>
                 <div className="pc">
                   <div className="pc-k">TITHI METRIC</div>
-                  <div className="pc-v">Saptami / Ashtami</div>
-                  <div className="pc-s">Auspicious merging</div>
+                  <div className="pc-v">{resolvedGuide.panchangTithi || "Saptami / Ashtami"}</div>
+                  <div className="pc-s">{resolvedGuide.panchangTithiSub || "Auspicious merging"}</div>
                 </div>
                 <div className="pc">
                   <div className="pc-k">VIJAY METRIC</div>
-                  <div className="pc-v">Dussehra Day</div>
-                  <div className="pc-s">The tenth day</div>
+                  <div className="pc-v">{resolvedGuide.panchangVijay || "Dussehra Day"}</div>
+                  <div className="pc-s">{resolvedGuide.panchangVijaySub || "The tenth day"}</div>
                 </div>
               </div>
-              <p className="pan-n font-sans">
-                <b>Two things to check against your own local panchang:</b> Observance timings covers civil days which may differ locally based on sunset, and panchangs differ slightly on local tithi endings. Follow your local family or community panchang.
-              </p>
+              {resolvedGuide.panchangNote ? (
+                <p className="pan-n font-sans">
+                  {resolvedGuide.panchangNote}
+                </p>
+              ) : (
+                <p className="pan-n font-sans">
+                  <b>Two things to check against your own local panchang:</b> Observance timings covers civil days which may differ locally based on sunset, and panchangs differ slightly on local tithi endings. Follow your local family or community panchang.
+                </p>
+              )}
             </div>
 
             <p className="open font-serif">
@@ -515,21 +644,40 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
             </p>
 
             {/* Section: Story */}
-            <div className="sh" id="story">
-              <span className="sh-p">+</span>
-              <span className="sh-t">{resolvedGuide.kathaTitle || "Scriptural Legend"}</span>
+            <div className="sh" id="story" style={{ alignItems: "center" }}>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <span className="sh-p">+</span>
+                <span className="sh-t">{resolvedGuide.kathaTitle || "Scriptural Legend"}</span>
+              </div>
+              {kathaBody && (
+                <ListenButton
+                  text={kathaBody}
+                  label="Listen to katha"
+                  audioUrl={resolvedGuide.kathaAudioUrl}
+                  className="mn-play off cursor-pointer hover:border-amber/50"
+                />
+              )}
             </div>
-            <p className="p font-sans">
-              {kathaBody ? kathaBody.split("\n\n")[0] : "Durga slaying Mahishasura representing victory of light."}
-            </p>
-            <div className="tagrow select-none">
-              <span className="pill d">DHARMA · {starsCount}/5</span>
-              <span className="badge puranic">PURANIC</span>
-              <span className="pill src">{primarySource.name}</span>
-            </div>
-            <p className="p font-sans">
-              {kathaBody ? kathaBody.split("\n\n")[1] || "" : ""}
-            </p>
+            {(() => {
+              const kathaParagraphs = kathaBody ? kathaBody.split("\n\n").filter(Boolean) : [];
+              return (
+                <>
+                  <p className="p font-sans">
+                    {kathaParagraphs[0] || "Scriptural legend narrating the significance of this day."}
+                  </p>
+                  <div className="tagrow select-none">
+                    <span className="pill d">DHARMA · {starsCount}/5</span>
+                    <span className="badge puranic">PURANIC</span>
+                    <span className="pill src">{primarySource.name}</span>
+                  </div>
+                  {kathaParagraphs.slice(1).map((para, pIdx) => (
+                    <p key={pIdx} className="p font-sans">
+                      {para}
+                    </p>
+                  ))}
+                </>
+              );
+            })()}
 
             {/* Section: Sankalpa */}
             <div className="sh" id="sankalp">
@@ -552,15 +700,15 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
                 <div className="sank-g select-none">
                   <div className="sg">
                     <div className="sg-k">PRIMARY DEITY</div>
-                    <div className="sg-v font-bold">Maa Durga</div>
+                    <div className="sg-v font-bold">{resolvedGuide.sankalpaWho || "Maa Durga"}</div>
                   </div>
                   <div className="sg">
                     <div className="sg-k">DESIRED OUTCOME</div>
-                    <div className="sg-v font-bold">Shanti & Arogya</div>
+                    <div className="sg-v font-bold">{resolvedGuide.sankalpaForWhat || "Shanti & Arogya"}</div>
                   </div>
                   <div className="sg">
                     <div className="sg-k">FAST METHOD</div>
-                    <div className="sg-v font-bold">Custom/Phalahar</div>
+                    <div className="sg-v font-bold">{resolvedGuide.fastOptions?.[0]?.name || "Custom/Phalahar"}</div>
                   </div>
                 </div>
               </div>
@@ -606,13 +754,12 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
               <div className="mantra">
                 <div className="mn-top select-none">
                   <span className="mn-l">puja mantras to chant</span>
-                  <button 
-                    onClick={() => triggerToast("Playing pronunciation guide...")} 
+                  <ListenButton
+                    text={mantrasTextToRead}
+                    label="Listen pronunciation"
+                    audioUrl={resolvedGuide.mantras?.[0]?.audioUrl}
                     className="mn-play off cursor-pointer hover:border-amber/50"
-                  >
-                    <span className="mn-pi">▶</span>
-                    <span>Listen pronunciation</span>
-                  </button>
+                  />
                 </div>
                 {resolvedGuide.mantras.map((mantra: any, idx: number) => (
                   <div key={idx} className="mb-4 last:mb-0">
@@ -640,12 +787,12 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
               </div>
             )}
 
-            {/* Nine Days Table (Specifically if Navratri) */}
-            {params.slug.includes("navratri") && (
+            {/* Nine Days Table (Specifically if present in database) */}
+            {resolvedNineFormsTable && resolvedNineFormsTable.length > 0 && (
               <div className="mt-8">
                 <div className="sh">
                   <span className="sh-p">+</span>
-                  <span className="sh-t">Observing the Nine Days of Navratri</span>
+                  <span className="sh-t">{resolvedGuide.nineFormsBannerCaption || "Observing the Nine Days of Navratri"}</span>
                 </div>
                 <div className="days mt-4 select-none">
                   <div className="dh font-sans">
@@ -655,24 +802,36 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
                     <span>COLOUR</span>
                     <span>OFFERING</span>
                   </div>
-                  {SHARAD_NINE_DAYS.map((d, idx) => (
+                  {resolvedNineFormsTable.map((d: any, idx: number) => (
                     <div key={idx} className="dr font-sans">
-                      <div className="d-n">{d.day}</div>
+                      <div className="d-n">{d.dayNumber || d.day || (idx + 1)}</div>
                       <div>
                         <div className="font-bold">{d.date}</div>
-                        <div className="d-dt">{d.tithi}</div>
+                        <div className="d-dt">{d.tithi || ""}</div>
                       </div>
                       <div>
-                        <span className="d-dv">{d.deity}</span>
+                        <span className="d-dv">
+                          {d.formNameSanskrit ? `${d.formNameSanskrit} (${d.formNameEnglish || ""})` : (d.deity || d.formNameEnglish || "")}
+                        </span>
                       </div>
                       <div className="d-col">
-                        <span className="d-sw" style={{ backgroundColor: d.colHex }} />
-                        {d.col}
+                        <span className="d-sw" style={{ backgroundColor: d.colourSwatch || d.colHex }} />
+                        {d.colourName || d.col}
                       </div>
-                      <div className="d-of">{d.of}</div>
+                      <div className="d-of">{d.offering || d.of}</div>
                     </div>
                   ))}
                 </div>
+                {resolvedGuide.nineFormsColourNote && (
+                  <p className="font-sans text-xs text-sub-text mt-3 italic leading-relaxed">
+                    * <b>Note on Colors:</b> {resolvedGuide.nineFormsColourNote}
+                  </p>
+                )}
+                {resolvedGuide.nineFormsOfferingsNote && (
+                  <p className="font-sans text-xs text-sub-text mt-1.5 italic leading-relaxed">
+                    * <b>Note on Offerings:</b> {resolvedGuide.nineFormsOfferingsNote}
+                  </p>
+                )}
               </div>
             )}
 
@@ -770,38 +929,31 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
             </div>
 
             {/* RELATED GUIDES */}
-            <div className="sh mt-8">
-              <span className="sh-p">🔗</span>
-              <span className="sh-t">Related Guides</span>
-            </div>
-            <div className="relgrid mt-4 select-none">
-              <div className="rel font-sans">
-                <div className="rel-h">FESTIVE PUJANS</div>
-                <div 
-                  onClick={() => router.push("/ritual-guides/hariyali-teej")} 
-                  className="rel-i cursor-pointer hover:opacity-85"
-                >
-                  <span>
-                    <span className="rel-n">Hariyali Teej</span>
-                    <span className="rel-s">Complete Vidhi Guide</span>
-                  </span>
-                  <span className="rel-a">→</span>
+            {resolvedGuide.resolvedRelatedGuides && resolvedGuide.resolvedRelatedGuides.length > 0 && (
+              <>
+                <div className="sh mt-8">
+                  <span className="sh-p">🔗</span>
+                  <span className="sh-t">Related Guides</span>
                 </div>
-              </div>
-              <div className="rel font-sans">
-                <div className="rel-h">YEAR-ROUND PUJANS</div>
-                <div 
-                  onClick={() => router.push("/ritual-guides/sundarkand-path-home-vidhi")} 
-                  className="rel-i cursor-pointer hover:opacity-85"
-                >
-                  <span>
-                    <span className="rel-n">Sundarkand Path</span>
-                    <span className="rel-s">Home recitation steps</span>
-                  </span>
-                  <span className="rel-a">→</span>
+                <div className="relgrid mt-4 select-none">
+                  {resolvedGuide.resolvedRelatedGuides.map((rel: any, idx: number) => (
+                    <div key={idx} className="rel font-sans">
+                      <div className="rel-h">{rel.category?.toUpperCase() || "RELATED PUJAN"}</div>
+                      <div 
+                        onClick={() => router.push(`/ritual-guides/${rel.slug}`)} 
+                        className="rel-i cursor-pointer hover:opacity-85"
+                      >
+                        <span>
+                          <span className="rel-n">{rel.title?.split(":")[0]}</span>
+                          <span className="rel-s">Complete Vidhi Guide</span>
+                        </span>
+                        <span className="rel-a">→</span>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              </div>
-            </div>
+              </>
+            )}
 
           </div>
 
@@ -812,53 +964,19 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
             <div className="sb select-none">
               <div className="sb-h font-sans">
                 <span>Puja Checklist</span>
-                <span className="sb-c font-bold text-pink">{checkedCount}/5 done</span>
+                <span className="sb-c font-bold text-pink">{checkedCount}/{resolvedGuide.steps?.length || 0} done</span>
               </div>
-              <div className="sb-i font-sans">
-                <input 
-                  type="checkbox" 
-                  checked={checklist[0]} 
-                  onChange={() => handleCheck(0)} 
-                  className="cb cursor-pointer" 
-                />
-                <span>Gangajal sprinkled</span>
-              </div>
-              <div className="sb-i font-sans">
-                <input 
-                  type="checkbox" 
-                  checked={checklist[1]} 
-                  onChange={() => handleCheck(1)} 
-                  className="cb cursor-pointer" 
-                />
-                <span>Sankalpa declared</span>
-              </div>
-              <div className="sb-i font-sans">
-                <input 
-                  type="checkbox" 
-                  checked={checklist[2]} 
-                  onChange={() => handleCheck(2)} 
-                  className="cb cursor-pointer" 
-                />
-                <span>Kalash Sthapana ready</span>
-              </div>
-              <div className="sb-i font-sans">
-                <input 
-                  type="checkbox" 
-                  checked={checklist[3]} 
-                  onChange={() => handleCheck(3)} 
-                  className="cb cursor-pointer" 
-                />
-                <span>Akhand Jyot lit</span>
-              </div>
-              <div className="sb-i font-sans">
-                <input 
-                  type="checkbox" 
-                  checked={checklist[4]} 
-                  onChange={() => handleCheck(4)} 
-                  className="cb cursor-pointer" 
-                />
-                <span>Bhog offering placed</span>
-              </div>
+              {resolvedGuide.steps?.map((step: any, idx: number) => (
+                <div key={idx} className="sb-i font-sans">
+                  <input 
+                    type="checkbox" 
+                    checked={checklist[idx] || false} 
+                    onChange={() => handleCheck(idx)} 
+                    className="cb cursor-pointer" 
+                  />
+                  <span>{step.title}</span>
+                </div>
+              ))}
               <div className="sb-act">
                 <button onClick={() => triggerToast("Registering for WhatsApp reminders...")} className="sb-wa cursor-pointer hover:opacity-95">
                   Get WhatsApp updates
@@ -900,22 +1018,26 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
             </div>
 
             {/* Companion kit teaser */}
-            <div className="sbcomp select-none">
-              <div className="sbcomp-h">
-                <div className="sbcomp-i">📦</div>
-                <div className="sbcomp-l font-sans">COMPANION RITUAL KIT</div>
-                <div className="sbcomp-d font-sans">LAUNCHING</div>
+            {resolvedGuide.showKitCard !== false && resolvedGuide.kitName && (
+              <div className="sbcomp select-none">
+                <div className="sbcomp-h">
+                  <div className="sbcomp-i">📦</div>
+                  <div className="sbcomp-l font-sans">COMPANION RITUAL KIT</div>
+                  <div className="sbcomp-d font-sans">
+                    {resolvedGuide.kitPrice ? `₹${resolvedGuide.kitPrice}` : "LAUNCHING"}
+                  </div>
+                </div>
+                <div className="sbcomp-t font-sans">
+                  {resolvedGuide.kitDescription || `The ${resolvedGuide.kitName} contains all custom items mapped for this vidhi.`}
+                </div>
+                <button 
+                  onClick={handleBuyKit} 
+                  className="sbcomp-b font-sans cursor-pointer hover:bg-amber/10 transition-colors"
+                >
+                  {linkedProduct ? "🛒 Get Samagri Kit" : "Notify when launches"}
+                </button>
               </div>
-              <div className="sbcomp-t font-sans">
-                The Shubh Sampada kit contains all custom items mapped for this vidhi.
-              </div>
-              <button 
-                onClick={() => triggerToast("We will notify you when Shubh Sampada Kit launches!")} 
-                className="sbcomp-b font-sans cursor-pointer hover:bg-amber/10 transition-colors"
-              >
-                Notify when launches
-              </button>
-            </div>
+            )}
 
           </div>
         </div>
@@ -935,7 +1057,7 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
             <button onClick={() => triggerToast("Opening WhatsApp notifications page...")} className="ds-btn wa hover:opacity-95 cursor-pointer">
               Get WA Reminders
             </button>
-            <button onClick={() => triggerToast("Opening Kit checkout...")} className="ds-btn kit hover:opacity-95 cursor-pointer">
+            <button onClick={handleBuyKit} className="ds-btn kit hover:opacity-95 cursor-pointer">
               Get Samagri Kit
             </button>
           </div>
@@ -948,9 +1070,9 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
           <span>Get WA Reminders</span>
           <small>Timings & chants</small>
         </button>
-        <button onClick={() => triggerToast("Opening kit pre-order checkout...")} className="b cursor-pointer hover:opacity-95">
+        <button onClick={handleBuyKit} className="b cursor-pointer hover:opacity-95">
           <span>Get Samagri Kit</span>
-          <small>Pre-book Sawan kit</small>
+          <small>{linkedProduct ? `Buy ${linkedProduct.name}` : "Pre-book Sawan kit"}</small>
         </button>
       </div>
 

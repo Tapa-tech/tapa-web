@@ -49,6 +49,9 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
       data: {
         date: dateOnly,
         ...rest,
+        dataSource: "MANUAL_OVERRIDE",
+        overriddenBy: admin.userId,
+        overriddenAt: new Date(),
       },
     });
 

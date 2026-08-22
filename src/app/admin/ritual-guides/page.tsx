@@ -55,6 +55,26 @@ export default function RitualGuidesList() {
     }
   };
 
+  const handleDeleteAll = async () => {
+    if (!confirm("WARNING: Are you sure you want to delete ALL ritual guides? This will delete all steps, mantras, items, and search indices for every guide. This action cannot be undone.")) {
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/admin/ritual-guides", {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        fetchGuides();
+      } else {
+        const data = await res.json();
+        alert(data.error || "Failed to delete all guides");
+      }
+    } catch (e) {
+      console.error("Delete all failed:", e);
+    }
+  };
+
   return (
     <div className="space-y-6 animate-fadeIn">
       {/* Header */}
@@ -65,13 +85,24 @@ export default function RitualGuidesList() {
             Compose and manage step-by-step pujans, sankalpas, mantras, and scriptural guidelines.
           </p>
         </div>
-        <Link
-          href="/admin/ritual-guides/new"
-          className="flex items-center gap-2 bg-[#C82A54] hover:bg-[#B02047] text-white font-semibold text-xs px-4 py-2.5 rounded-xl shadow-sm transition-all"
-        >
-          <Plus size={14} />
-          <span>New Ritual Guide</span>
-        </Link>
+        <div className="flex items-center gap-2">
+          {guides.length > 0 && (
+            <button
+              onClick={handleDeleteAll}
+              className="flex items-center gap-2 border border-[#FFEAEF] hover:border-[#C82A54]/20 bg-[#FFEAEF] hover:bg-[#FFEAEF]/80 text-[#C82A54] font-semibold text-xs px-4 py-2.5 rounded-xl transition-all"
+            >
+              <Trash2 size={14} />
+              <span>Delete All</span>
+            </button>
+          )}
+          <Link
+            href="/admin/ritual-guides/new"
+            className="flex items-center gap-2 bg-[#C82A54] hover:bg-[#B02047] text-white font-semibold text-xs px-4 py-2.5 rounded-xl shadow-sm transition-all"
+          >
+            <Plus size={14} />
+            <span>New Ritual Guide</span>
+          </Link>
+        </div>
       </div>
 
       {/* List */}

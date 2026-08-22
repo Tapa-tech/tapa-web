@@ -1,44 +1,53 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import TopNav from "@/components/TopNav";
 import Footer from "@/components/Footer";
+import { useCartStore } from "@/lib/store/cartStore";
+import { trackPageView, trackAddToCart, trackProductView } from "@/lib/analytics";
+import { Loader2 } from "lucide-react";
 
-interface KitItem {
+interface Product {
   id: string;
   name: string;
-  hindi?: string;
-  occ: string;
-  deity: string;
+  slug: string;
+  type: "PUJA_KIT" | "SAMAGRI_ITEM";
+  description: string;
+  images: string[];
   price: number;
   mrp?: number;
-  inStock: boolean;
-  stockLeft?: number;
-  itemsCount: string;
-  ribbon?: string;
-  delivery: string;
+  stock: number;
+  category: string;
+  codAvailability: "AVAILABLE" | "NOT_AVAILABLE";
   isFeatured?: boolean;
-  imageUrl?: string;
+}
+
+interface DBProduct extends Omit<Product, "price" | "mrp"> {
+  price: string;
+  mrp?: string | null;
 }
 
 export default function RitualKitsPLP() {
   const router = useRouter();
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
+  // Zustand Cart Store
+  const addToCartStore = useCartStore((state) => state.addToCart);
+
   // Filter States
   const [activeOccasionTab, setActiveOccasionTab] = useState<string>("all");
-  const [selectedOccasions, setSelectedOccasions] = useState<string[]>(["navratri"]);
-  const [selectedDeities, setSelectedDeities] = useState<string[]>(["devi"]);
-  const [priceMin, setPriceMin] = useState<string>("604");
-  const [priceMax, setPriceMax] = useState<string>("2749");
+  const [selectedOccasions, setSelectedOccasions] = useState<string[]>([]);
+  const [selectedTypes, setSelectedTypes] = useState<string[]>(["PUJA_KIT", "SAMAGRI_ITEM"]);
+  const [priceMin, setPriceMin] = useState<string>("0");
+  const [priceMax, setPriceMax] = useState<string>("5000");
   const [inStockOnly, setInStockOnly] = useState<boolean>(false);
-  const [shipsBeforeFestival, setShipsBeforeFestival] = useState<boolean>(true);
   const [sortBy, setSortBy] = useState<string>("recommended");
 
   // Sections collapse toggles
   const [sectionsCollapsed, setSectionsCollapsed] = useState({
+    type: false,
     occasion: false,
     price: false,
     availability: false,
@@ -50,244 +59,92 @@ export default function RitualKitsPLP() {
     setTimeout(() => setToastMessage(null), 3000);
   };
 
-  const toggleSection = (sec: "occasion" | "price" | "availability" | "deity") => {
+  const toggleSection = (sec: "type" | "occasion" | "price" | "availability" | "deity") => {
     setSectionsCollapsed((prev) => ({ ...prev, [sec]: !prev[sec] }));
   };
 
-  // Full product index of 13 kits
-  const kitsList: KitItem[] = useMemo(() => [
-    {
-      id: "shubh-sampada",
-      name: "Shubh Sampada",
-      hindi: "शुभ सम्पदा — Auspicious Abundance",
-      occ: "navratri",
-      deity: "devi",
-      price: 2749,
-      mrp: 3200,
-      inStock: true,
-      stockLeft: 4,
-      itemsCount: "16 items",
-      delivery: "🚚 Delivered before Navratri begins · Delhi-NCR by 30 Sept",
-      isFeatured: true,
-      imageUrl: "/uploads/shubh-sampada.png",
-    },
-    {
-      id: "shakti-aradhana",
-      name: "Shakti Aradhana",
-      occ: "navratri",
-      deity: "devi",
-      price: 2199,
-      mrp: 2600,
-      inStock: true,
-      stockLeft: 3,
-      itemsCount: "12 items",
-      ribbon: "low",
-      delivery: "🚚 Before Navratri",
-      imageUrl: "/uploads/shakti-aradhana.png",
-    },
-    {
-      id: "purna-ghatasthapana",
-      name: "Purna Ghatasthapana",
-      hindi: "पूर्ण घटस्थापना",
-      occ: "navratri",
-      deity: "devi",
-      price: 1099,
-      inStock: false,
-      itemsCount: "10 items",
-      ribbon: "soldout",
-      delivery: "🚚 Ships soon",
-      imageUrl: "/uploads/shubh-sampada.png",
-    },
-    {
-      id: "shubh-akshaya-thali",
-      name: "Shubh Akshaya Thali",
-      hindi: "शुभ अक्षय थाली",
-      occ: "diwali",
-      deity: "vishnu",
-      price: 1649,
-      mrp: 1950,
-      inStock: true,
-      itemsCount: "13 items",
-      ribbon: "new",
-      delivery: "🚚 Before Diwali",
-      imageUrl: "/uploads/shashti-deepam.png",
-    },
-    {
-      id: "shashti-deepam",
-      name: "Shashti Deepam",
-      hindi: "षष्टि दीपम्",
-      occ: "diwali",
-      deity: "devi",
-      price: 1099,
-      mrp: 1299,
-      inStock: true,
-      stockLeft: 4,
-      itemsCount: "6 items",
-      ribbon: "low",
-      delivery: "🚚 Before Diwali",
-      imageUrl: "/uploads/shashti-deepam.png",
-    },
-    {
-      id: "deepa-vaibhava",
-      name: "Deepa Vaibhava",
-      hindi: "दीप वैभव",
-      occ: "diwali",
-      deity: "vishnu",
-      price: 934,
-      mrp: 1099,
-      inStock: true,
-      itemsCount: "8 items",
-      ribbon: "new",
-      delivery: "🚚 Before Diwali",
-      imageUrl: "/uploads/shashti-deepam.png",
-    },
-    {
-      id: "trimshat-deepam",
-      name: "Trimshat Deepam",
-      hindi: "त्रिंशत् दीपम्",
-      occ: "diwali",
-      deity: "vishnu",
-      price: 604,
-      mrp: 699,
-      inStock: true,
-      itemsCount: "4 items",
-      ribbon: "new",
-      delivery: "🚚 Before Diwali",
-      imageUrl: "/uploads/shashti-deepam.png",
-    },
-    {
-      id: "tulsi-kalyanam",
-      name: "Tulsi Kalyanam Collection",
-      occ: "satyanarayan",
-      deity: "vishnu",
-      price: 1979,
-      mrp: 2300,
-      inStock: true,
-      itemsCount: "10 items",
-      ribbon: "new",
-      delivery: "🚚 Year-round",
-      imageUrl: "/uploads/tulsi-kalyanam.png",
-    },
-    {
-      id: "satyanarayan-pujan",
-      name: "Satyanarayan Pujan",
-      occ: "satyanarayan",
-      deity: "vishnu",
-      price: 1979,
-      mrp: 2300,
-      inStock: true,
-      itemsCount: "11 items",
-      ribbon: "new",
-      delivery: "🚚 Year-round",
-      imageUrl: "/uploads/satyanarayan-pujan.png",
-    },
-    {
-      id: "sundarkand-path",
-      name: "Sundarkand Path Kit Essentials",
-      occ: "yearround",
-      deity: "vishnu",
-      price: 2419,
-      mrp: 2800,
-      inStock: true,
-      itemsCount: "9 items",
-      ribbon: "new",
-      delivery: "🚚 Year-round",
-      imageUrl: "/uploads/sundarkand-path.png",
-    },
-    {
-      id: "yajna",
-      name: "Yajña",
-      hindi: "यज्ञ",
-      occ: "havan",
-      deity: "all-deity",
-      price: 1209,
-      mrp: 1400,
-      inStock: true,
-      itemsCount: "8 items",
-      ribbon: "new",
-      delivery: "🚚 Year-round",
-      imageUrl: "/uploads/yajna.png",
-    },
-    {
-      id: "ekadash",
-      name: "Ekadash",
-      hindi: "एकादश",
-      occ: "yearround",
-      deity: "vishnu",
-      price: 879,
-      mrp: 999,
-      inStock: true,
-      itemsCount: "7 items",
-      ribbon: "new",
-      delivery: "🚚 Year-round",
-      imageUrl: "/uploads/ekadash.png",
-    },
-    {
-      id: "panch-jyoti",
-      name: "Panch Jyoti Gift Tray",
-      occ: "gift",
-      deity: "all-deity",
-      price: 659,
-      mrp: 799,
-      inStock: true,
-      itemsCount: "5 items · Gift-ready",
-      ribbon: "new",
-      delivery: "🚚 Year-round",
-      imageUrl: "/uploads/panch-jyoti.png",
-    },
-  ], []);
+  // Live products list from backend
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // Occasion & Deity toggle helpers
+  // Page View Analytics
+  useEffect(() => {
+    trackPageView("/ritual-kits");
+  }, []);
+
+  useEffect(() => {
+    async function loadProducts() {
+      try {
+        const res = await fetch("/api/public/products");
+        if (res.ok) {
+          const data = await res.json();
+          // Map prisma Decimal string fields to number
+          const mapped = (data as DBProduct[]).map((p) => ({
+            ...p,
+            price: Number(p.price),
+            mrp: p.mrp ? Number(p.mrp) : undefined,
+            isFeatured: p.slug === "shubh-sampada",
+          }));
+          setProducts(mapped);
+        }
+      } catch (err) {
+        console.error("Failed to fetch products:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadProducts();
+  }, []);
+
   const handleToggleOccasion = (occ: string) => {
     setSelectedOccasions((prev) =>
       prev.includes(occ) ? prev.filter((o) => o !== occ) : [...prev, occ]
     );
   };
 
-  const handleToggleDeity = (deity: string) => {
-    setSelectedDeities((prev) =>
-      prev.includes(deity) ? prev.filter((d) => d !== deity) : [...prev, deity]
+  const handleToggleType = (type: string) => {
+    setSelectedTypes((prev) =>
+      prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]
     );
   };
 
   const handleResetFilters = () => {
     setSelectedOccasions([]);
-    setSelectedDeities([]);
-    setPriceMin("604");
-    setPriceMax("2749");
+    setSelectedTypes(["PUJA_KIT", "SAMAGRI_ITEM"]);
+    setPriceMin("0");
+    setPriceMax("5000");
     setInStockOnly(false);
-    setShipsBeforeFestival(true);
     setActiveOccasionTab("all");
   };
 
-  // Filtered and Sorted Kits index
-  const filteredKits = useMemo(() => {
-    let result = kitsList;
+  // Filtered and Sorted Products
+  const filteredProducts = useMemo(() => {
+    let result = products;
 
     // 1. Top Occasion Tab filter
     if (activeOccasionTab !== "all") {
-      result = result.filter((kit) => kit.occ === activeOccasionTab);
+      result = result.filter((prod) => prod.category === activeOccasionTab);
     }
 
     // 2. Sidebar Occasion filter checkboxes (if any are selected)
     if (selectedOccasions.length > 0) {
-      result = result.filter((kit) => selectedOccasions.includes(kit.occ));
+      result = result.filter((prod) => selectedOccasions.includes(prod.category));
     }
 
-    // 3. Sidebar Deity filter checkboxes
-    if (selectedDeities.length > 0) {
-      result = result.filter((kit) => selectedDeities.includes(kit.deity));
+    // 3. Product Type filter checkboxes
+    if (selectedTypes.length > 0) {
+      result = result.filter((prod) => selectedTypes.includes(prod.type));
     }
 
     // 4. In Stock check
     if (inStockOnly) {
-      result = result.filter((kit) => kit.inStock);
+      result = result.filter((prod) => prod.stock > 0);
     }
 
     // 5. Price boundaries
-    const minVal = parseFloat(priceMin.replace(/,/g, "")) || 0;
-    const maxVal = parseFloat(priceMax.replace(/,/g, "")) || 99999;
-    result = result.filter((kit) => kit.price >= minVal && kit.price <= maxVal);
+    const minVal = parseFloat(priceMin) || 0;
+    const maxVal = parseFloat(priceMax) || 99999;
+    result = result.filter((prod) => prod.price >= minVal && prod.price <= maxVal);
 
     // Sort algorithms
     if (sortBy === "price-low") {
@@ -295,46 +152,68 @@ export default function RitualKitsPLP() {
     } else if (sortBy === "price-high") {
       result = [...result].sort((a, b) => b.price - a.price);
     } else if (sortBy === "new") {
-      result = [...result].sort((a) => (a.ribbon === "new" ? -1 : 1));
+      result = [...result].sort((a, b) => b.id.localeCompare(a.id));
     }
 
     return result;
-  }, [kitsList, activeOccasionTab, selectedOccasions, selectedDeities, inStockOnly, priceMin, priceMax, sortBy]);
+  }, [products, activeOccasionTab, selectedOccasions, selectedTypes, inStockOnly, priceMin, priceMax, sortBy]);
 
   // Featured Kit check
-  const featuredKit = useMemo(() => {
-    return kitsList.find((kit) => kit.isFeatured);
-  }, [kitsList]);
+  const featuredProduct = useMemo(() => {
+    return products.find((prod) => prod.isFeatured);
+  }, [products]);
 
   // Determine if featured card matches active filters
   const showFeaturedCard = useMemo(() => {
-    if (!featuredKit) return false;
-    // Do not show if top occasion tab is not Navratri or all
+    if (!featuredProduct) return false;
     if (activeOccasionTab !== "all" && activeOccasionTab !== "navratri") return false;
-    // Check checkboxes
     if (selectedOccasions.length > 0 && !selectedOccasions.includes("navratri")) return false;
-    if (selectedDeities.length > 0 && !selectedDeities.includes("devi")) return false;
-    // Check price bounds
-    const minVal = parseFloat(priceMin.replace(/,/g, "")) || 0;
-    const maxVal = parseFloat(priceMax.replace(/,/g, "")) || 99999;
-    if (featuredKit.price < minVal || featuredKit.price > maxVal) return false;
-    // Check stock
-    if (inStockOnly && !featuredKit.inStock) return false;
+    if (!selectedTypes.includes("PUJA_KIT")) return false;
+    const minVal = parseFloat(priceMin) || 0;
+    const maxVal = parseFloat(priceMax) || 99999;
+    if (featuredProduct.price < minVal || featuredProduct.price > maxVal) return false;
+    if (inStockOnly && featuredProduct.stock <= 0) return false;
 
     return true;
-  }, [featuredKit, activeOccasionTab, selectedOccasions, selectedDeities, priceMin, priceMax, inStockOnly]);
+  }, [featuredProduct, activeOccasionTab, selectedOccasions, selectedTypes, priceMin, priceMax, inStockOnly]);
 
-  const handleAddToCart = (name: string, price: number) => {
-    triggerToast(`Added ${name} (₹${price.toLocaleString()}) to your cart!`);
+  const handleAddToCart = (e: React.MouseEvent, prod: Product) => {
+    e.stopPropagation();
+    addToCartStore(prod.id, 1, {
+      name: prod.name,
+      price: prod.price,
+      image: prod.images?.[0] || undefined,
+      category: prod.category,
+      codAvailability: prod.codAvailability,
+    });
+    // Trigger analytics
+    trackAddToCart(prod.id, prod.name, prod.price, 1, prod.category);
+    triggerToast(`Added ${prod.name} to your cart!`);
   };
 
-  const handleNotifyMe = (name: string) => {
+  const handleNotifyMe = (e: React.MouseEvent, name: string) => {
+    e.stopPropagation();
     triggerToast(`Alert set! We will notify you when ${name} is back in stock.`);
   };
 
   const handleWhatsAppSupport = () => {
     window.open("https://wa.me/9100000000", "_blank");
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-bg text-body-text font-sans antialiased plp-container flex flex-col justify-between">
+        <div>
+          <AnnouncementBar />
+          <TopNav activeTab="Ritual Kits" onTriggerToast={triggerToast} />
+          <div className="flex items-center justify-center py-40">
+            <Loader2 className="w-8 h-8 animate-spin text-[#C82A54]" />
+          </div>
+        </div>
+        <Footer onTriggerToast={triggerToast} />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-bg text-body-text font-sans antialiased plp-container">
@@ -359,17 +238,17 @@ export default function RitualKitsPLP() {
           <div className="hero-inner">
             <div className="hero-top-row">
               <div className="hero-text">
-                <div className="hero-eyebrow">+ RITUAL KITS · LIVE NOW · OCTOBER 2026</div>
+                <div className="hero-eyebrow">+ SAMAGRI &amp; KITS · LIVE NOW · OCTOBER 2026</div>
                 <h1 className="hero-title font-serif">Complete samagri.<br />At your door.</h1>
-                <p className="hero-sub">13 ritual kits — ritually correct, sourced from verified suppliers, delivered before your festival date. Every item has a named place in the vidhi.</p>
+                <p className="hero-sub">Ritually correct Puja Kits and individual Samagri items, sourced from verified suppliers and delivered before your festival date. Every item has a named place in the vidhi.</p>
               </div>
               <div className="hero-stats">
                 <div className="hstat">
-                  <div className="hstat-num">13</div>
-                  <div className="hstat-label">Kits available</div>
+                  <div className="hstat-num">{products.length}</div>
+                  <div className="hstat-label">Products available</div>
                 </div>
                 <div className="hstat">
-                  <div className="hstat-num">₹604</div>
+                  <div className="hstat-num">₹29</div>
                   <div className="hstat-label">Starting price</div>
                 </div>
                 <div className="hstat">
@@ -396,12 +275,7 @@ export default function RitualKitsPLP() {
               <div className="htrust-sep" />
               <div className="htrust">
                 <div className="htrust-dot" />
-                <span className="htrust-text">UPI and card · No COD</span>
-              </div>
-              <div className="htrust-sep" />
-              <div className="htrust">
-                <div className="htrust-dot" />
-                <span className="htrust-text">Sourced from Chandni Chowk, Haridwar &amp; Varanasi</span>
+                <span className="htrust-text">Cash on Delivery available</span>
               </div>
             </div>
           </div>
@@ -413,20 +287,18 @@ export default function RitualKitsPLP() {
         <div className="max-w-[var(--content-w)] mx-auto px-4 md:px-10 flex items-center justify-between h-12">
           <div className="flex gap-2 overflow-x-auto scrollbar-none whitespace-nowrap py-1 select-none w-full md:w-auto" role="tablist">
             {[
-              { id: "all", label: "All kits" },
+              { id: "all", label: "All Items" },
               { id: "navratri", label: "Navratri" },
               { id: "diwali", label: "Diwali" },
               { id: "satyanarayan", label: "Satyanarayan" },
-              { id: "havan", label: "Havan & Yagna" },
-              { id: "yearround", label: "Year-round" },
-              { id: "gift", label: "Gift" }
+              { id: "samagri", label: "Individual Samagri" },
+              { id: "yearround", label: "Year-round" }
             ].map((tab) => (
               <button
                 key={tab.id}
                 role="tab"
                 onClick={() => {
                   setActiveOccasionTab(tab.id);
-                  // Sync checkbox state when tab clicked to make user feedback intuitive
                   if (tab.id !== "all") {
                     setSelectedOccasions([tab.id]);
                   } else {
@@ -439,11 +311,13 @@ export default function RitualKitsPLP() {
               </button>
             ))}
           </div>
-          <div className="subnav-right">
-            <div className="view-toggle">
-              <button className="vbtn active" aria-label="Grid view" title="Grid view">▦</button>
-              <button className="vbtn" aria-label="List view" title="List view" onClick={() => triggerToast("List view coming soon!")}>☰</button>
-            </div>
+          <div className="subnav-right flex gap-3">
+            <button
+              onClick={() => router.push("/kit-builder")}
+              className="text-xs font-bold text-[#C82A54] bg-[#FFEAEF] hover:bg-[#FAD2DA] px-3.5 py-1.5 rounded-full transition-colors font-sans cursor-pointer"
+            >
+              🛠 Build Custom Kit
+            </button>
           </div>
         </div>
       </div>
@@ -458,27 +332,44 @@ export default function RitualKitsPLP() {
             <button className="sidebar-reset cursor-pointer font-bold" onClick={handleResetFilters}>Clear all</button>
           </div>
 
+          {/* Product Type Section */}
+          <div className="sidebar-section">
+            <div className="sidebar-sec-head" onClick={() => toggleSection("type")}>
+              <span className="sidebar-sec-label">PRODUCT TYPE</span>
+              <span className={`sidebar-chevron block font-bold ${!sectionsCollapsed.type ? "open" : ""}`}>›</span>
+            </div>
+            {!sectionsCollapsed.type && (
+              <div className="sidebar-body font-sans">
+                <div className="filter-opt" onClick={() => handleToggleType("PUJA_KIT")}>
+                  <div className={`fopt-check ${selectedTypes.includes("PUJA_KIT") ? "checked" : ""}`}>✓</div>
+                  <span className="fopt-label font-medium">Puja Kits</span>
+                </div>
+                <div className="filter-opt" onClick={() => handleToggleType("SAMAGRI_ITEM")}>
+                  <div className={`fopt-check ${selectedTypes.includes("SAMAGRI_ITEM") ? "checked" : ""}`}>✓</div>
+                  <span className="fopt-label font-medium">Individual Samagri</span>
+                </div>
+              </div>
+            )}
+          </div>
+
           {/* Occasion Section */}
           <div className="sidebar-section">
             <div className="sidebar-sec-head" onClick={() => toggleSection("occasion")}>
-              <span className="sidebar-sec-label">OCCASION</span>
+              <span className="sidebar-sec-label">OCCASION / CATEGORY</span>
               <span className={`sidebar-chevron block font-bold ${!sectionsCollapsed.occasion ? "open" : ""}`}>›</span>
             </div>
             {!sectionsCollapsed.occasion && (
               <div className="sidebar-body">
                 {[
-                  { id: "navratri", label: "Navratri", count: 3 },
-                  { id: "diwali", label: "Diwali · Kartik", count: 4 },
-                  { id: "satyanarayan", label: "Satyanarayan", count: 2 },
-                  { id: "ekadashi", label: "Ekadashi", count: 1 },
-                  { id: "havan", label: "Havan & Yagna", count: 1 },
-                  { id: "sundarkand", label: "Sundarkand Path", count: 1 },
-                  { id: "gift", label: "Gift Collections", count: 1 }
+                  { id: "navratri", label: "Navratri" },
+                  { id: "diwali", label: "Diwali" },
+                  { id: "satyanarayan", label: "Satyanarayan" },
+                  { id: "samagri", label: "Samagri Items" },
+                  { id: "yearround", label: "Year-round" }
                 ].map((opt) => (
                   <div key={opt.id} className="filter-opt font-sans" onClick={() => handleToggleOccasion(opt.id)}>
                     <div className={`fopt-check ${selectedOccasions.includes(opt.id) ? "checked" : ""}`}>✓</div>
                     <span className="fopt-label font-medium">{opt.label}</span>
-                    <span className="fopt-count font-bold">{opt.count}</span>
                   </div>
                 ))}
               </div>
@@ -496,7 +387,7 @@ export default function RitualKitsPLP() {
                 <div className="price-range-row">
                   <input
                     className="price-input"
-                    type="text"
+                    type="number"
                     placeholder="₹ Min"
                     value={priceMin}
                     onChange={(e) => setPriceMin(e.target.value)}
@@ -504,15 +395,12 @@ export default function RitualKitsPLP() {
                   <span className="price-sep">—</span>
                   <input
                     className="price-input"
-                    type="text"
+                    type="number"
                     placeholder="₹ Max"
                     value={priceMax}
                     onChange={(e) => setPriceMax(e.target.value)}
                   />
                 </div>
-                <button className="price-apply cursor-pointer font-bold" onClick={() => triggerToast("Price filter applied!")}>
-                  Apply range
-                </button>
               </div>
             )}
           </div>
@@ -536,41 +424,6 @@ export default function RitualKitsPLP() {
                     <span className="toggle-track" />
                   </label>
                 </div>
-                <div className="avail-row">
-                  <span className="avail-label font-medium">Ships before festival</span>
-                  <label className="toggle">
-                    <input
-                      type="checkbox"
-                      checked={shipsBeforeFestival}
-                      onChange={(e) => setShipsBeforeFestival(e.target.checked)}
-                    />
-                    <span className="toggle-track" />
-                  </label>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Deity Cluster Section */}
-          <div className="sidebar-section">
-            <div className="sidebar-sec-head" onClick={() => toggleSection("deity")}>
-              <span className="sidebar-sec-label">DEITY CLUSTER</span>
-              <span className={`sidebar-chevron block font-bold ${!sectionsCollapsed.deity ? "open" : ""}`}>›</span>
-            </div>
-            {!sectionsCollapsed.deity && (
-              <div className="sidebar-body font-sans">
-                {[
-                  { id: "shiva", label: "Shiva", count: 1 },
-                  { id: "devi", label: "Devi · Shakti", count: 4 },
-                  { id: "vishnu", label: "Vishnu", count: 5 },
-                  { id: "all-deity", label: "All deities / General", count: 3 }
-                ].map((opt) => (
-                  <div key={opt.id} className="filter-opt" onClick={() => handleToggleDeity(opt.id)}>
-                    <div className={`fopt-check ${selectedDeities.includes(opt.id) ? "checked" : ""}`}>✓</div>
-                    <span className="fopt-label font-medium">{opt.label}</span>
-                    <span className="fopt-count font-bold">{opt.count}</span>
-                  </div>
-                ))}
               </div>
             )}
           </div>
@@ -579,19 +432,19 @@ export default function RitualKitsPLP() {
         {/* Product Grid Area */}
         <div className="flex flex-col gap-4">
           
-          {/* Pre-book Notification banner */}
+          {/* Announcement banner */}
           <div className="early-bar font-sans select-none" role="note">
             <span className="early-bar-icon">🎁</span>
             <div>
-              <div className="early-bar-t">Pre-bookers got the early-bird price</div>
-              <div className="early-bar-s">Kits are now live at full price · Exchange on wrong item · No COD</div>
+              <div className="early-bar-t">Free Delivery Above ₹1,500</div>
+              <div className="early-bar-s">Every item is ritually verified. Cash on Delivery (COD) active for checkout.</div>
             </div>
           </div>
 
           {/* Results Summary and Sorting */}
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 w-full select-none">
             <span className="results-count font-sans font-semibold">
-              {filteredKits.length} {filteredKits.length === 1 ? "kit" : "kits"} · Ships before your festival date
+              {filteredProducts.length} {filteredProducts.length === 1 ? "item" : "items"} available · Ships within 48 hrs
             </span>
             <div className="sort-inline font-sans">
               <span className="sort-label font-medium">Sort by</span>
@@ -610,39 +463,34 @@ export default function RitualKitsPLP() {
           </div>
 
           {/* ── FEATURED PRODUCT CARD ── */}
-          {showFeaturedCard && featuredKit && (
+          {showFeaturedCard && featuredProduct && (
             <div
               className="bg-card border border-border rounded-2xl overflow-hidden grid grid-cols-1 md:grid-cols-[1fr_320px] min-h-[220px] cursor-pointer transition-all hover:border-pink hover:shadow-lg w-full font-sans"
-              onClick={() => handleAddToCart(featuredKit.name, featuredKit.price)}
+              onClick={() => router.push(`/ritual-kits/${featuredProduct.slug}`)}
               role="article"
-              aria-label={`${featuredKit.name} — featured kit`}
+              aria-label={`${featuredProduct.name} — featured kit`}
             >
               <div className="p-6 md:p-8 flex flex-col justify-center">
                 <div className="featured-tag-row">
                   <span className="featured-bestseller">Bestseller</span>
-                  <span className="featured-low-pill">⚡ Only 4 left</span>
+                  <span className="featured-low-pill">⚡ Only {featuredProduct.stock} left</span>
                 </div>
-                <div className="featured-occ">{featuredKit.occ} · October 2026</div>
-                <div className="featured-name font-serif">{featuredKit.name}</div>
-                {featuredKit.hindi && <div className="featured-hindi font-serif">{featuredKit.hindi}</div>}
-                <p className="featured-desc">Complete Ghatasthapana samagri — every item verified against the Navratri vidhi from the Devi Bhagavatam. Gangajal, Kalash, Mango leaves, Jau and 12 more items selected for ritual integrity.</p>
-                <div className="featured-items-list">
-                  {["Gangajal 250ml", "Brass Kalash", "Mango leaves", "Jau (barley)", "Deepak × 9", "Sindoor", "+ 10 more"].map((it, i) => (
-                    <span key={i} className="fitem-pill">{it}</span>
-                  ))}
-                </div>
+                <div className="featured-occ">{featuredProduct.category} · October 2026</div>
+                <div className="featured-name font-serif">{featuredProduct.name}</div>
+                <p className="featured-desc">{featuredProduct.description}</p>
                 <div className="featured-price-row flex-wrap">
-                  <span className="featured-price">₹{featuredKit.price.toLocaleString()}</span>
-                  {featuredKit.mrp && <span className="featured-mrp">₹{featuredKit.mrp.toLocaleString()}</span>}
-                  <span className="featured-save font-bold">Save ₹451 — 14% off</span>
+                  <span className="featured-price">₹{featuredProduct.price.toLocaleString()}</span>
+                  {featuredProduct.mrp && <span className="featured-mrp">₹{featuredProduct.mrp.toLocaleString()}</span>}
+                  {featuredProduct.mrp && (
+                    <span className="featured-save font-bold">
+                      Save ₹{featuredProduct.mrp - featuredProduct.price}
+                    </span>
+                  )}
                 </div>
                 <div className="featured-ctas">
                   <button
                     className="f-cart-btn font-bold cursor-pointer hover:opacity-95"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleAddToCart(featuredKit.name, featuredKit.price);
-                    }}
+                    onClick={(e) => handleAddToCart(e, featuredProduct)}
                   >
                     🛒 Add to cart
                   </button>
@@ -650,13 +498,13 @@ export default function RitualKitsPLP() {
                     className="f-view-btn font-semibold cursor-pointer hover:bg-bg"
                     onClick={(e) => {
                       e.stopPropagation();
-                      router.push("/ritual-kits/shubh-sampada");
+                      router.push(`/ritual-kits/${featuredProduct.slug}`);
                     }}
                   >
                     View details →
                   </button>
                 </div>
-                <div className="featured-delivery text-xs font-semibold">{featuredKit.delivery}</div>
+                <div className="featured-delivery text-xs font-semibold">🚚 Shipped before Navratri begins · Delhi-NCR by 30 Sept</div>
               </div>
               <div
                 className="flex items-center justify-center p-6 md:p-8 h-48 md:h-auto font-sans select-none"
@@ -674,58 +522,56 @@ export default function RitualKitsPLP() {
 
           {/* ── 3-COLUMN PRODUCT LISTING GRID ── */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" role="list">
-            {filteredKits.filter((k) => !k.isFeatured).map((kit) => (
+            {filteredProducts.filter((p) => p.slug !== "shubh-sampada").map((prod) => (
               <div
-                key={kit.id}
-                className={`kit-card font-sans ${kit.stockLeft ? "low-stock" : ""} ${!kit.inStock ? "sold-out" : ""}`}
+                key={prod.id}
+                className={`kit-card font-sans ${prod.stock > 0 && prod.stock <= 4 ? "low-stock" : ""} ${prod.stock <= 0 ? "sold-out" : ""}`}
                 role="listitem"
-                onClick={() => router.push(`/ritual-kits/${kit.id}`)}
+                onClick={() => {
+                  // Track product view
+                  trackProductView(prod.id, prod.name, prod.price, prod.category);
+                  router.push(`/ritual-kits/${prod.slug}`);
+                }}
               >
                 <div
                   className="kit-img select-none"
                   style={{
-                    backgroundImage: kit.imageUrl ? `url(${kit.imageUrl})` : undefined,
+                    backgroundImage: prod.images?.[0]
+                      ? `url(${prod.images[0]})`
+                      : (prod.category === "diwali"
+                          ? "linear-gradient(135deg,#3A2A08,#8A5A14)"
+                          : prod.category === "satyanarayan"
+                          ? "linear-gradient(135deg,#1A3A1A,#3A6A2A)"
+                          : "linear-gradient(135deg,#1A2A4A,#3A5A8A)"),
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                     backgroundRepeat: "no-repeat",
-                    background: !kit.imageUrl ? (
-                      kit.occ === "diwali"
-                        ? "linear-gradient(135deg,#3A2A08,#8A5A14)"
-                        : kit.occ === "satyanarayan"
-                        ? "linear-gradient(135deg,#1A3A1A,#3A6A2A)"
-                        : "linear-gradient(135deg,#1A2A4A,#3A5A8A)"
-                    ) : undefined,
                   }}
                 >
-                  {kit.stockLeft && <span className="kit-ribbon low font-bold">⚡ {kit.stockLeft} left</span>}
-                  {!kit.inStock && <span className="kit-ribbon soldout font-bold">Sold out</span>}
-                  {kit.ribbon === "new" && kit.inStock && <span className="kit-ribbon new font-bold">New</span>}
-                  {!kit.imageUrl && <span className="kit-img-icon text-white/20 font-bold">📦</span>}
+                  {prod.stock > 0 && prod.stock <= 4 && <span className="kit-ribbon low font-bold">⚡ {prod.stock} left</span>}
+                  {prod.stock <= 0 && <span className="kit-ribbon soldout font-bold">Sold out</span>}
+                  {!prod.images?.[0] && <span className="kit-img-icon text-white/20 font-bold">📦</span>}
                 </div>
                 <div className="kit-body">
-                  <div className="kit-occ font-bold text-[10px]">{kit.occ}</div>
-                  <div className="kit-name font-bold text-dark">{kit.name}</div>
-                  {kit.hindi && <div className="kit-hindi text-xs">{kit.hindi}</div>}
-                  <div className="kit-items font-medium text-sub-text">{kit.itemsCount}</div>
-
-                  {kit.stockLeft && <div className="kit-low-warn text-[10px] font-bold">⚡ Only {kit.stockLeft} left</div>}
-                  {kit.occ === "satyanarayan" && <div className="kit-eb-saved text-[10px] font-bold">🎁 Pre-bookers saved ₹180</div>}
-
-                  <div className="kit-price-row">
-                    <span className={`kit-price font-bold ${!kit.inStock ? "text-sub-text" : ""}`}>
-                      ₹{kit.price.toLocaleString()}
-                    </span>
-                    {kit.mrp && <span className="kit-mrp">₹{kit.mrp.toLocaleString()}</span>}
-                    {kit.mrp && <span className="kit-pct font-bold">−15%</span>}
+                  <div className="kit-occ font-bold text-[10px] uppercase text-[#C82A54]">{prod.type.replace("_", " ")}</div>
+                  <div className="kit-name font-bold text-dark">{prod.name}</div>
+                  <div className="kit-items font-medium text-sub-text line-clamp-2 mt-1 min-h-[32px] text-xs">
+                    {prod.description}
                   </div>
 
-                  {kit.inStock ? (
+                  {prod.stock > 0 && prod.stock <= 4 && <div className="kit-low-warn text-[10px] font-bold">⚡ Only {prod.stock} left</div>}
+
+                  <div className="kit-price-row">
+                    <span className={`kit-price font-bold ${prod.stock <= 0 ? "text-sub-text" : ""}`}>
+                      ₹{prod.price.toLocaleString()}
+                    </span>
+                    {prod.mrp && <span className="kit-mrp">₹{prod.mrp.toLocaleString()}</span>}
+                  </div>
+
+                  {prod.stock > 0 ? (
                     <button
                       className="kit-btn font-bold cursor-pointer hover:opacity-95"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleAddToCart(kit.name, kit.price);
-                      }}
+                      onClick={(e) => handleAddToCart(e, prod)}
                     >
                       🛒 Add to cart
                     </button>
@@ -736,27 +582,24 @@ export default function RitualKitsPLP() {
                       </button>
                       <button
                         className="kit-notify font-semibold cursor-pointer hover:bg-bg"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleNotifyMe(kit.name);
-                        }}
+                        onClick={(e) => handleNotifyMe(e, prod.name)}
                       >
                         🔔 Notify when in stock
                       </button>
                     </>
                   )}
-                  {kit.inStock && <div className="kit-delivery font-semibold">{kit.delivery}</div>}
+                  {prod.stock > 0 && <div className="kit-delivery font-semibold">🚚 Shipped in 48 hours</div>}
                 </div>
               </div>
             ))}
 
             {/* Empty state view */}
-            {filteredKits.length === 0 && (
+            {filteredProducts.length === 0 && (
               <div className="empty-state visible font-sans select-none" role="status">
                 <div className="empty-icon text-3xl">🔍</div>
-                <div className="empty-title font-serif font-bold text-lg text-dark">No kits match these filters</div>
+                <div className="empty-title font-serif font-bold text-lg text-dark">No items match these filters</div>
                 <div className="empty-sub text-sm mt-1 text-sub-text leading-relaxed">
-                  Try adjusting the occasion, deity, or price range filters. More kits are being added through 2026.
+                  Try adjusting the category, type, or price filters. More items are being added through 2026.
                 </div>
                 <button className="empty-reset cursor-pointer font-bold mt-4" onClick={handleResetFilters}>
                   Clear all filters

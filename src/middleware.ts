@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyAccessToken } from "@/lib/auth/jwt";
+import { hasRequiredRole } from "@/lib/auth/rbac";
+import { UserRole } from "@prisma/client";
 
 const ADMIN_ROUTES = ["/admin", "/api/admin"];
+const SUPER_ADMIN_ROUTES = ["/admin/users", "/api/admin/users"];
 
 export async function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname;
@@ -20,7 +23,20 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL("/?login=true", req.url));
   }
 
-  if (payload.role !== "ADMIN") {
+  // Enforce SUPER_ADMIN routes
+  const isSuperAdminRoute = SUPER_ADMIN_ROUTES.some((p) => path.startsWith(p));
+  if (isSuperAdminRoute) {
+    if (!hasRequiredRole(payload.role as UserRole, "SUPER_ADMIN")) {
+      if (path.startsWith("/api/")) {
+        return NextResponse.json({ error: "Forbidden. Super Admin privileges required." }, { status: 403 });
+      }
+      return NextResponse.rewrite(new URL("/_not-found", req.url));
+    }
+    return NextResponse.next();
+  }
+
+  // Allow general admin access for ADMIN (and SUPER_ADMIN via hierarchy)
+  if (!hasRequiredRole(payload.role as UserRole, "ADMIN")) {
     if (path.startsWith("/api/")) {
       return NextResponse.json({ error: "Forbidden. Admin privileges required." }, { status: 403 });
     }

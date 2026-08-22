@@ -1,14 +1,32 @@
 .ritual-guide-detail-page {
-  --bg:#F2EDE4; --card:#FFFFFF; --dark:#1C1712; --darkbar:#1A1208;
-  --pink:#FD066D; --rose:#EF0F54;
-  --amber:#E8A020; --gold:#A07800; --yellow:#FFB801; --yellow-d:#FFCC53;
-  --body-text:#2C2010; --mid-text:#5C4B12; --sub-text:#8A7A68;
-  --border:#E8E0D0; --border-light:#F0E8D8;
-  --hero-text:#FFFDF5; --dim:#7A6A55; --dimmer:#5C4E36;
-  --d-bg:#E6F1E6; --d-tx:#27500A; --d-bd:#C9DFC9;
-  --p-bg:#FFF8E6; --p-tx:#A07800; --p-bd:#EFE0B8;
-  --b-bg:#F0E9E1; --b-tx:#4A3525; --b-bd:#D9CBB8;
-  
+  --bg: #F2EDE4;
+  --card: #FFFFFF;
+  --dark: #1C1712;
+  --darkbar: #1A1208;
+  --pink: #FD066D;
+  --rose: #EF0F54;
+  --amber: #E8A020;
+  --gold: #A07800;
+  --yellow: #FFB801;
+  --yellow-d: #FFCC53;
+  --body-text: #2C2010;
+  --mid-text: #5C4B12;
+  --sub-text: #8A7A68;
+  --border: #E8E0D0;
+  --border-light: #F0E8D8;
+  --hero-text: #FFFDF5;
+  --dim: #7A6A55;
+  --dimmer: #5C4E36;
+  --d-bg: #E6F1E6;
+  --d-tx: #27500A;
+  --d-bd: #C9DFC9;
+  --p-bg: #FFF8E6;
+  --p-tx: #A07800;
+  --p-bd: #EFE0B8;
+  --b-bg: #F0E9E1;
+  --b-tx: #4A3525;
+  --b-bd: #D9CBB8;
+
   background: var(--bg);
   color: var(--body-text);
   font-size: 14px;
@@ -37,6 +55,7 @@
   border-bottom: 1px solid var(--border);
   padding: 0 40px;
 }
+
 .ritual-guide-detail-page .bc-in {
   max-width: 1280px;
   margin: 0 auto;
@@ -46,6 +65,7 @@
   justify-content: space-between;
   gap: 12px;
 }
+
 .ritual-guide-detail-page .bc-l {
   font-size: 13.5px;
   color: var(--sub-text);
@@ -53,16 +73,19 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .ritual-guide-detail-page .bc-l b {
   color: var(--body-text);
   font-weight: 500;
 }
+
 .ritual-guide-detail-page .bc-r {
   display: flex;
   align-items: center;
   gap: 8px;
   flex-shrink: 0;
 }
+
 .ritual-guide-detail-page .lang {
   display: flex;
   gap: 2px;
@@ -70,6 +93,7 @@
   border-radius: 7px;
   padding: 3px;
 }
+
 .ritual-guide-detail-page .lang button {
   border: none;
   border-radius: 5px;
@@ -79,10 +103,12 @@
   background: none;
   color: var(--pink);
 }
+
 .ritual-guide-detail-page .lang button.on {
   background: var(--pink);
   color: #fff;
 }
+
 .ritual-guide-detail-page .bcb {
   height: 35px;
   border: 1.5px solid var(--border);
@@ -103,32 +129,36 @@
   display: flex;
   align-items: center;
 }
+
 .ritual-guide-detail-page .hero-bg {
   position: absolute;
   inset: 0;
-  background: 
-    radial-gradient(ellipse 58% 55% at 76% 32%,rgba(200,60,80,.32) 0%,transparent 62%),
-    radial-gradient(ellipse 46% 70% at 10% 88%,rgba(40,8,14,.62) 0%,transparent 56%),
-    linear-gradient(155deg,#2A0810 0%,#6B1428 34%,#330C16 66%,#1A0509 100%);
+  background:
+    radial-gradient(ellipse 58% 55% at 76% 32%, rgba(200, 60, 80, .32) 0%, transparent 62%),
+    radial-gradient(ellipse 46% 70% at 10% 88%, rgba(40, 8, 14, .62) 0%, transparent 56%),
+    linear-gradient(155deg, #2A0810 0%, #6B1428 34%, #330C16 66%, #1A0509 100%);
 }
+
 .ritual-guide-detail-page .hero-ov {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to right,rgba(26,5,9,.94) 0%,rgba(26,5,9,.7) 42%,rgba(26,5,9,.16) 74%,rgba(26,5,9,.02) 100%);
+  background: linear-gradient(to right, rgba(26, 5, 9, .94) 0%, rgba(26, 5, 9, .7) 42%, rgba(26, 5, 9, .16) 74%, rgba(26, 5, 9, .02) 100%);
 }
+
 .ritual-guide-detail-page .hero-share {
   position: absolute;
   top: 20px;
   right: 40px;
   z-index: 6;
-  background: rgba(255,255,255,.15);
-  border: 1px solid rgba(255,255,255,.28);
+  background: rgba(255, 255, 255, .15);
+  border: 1px solid rgba(255, 255, 255, .28);
   border-radius: 20px;
   padding: 7px 16px;
   color: #fff;
   font-size: 12px;
   font-weight: 500;
 }
+
 .ritual-guide-detail-page .hero-c {
   position: relative;
   z-index: 5;
@@ -137,21 +167,24 @@
   padding: 0 40px;
   width: 100%;
 }
+
 .ritual-guide-detail-page .hero-in {
   max-width: 640px;
 }
+
 .ritual-guide-detail-page .hero-ey {
   font-size: 11px;
   color: #E3B567;
   letter-spacing: .9px;
   margin-bottom: 9px;
 }
+
 .ritual-guide-detail-page .hero-tag {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  background: rgba(230,241,230,.16);
-  border: 1px solid rgba(230,241,230,.3);
+  background: rgba(230, 241, 230, .16);
+  border: 1px solid rgba(230, 241, 230, .3);
   border-radius: 20px;
   padding: 5px 13px;
   font-size: 11px;
@@ -159,6 +192,7 @@
   color: #BFE0BF;
   margin-bottom: 12px;
 }
+
 .ritual-guide-detail-page .hero-h1 {
   font-size: 40px;
   font-weight: 700;
@@ -167,26 +201,30 @@
   letter-spacing: -.8px;
   margin-bottom: 10px;
 }
+
 .ritual-guide-detail-page .hero-sub {
   font-size: 17px;
   color: #D8A8B4;
   line-height: 1.6;
   margin-bottom: 9px;
 }
+
 .ritual-guide-detail-page .hero-date {
   font-size: 13.5px;
   color: var(--amber);
   font-weight: 600;
   margin-bottom: 20px;
 }
+
 .ritual-guide-detail-page .hero-btns {
   display: flex;
   gap: 10px;
   flex-wrap: nowrap;
   align-items: stretch;
 }
+
 .ritual-guide-detail-page .hb-p {
-  background: rgba(255,255,255,.94);
+  background: rgba(255, 255, 255, .94);
   border: none;
   border-radius: 10px;
   padding: 12px 22px;
@@ -195,9 +233,10 @@
   color: #1C1712;
   letter-spacing: .1px;
 }
+
 .ritual-guide-detail-page .hb-g {
   background: transparent;
-  border: 1.5px solid rgba(255,255,255,.42);
+  border: 1.5px solid rgba(255, 255, 255, .42);
   border-radius: 10px;
   padding: 12px 22px;
   font-size: 13.5px;
@@ -211,6 +250,7 @@
   background: var(--card);
   border-bottom: 1px solid var(--border);
 }
+
 .ritual-guide-detail-page .strip-in {
   max-width: 1280px;
   margin: 0 auto;
@@ -221,12 +261,14 @@
   height: 52px;
   gap: 20px;
 }
+
 .ritual-guide-detail-page .tp {
   display: flex;
   align-items: center;
   gap: 16px;
   flex-wrap: wrap;
 }
+
 .ritual-guide-detail-page .tpi {
   display: flex;
   align-items: center;
@@ -236,11 +278,13 @@
   font-weight: 500;
   white-space: nowrap;
 }
+
 .ritual-guide-detail-page .tpd {
   width: 6px;
   height: 6px;
   border-radius: 50%;
 }
+
 .ritual-guide-detail-page .audio {
   display: flex;
   align-items: center;
@@ -250,6 +294,7 @@
   padding: 9px 14px;
   flex-shrink: 0;
 }
+
 .ritual-guide-detail-page .aplay {
   width: 24px;
   height: 24px;
@@ -262,21 +307,25 @@
   align-items: center;
   justify-content: center;
 }
+
 .ritual-guide-detail-page .alab {
   font-size: 11.5px;
   font-weight: 600;
   color: #fff;
 }
+
 .ritual-guide-detail-page .asub {
   font-size: 11px;
   color: var(--dim);
 }
+
 .ritual-guide-detail-page .alangs {
   display: flex;
   gap: 5px;
   margin-left: auto;
   flex-shrink: 0;
 }
+
 .ritual-guide-detail-page .alg {
   border: 1.5px solid var(--pink);
   border-radius: 4px;
@@ -284,7 +333,9 @@
   font-size: 11px;
   font-weight: 700;
   background: none;
-  color: var(--pink)}
+  color: var(--pink)
+}
+
 .ritual-guide-detail-page .alg.on {
   background: var(--pink);
   color: #fff;
@@ -295,10 +346,11 @@
   background: var(--p-bg);
   border-bottom: 1px solid var(--p-bd);
   padding: 12px 40px;
-  position: sticky;
+  position: static;
   top: 72px;
   z-index: 50;
 }
+
 .ritual-guide-detail-page .chips-in {
   max-width: 1280px;
   margin: 0 auto;
@@ -308,9 +360,11 @@
   overflow-x: auto;
   scrollbar-width: none;
 }
+
 .ritual-guide-detail-page .chips-in::-webkit-scrollbar {
   display: none;
 }
+
 .ritual-guide-detail-page .chip-l {
   font-size: 11.5px;
   font-weight: 700;
@@ -319,6 +373,7 @@
   white-space: nowrap;
   margin-right: 5px;
 }
+
 .ritual-guide-detail-page .chip {
   background: var(--card);
   border: 1.5px solid var(--border);
@@ -330,6 +385,7 @@
   white-space: nowrap;
   flex-shrink: 0;
 }
+
 .ritual-guide-detail-page .chip:hover {
   border-color: var(--pink);
   background: var(--b-bg);
@@ -343,6 +399,7 @@
   align-items: start;
   padding-top: 30px;
 }
+
 .ritual-guide-detail-page .main {
   max-width: 740px;
 }
@@ -359,11 +416,13 @@
   padding: 12px 16px;
   margin: 4px 0 22px;
 }
+
 .ritual-guide-detail-page .comp-i img {
   height: 20px;
   width: auto;
   display: block;
 }
+
 .ritual-guide-detail-page .comp-b {
   background: transparent;
   border: 1.5px solid var(--yellow);
@@ -375,14 +434,17 @@
   white-space: nowrap;
   flex-shrink: 0;
 }
+
 .ritual-guide-detail-page .comp:hover {
   border-color: var(--p-bd);
   background: var(--p-bg);
 }
+
 .ritual-guide-detail-page .comp>span:nth-child(2) {
   flex: 1;
   min-width: 0;
 }
+
 .ritual-guide-detail-page .comp-i {
   width: 30px;
   height: 30px;
@@ -396,6 +458,7 @@
   font-size: 14px;
   flex-shrink: 0;
 }
+
 .ritual-guide-detail-page .comp-t {
   flex: 1;
   min-width: 0;
@@ -404,6 +467,7 @@
   color: var(--sub-text);
   line-height: 1.5;
 }
+
 .ritual-guide-detail-page .comp-s {
   display: block;
   font-size: 12px;
@@ -411,12 +475,14 @@
   margin-top: 1px;
   line-height: 1.45;
 }
+
 .ritual-guide-detail-page .comp-a {
   font-size: 15px;
   color: var(--sub-text);
   margin-left: 4px;
   flex-shrink: 0;
 }
+
 .ritual-guide-detail-page .comp-d {
   font-size: 11px;
   font-weight: 700;
@@ -438,6 +504,7 @@
   overflow: hidden;
   margin-bottom: 16px;
 }
+
 .ritual-guide-detail-page .cc-h {
   padding: 12px 20px;
   border-bottom: 1px solid var(--border-light);
@@ -445,20 +512,24 @@
   align-items: center;
   justify-content: space-between;
 }
+
 .ritual-guide-detail-page .cc-hl {
   font-size: 11px;
   font-weight: 700;
   color: var(--sub-text);
   letter-spacing: .6px;
 }
+
 .ritual-guide-detail-page .cc-hr {
   font-size: 12px;
   color: var(--pink);
   font-weight: 700;
 }
+
 .ritual-guide-detail-page .cc-b {
   padding: 17px 20px;
 }
+
 .ritual-guide-detail-page .cc-core {
   font-size: 11px;
   font-weight: 700;
@@ -466,6 +537,7 @@
   letter-spacing: .6px;
   margin-bottom: 6px;
 }
+
 .ritual-guide-detail-page .cc-claim {
   font-size: 17px;
   font-weight: 700;
@@ -473,12 +545,14 @@
   line-height: 1.4;
   margin-bottom: 13px;
 }
+
 .ritual-guide-detail-page .cc-row {
   display: flex;
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
 }
+
 .ritual-guide-detail-page .cc-comp {
   font-size: 12.5px;
   color: var(--sub-text);
@@ -487,10 +561,12 @@
   border-top: 1px solid var(--border-light);
   background: #FCFAF6;
 }
+
 .ritual-guide-detail-page .cc-comp b {
   color: var(--body-text);
   font-weight: 600;
 }
+
 .ritual-guide-detail-page .pill {
   font-size: 11px;
   padding: 4px 11px;
@@ -498,22 +574,26 @@
   font-weight: 700;
   display: inline-block;
 }
+
 .ritual-guide-detail-page .pill.d {
   background: var(--d-bg);
   color: var(--d-tx);
   border: 1px solid var(--d-bd);
 }
+
 .ritual-guide-detail-page .pill.p {
   background: var(--p-bg);
   color: var(--p-tx);
   border: 1px solid var(--p-bd);
 }
+
 .ritual-guide-detail-page .pill.src {
   background: var(--bg);
   color: var(--mid-text);
   border: 1px solid var(--border);
   font-weight: 600;
 }
+
 .ritual-guide-detail-page .badge {
   font-size: 11px;
   font-weight: 700;
@@ -522,11 +602,13 @@
   border-radius: 6px;
   display: inline-block;
 }
+
 .ritual-guide-detail-page .badge.puranic {
   background: var(--d-bg);
   color: var(--d-tx);
   border: 1px solid var(--d-bd);
 }
+
 .ritual-guide-detail-page .badge.shastra {
   background: var(--d-bg);
   color: var(--d-tx);
@@ -540,34 +622,41 @@
   overflow: hidden;
   margin-bottom: 22px;
 }
+
 .ritual-guide-detail-page .pan-h {
   padding: 12px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(255,255,255,.09);
+  border-bottom: 1px solid rgba(255, 255, 255, .09);
 }
+
 .ritual-guide-detail-page .pan-hl {
   font-size: 11px;
   font-weight: 700;
   color: #E3B567;
   letter-spacing: .6px;
 }
+
 .ritual-guide-detail-page .pan-hr {
   font-size: 11px;
   color: var(--dim);
 }
+
 .ritual-guide-detail-page .pan-g {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
 }
+
 .ritual-guide-detail-page .pc {
   padding: 15px 18px;
-  border-right: 1px solid rgba(255,255,255,.08);
+  border-right: 1px solid rgba(255, 255, 255, .08);
 }
+
 .ritual-guide-detail-page .pc:last-child {
   border-right: none;
 }
+
 .ritual-guide-detail-page .pc-k {
   font-size: 11px;
   font-weight: 700;
@@ -576,26 +665,30 @@
   margin-bottom: 5px;
   line-height: 1.3;
 }
+
 .ritual-guide-detail-page .pc-v {
   font-size: 17px;
   font-weight: 700;
   color: #fff;
   line-height: 1.2;
 }
+
 .ritual-guide-detail-page .pc-s {
   font-size: 11px;
   color: var(--dim);
   margin-top: 4px;
   line-height: 1.5;
 }
+
 .ritual-guide-detail-page .pan-n {
-  background: rgba(232,160,32,.11);
-  border-top: 1px solid rgba(255,255,255,.09);
+  background: rgba(232, 160, 32, .11);
+  border-top: 1px solid rgba(255, 255, 255, .09);
   padding: 12px 20px;
   font-size: 12px;
   color: #F0D9A8;
   line-height: 1.7;
 }
+
 .ritual-guide-detail-page .pan-n b {
   color: var(--amber);
 }
@@ -609,15 +702,18 @@
   letter-spacing: -.4px;
   margin: 18px 0 13px;
 }
+
 .ritual-guide-detail-page .p {
   font-size: 15px;
   line-height: 1.85;
   margin-bottom: 14px;
 }
+
 .ritual-guide-detail-page .p strong {
   color: var(--dark);
   font-weight: 600;
 }
+
 .ritual-guide-detail-page .sh {
   display: flex;
   align-items: center;
@@ -625,17 +721,20 @@
   margin: 32px 0 9px;
   scroll-margin-top: 150px;
 }
+
 .ritual-guide-detail-page .sh-p {
   color: var(--pink);
   font-weight: 700;
   font-size: 17px;
 }
+
 .ritual-guide-detail-page .sh-t {
   font-size: 19px;
   font-weight: 700;
   color: var(--dark);
   line-height: 1.3;
 }
+
 .ritual-guide-detail-page .sh-s {
   font-size: 13px;
   color: var(--sub-text);
@@ -643,12 +742,14 @@
   margin: 0 0 14px 22px;
   line-height: 1.65;
 }
+
 .ritual-guide-detail-page .tagrow {
   display: flex;
   gap: 7px;
   flex-wrap: wrap;
   margin: 6px 0 16px;
 }
+
 .ritual-guide-detail-page .hr {
   height: 1px;
   background: var(--border);
@@ -662,6 +763,7 @@
   overflow: hidden;
   background: var(--darkbar);
 }
+
 .ritual-guide-detail-page figure.art img {
   width: 100%;
   display: block;
@@ -677,18 +779,22 @@
   font-size: 13.5px;
   line-height: 1.75;
 }
+
 .ritual-guide-detail-page .muh b {
   color: var(--p-tx);
 }
+
 .ritual-guide-detail-page .step {
   display: flex;
   gap: 14px;
 }
+
 .ritual-guide-detail-page .st-c {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+
 .ritual-guide-detail-page .st-n {
   width: 30px;
   height: 30px;
@@ -702,9 +808,11 @@
   justify-content: center;
   flex-shrink: 0;
 }
+
 .ritual-guide-detail-page .st-n.end {
   background: var(--rose);
 }
+
 .ritual-guide-detail-page .st-l {
   width: 2px;
   flex: 1;
@@ -712,21 +820,25 @@
   margin: 4px 0;
   min-height: 12px;
 }
+
 .ritual-guide-detail-page .st-b {
   flex: 1;
   padding-bottom: 18px;
   min-width: 0;
 }
+
 .ritual-guide-detail-page .st-b p {
   font-size: 14.5px;
   line-height: 1.8;
 }
+
 .ritual-guide-detail-page .mantra {
   background: var(--darkbar);
   border-radius: 13px;
   padding: 16px 18px;
   margin: 8px 0 20px;
 }
+
 .ritual-guide-detail-page .mn-l {
   font-size: 11px;
   font-weight: 700;
@@ -734,12 +846,16 @@
   letter-spacing: .5px;
   margin-bottom: 7px;
 }
+
 .ritual-guide-detail-page .mn-d {
   font-size: 20px;
   color: var(--amber);
   line-height: 1.5;
   margin-bottom: 4px;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
+
 .ritual-guide-detail-page .mn-r {
   font-size: 12px;
   color: #C4A882;
@@ -753,12 +869,13 @@
   gap: 12px;
   margin-bottom: 8px;
 }
+
 .ritual-guide-detail-page .mn-play {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(232,160,32,.16);
-  border: 1px solid rgba(232,160,32,.36);
+  background: rgba(232, 160, 32, .16);
+  border: 1px solid rgba(232, 160, 32, .36);
   border-radius: 20px;
   padding: 7px 15px;
   font-size: 12px;
@@ -766,11 +883,13 @@
   color: var(--amber);
   white-space: nowrap;
 }
+
 .ritual-guide-detail-page .mn-play.off {
-  background: rgba(255,255,255,.05);
-  border-color: rgba(255,255,255,.12);
+  background: rgba(255, 255, 255, .05);
+  border-color: rgba(255, 255, 255, .12);
   color: #6E6355;
 }
+
 .ritual-guide-detail-page .mn-pi {
   width: 22px;
   height: 22px;
@@ -783,6 +902,7 @@
   justify-content: center;
   flex-shrink: 0;
 }
+
 .ritual-guide-detail-page .mn-play.off .mn-pi {
   background: #4A4136;
   color: #8A7E6C;
@@ -796,6 +916,7 @@
   overflow: hidden;
   margin: 6px 0 8px;
 }
+
 .ritual-guide-detail-page .sank-h {
   background: var(--p-bg);
   border-bottom: 1px solid var(--p-bd);
@@ -805,15 +926,18 @@
   color: var(--p-tx);
   letter-spacing: .4px;
 }
+
 .ritual-guide-detail-page .sank-b {
   padding: 20px;
 }
+
 .ritual-guide-detail-page .sank-dev {
   font-size: 19px;
   color: var(--p-tx);
   line-height: 1.85;
   margin-bottom: 11px;
 }
+
 .ritual-guide-detail-page .sank-r {
   font-size: 14.5px;
   color: var(--body-text);
@@ -823,24 +947,29 @@
   padding-bottom: 13px;
   border-bottom: 1px solid var(--border-light);
 }
+
 .ritual-guide-detail-page .sank-m {
   font-size: 14.5px;
   line-height: 1.82;
   margin-bottom: 13px;
 }
+
 .ritual-guide-detail-page .sank-m b {
   color: var(--dark);
 }
+
 .ritual-guide-detail-page .sank-g {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 11px;
 }
+
 .ritual-guide-detail-page .sg {
   background: var(--bg);
   border-radius: 11px;
   padding: 13px 15px;
 }
+
 .ritual-guide-detail-page .sg-k {
   font-size: 9.5px;
   font-weight: 700;
@@ -848,11 +977,13 @@
   letter-spacing: .5px;
   margin-bottom: 5px;
 }
+
 .ritual-guide-detail-page .sg-v {
   font-size: 13.5px;
   color: var(--body-text);
   line-height: 1.7;
 }
+
 .ritual-guide-detail-page .sank-note {
   background: var(--d-bg);
   border-top: 1px solid var(--d-bd);
@@ -860,13 +991,14 @@
   font-size: 13.5px;
   line-height: 1.78;
 }
+
 .ritual-guide-detail-page .sank-note b {
   color: var(--d-tx);
 }
 
 /* Japa counter */
 .ritual-guide-detail-page .japa {
-  border-top: 1px solid rgba(255,255,255,.1);
+  border-top: 1px solid rgba(255, 255, 255, .1);
   margin-top: 14px;
   padding-top: 14px;
   display: flex;
@@ -874,30 +1006,34 @@
   gap: 12px;
   flex-wrap: wrap;
 }
+
 .ritual-guide-detail-page .jp-l {
   font-size: 9.5px;
   font-weight: 700;
   color: #E3B567;
   letter-spacing: .5px;
 }
+
 .ritual-guide-detail-page .jp-ctr {
   display: flex;
   align-items: center;
   gap: 11px;
   margin-left: auto;
 }
+
 .ritual-guide-detail-page .jp-b {
   width: 38px;
   height: 38px;
   border-radius: 11px;
-  border: 1.5px solid rgba(255,255,255,.22);
-  background: rgba(255,255,255,.06);
+  border: 1.5px solid rgba(255, 255, 255, .22);
+  background: rgba(255, 255, 255, .06);
   color: #fff;
   font-size: 17px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 .ritual-guide-detail-page .jp-n {
   font-size: 24px;
   font-weight: 700;
@@ -906,28 +1042,32 @@
   text-align: center;
   line-height: 1;
 }
+
 .ritual-guide-detail-page .jp-t {
   font-size: 11px;
   color: #A99070;
   margin-top: 3px;
   text-align: center;
 }
+
 .ritual-guide-detail-page .jp-presets {
   display: flex;
   gap: 7px;
   width: 100%;
   margin-top: 11px;
 }
+
 .ritual-guide-detail-page .jp-p {
   flex: 1;
-  border: 1.5px solid rgba(255,255,255,.18);
-  background: rgba(255,255,255,.05);
+  border: 1.5px solid rgba(255, 255, 255, .18);
+  background: rgba(255, 255, 255, .05);
   border-radius: 9px;
   padding: 8px;
   font-size: 12.5px;
   font-weight: 600;
   color: #C4A882;
 }
+
 .ritual-guide-detail-page .jp-p.on {
   background: var(--amber);
   border-color: var(--amber);
@@ -941,10 +1081,12 @@
   border: 1px solid var(--border);
   margin: 6px 0 0;
 }
+
 .ritual-guide-detail-page .k-top {
-  background: linear-gradient(150deg,#5C1A30,#2A0810);
+  background: linear-gradient(150deg, #5C1A30, #2A0810);
   padding: 26px 28px;
 }
+
 .ritual-guide-detail-page .k-l {
   font-size: 9.5px;
   font-weight: 700;
@@ -952,6 +1094,7 @@
   letter-spacing: .7px;
   margin-bottom: 10px;
 }
+
 .ritual-guide-detail-page .k-t {
   font-size: 24px;
   font-weight: 700;
@@ -960,26 +1103,31 @@
   letter-spacing: -.4px;
   margin-bottom: 9px;
 }
+
 .ritual-guide-detail-page .k-s {
   font-size: 14px;
   color: #D8A8B4;
   line-height: 1.75;
 }
+
 .ritual-guide-detail-page .k-b {
   background: var(--card);
   padding: 22px 26px;
 }
+
 .ritual-guide-detail-page .k-beats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 11px;
   margin-bottom: 18px;
 }
+
 .ritual-guide-detail-page .kb {
   background: var(--bg);
   border-radius: 12px;
   padding: 14px 15px;
 }
+
 .ritual-guide-detail-page .kb-n {
   width: 24px;
   height: 24px;
@@ -994,6 +1142,7 @@
   justify-content: center;
   margin-bottom: 9px;
 }
+
 .ritual-guide-detail-page .kb-t {
   font-size: 13.5px;
   font-weight: 700;
@@ -1001,11 +1150,13 @@
   line-height: 1.35;
   margin-bottom: 4px;
 }
+
 .ritual-guide-detail-page .kb-s {
   font-size: 12px;
   color: var(--sub-text);
   line-height: 1.6;
 }
+
 .ritual-guide-detail-page .k-f {
   display: flex;
   align-items: center;
@@ -1014,6 +1165,7 @@
   padding-top: 16px;
   border-top: 1px solid var(--border-light);
 }
+
 .ritual-guide-detail-page .k-moral {
   flex: 1;
   min-width: 220px;
@@ -1021,9 +1173,11 @@
   color: var(--sub-text);
   line-height: 1.75;
 }
+
 .ritual-guide-detail-page .k-moral b {
   color: var(--dark);
 }
+
 .ritual-guide-detail-page .k-c {
   background: var(--darkbar);
   border: none;
@@ -1034,6 +1188,7 @@
   color: #fff;
   white-space: nowrap;
 }
+
 .ritual-guide-detail-page .k-audio {
   background: none;
   border: 1.5px solid var(--border);
@@ -1052,6 +1207,7 @@
   border-radius: 15px;
   overflow: hidden;
 }
+
 .ritual-guide-detail-page .dh {
   display: grid;
   grid-template-columns: 44px 74px 1fr 92px 84px;
@@ -1060,12 +1216,14 @@
   background: var(--bg);
   border-bottom: 1px solid var(--border);
 }
+
 .ritual-guide-detail-page .dh span {
   font-size: 11px;
   font-weight: 700;
   color: var(--sub-text);
   letter-spacing: .5px;
 }
+
 .ritual-guide-detail-page .dr {
   display: grid;
   grid-template-columns: 44px 74px 1fr 92px 84px;
@@ -1074,12 +1232,15 @@
   border-bottom: .5px solid var(--border-light);
   align-items: center;
 }
+
 .ritual-guide-detail-page .dr:last-child {
   border-bottom: none;
 }
+
 .ritual-guide-detail-page .dr:hover {
   background: #FCFAF6;
 }
+
 .ritual-guide-detail-page .d-n {
   width: 26px;
   height: 26px;
@@ -1093,10 +1254,12 @@
   align-items: center;
   justify-content: center;
 }
+
 .ritual-guide-detail-page .d-dt {
   font-size: 12px;
   color: var(--sub-text);
 }
+
 .ritual-guide-detail-page .d-dv {
   display: block;
   font-size: 14.5px;
@@ -1104,6 +1267,7 @@
   color: var(--dark);
   line-height: 1.25;
 }
+
 .ritual-guide-detail-page .d-ds {
   display: block;
   font-size: 12px;
@@ -1111,6 +1275,7 @@
   margin-top: 2px;
   line-height: 1.55;
 }
+
 .ritual-guide-detail-page .d-col {
   display: flex;
   align-items: center;
@@ -1118,13 +1283,15 @@
   font-size: 12px;
   color: var(--mid-text);
 }
+
 .ritual-guide-detail-page .d-sw {
   width: 13px;
   height: 13px;
   border-radius: 4px;
-  border: 1px solid rgba(0,0,0,.14);
+  border: 1px solid rgba(0, 0, 0, .14);
   flex-shrink: 0;
 }
+
 .ritual-guide-detail-page .d-of {
   font-size: 12px;
   color: var(--mid-text);
@@ -1137,6 +1304,7 @@
   border-radius: 15px;
   overflow: hidden;
 }
+
 .ritual-guide-detail-page .sam-r {
   display: flex;
   gap: 16px;
@@ -1144,15 +1312,18 @@
   border-bottom: .5px solid var(--border-light);
   align-items: baseline;
 }
+
 .ritual-guide-detail-page .sam-r:last-child {
   border-bottom: none;
 }
+
 .ritual-guide-detail-page .sam-i {
   font-size: 13.5px;
   font-weight: 600;
   color: var(--dark);
   flex: 0 0 44%;
 }
+
 .ritual-guide-detail-page .sam-n {
   font-size: 12.5px;
   color: var(--sub-text);
@@ -1167,23 +1338,27 @@
   gap: 12px;
   margin-bottom: 13px;
 }
+
 .ritual-guide-detail-page .fb {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 13px;
   padding: 15px 17px;
 }
+
 .ritual-guide-detail-page .fb-t {
   font-size: 13.5px;
   font-weight: 700;
   color: var(--dark);
   margin-bottom: 5px;
 }
+
 .ritual-guide-detail-page .fb-s {
   font-size: 12.5px;
   color: var(--sub-text);
   line-height: 1.7;
 }
+
 .ritual-guide-detail-page .fnote {
   background: var(--d-bg);
   border: 1px solid var(--d-bd);
@@ -1193,6 +1368,7 @@
   line-height: 1.78;
   color: var(--body-text);
 }
+
 .ritual-guide-detail-page .fnote b {
   color: var(--d-tx);
 }
@@ -1205,6 +1381,7 @@
   overflow: hidden;
   margin-bottom: 10px;
 }
+
 .ritual-guide-detail-page .my-q {
   background: var(--b-bg);
   padding: 13px 17px;
@@ -1213,12 +1390,14 @@
   align-items: flex-start;
   justify-content: space-between;
 }
+
 .ritual-guide-detail-page .my-qt {
   font-size: 14px;
   font-weight: 600;
   color: #8C1130;
   line-height: 1.6;
 }
+
 .ritual-guide-detail-page .my-bd {
   font-size: 11px;
   font-weight: 700;
@@ -1230,6 +1409,7 @@
   flex-shrink: 0;
   white-space: nowrap;
 }
+
 .ritual-guide-detail-page .my-a {
   padding: 13px 17px;
   font-size: 14px;
@@ -1245,6 +1425,7 @@
   padding: 17px 20px;
   margin: 24px 0;
 }
+
 .ritual-guide-detail-page .in-l {
   font-size: 11px;
   font-weight: 700;
@@ -1252,6 +1433,7 @@
   letter-spacing: .6px;
   margin-bottom: 7px;
 }
+
 .ritual-guide-detail-page .in-t {
   font-size: 15.5px;
   font-weight: 700;
@@ -1259,11 +1441,13 @@
   margin-bottom: 6px;
   line-height: 1.35;
 }
+
 .ritual-guide-detail-page .in-s {
   font-size: 13.5px;
   color: var(--body-text);
   line-height: 1.78;
 }
+
 .ritual-guide-detail-page .in-c {
   font-size: 12px;
   color: var(--pink);
@@ -1280,6 +1464,7 @@
   margin: 18px 0 0;
   align-items: stretch;
 }
+
 .ritual-guide-detail-page .rev-c {
   border-radius: 15px;
   padding: 19px 20px;
@@ -1290,18 +1475,22 @@
   height: 100%;
   border: 1px solid;
 }
+
 .ritual-guide-detail-page .rev-c.live {
   background: var(--card);
   border-color: var(--border);
 }
+
 .ritual-guide-detail-page .rev-c.feat {
-  background: linear-gradient(150deg,#7A1428,#2A0810);
+  background: linear-gradient(150deg, #7A1428, #2A0810);
   border-color: transparent;
 }
+
 .ritual-guide-detail-page .rev-c.soon {
   background: #EFEAE0;
   border-color: #DDD4C4;
 }
+
 .ritual-guide-detail-page .rev-i {
   width: 38px;
   height: 38px;
@@ -1313,64 +1502,80 @@
   margin-bottom: 12px;
   flex-shrink: 0;
 }
+
 .ritual-guide-detail-page .rev-c.live .rev-i {
   background: var(--p-bg);
   border: 1px solid var(--p-bd);
 }
+
 .ritual-guide-detail-page .rev-c.feat .rev-i {
-  background: rgba(255,255,255,.14);
-  border: 1px solid rgba(255,255,255,.22);
+  background: rgba(255, 255, 255, .14);
+  border: 1px solid rgba(255, 255, 255, .22);
 }
+
 .ritual-guide-detail-page .rev-c.soon .rev-i {
   background: #E4DCCC;
   border: 1px solid #D4C9B4;
   opacity: .6;
 }
+
 .ritual-guide-detail-page .rev-l {
   font-size: 10.5px;
   font-weight: 700;
   letter-spacing: .6px;
   margin-bottom: 6px;
 }
+
 .ritual-guide-detail-page .rev-c.live .rev-l {
   color: var(--gold);
 }
+
 .ritual-guide-detail-page .rev-c.feat .rev-l {
   color: #E3B567;
 }
+
 .ritual-guide-detail-page .rev-c.soon .rev-l {
   color: #9A8E7A;
 }
+
 .ritual-guide-detail-page .rev-t {
   font-size: 16px;
   font-weight: 700;
   line-height: 1.32;
   margin-bottom: 6px;
 }
+
 .ritual-guide-detail-page .rev-c.live .rev-t {
   color: var(--dark);
 }
+
 .ritual-guide-detail-page .rev-c.feat .rev-t {
   color: #fff;
 }
+
 .ritual-guide-detail-page .rev-c.soon .rev-t {
   color: #7A705F;
 }
+
 .ritual-guide-detail-page .rev-s {
   font-size: 12.5px;
   line-height: 1.7;
   margin-bottom: 15px;
   flex: 1;
 }
+
 .ritual-guide-detail-page .rev-c.live .rev-s {
   color: var(--sub-text);
 }
+
 .ritual-guide-detail-page .rev-c.feat .rev-s {
   color: #D8A8B4;
 }
+
 .ritual-guide-detail-page .rev-c.soon .rev-s {
   color: #948872;
 }
+
 .ritual-guide-detail-page .rev-b {
   border: none;
   border-radius: 11px;
@@ -1379,36 +1584,44 @@
   font-weight: 700;
   width: 100%;
 }
+
 .ritual-guide-detail-page .rev-c.live .rev-b {
   background: var(--pink);
   color: #fff;
 }
+
 .ritual-guide-detail-page .rev-c.live .rev-b.wa {
   background: #1F9D52;
   color: #fff;
 }
+
 .ritual-guide-detail-page .rev-c.live .rev-b.pur {
   background: var(--yellow);
   color: #1C1712;
 }
+
 .ritual-guide-detail-page .rev-c.feat .rev-b {
   background: #fff;
   color: #7A1428;
 }
+
 .ritual-guide-detail-page .rev-c.soon .rev-b {
   background: transparent;
   border: 1.5px solid #C9BFAC;
   color: #7A705F;
 }
+
 .ritual-guide-detail-page .rev-c .rev-b {
   margin: 0;
   white-space: nowrap;
   flex: 0 0 auto;
 }
+
 .ritual-guide-detail-page .rev-c .rev-s {
   flex: 1 1 auto;
   margin-bottom: 15px;
 }
+
 .ritual-guide-detail-page .rev-note {
   font-size: 12px;
   color: var(--sub-text);
@@ -1424,12 +1637,14 @@
   padding: 26px 28px;
   margin: 26px 0;
 }
+
 .ritual-guide-detail-page .closing p {
   font-size: 15px;
   color: var(--hero-text);
   line-height: 1.88;
   margin-bottom: 13px;
 }
+
 .ritual-guide-detail-page .closing p:last-child {
   margin-bottom: 0;
   color: #E8C89A;
@@ -1441,12 +1656,14 @@
   grid-template-columns: 1fr 1fr;
   gap: 14px;
 }
+
 .ritual-guide-detail-page .rel {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 14px;
   padding: 16px 18px;
 }
+
 .ritual-guide-detail-page .rel-h {
   font-size: 11px;
   font-weight: 700;
@@ -1454,6 +1671,7 @@
   letter-spacing: .6px;
   margin-bottom: 11px;
 }
+
 .ritual-guide-detail-page .rel-i {
   display: flex;
   align-items: center;
@@ -1462,13 +1680,16 @@
   padding: 9px 0;
   border-bottom: .5px solid var(--border-light);
 }
+
 .ritual-guide-detail-page .rel-i:last-child {
   border-bottom: none;
 }
+
 .ritual-guide-detail-page .rel-i>span:first-child {
   flex: 1;
   min-width: 0;
 }
+
 .ritual-guide-detail-page .rel-n {
   display: block;
   font-size: 13.5px;
@@ -1476,17 +1697,20 @@
   color: var(--dark);
   line-height: 1.3;
 }
+
 .ritual-guide-detail-page .rel-s {
   display: block;
   font-size: 11.5px;
   color: var(--sub-text);
   margin-top: 2px;
 }
+
 .ritual-guide-detail-page .rel-a {
   font-size: 15px;
   color: var(--pink);
   flex-shrink: 0;
 }
+
 .ritual-guide-detail-page .rel-cl {
   font-size: 11px;
   font-weight: 700;
@@ -1506,12 +1730,14 @@
   flex-direction: column;
   gap: 13px;
 }
+
 .ritual-guide-detail-page .sb {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 14px;
   overflow: hidden;
 }
+
 .ritual-guide-detail-page .sb-h {
   padding: 12px 16px;
   border-bottom: 1px solid var(--border-light);
@@ -1522,11 +1748,13 @@
   justify-content: space-between;
   align-items: center;
 }
+
 .ritual-guide-detail-page .sb-c {
   font-size: 11.5px;
   color: var(--sub-text);
   font-weight: 400;
 }
+
 .ritual-guide-detail-page .sb-i {
   padding: 9px 16px;
   border-bottom: .5px solid #FAF5EE;
@@ -1535,9 +1763,11 @@
   gap: 10px;
   font-size: 12.5px;
 }
+
 .ritual-guide-detail-page .sb-i:last-child {
   border-bottom: none;
 }
+
 .ritual-guide-detail-page .cb {
   width: 16px;
   height: 16px;
@@ -1548,10 +1778,12 @@
   -webkit-appearance: none;
   position: relative;
 }
+
 .ritual-guide-detail-page .cb:checked {
   background: var(--pink);
   border-color: var(--pink);
 }
+
 .ritual-guide-detail-page .cb:checked::after {
   content: '✓';
   position: absolute;
@@ -1561,12 +1793,14 @@
   color: #fff;
   font-weight: 700;
 }
+
 .ritual-guide-detail-page .sb-act {
   padding: 9px 14px;
   display: flex;
   gap: 7px;
   border-top: 1px solid var(--border);
 }
+
 .ritual-guide-detail-page .sb-wa {
   flex: 1;
   background: #1F9D52;
@@ -1577,6 +1811,7 @@
   font-size: 11.5px;
   font-weight: 600;
 }
+
 .ritual-guide-detail-page .sb-dl {
   flex: 1;
   background: var(--card);
@@ -1586,6 +1821,7 @@
   font-size: 11.5px;
   color: var(--dark);
 }
+
 .ritual-guide-detail-page .sbcta {
   width: 100%;
   border: none;
@@ -1596,35 +1832,43 @@
   align-items: center;
   gap: 3px;
 }
+
 .ritual-guide-detail-page .sbcta.pink {
   background: var(--pink);
 }
+
 .ritual-guide-detail-page .sbcta.dk {
   background: var(--darkbar);
 }
+
 .ritual-guide-detail-page .sbcta.wa {
   background: #1F9D52;
 }
+
 .ritual-guide-detail-page .sb-ci {
   font-size: 18px;
 }
+
 .ritual-guide-detail-page .sb-ct {
   font-size: 13px;
   font-weight: 700;
   color: #fff;
 }
+
 .ritual-guide-detail-page .sb-cs {
   font-size: 11px;
-  color: rgba(255,255,255,.6);
+  color: rgba(255, 255, 255, .6);
   text-align: center;
   line-height: 1.5;
 }
+
 .ritual-guide-detail-page .sbn {
   background: var(--p-bg);
   border: 1px solid var(--p-bd);
   border-radius: 13px;
   padding: 14px 16px;
 }
+
 .ritual-guide-detail-page .sbn-h {
   font-size: 11px;
   font-weight: 700;
@@ -1632,14 +1876,17 @@
   letter-spacing: .6px;
   margin-bottom: 8px;
 }
+
 .ritual-guide-detail-page .sbn-t {
   font-size: 12px;
   color: var(--body-text);
   line-height: 1.75;
 }
+
 .ritual-guide-detail-page .sbn-t b {
   color: var(--p-tx);
 }
+
 .ritual-guide-detail-page .sbn-c {
   font-size: 12px;
   color: var(--pink);
@@ -1655,12 +1902,14 @@
   border-radius: 13px;
   padding: 14px 16px;
 }
+
 .ritual-guide-detail-page .sbcomp-h {
   display: flex;
   align-items: center;
   gap: 9px;
   margin-bottom: 8px;
 }
+
 .ritual-guide-detail-page .sbcomp-i {
   width: 26px;
   height: 26px;
@@ -1672,23 +1921,27 @@
   justify-content: center;
   flex-shrink: 0;
 }
+
 .ritual-guide-detail-page .sbcomp-i img {
   height: 17px;
   width: auto;
   display: block;
 }
+
 .ritual-guide-detail-page .sbcomp-l {
   font-size: 10px;
   font-weight: 700;
   color: var(--gold);
   letter-spacing: .6px;
 }
+
 .ritual-guide-detail-page .sbcomp-t {
   font-size: 13px;
   color: var(--sub-text);
   line-height: 1.6;
   margin-bottom: 11px;
 }
+
 .ritual-guide-detail-page .sbcomp-b {
   width: 100%;
   background: transparent;
@@ -1699,6 +1952,7 @@
   font-weight: 700;
   color: #8A6100;
 }
+
 .ritual-guide-detail-page .sbcomp-d {
   font-size: 9.5px;
   font-weight: 700;
@@ -1716,6 +1970,7 @@
   width: auto;
   border-radius: 6px;
 }
+
 .ritual-guide-detail-page .rev-i .wa-ico {
   height: 22px;
   border-radius: 5px;
@@ -1728,16 +1983,18 @@
   right: 0;
   bottom: 0;
   z-index: 80;
-  background: rgba(255,255,255,.96);
+  background: rgba(255, 255, 255, .96);
   backdrop-filter: blur(10px);
   border-top: 1px solid var(--border);
-  box-shadow: 0 -2px 18px rgba(28,23,18,.10);
+  box-shadow: 0 -2px 18px rgba(28, 23, 18, .10);
   transform: translateY(110%);
   transition: transform .22s ease;
 }
+
 .ritual-guide-detail-page .dsticky.on {
   transform: translateY(0);
 }
+
 .ritual-guide-detail-page .ds-in {
   max-width: 1280px;
   margin: 0 auto;
@@ -1746,22 +2003,26 @@
   align-items: center;
   gap: 14px;
 }
+
 .ritual-guide-detail-page .ds-t {
   font-size: 14px;
   font-weight: 700;
   color: var(--dark);
   line-height: 1.3;
 }
+
 .ritual-guide-detail-page .ds-s {
   font-size: 12px;
   color: var(--sub-text);
   margin-top: 1px;
 }
+
 .ritual-guide-detail-page .ds-b {
   margin-left: auto;
   display: flex;
   gap: 9px;
 }
+
 .ritual-guide-detail-page .ds-btn {
   border: none;
   border-radius: 11px;
@@ -1770,19 +2031,23 @@
   font-weight: 700;
   white-space: nowrap;
 }
+
 .ritual-guide-detail-page .ds-btn.card {
   background: var(--card);
   border: 1.5px solid var(--border);
   color: var(--body-text);
 }
+
 .ritual-guide-detail-page .ds-btn.wa {
   background: #1F9D52;
   color: #fff;
 }
+
 .ritual-guide-detail-page .ds-btn.kit {
   background: var(--pink);
   color: #fff;
 }
+
 @media (max-width: 900px) {
   .ritual-guide-detail-page .dsticky {
     display: none;
@@ -1800,46 +2065,59 @@
     margin: 0 auto;
     padding-bottom: 74px;
   }
+
   .ritual-guide-detail-page .wrap {
     padding: 0 16px;
   }
+
   .ritual-guide-detail-page .bcrumb {
     padding: 0 16px;
   }
+
   .ritual-guide-detail-page .bc-l {
     font-size: 12.5px;
   }
+
   .ritual-guide-detail-page .bcb {
     display: none;
   }
+
   .ritual-guide-detail-page .hero {
     height: auto;
     min-height: 380px;
     align-items: flex-end;
   }
+
   .ritual-guide-detail-page .hero-ov {
-    background: linear-gradient(to top,rgba(26,5,9,.95) 12%,rgba(26,5,9,.66) 48%,rgba(26,5,9,.2) 100%);
+    background: linear-gradient(to top, rgba(26, 5, 9, .95) 12%, rgba(26, 5, 9, .66) 48%, rgba(26, 5, 9, .2) 100%);
   }
+
   .ritual-guide-detail-page .hero-share {
     top: 13px;
     right: 14px;
     padding: 6px 13px;
     font-size: 11.5px;
   }
+
   .ritual-guide-detail-page .hero-c {
     padding: 0 16px 24px;
   }
+
   .ritual-guide-detail-page .hero-h1 {
     font-size: 28px;
   }
+
   .ritual-guide-detail-page .hero-sub {
     font-size: 14px;
   }
+
   .ritual-guide-detail-page .hero-btns {
     flex-direction: row;
     gap: 9px;
   }
-  .ritual-guide-detail-page .hb-p, .ritual-guide-detail-page .hb-g {
+
+  .ritual-guide-detail-page .hb-p,
+  .ritual-guide-detail-page .hb-g {
     flex: 1 1 0;
     min-width: 0;
     text-align: center;
@@ -1847,6 +2125,7 @@
     font-size: 12.5px;
     line-height: 1.25;
   }
+
   .ritual-guide-detail-page .strip-in {
     padding: 11px 16px;
     height: auto;
@@ -1854,109 +2133,140 @@
     align-items: stretch;
     gap: 10px;
   }
+
   .ritual-guide-detail-page .tp {
     gap: 12px;
   }
+
   .ritual-guide-detail-page .chips {
     padding: 10px 16px;
     top: 70px;
   }
+
   .ritual-guide-detail-page .chip-l {
     display: none;
   }
+
   .ritual-guide-detail-page .layout {
     grid-template-columns: 1fr;
     gap: 0;
     padding-top: 18px;
   }
+
   .ritual-guide-detail-page .main {
     max-width: none;
   }
+
   .ritual-guide-detail-page .side {
     position: static;
     margin-top: 26px;
   }
+
   .ritual-guide-detail-page .open {
     font-size: 20px;
   }
+
   .ritual-guide-detail-page .p {
     font-size: 14.5px;
   }
+
   .ritual-guide-detail-page .sh-t {
     font-size: 17px;
   }
+
   .ritual-guide-detail-page figure.art {
     margin: 20px -16px;
     border-radius: 0;
   }
+
   .ritual-guide-detail-page .pan-g {
     grid-template-columns: 1fr 1fr;
   }
+
   .ritual-guide-detail-page .pc {
-    border-bottom: 1px solid rgba(255,255,255,.08);
+    border-bottom: 1px solid rgba(255, 255, 255, .08);
   }
+
   .ritual-guide-detail-page .pc:nth-child(2n) {
     border-right: none;
   }
+
   .ritual-guide-detail-page .pc:nth-last-child(-n+2) {
     border-bottom: none;
   }
+
   .ritual-guide-detail-page .cc-claim {
     font-size: 15.5px;
   }
+
   .ritual-guide-detail-page .dh {
     display: none;
   }
+
   .ritual-guide-detail-page .dr {
     grid-template-columns: 34px 1fr auto;
     gap: 3px 11px;
     padding: 13px 15px;
     align-items: start;
   }
+
   .ritual-guide-detail-page .dr>*:nth-child(1) {
     grid-column: 1;
     grid-row: 1/span 3;
     align-self: start;
   }
+
   .ritual-guide-detail-page .dr>*:nth-child(2) {
     grid-column: 2/span 2;
     grid-row: 1;
     font-size: 11.5px;
     color: var(--sub-text);
   }
+
   .ritual-guide-detail-page .dr>*:nth-child(3) {
     grid-column: 2/span 2;
     grid-row: 2;
   }
+
   .ritual-guide-detail-page .dr>*:nth-child(4) {
     grid-column: 2;
     grid-row: 3;
     margin-top: 5px;
   }
+
   .ritual-guide-detail-page .dr>*:nth-child(5) {
     grid-column: 3;
     grid-row: 3;
     margin-top: 5px;
     text-align: right;
   }
+
   .ritual-guide-detail-page .d-dv {
     font-size: 15px;
   }
+
   .ritual-guide-detail-page .d-ds {
     font-size: 12.5px;
   }
-  .ritual-guide-detail-page .d-col, .ritual-guide-detail-page .d-of {
+
+  .ritual-guide-detail-page .d-col,
+  .ritual-guide-detail-page .d-of {
     font-size: 12px;
   }
+
   .ritual-guide-detail-page .fast {
     grid-template-columns: 1fr;
   }
-  .ritual-guide-detail-page .relgrid, .ritual-guide-detail-page .comm {
+
+  .ritual-guide-detail-page .relgrid,
+  .ritual-guide-detail-page .comm {
     grid-template-columns: 1fr;
   }
+
   .ritual-guide-detail-page .closing {
     padding: 22px 20px;
   }
+
   .ritual-guide-detail-page .sticky {
     display: flex;
     position: fixed;
@@ -1964,15 +2274,16 @@
     left: 0;
     right: 0;
     z-index: 70;
-    background: rgba(255,255,255,.97);
+    background: rgba(255, 255, 255, .97);
     backdrop-filter: blur(10px);
     border-top: 1px solid var(--border);
     padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
     max-width: 430px;
     margin: 0 auto;
     gap: 9px;
-    box-shadow: 0 -2px 16px rgba(28,23,18,.08);
+    box-shadow: 0 -2px 16px rgba(28, 23, 18, .08);
   }
+
   .ritual-guide-detail-page .sticky .a {
     flex: 1;
     background: #1F9D52;
@@ -1987,6 +2298,7 @@
     align-items: center;
     line-height: 1.25;
   }
+
   .ritual-guide-detail-page .sticky .b {
     flex: 1.25;
     background: var(--pink);
@@ -2001,6 +2313,7 @@
     align-items: center;
     line-height: 1.25;
   }
+
   .ritual-guide-detail-page .sticky .b small {
     font-size: 11px;
     font-weight: 500;

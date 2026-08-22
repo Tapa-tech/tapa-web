@@ -2,7 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-h1, h2, h3, h4, h5, h6, .font-serif {
+h1, h2, h3, h4, h5, h6 {
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+.font-serif {
   font-family: var(--font-lora), Georgia, serif;
 }
 

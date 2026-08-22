@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
 
     // Check if entry for this date already exists
     const exists = await db.panchangEntry.findUnique({
-      where: { date: dateOnly },
+      where: { date_city: { date: dateOnly, city: rest.city || "Delhi-NCR" } },
     });
 
     if (exists) {

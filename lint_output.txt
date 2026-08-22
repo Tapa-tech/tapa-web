@@ -1,0 +1,272 @@
+
+> tapa-temp@0.1.0 lint
+> next lint
+
+
+./src/app/account/orders/[id]/page.tsx
+95:12  Error: 'e' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/app/account/page.tsx
+37:40  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+408:48  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/admin/audit-log/page.tsx
+12:12  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+48:6  Warning: React Hook useEffect has a missing dependency: 'fetchLogs'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/app/admin/dharmic-concepts/page.tsx
+105:23  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./src/app/admin/orders/page.tsx
+46:19  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+145:26  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+148:22  Error: 'e' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/app/admin/page.tsx
+25:17  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+424:50  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/admin/panchang/page.tsx
+93:19  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+117:19  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/admin/products/page.tsx
+6:10  Error: 'useRouter' is defined but never used.  @typescript-eslint/no-unused-vars
+36:19  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/admin/ritual-kits/page.tsx
+5:40  Error: 'ArrowRight' is defined but never used.  @typescript-eslint/no-unused-vars
+5:52  Error: 'ArrowLeft' is defined but never used.  @typescript-eslint/no-unused-vars
+23:9  Error: 'router' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+38:19  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+121:19  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+121:34  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+
+./src/app/admin/tapa-circle/page.tsx
+5:32  Error: 'Sparkles' is defined but never used.  @typescript-eslint/no-unused-vars
+75:71  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/admin/users/[id]/page.tsx
+59:9  Error: 'router' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+89:6  Warning: React Hook useEffect has a missing dependency: 'fetchUser'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/app/api/admin/orders/route.ts
+13:12  Error: 'e' is defined but never used.  @typescript-eslint/no-unused-vars
+61:23  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/admin/panchang/[id]/re-sync/route.ts
+37:17  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/admin/panchang/re-sync/route.ts
+5:10  Error: 'inngest' is defined but never used.  @typescript-eslint/no-unused-vars
+117:17  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/admin/products/[id]/route.ts
+13:12  Error: 'e' is defined but never used.  @typescript-eslint/no-unused-vars
+112:45  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/admin/products/route.ts
+13:12  Error: 'e' is defined but never used.  @typescript-eslint/no-unused-vars
+92:43  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/admin/tapa-circle/route.ts
+14:12  Error: 'e' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/app/api/cart/clear/route.ts
+13:12  Error: 'e' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/app/api/cart/route.ts
+13:12  Error: 'e' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/app/api/orders/[id]/route.ts
+13:12  Error: 'e' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/app/api/orders/route.ts
+14:12  Error: 'e' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/app/api/panchang/calendar-pdf/route.ts
+260:11  Error: 'pageNum' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./src/app/api/public/home/route.ts
+4:41  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/public/menu/route.ts
+4:41  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/public/panchang/route.ts
+4:41  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/public/products/route.ts
+36:36  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/public/ritual-guides/[slug]/route.ts
+35:34  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+52:32  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/public/search/route.ts
+48:67  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+55:63  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/public/tapa-circle/route.ts
+13:12  Error: 'e' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/app/api/ritual-guides/[slug]/checklist/route.ts
+75:31  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/tts/route.ts
+114:19  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/app/api/wishlist/route.ts
+13:12  Error: 'e' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/app/cart/page.tsx
+20:6  Warning: React Hook useEffect has a missing dependency: 'fetchCart'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/app/checkout/confirmation/page.tsx
+3:27  Error: 'useEffect' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/app/dharmic-concepts/[slug]/page.tsx
+42:10  Error: 'error' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+61:21  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+72:9  Error: 'handleSoonToast' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+140:32  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+143:101  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+143:128  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+143:148  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+143:175  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+143:195  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+152:147  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+155:223  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+180:21  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+180:246  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+208:186  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+236:49  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+236:89  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+249:49  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+249:112  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+254:36  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+316:110  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+327:41  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+335:27  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+335:57  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+342:136  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+342:174  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+347:224  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+347:243  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+440:32  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+453:239  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+456:44  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+464:156  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+467:218  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+478:92  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+478:167  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+478:265  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+481:37  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+481:160  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+505:21  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+506:58  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+509:21  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+509:131  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+524:47  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+524:116  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+537:47  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+537:118  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+594:46  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+614:46  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+661:47  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+661:166  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+668:17  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+678:33  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+694:59  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+694:122  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+694:146  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+711:55  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+711:72  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+711:87  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+711:140  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+728:48  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+728:107  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+745:146  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+759:147  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+762:63  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+762:151  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+762:180  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+779:148  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+796:51  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+796:103  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+812:82  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+812:127  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+812:168  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+812:175  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+970:27  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+
+./src/app/page.tsx
+554:27  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./src/app/ritual-card/page.tsx
+272:21  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+492:21  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./src/components/TopNav.tsx
+186:40  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+563:13  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+808:17  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./src/components/admin/DharmicConceptForm.tsx
+42:6  Warning: React Hook useEffect has a missing dependency: 'fetchConcept'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+359:17  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./src/components/admin/ProductForm.tsx
+43:40  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+85:50  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+91:23  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+183:19  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+278:58  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+309:69  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/components/admin/RitualGuideForm.tsx
+244:6  Warning: React Hook useEffect has a missing dependency: 'fetchGuide'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+253:36  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+295:62  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+964:52  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+2142:74  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/components/admin/RitualKitForm.tsx
+60:23  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+132:19  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/lib/analytics.ts
+19:25  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+21:34  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+31:35  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+42:25  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+51:25  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+75:25  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+99:25  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+120:25  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+149:25  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/lib/db.ts
+317:30  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/lib/elasticsearch.ts
+221:47  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/lib/panchang/provider.ts
+2:52  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+128:89  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/lib/pdf/branding.ts
+3:40  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+44:40  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/lib/store/cartStore.ts
+34:20  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+80:60  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+99:38  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+230:32  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/lib/tts/speak.ts
+3:103  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules

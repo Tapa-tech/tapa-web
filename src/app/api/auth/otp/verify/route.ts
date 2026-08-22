@@ -9,6 +9,7 @@ const verifySchema = z.object({
   otp: z.string().length(6),
   name: z.string().optional(),
   email: z.string().email("Invalid email format.").optional().or(z.literal("")),
+  consentGiven: z.boolean().optional(),
 });
 
 function hashSHA256(text: string): string {
@@ -100,7 +101,20 @@ export async function POST(req: NextRequest) {
       where: { phone },
     });
 
+    if (user && user.isActive === false) {
+      return NextResponse.json(
+        { error: "Your account has been deactivated. Please contact support." },
+        { status: 403 }
+      );
+    }
+
     if (!user) {
+      if (body.consentGiven !== true) {
+        return NextResponse.json(
+          { error: "Consent must be explicitly given to create an account." },
+          { status: 400 }
+        );
+      }
       user = await db.user.create({
         data: {
           phone,
@@ -108,6 +122,10 @@ export async function POST(req: NextRequest) {
           phoneVerified: new Date(),
           name: parse.data.name || null,
           email: parse.data.email || null,
+          consentGiven: true,
+          consentGivenAt: new Date(),
+          consentVersion: "v1.0",
+          consentIpAddress: req.headers.get("x-forwarded-for") || req.ip || "unknown",
         },
       });
     }
@@ -118,6 +136,7 @@ export async function POST(req: NextRequest) {
       role: user.role,
       phone: user.phone || undefined,
       email: user.email || undefined,
+      consentGiven: user.consentGiven,
     });
 
     const refreshTokenVal = generateOpaqueToken();

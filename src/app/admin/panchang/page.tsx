@@ -15,6 +15,10 @@ interface PanchangEntry {
   nakshatraSub?: string;
   sunrise: string;
   sunset?: string;
+  dataSource: "AUTO_SYNCED" | "MANUAL_OVERRIDE";
+  syncedAt?: string;
+  overriddenBy?: string | null;
+  overriddenAt?: string | null;
 }
 
 interface VratEntry {
@@ -69,6 +73,54 @@ export default function PanchangAdmin() {
   // Bulk Load State
   const [csvContent, setCsvContent] = useState("");
   const [submittingBulk, setSubmittingBulk] = useState(false);
+  const [resyncingId, setResyncingId] = useState<string | null>(null);
+  const [syncingAll, setSyncingAll] = useState(false);
+
+  const handleReSyncPanchang = async (id: string) => {
+    try {
+      setResyncingId(id);
+      setError("");
+      setSuccess("");
+      const res = await fetch(`/api/admin/panchang/${id}/re-sync`, {
+        method: "POST",
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Re-sync failed");
+      
+      setSuccess("Entry successfully re-synced.");
+      fetchData();
+      setTimeout(() => setSuccess(""), 4000);
+    } catch (err: any) {
+      setError(err.message || "An error occurred");
+      setTimeout(() => setError(""), 4000);
+    } finally {
+      setResyncingId(null);
+    }
+  };
+
+  const handleTriggerAllSync = async () => {
+    try {
+      setSyncingAll(true);
+      setError("");
+      setSuccess("");
+      const res = await fetch("/api/admin/panchang/re-sync", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ triggerAll: true }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to trigger sync");
+      
+      setSuccess("Rolling 45-day background sync triggered successfully!");
+      fetchData();
+      setTimeout(() => setSuccess(""), 4000);
+    } catch (err: any) {
+      setError(err.message || "An error occurred");
+      setTimeout(() => setError(""), 4000);
+    } finally {
+      setSyncingAll(false);
+    }
+  };
 
   useEffect(() => {
     fetchData();
@@ -329,16 +381,26 @@ export default function PanchangAdmin() {
         </div>
         <div className="flex gap-2">
           {activeSubTab === "panchang" && (
-            <button
-              onClick={() => {
-                resetPanchangForm();
-                setIsPanchangOpen(true);
-              }}
-              className="flex items-center gap-2 bg-[#C82A54] hover:bg-[#B02047] text-white font-semibold text-xs px-4 py-2.5 rounded-xl shadow-sm transition-all"
-            >
-              <Plus size={14} />
-              <span>Add Entry</span>
-            </button>
+            <>
+              <button
+                onClick={handleTriggerAllSync}
+                disabled={syncingAll}
+                className="flex items-center gap-2 bg-white border border-[#EADFC9] hover:bg-[#F9F5EC] text-[#6A5A4E] font-semibold text-xs px-4 py-2.5 rounded-xl shadow-sm transition-all disabled:opacity-50"
+              >
+                <RefreshCw size={14} className={syncingAll ? "animate-spin" : ""} />
+                <span>{syncingAll ? "Syncing..." : "Trigger 45-Day Sync"}</span>
+              </button>
+              <button
+                onClick={() => {
+                  resetPanchangForm();
+                  setIsPanchangOpen(true);
+                }}
+                className="flex items-center gap-2 bg-[#C82A54] hover:bg-[#B02047] text-white font-semibold text-xs px-4 py-2.5 rounded-xl shadow-sm transition-all"
+              >
+                <Plus size={14} />
+                <span>Add Entry</span>
+              </button>
+            </>
           )}
           {activeSubTab === "vrats" && (
             <button
@@ -566,6 +628,7 @@ export default function PanchangAdmin() {
                     <th className="p-4">Paksha</th>
                     <th className="p-4">Nakshatra</th>
                     <th className="p-4">Timings (SR/SS)</th>
+                    <th className="p-4">Source</th>
                     <th className="p-4 text-right">Actions</th>
                   </tr>
                 </thead>
@@ -595,7 +658,40 @@ export default function PanchangAdmin() {
                         <div>🌅 {item.sunrise}</div>
                         {item.sunset && <div>🌇 {item.sunset}</div>}
                       </td>
+                      <td className="p-4 text-xs">
+                        {item.dataSource === "MANUAL_OVERRIDE" ? (
+                          <div className="flex flex-col">
+                            <span className="inline-flex items-center w-fit font-bold bg-[#FFF8E8] text-[#8B6914] border border-[#E8D8A0] px-2 py-0.5 rounded-full uppercase tracking-wide text-[9px]">
+                              Override
+                            </span>
+                            {item.overriddenBy && (
+                              <span className="text-[9px] text-[#8A7A6E] mt-1" title={item.overriddenAt ? `At ${new Date(item.overriddenAt).toLocaleString()}` : ""}>
+                                By: {item.overriddenBy.substring(0, 8)}...
+                              </span>
+                            )}
+                          </div>
+                        ) : (
+                          <div className="flex flex-col">
+                            <span className="inline-flex items-center w-fit font-bold bg-[#F0F4F8] text-[#476685] border border-[#D0E0F0] px-2 py-0.5 rounded-full uppercase tracking-wide text-[9px]">
+                              Auto Synced
+                            </span>
+                            {item.syncedAt && (
+                              <span className="text-[9px] text-[#8A7A6E] mt-1">
+                                Synced: {new Date(item.syncedAt).toLocaleDateString()}
+                              </span>
+                            )}
+                          </div>
+                        )}
+                      </td>
                       <td className="p-4 text-right space-x-2 whitespace-nowrap">
+                        <button
+                          onClick={() => handleReSyncPanchang(item.id)}
+                          disabled={resyncingId === item.id}
+                          title={item.dataSource === "MANUAL_OVERRIDE" ? "Revert to auto-synced" : "Re-sync now"}
+                          className="inline-flex items-center gap-1 px-2 py-1 text-xs border border-[#EADFC9] text-[#476685] hover:bg-[#F0F4F8] rounded-lg disabled:opacity-50"
+                        >
+                          <RefreshCw size={12} className={resyncingId === item.id ? "animate-spin" : ""} />
+                        </button>
                         <button
                           onClick={() => handleEditPanchang(item)}
                           className="inline-flex items-center gap-1 px-2 py-1 text-xs border border-[#EADFC9] text-[#6A5A4E] hover:bg-[#F9F5EC] rounded-lg"

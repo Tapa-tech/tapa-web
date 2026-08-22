@@ -1,0 +1,425 @@
+THE TAPA CO.  |  RITUAL GUIDES
+Shravana Putrada Ekadashi: Vrat Katha and Vidhi
+Stage 1 — Editorial Draft  |  Ready for content team review
+23 August 2026  |  Shravana Shukla Ekadashi
+HOW TO USE THIS DOCUMENT
+PART A — Backend: Source-of-Truth Panel, Tagging Log, Stage 2 Checklist. Goes into CMS. Never shown to user.
+PART B — Article: Content in mobile screen order. Edit prose only. Do not move or remove sections.
+PART C — Image Briefs: Two image specifications. Send to image production team as-is.
+Muted grey italics → instructions for the content team. They do not appear in the published article.
+
+PART A — BACKEND
+Not shown to user  |  Goes into CMS  |  Required before Stage 2 sign-off
+
+A1.  Source-of-Truth Panel
+  ↳ Summarised version appears in the Credibility Card. Full version stays in CMS backend only.
+
+FIELD
+WHAT IT SHOWS
+Primary Source
+Bhavishya Purana — the katha of King Mahijit is narrated by Lord Krishna to King Yudhishthira. Also cited in Padma Purana and Narada Purana. The Ekadashi fasting tradition itself is rooted across multiple Puranic texts; the Bhagavata Purana establishes 'Om Namo Bhagavate Vasudevaya' as the foundational Vishnu mantra.
+Regional Variance
+Pan-Hindu observance with one notable regional split: North Indian states observe Pausha Putrada Ekadashi (December-January) as the more prominent of the two Putrada Ekadashis. South India, West India (Maharashtra, Gujarat), and Vaishnava communities across India give greater importance to the Shravana Putrada Ekadashi. The vidhi is identical across both — only the prominence differs.
+Optional Elements
+Nirjala (waterless) fast form, jagaran (night vigil), offering of cotton wicks soaked in ghee or panchamrit (Pavitropana tradition, West India) — all Pratha. The core — fasting on Ekadashi with Vishnu puja, katha, and Parana on Dwadashi — is Dharma.
+Confidence Score
+4 out of 5 — named in the Bhavishya Purana with a specific narrative; cross-cited in Padma Purana and Narada Purana. The Ekadashi fasting tradition has the strongest textual grounding of any weekday observance in the Vaishnava corpus.
+Dharma Note
+Fasting on Shravana Shukla Ekadashi + Vishnu puja + Vrat Katha recitation + Parana on Dwadashi = DHARMA  |  Nirjala fast form, jagaran, cotton wick offering = PRATHA  |  'Only childless couples should observe this' / 'Missing Parana time invalidates the fast entirely' = BHRANTI
+
+A2.  Internal Tagging Log
+  ↳ Every ritual element tagged below. Source of truth for all [DHARMA] / [PRATHA] / [BHRANTI] tags in the article body.
+
+ELEMENT
+TAG
+SCORE
+OPT/MAND
+SOURCE
+Fasting on Shravana Shukla Ekadashi
+DHARMA
+4/5
+Mandatory
+Bhavishya Purana — direct prescription for this Ekadashi
+Vishnu puja: tulsi, flowers, panchamrit abhishek
+DHARMA
+4/5
+Mandatory (core puja)
+Vaishnava puja tradition; tulsi explicitly named as Vishnu's foremost offering across Puranas
+Mantra: Om Namo Bhagavate Vasudevaya
+DHARMA
+5/5
+Mandatory
+Bhagavata Purana — Dvadashaakshara (12-syllable) mantra; foundational Vishnu mantra
+Vishnu Sahasranama recitation
+DHARMA
+4/5
+Optional (additional)
+Mahabharata (Anushashana Parva) — direct citable source
+Vrat Katha recitation (King Mahijit)
+DHARMA
+4/5
+Mandatory
+Bhavishya Purana — the katha is the Puranic narrative; recitation transmits and completes the vrat
+Dashami prep: one sattvic meal before noon
+DHARMA
+3/5
+Mandatory (prep day)
+Standard Ekadashi protocol across Vaishnava Puranas. Dashami observance is required.
+Parana on Dwadashi within prescribed window
+DHARMA
+4/5
+Mandatory
+Ekadashi rules established across Puranas — not breaking fast during Hari Vasara is ritual-critical. Parana must fall within Dwadashi tithi.
+Daan (donation) to a Brahmin or the needy after Parana
+DHARMA
+3/5
+Optional (strongly recommended)
+Ekadashi vidhi across Vaishnava texts — daan is part of the complete observance; the katha itself describes the king donating to Brahmins
+Jagaran (night vigil — staying awake through Ekadashi night)
+PRATHA
+2/5
+Optional
+Recommended in Vaishnava tradition but not textually mandated for this specific Ekadashi. Per amended Step 3 (14.2): widely practised does not equal citable text. Routes to Pratha.
+Cotton wick / Pavitra offering (Pavitropana tradition)
+PRATHA
+2/5
+Optional / regional
+Regional Vaishnava practice, especially Gujarat and West India. Bhavishyottara Purana cites this; it is regional rather than universal.
+Nirjala (waterless) fast form specifically
+PRATHA
+1/5
+Optional
+No named text mandates the waterless form for this Ekadashi. Phalahar and milk-based fasts are accepted. Only Nirjala Ekadashi (Jyeshtha) mandates the waterless form specifically.
+'Only childless couples should observe this Ekadashi'
+BHRANTI
+—
+N/A
+Correction badge. No text restricts this vrat to childless couples. The katha names progeny as one phala; the texts equally describe moksha, sin-cleansing, and material well-being for all sincere observers.
+'Missing the Parana window entirely invalidates the fast'
+BHRANTI
+—
+N/A
+Correction badge with nuance. The Parana window matters and should be followed. But the texts frame Hari Vasara avoidance as a rule of propriety, not a total invalidation for honest circumstance. The fast's merit is not 'reset' by one imperfect Parana.
+
+A3.  Editorial Review Notes  (Stage 2 checklist)
+  ↳ Reviewer must clear all items before moving to Stage 2.
+
+#
+ITEM
+INITIALS
+DATE
+1
+Verify the Bhavishya Purana citation for King Mahijit's katha against a primary text or reliable Sanskrit edition. Multiple aggregator sources confirm this, but the specific chapter should be cited before Stage 2 clearance.
+
+
+2
+Confirm Parana time (24 August, 1:41 PM to 4:16 PM, Delhi-NCR) against Drik Panchang before publishing. This will change annually and must be updated via the Panchang Card.
+
+
+3
+Confirm that 'Putrada' is correctly explained as 'giver of children / offspring' rather than only 'giver of sons' — the name has gendered origins but the vrat is observed for child welfare broadly, and the article should not reinforce a purely son-centric framing.
+
+
+4
+Jhulan Yatra coincidence note: confirm this is accurate for 2026 specifically — 23 August falls during Jhulan Yatra. Verify the exact 2026 Jhulan Yatra dates before the contextual note is published.
+
+
+5
+Review the Bhranti correction on Parana timing. The article takes a nuanced position — Parana timing matters and should be followed, but honest circumstance is not treated as invalidation by the texts. Confirm this is the correct reading and that the framing does not inadvertently encourage carelessness about the rule.
+
+
+
+PART B — ARTICLE
+Content in mobile screen order  |  Edit prose only  |  Do not move or remove sections
+
+Credibility Card
+  ↳ 4/5. Bhavishya Purana is primary source for the katha; Ekadashi fasting itself is cross-cited across multiple Puranic texts. Show 'Bhavishya Purana' as primary with '& 2 further sources'.
+
+PRIMARY SOURCE
+CONFIDENCE
+Bhavishya Purana Katha narrated by Krishna to Yudhishthira  |  & 2 further sources
+★★★★☆  4/5 Named katha across multiple Puranas
+
+Panchang Card
+  ↳ Three required fields plus optional note. The Parana time on Dwadashi is ritual-critical for Ekadashi articles — it must appear here since prose is evergreen. The Jhulan Yatra coincidence and Hari Vasara note are the 2026 contextual fields. Update annually.
+
+📅  THIS YEAR'S DATE  |  2026  |  Delhi-NCR
+
+DATE
+23 Aug
+Sunday
+TITHI
+Shravana Shukla Ekadashi
+Tithi begins 2:01 AM on 23 Aug
+FAST
+All day
+23 Aug
+PARANA (break fast)
+1:41 PM – 4:16 PM
+24 Aug (Dwadashi)
+
+★  In 2026, Shravana Putrada Ekadashi coincides with Jhulan Yatra — the swing festival of Lord Krishna. Placing a small Krishna murti in a decorated swing and offering it as part of the puja is considered particularly auspicious this year. [OPTIONAL — leave blank when no special calendar context this year]
+
+Section Nav Chips  (locked — do not edit)
+  ↳ 5 of 6 slots active. By Region is muted — this vrat is pan-Hindu with only a minor regional split (North India prefers Pausha Putrada; covered in a brief note in prose, not a full regional section). All other slots active.
+
+📖 Scripture
+🙏 Puja
+🗺️ By region
+🧺 Samagri
+✕ Myths
+🔗 Related
+
+By region chip dimmed — the regional note is brief prose, not a full scroll-card section.
+
+Intro Prose
+  ↳ Evergreen. No dates. Two anchors: Ekadashi as the most auspicious day for Vishnu devotion, and Putrada as specifically about children and family continuity. Open with the WHY before the what.
+
+Every month the Hindu calendar holds two Ekadashi tithis — the eleventh lunar day — one in the waxing fortnight, one in the waning. Of all the fasts a Vishnu devotee can observe, Ekadashi is the most consistent and the most complete. The Bhagavata Purana, the Padma Purana, and the Bhavishya Purana each return to the same teaching: that one who keeps Ekadashi with sincerity worships Vishnu with the fullest available act of devotion.
+The Ekadashi that falls in the Shukla Paksha of Shravana is known as Putrada Ekadashi — putrada meaning giver of children. It is especially observed by couples who carry a prayer for progeny, and by parents who keep the fast for their children's long life and welfare. But the vrat is not restricted to either group. Anyone who keeps it with devotion receives what the Bhavishya Purana describes as its phala: purification, grace, and the protection of Lord Vishnu.
+
+Image 1  |  Full bleed  |  After intro, before scripture section
+
+IMAGE 1 — Full bleed — after intro, before scripture section
+TIER: AI-GENERATED — Safe: atmospheric temple setting, no specific deity iconography
+Dimensions: 390 x 220 px  |  Ratio: 16:9
+Subject: A Vishnu temple or home shrine on an Ekadashi morning — tulsi, lotus, early light
+Prompt / Brief: A serene Vishnu home shrine or temple inner sanctum on a dawn morning. A brass or stone Vishnu idol surrounded by fresh tulsi leaves and lotus flowers. An oil lamp burning gently. Soft golden early light. Photorealistic, devotional, calm. No human figures — the space itself is the subject.
+Caption (as shown to user): The eleventh lunar day is the most auspicious day in the Vaishnava calendar for fasting and Vishnu worship.
+
+Section: Why This Ekadashi Exists
+  ↳ The scriptural grounding is in two parts: (1) why Ekadashi itself is sacred to Vishnu, and (2) why this specific Ekadashi carries the Putrada name and the katha that follows. Keep them distinct.
+
+Narrative 1 of 1
+Ekadashi as Vishnu's day — and why Shravana Ekadashi carries special weight
+The Vishnu Puranas establish Ekadashi as the tithi on which Vishnu himself is most accessible to sincere devotion. The connection is described through the demon Mura, who guarded the gates of Svarga. When Vishnu, exhausted from battle with Mura's armies, rested in a cave, a divine energy emerged from his body and slew Mura. Vishnu named that energy Ekadashi and declared that whoever fasts on this day and worships him with a clean heart shall receive what they truly need.
+When Ekadashi falls within the month of Shravana — itself the most devotionally charged month of the year, when Vishnu is believed to rest on Ananta (the infinite serpent) in the cosmic ocean — it carries the combined weight of two of the most sacred periods in the Vaishnava calendar. The Bhavishya Purana is specific: this Shravana Shukla Ekadashi is the 'Putrada' — the one that gives children — not because the vrat is limited to this desire, but because the katha attached to it specifically demonstrates Vishnu's grace in fulfilling the deepest wishes of sincere devotees.
+ [Dharma · 4/5]  [Bhavishya Purana]  [Padma Purana] 
+
+Section: The Vrat Katha
+  ↳ The katha is narrated by Krishna to Yudhishthira — this framing matters and should be kept. It establishes that the katha is a Puranic transmission, not a folk legend. The King Mahijit narrative is the content; Krishna's framing is the form.
+
+The recitation of the Vrat Katha is the essential act that transmits the merit of this Ekadashi. The text is narrated by Lord Krishna to King Yudhishthira, as recorded in the Bhavishya Purana.
+The Vrat Katha — narrated by Krishna to Yudhishthira (Bhavishya Purana)
+King Yudhishthira asked: 'Lord, what is the name of the Ekadashi that falls in the Shukla Paksha of Shravana? What is its merit and who is its presiding deity?'  Lord Krishna replied:  'O King, this Ekadashi is called Putrada — the giver of children. Its presiding deity is Lord Shridhar, Vishnu as the consort of Shri Lakshmi. Now hear its katha.  In the ancient city of Mahishmati, there ruled a just and generous king named Mahijit. He was beloved by his subjects, devout in his worship, and righteous in his rule. But he had no children. As the years passed and no heir came, the king and his queen fell into grief. A kingdom without a successor, they knew, would fall into disorder after them.  The king assembled the sages and wise men of his kingdom and spoke honestly: I have performed every rite and offered every charity I know of. Yet I remain childless. Please tell me what I have not understood.  Among the assembled sages was the learned Lomesh, whose meditation was deep and whose vision stretched across lifetimes. He concentrated his mind and saw into the king's previous birth. What he saw, he told the king without hiding.  In your previous life, O King, you were a merchant. One hot afternoon during a journey, you were overcome with thirst. You found a pond and bent down to drink. At that same moment, a cow and her calf arrived at the same pond, also thirsty after a long walk in the heat. You did not wait. You drank your fill first, and then drove the cow and calf away before they could drink. That act — the thirst of a mother and child that went unquenched because of your impatience — is what follows you into this birth as childlessness.  The king listened. He felt the weight of what he had unknowingly carried.  Sage Lomesh said: The remedy is this. On the Ekadashi that falls in the Shukla Paksha of Shravana, observe a complete fast dedicated to Lord Vishnu. Spend the night in vigil and devotion. Worship Shridhar with tulsi, flowers, and a pure heart. Have the katha of this Ekadashi recited. Ask your subjects to join you and share in the observance — for a community's combined punya can reach what a single heart alone cannot.  The king and his queen observed the fast with full sincerity on Shravana Putrada Ekadashi. The people of Mahishmati fasted alongside them. They worshipped Lord Vishnu through the night, recited the katha, and performed daan to Brahmins.  By the grace of Lord Shridhar, the sin of the king's previous birth was dissolved. The queen conceived. In time, a son was born to them — virtuous, capable, and beloved by his people.  This is the merit of Shravana Putrada Ekadashi. Whoever observes it with sincerity — fasting, worshipping Vishnu, reciting this katha — shall find that Lord Shridhar turns toward them with his grace, dissolves what has accumulated in their past, and fulfils the sincere wish they carry.'  Krishna fell silent. Yudhishthira bowed.
+
+Recite the katha during the puja, ideally in the evening. Read it aloud, or have it read while you listen. The katha is complete whether heard or recited — the attentiveness is what matters.
+ [Dharma · 4/5]  [Bhavishya Purana] 
+
+Image 2  |  Half-width pair  |  After Vrat Katha, before puja steps
+
+IMAGE 2 — Half-width pair — after Vrat Katha, before puja steps
+TIER: AI-GENERATED — Safe: devotional objects and natural imagery, no specific deity figures
+Dimensions: Each half: 187 x 140 px  (combined: 390 x 140 px)  |  Ratio: 4:3 per half
+Subject: Two expressions of Ekadashi devotion
+Prompt / Brief: LEFT IMAGE: A Ekadashi puja tray — small brass Vishnu idol or Shaligram, fresh tulsi leaves, lotus flowers, panchamrit in a small bowl, ghee diya, akshat. Wooden surface, soft morning light. No human figures. Photorealistic.  RIGHT IMAGE: A cow and calf together in a green field, gently grazing — evocative of the katha's narrative and the daan tradition. Warm afternoon light, lush monsoon green. Photorealistic, serene.
+Caption (as shown to user): "Left: the Ekadashi puja offerings  ·  Right: the cow and calf of the katha — the story behind the vrat."
+
+Samagri Checklist  (locked — do not edit items or tags)
+  ↳ Ekadashi samagri is shorter than festival samagri but has a few specific items. Tulsi is mandatory and distinct from other Vishnu puja items — it must appear prominently. The grain/lentil exclusion list is part of the fasting guidance, not a samagri item, but include a note.
+
+ITEM
+CLASSIFICATION
+NOTE
+Tulsi leaves (fresh)
+DHARMA — Mandatory
+Vishnu's foremost offering; explicitly named across Puranas. No Vishnu puja is complete without tulsi.
+Ganga Jal or clean water
+DHARMA — Mandatory
+For panchamrit abhishek of the Vishnu idol.
+Cow's milk
+DHARMA — Mandatory
+For panchamrit abhishek.
+Panchamrit (milk, curd, ghee, honey, sugar)
+DHARMA — Optional
+Full abhishek form. Simple water and milk is sufficient.
+Lotus flowers or seasonal flowers
+DHARMA — Optional
+Lotus is Vishnu's flower; any fresh flower is accepted.
+Akshat (unbroken rice, turmeric-stained)
+DHARMA — Optional
+Standard puja offering.
+Diya and ghee
+DHARMA — Optional
+For aarti. Keep a lamp burning through the night for jagaran.
+Cotton wicks soaked in ghee or panchamrit (Pavitra)
+PRATHA — Optional / regional
+Pavitropana tradition, especially Gujarat and West India.
+Fruits for Parana meal (24 Aug)
+DHARMA — For Parana
+Prepare Parana food the evening before. Break fast with fruits and light food first.
+Food for daan (donation to Brahmin or the needy)
+DHARMA — Strongly recommended
+The katha itself describes the king donating to Brahmins after breaking the fast. Completing the fast with daan is part of the full observance.
+
+Avoid on Ekadashi fast day:
+Grains, rice, wheat, lentils and pulses, regular salt (use sendha namak / rock salt instead), onion, garlic, and non-vegetarian food. Consume only phalahar (fruits, milk, curd, nuts, sabudana, vrat-specific foods).
+
+Section: The Vidhi — Step by Step
+  ↳ 7 steps across two days: Dashami prep (step 1) and Ekadashi observance (steps 2-6) and Parana on Dwadashi (step 7). The two-day structure is distinct from festival articles and must be made clear in the section header.
+
+Ekadashi is a two-day observance. Dashami (the day before) sets the conditions; Ekadashi is the fast; Dwadashi (the day after) is when the fast is broken at the prescribed time.
+Dashami — 22 August (preparation day)
+1
+Eat one sattvic meal before noon
+Avoid grains, rice, lentils, onion, garlic, and non-vegetarian food from the midday Dashami meal onwards. Keep the rest of Dashami light — no heavy or tamasic food after noon. Sleep early and maintain celibacy through the night.
+ [Dharma — mandatory prep] 
+
+Ekadashi — 23 August (the fast)
+2
+Rise before sunrise and bathe
+Bathing at or before dawn on Ekadashi carries the merit of bathing in a sacred river. Wear clean clothes — white or saffron if available.
+ [Dharma] 
+3
+Take the Vrat Sankalp
+Sit before the Vishnu idol. Take a spoon of water in your right palm and resolve: 'I observe Shravana Putrada Ekadashi with devotion, fasting until Dwadashi Parana, for the grace of Lord Shridhar and the welfare of my family.'
+ [Dharma] 
+4
+Perform Vishnu puja
+Bathe the Vishnu idol or Shaligram with panchamrit. Offer fresh tulsi leaves — this is not optional; tulsi is Vishnu's foremost offering. Offer lotus or seasonal flowers, akshat, incense, and a lit ghee diya. Chant Om Namo Bhagavate Vasudevaya 108 times. Recite the Vishnu Sahasranama if time permits.
+ [Dharma — core act]  [Bhagavata Purana] 
+5
+Recite the Vrat Katha
+Read or listen to the katha of King Mahijit. This is the essential narrative act of the vrat — the katha is not supplementary to the puja, it is the puja's completion. Read it aloud or have it read while you listen with full attention.
+ [Dharma — mandatory]  [Bhavishya Purana] 
+6
+Keep the fast and observe jagaran if possible
+Fast through the day on phalahar — fruits, milk, curd, nuts, sabudana prepared without regular salt. Avoid all grains. If physically able, stay awake through part of the night in bhajan, reading, or quiet meditation before Lord Vishnu.
+ [Dharma — fasting]  [Jagaran — Pratha] 
+
+Dwadashi — 24 August (Parana day)
+7
+Break the fast during the Parana window
+On 24 August, break the fast between 1:41 PM and 4:16 PM (Delhi-NCR, 2026). This Parana window falls within Dwadashi tithi, as required. Do not break the fast during Hari Vasara (the first quarter of Dwadashi, which ends before the Parana window begins). Begin with a sip of water or a small fruit. Offer food to a Brahmin, a cow, or a family in need — the katha shows that daan completes the observance.
+ [Dharma — ritual-critical] 
+
+About Parana timing:
+The Parana must fall within the Dwadashi tithi (which ends at 4:19 AM on 25 August — so the entire 24 August window is safe). The Hari Vasara period at the very start of Dwadashi must be avoided; it ends well before the Parana window opens at 1:41 PM. Confirm exact timings from Drik Panchang for your city — muhurat shifts by location.
+
+Section: Myths & Facts
+  ↳ Two myth cards. The Parana myth requires careful handling — the rule is real, the fear around it is not warranted. Do not soften the rule; soften the anxiety around it.
+
+✕  "Shravana Putrada Ekadashi is only for couples who want to have a son. If you already have children, there is no purpose in observing it."
+✓  No text restricts this vrat to childless couples or to the desire for a son. The Bhavishya Purana describes the katha to illustrate how sincere devotion removes karmic obstacles — in this story, childlessness. But the same katha also names moksha, sin-cleansing, and the general welfare of family as the vrat's phala. Any devotee who keeps it with sincerity receives what they sincerely need.
+
+✕  "If you miss the Parana window on Dwadashi, the entire fast is wasted and you have to start again."
+✓  The Parana timing matters and should be followed sincerely — this is not a technicality. But the tradition's own framing of Hari Vasara and Dwadashi timing is a rule of propriety and spiritual precision, not a mechanism for punishment. Texts do not say that an honest error in timing 'resets' the fast's accumulated merit. If you miss the window through genuine circumstance, complete the fast with daan and pray with an honest heart. The sin being dissolved is not re-acquired.
+
+Closing Prose
+  ↳ 1-2 paragraphs. The arc from King Mahijit's story: the sin was not dramatic — it was an act of impatience and inattention at a moment when a mother and child were thirsty. The vrat addresses what accumulates in ordinary life, not extraordinary wrongdoing. That is why it is accessible to everyone.
+
+King Mahijit's sin was not a terrible crime. He was thirsty, he was tired, and in that moment of need he did not notice or did not wait for the cow and calf who were also thirsty. A small act of inattention, carried into another life as an absence he could not explain and a prayer that seemed unanswered no matter what he offered.
+This is what Ekadashi addresses — not the dramatic sins, but the accumulated weight of ordinary moments where we were impatient, where we did not see, where we took without pausing. The fast is a form of pausing. Vishnu, who sees all of it without judgment, receives the fast and the katha and the tulsi and the sincere heart, and extends what the Bhavishya Purana calls his grace — dissolving what has piled up, restoring what has been withheld, and turning toward the devotee with whatever they actually need.
+Intelligence Layer - Why Are Grains Avoided on Ekadashi?
+  ↳ SHARED COMPONENT - identical across all Ekadashi articles. Renders as a collapsible card at the bottom of the article. Editorial writes once; CMS injects everywhere. Do not edit per article.
+
+INTELLIGENCE LAYER  |  Shared across all Ekadashi articles
+Why are grains avoided on Ekadashi?
+Every fortnight, on the eleventh day of the lunar cycle, devotees observe Ekadashi -- a day dedicated to Lord Vishnu. It is a day of restraint, prayer, and turning inward.
+The Puranas tell us that Ekadashi has the power to cleanse accumulated karma and bring one closer to the Divine. But as more people began observing this sacred vrata, a question arose: if Ekadashi destroys sin, where does sin go?
+The Puranic tradition answers this through a symbolic story.
+It says that Papa Purusha -- the personification of all sinful actions -- approached Lord Vishnu in distress. 'Lord,' he said, 'if every devotee observes Ekadashi and is purified, I shall have no place to remain. What is to become of me?'
+Moved by his plea, Vishnu replied: 'On the day of Ekadashi, you shall reside in anna -- the staple grains. Those who seek My grace on this sacred day will abstain from them. Those who choose not to observe the vrata may eat as they wish, but My devotees shall leave those grains untouched.'
+From that day onward, the tradition says, grains became the temporary abode of Papa on Ekadashi. This is why the shastras advise devotees to avoid anna -- rice, wheat, barley and other grains -- on Ekadashi. If one cannot undertake a complete fast, the prescribed alternative is fruits, milk, roots, nuts, and other non-grain foods.
+The idea is not that grains are impure. On every other day, they are revered as Anna Devata, a sacred gift that nourishes life. But on Ekadashi, setting them aside becomes an act of devotion -- a conscious reminder that, for one day, the soul is nourished before the body.
+Textual basis: The Brihan-Naradiya Purana states that all sins reside in grains on Hari-vasara (Ekadashi). The Papa Purusha story is a Puranic elaboration that transmits this injunction through narrative. Both the injunction and the narrative are preserved here without conflating them.
+
+Related Pujans
+  ↳ Four related links. Kamika Ekadashi earlier in Shravan month. Aja Ekadashi in September. Pausha Putrada Ekadashi is the twin vrat in December-January.
+
+Sawan Somwar Vrat
+Same Shravan month  |  Deity Cluster — both Vishnu and Shiva sacred in Shravan
+
+
+Kamika Ekadashi
+Earlier in Shravan month (9 August)  |  Vrat Type Cluster — same Ekadashi structure
+
+Aja Ekadashi
+7 September 2026  |  Vrat Type Cluster — next Ekadashi in sequence
+
+
+Pausha Putrada Ekadashi
+December-January  |  Vrat Type Cluster — twin vrat; more prominent in North India
+
+
+WhatsApp Subscription Nudge
+  ↳ Generic copy — never festival-specific.
+
+💬  Get reminded before every festival   WhatsApp reminders — ₹499/yr  ›
+
+Sticky Bottom Bar
+  ↳ No pandit flow and no Ritual Kit for Ekadashi — Download takes full width. This applies to all Ekadashi articles unless a kit is added.
+
+Download Ritual Card   Save this guide for 23 August   [ Download ↓ ]
+
+RITUAL CARD 4 OF 7
+तप्
+Shravana Putrada Ekadashi
+23 August 2026  |  Sunday  |  Shravana Shukla Ekadashi
+
+DATE
+TITHI
+FAST
+PARANA
+23 Aug
+Sunday
+Shravana Shukla Ekadashi
+Tithi begins 2:01 AM
+All day
+23 Aug
+1:41 PM - 4:16 PM
+24 Aug (Dwadashi)
+
+SAMAGRI CHECKLIST
+☐  Tulsi leaves (fresh) — mandatory
+☐  Ganga Jal or clean water
+☐  Cow's milk
+☐  Panchamrit
+☐  Lotus or seasonal flowers
+☐  Akshat (turmeric rice)
+☐  Diya + ghee
+☐  Fruits for Parana meal (24 Aug)
+☐  Food for daan (donation)
+
+VIDHI — STEP BY STEP
+Dashami — 22 Aug (prep)
+
+
+
+1
+Eat one sattvic meal before noon. Avoid grains after midday.
+Ekadashi — 23 Aug (the fast)
+
+
+
+2
+Rise before sunrise and bathe
+3
+Take the Vrat Sankalp before the Vishnu idol
+4
+Vishnu puja — panchamrit abhishek, tulsi, flowers, diya. Chant Om Namo Bhagavate Vasudevaya 108x
+5
+Recite the Vrat Katha (King Mahijit, Bhavishya Purana)
+6
+Fast on phalahar. Jagaran if possible.
+Dwadashi — 24 Aug (Parana)
+
+
+
+7
+Break fast between 1:41 PM and 4:16 PM. Avoid Hari Vasara. Begin with water/fruit. Complete with daan.
+
+MANTRA
+ॐ नमो भगवते वासुदेवाय
+Om Namo Bhagavate Vasudevaya
+108 times, or 12 / 24 / 48
+
+FASTING
+Avoid: all grains, rice, wheat, lentils, regular salt.
+Use: fruits, milk, sabudana, sendha namak, nuts.
+Phalahar is the standard form. Nirjala only if suited.
+
+तप्
+thetapaco.com
+Source: Drik Panchang, Delhi-NCR  |  2026
+The Tapa Co. 2026  |  Internal Document  |  Stage 1 - Editorial Draft  |  Not for public distribution

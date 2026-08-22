@@ -13,7 +13,12 @@ import {
   ShieldAlert,
   LogOut,
   Menu,
-  X
+  X,
+  Package,
+  Users,
+  Sparkles,
+  Megaphone,
+  ShoppingCart
 } from "lucide-react";
 
 interface AdminUser {
@@ -41,7 +46,7 @@ export default function AdminLayout({
         const res = await fetch("/api/auth/session");
         const data = await res.json();
 
-        if (!data?.session || data.session.user.role !== "ADMIN") {
+        if (!data?.session || (data.session.user.role !== "ADMIN" && data.session.user.role !== "SUPER_ADMIN")) {
           router.push("/?login=true");
           return;
         }
@@ -91,6 +96,12 @@ export default function AdminLayout({
     { name: "Ritual Guides", href: "/admin/ritual-guides", icon: BookOpen },
     { name: "Dharmic Concepts", href: "/admin/dharmic-concepts", icon: Compass },
     { name: "Panchang & Vrats", href: "/admin/panchang", icon: Calendar },
+    { name: "Products & Kits", href: "/admin/products", icon: Package },
+    { name: "Orders Management", href: "/admin/orders", icon: ShoppingCart },
+    { name: "Tapa Circle", href: "/admin/tapa-circle", icon: Users },
+    { name: "Upcoming Features", href: "/admin/upcoming-features", icon: Sparkles },
+    { name: "Announcements", href: "/admin/announcements", icon: Megaphone },
+    { name: "Homepage Banners", href: "/admin/banners", icon: LayoutDashboard },
     { name: "Sources Library", href: "/admin/sources", icon: Layers },
     { name: "FAQs Library", href: "/admin/faqs", icon: HelpCircle },
     {
@@ -100,6 +111,20 @@ export default function AdminLayout({
       badge: pendingReviewsCount > 0 ? pendingReviewsCount : undefined,
     },
   ];
+
+
+  if (adminUser && adminUser.role === "SUPER_ADMIN") {
+    menuItems.push({
+      name: "User Directory",
+      href: "/admin/users",
+      icon: Users,
+    });
+    menuItems.push({
+      name: "Security Audit Logs",
+      href: "/admin/audit-log",
+      icon: ShieldAlert,
+    });
+  }
 
   return (
     <div className="min-h-screen bg-[#FDFBF7] text-[#3A332C] font-sans flex flex-col md:flex-row">

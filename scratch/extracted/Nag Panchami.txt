@@ -1,0 +1,340 @@
+THE TAPA CO.  ·  RITUAL GUIDES
+Nag Panchami: What the tradition actually asks for
+Stage 1 — Editorial Draft  ·  Ready for content team review
+17 August 2026  ·  Shravana Shukla Panchami
+HOW TO USE THIS DOCUMENT
+This document has three parts, in order:
+PART A — Backend: Source-of-Truth Panel, Tagging Log, and Editorial Review Notes. These go into the CMS backend and are never shown to the user.
+PART B — Article: The actual content in the order it appears on the mobile screen. Edit only the prose fields. Do not move or remove any section.
+PART C — Image Briefs: Three image specifications with prompts and captions. Send these to the image production team as-is.
+[DHARMA]  [PRATHA]  [SOURCE]  [BHRANTI] — classification tags shown in grey. Do not edit these; they are locked per the tagging log.
+Muted grey italics like this → are instructions for the content team. They do not appear in the published article.
+
+PART A — BACKEND
+Not shown to user · Goes into CMS · Required before Stage 2 sign-off
+
+A1.  Source-of-Truth Panel
+  ↳ Summarised version of this panel appears in the Credibility Card on the article page. The full version below stays in the CMS backend only.
+
+FIELD
+WHAT IT SHOWS
+Primary Source
+Mahabharata (Adi Parva) — the Sarpa Satra narrative of King Janamejaya and sage Astika; Bhagavata Purana — the Kaliya subduing narrative. Skanda Purana and Agni Purana additionally mention Naga worship in Shravan. Bhavishyottara Purana — Ashta Naga mantra.
+Regional Variance
+Widely observed across India but with genuine regional divergence: North India — clay or metal Naga idols, milk offering; Maharashtra — home and temple worship, anthill offerings; Bengal — Manasa Puja rooted in regional Manasa Mangal Kavya, not pan-Hindu shastra; Karnataka / Kerala — Sarpakkavu (serpent groves) and floor-drawn Naga images. Gujarat observes Nag Pancham fifteen days later on Krishna Paksha Panchami per the Amanta calendar. Regional forms are Pratha, not Dharma.
+Optional Elements
+Offering medium (milk, honey, turmeric, flowers), live snake vs. idol vs. drawn image, anthill visiting, fasting form — all Pratha or folk custom. The act of worship directed at Naga deities is the core.
+Confidence Score
+4 out of 5 — clearly stated in major texts (Mahabharata, Bhagavata Purana); Shravan Panchami consistent across panchang authorities.
+Dharma Note
+Worship of Naga deities on Shravana Shukla Panchami = DHARMA  |  Milk offering form, idol vs. image, anthill visiting, fasting = PRATHA  |  "Worship or face a snakebite" / "snakes drink milk" / "Kaal Sarp Dosha cure" = BHRANTI
+
+A2.  Internal Tagging Log
+  ↳ Every ritual element in this article is classified below. This is the source of truth for all [DHARMA] / [PRATHA] / [BHRANTI] tags that appear in the article body. Do not edit tags without re-running the decision tree per the Editorial Framework.
+
+ELEMENT
+TAG
+SCORE
+OPT / MAND
+SOURCE
+Worship of Naga deities on Shravana Shukla Panchami
+DHARMA
+4 / 5
+Mandatory
+Mahabharata Adi Parva + Skanda / Agni Purana
+Sarpa Satra narrative (Janamejaya / Astika)
+DHARMA
+4 / 5
+Mandatory (katha)
+Mahabharata Adi Parva — direct citable source
+Krishna subduing Kaliya
+DHARMA
+4 / 5
+Optional (narrative)
+Bhagavata Purana — direct citable source
+Milk offering to idol / image
+PRATHA
+2 / 5
+Optional
+No named text mandates milk specifically. Per amended Step 3 (14.2): routes to Pratha.
+Anthill / snake hole visiting
+PRATHA
+1 / 5
+Optional
+Folk / regional practice. No scriptural basis.
+Manasa Puja (Bengal)
+PRATHA
+2 / 5
+Regional
+Manasa Mangal Kavya — regional Bengali text, not pan-Hindu shastra.
+Sarpakkavu worship (Kerala)
+PRATHA
+2 / 5
+Regional
+Regional Karnataka / Kerala tradition. No pan-Hindu textual mandate.
+Live snake worship via charmers
+PRATHA
+1 / 5
+Declining
+Folk practice. No textual basis. Animal welfare concern — do not present as standard practice.
+"Worship or face a snakebite"
+BHRANTI
+—
+N/A
+Fear-based framing. No textual basis. Correction badge.
+"Snakes drink the milk you offer"
+BHRANTI
+—
+N/A
+Biologically false. Milk is symbolic to idol, not live animal.
+"Worshipping cures Kaal Sarp Dosha"
+BHRANTI
+—
+N/A
+No Puranic source. Commercial-era addition. Correction badge.
+
+A3.  Editorial Review Notes  (Stage 2 checklist)
+  ↳ Reviewer must clear all four items below before moving article to Stage 2. Add sign-off initials and date against each item when cleared.
+
+#
+ITEM
+INITIALS
+DATE
+1
+Verify Mahabharata Adi Parva reference for the Sarpa Satra directly against the primary text — not an aggregator website.
+
+
+2
+Bhavishyottara Purana Ashta Naga mantra: verify the specific verse against a reliable Sanskrit edition (Chaukhamba or equivalent) before publishing the mantra text.
+
+
+3
+Manasa Puja / Bengal section: flag for Stage 5 regional practitioner review. The Manasa Mangal Kavya framing is accurate as far as known but is a specialist area.
+
+
+4
+Live snake worship callout: confirm tone holds — names the practice, explains the harm, redirects without moralising. Do not soften the animal welfare fact.
+
+
+
+PART B — ARTICLE
+Content in mobile screen order · Edit prose only · Do not move or remove sections
+
+Credibility Card
+  ↳ Shown to user above the article title. Primary source field: show text name, not full citation. Confidence sub-text: one line.
+
+PRIMARY SOURCE
+CONFIDENCE
+Mahabharata Adi Parva · & 2 further sources
+★★★★☆  4 / 5 Major Epic + Puranic sources
+
+Panchang Card
+  ↳ Update the 4 fields below once every year (January or when new Panchang is confirmed). The article prose never mentions the date — these fields are the only year-specific content.
+
+📅  THIS YEAR'S DATE  ·  2026  ·  Delhi-NCR
+DATE
+17 Aug
+Monday
+TITHI
+Shravana Shukla Panchami
+Ends 5:00 PM
+PUJA MUHURAT
+6:04 AM
+to 8:39 AM
+
+★  In 2026, Nag Panchami falls on the same day as the third Sawan Somvar — especially significant for Shiva devotees. [OPTIONAL — leave blank when no special calendar context this year]
+
+Section Nav Chips  (locked — do not edit)
+  ↳ Gold = active section in this article. Grey = section not present. Samagri is inactive for Nag Panchami.
+
+📖 Scripture
+🙏 Puja
+🗺️ By region
+🧺 Samagri
+✕ Myths
+🔗 Related
+
+Intro Prose
+  ↳ Evergreen — do not add any year, date, or day of week here. Those live in the Panchang Card only.
+
+Nag Panchami falls on the fifth day (Panchami) of Shukla Paksha in the month of Shravana — two days after Hariyali Teej. What most people encounter about this festival online is a mix: fear about what happens if you don't observe it, claims about snakes drinking milk, commercial packages promising to fix astrological doshas. Almost none of this is what the tradition is actually asking for.
+
+Image 1  ·  Full bleed  ·  After intro, before first section
+
+IMAGE 1 — Full bleed — after intro, before first section
+TIER: AI-GENERATED ✓ Safe — atmospheric setting, no deity figures
+Dimensions: 390 × 220 px  ·  Ratio: 16:9
+Subject: A Naga idol in a home puja setting
+Prompt / Brief: A traditional silver Naga idol coiled on a small wooden chowki, surrounded by marigold flowers, a small bowl of milk, turmeric powder, and a lit clay diya. Warm morning light filtering through a window. Indian home puja setting. Photorealistic, intimate, devotional. No human figures.
+Caption (as shown to user): "A Naga idol prepared for worship — milk, turmeric, and flowers are offered to the idol, not to a live animal."
+
+Section: What the Day Commemorates
+  ↳ Two scriptural narratives, each with source tag. Do not combine or reorder.
+
+Narrative 1 of 2
+The Sarpa Satra — Mahabharata, Adi Parva
+King Janamejaya, son of Parikshit, organized the Sarpa Satra — a massive yajna aimed at destroying the entire Naga race in revenge for his father's death at the fangs of Takshaka. The sacrifice was working; serpents by the thousands were drawn into the fire. It was the young Brahmin sage Astika who intervened, using his learning and calm persuasion to convince Janamejaya to stop the yajna. He did. The day the Sarpa Satra was halted was Shravana Shukla Panchami. The festival that emerged from this moment is not about fear of snakes — it commemorates the act that saved them. Restraint over revenge. Coexistence over destruction.
+ [Dharma · 4/5]  [Mahabharata Adi Parva] 
+
+Narrative 2 of 2
+The Second Narrative: Krishna and Kaliya — Bhagavata Purana
+The Bhagavata Purana carries a second associated story: young Krishna's confrontation with Kaliya, the multi-hooded serpent who had poisoned the Yamuna River, making it dangerous for the people of Gokul. Krishna did not kill Kaliya. He danced upon his heads until the serpent was subdued, then showed him mercy — asking him to leave the river and return to his home in the ocean. The villagers were safe; the serpent was alive. The narrative is not one of punishment or fear. It is of power exercised with mercy, and of a river restored.
+ [Dharma · 4/5]  [Bhagavata Purana] 
+
+Image 2  ·  Full bleed  ·  After scripture section
+
+IMAGE 2 — Full bleed — after scriptural narratives, before regional section
+TIER: LICENSED / SOURCED ONLY — DO NOT AI-GENERATE
+Dimensions: 390 × 260 px  ·  Ratio: 3:2
+Subject: Krishna dancing on Kaliya — traditional devotional art
+Prompt / Brief: Source: Traditional Pahari or Rajasthani miniature painting (pre-20th century, out of copyright) OR licensed contemporary devotional art. Search terms: 'Kaliya Daman', 'Krishna Kaliya miniature painting', 'Nathdwara school'. Crop to 3:2. DO NOT AI-generate — iconographic details (Kaliya's head count, Krishna's posture, the river setting) must be accurate to tradition.
+Caption (as shown to user): "Krishna subduing Kaliya — not with destruction, but with mercy. The narrative at the heart of Nag Panchami."
+⚠ AI-generation not permitted for this slot. Any iconographic error (wrong head count, wrong posture) is immediately visible to practitioners and destroys article credibility.
+
+Section: How It's Observed — By Region
+  ↳ Horizontal scroll cards on mobile. Five regions. Do not add a sixth without editorial approval. Do not remove the closing note.
+
+🏔️ North India
+🌾 Maharashtra
+🌊 Bengal
+🌿 Karnataka · Kerala
+🪔 Gujarat
+Clay or metal Naga idols at home or temple. Milk, turmeric, flowers offered to the idol. Rural areas visit anthill mounds.
+Home and temple worship. Clay Naga images prepared fresh. Nagpur observes with particular fervour.
+Manasa Puja — multi-day worship of Manasa Devi. Rooted in Manasa Mangal Kavya, a regional Bengali tradition.
+Sarpakkavu — sacred serpent groves. Women draw Naga images on the floor and offer prayers for family wellbeing.
+Observed 15 days later on Krishna Paksha Panchami per the Amanta calendar. Known as Nag Pancham.
+Pratha
+Pratha
+Pratha · regional text
+Pratha
+Pratha · different date
+
+If your family's tradition for this day looks different from a neighbour's or from what you see online — that difference is probably not error. It is regional Pratha. Both can be valid.
+
+Image 3  ·  Half-width pair  ·  After regional section
+
+IMAGE 3 — Half-width pair — after regional section, before puja steps
+TIER: AI-GENERATED ✓ Safe — environmental settings, no deity figures
+Dimensions: Each half: 187 × 140 px  (combined: 390 × 140 px)  ·  Ratio: 4:3 per half
+Subject: Two contrasting regional forms side by side
+Prompt / Brief: LEFT IMAGE: A traditional North Indian home puja setup for Nag Panchami — a brass plate holding a small clay Naga idol, surrounded by marigold flowers, a bowl of milk, and kumkum powder. Warm indoor morning light. No human figures. Photorealistic.  RIGHT IMAGE: A Sarpakkavu serpent grove in Kerala — ancient stone Naga sculptures under a large sacred tree, surrounded by lush green tropical vegetation, filtered natural light. Atmospheric, reverent. No human figures. Photorealistic.
+Caption (as shown to user): "Left: North India home puja  ·  Right: Kerala Sarpakkavu grove — the same festival, two completely different traditions."
+
+Section: The Puja
+  ↳ 6 steps in fixed order. Do not add or remove steps. Tags after each step are locked — do not edit.
+
+1
+Bathe early and wear clean clothes
+ [Dharma] 
+2
+Set up a Naga idol or draw a serpent image
+Clay, metal, stone, or a drawn image on paper or the wall — all valid forms.
+ [Dharma]  [Form — Pratha] 
+3
+Offer flowers, turmeric, rice (akshata), incense
+ [Dharma] 
+4
+Offer milk, honey or sugar — to the idol, not a live snake
+These are symbolic offerings of purity directed at the deity. Not at a physical animal.
+ [Pratha — offering form] 
+5
+Chant a Naga stotra or the Ashta Naga mantra
+The Bhavishyottara Purana carries the invocation of the Ashta Nagas — Vasuki, Takshaka, Kaliya, Manibhadra, Airavata, Dhritarashtra, Karkotaka, Dhananjaya — as guardians of life and protection.
+ [Dharma]  [Bhavishyottara Purana] 
+6
+Perform aarti and conclude with a moment of stillness
+ [Dharma] 
+
+Fasting — two accepted forms
+One meal on Chaturthi: eat once the day before; fast through Panchami.     |     No fast: fasting is Pratha — the puja is the core observance.
+No text mandates a specific fast form. The puja matters; the fast is personal practice.
+
+Callout Card — A note on live snake worship
+  ↳ Amber background callout — not a myth card. Welfare note. Do not move this below the myth cards.
+
+⚠️  A note on live snake worship
+In some rural areas, snake charmers bring cobras to temples on Nag Panchami, and devotees offer milk directly to the live animal. The tradition is declining for important reasons: snakes do not biologically drink milk, and forcing it causes harm. Animal welfare organisations have for years documented injury to the snakes involved in these practices.  The scriptural tradition asks for reverence toward Nagas as divine beings — not for interaction with wild snakes. Worshipping a clay idol, a stone image, or a Shivalinga (where the serpent Vasuki is always present around Shiva) fulfils the intent of the day completely and with harm to no living creature.
+
+Section: Myths & Facts
+  ↳ 4 myth cards. Pink row = the false claim. White row = the correction. Do not edit myth text without re-checking against the tagging log.
+
+✕  "If you don't worship on Nag Panchami, a snake will bite someone in your family."
+✓  No Puranic or Dharmashastra text makes this claim. The festival commemorates compassion and coexistence with serpents — not appeasement under threat. Fear-based messaging inverts the entire spirit of the day.
+
+✕  "Snakes drink the milk you offer them, and this pleases the serpent god."
+✓  Snakes are lactose-intolerant reptiles — they do not drink milk. Milk offered to a live snake is not absorbed and can cause illness. Milk in this tradition is offered to a Naga idol as a symbol of purity — not to a physical animal. The offering is devotional, not transactional.
+
+✕  "Worshipping on this day cures Kaal Sarp Dosha in your horoscope."
+✓  No Puranic source establishes this. Nag Panchami predates the modern astrological framing of Kaal Sarp Dosha by centuries. The association is a commercial-era addition, not a traditional or textual one. The festival can be observed for its own meaning without needing a Dosha to fix.
+
+✕  "You must worship a live cobra — an idol doesn't have the same power."
+✓  The tradition's core is reverence directed toward Naga deities as divine beings. A clay idol, a stone image, a silver Naga, or the serpent imagery on any Shivalinga all fulfil this intent. No text restricts the merit of worship to contact with live animals.
+
+Closing Prose
+  ↳ 1–2 paragraphs. Philosophical close. No CTA, no links. Do not add year-specific content.
+
+Nag Panchami is perhaps the Hindu calendar's most direct expression of a principle the tradition holds consistently: that the natural world deserves reverence, not exploitation. Serpents eat rodents that destroy crops. They are part of the ecological web. Cultures that understood this built a day in the calendar to honour that relationship, and wrapped it in mythology that asked for compassion even toward creatures that frightened them.
+That is the tradition. Not fear. Not dosha. Not a transactional exchange with an animal. A day of acknowledging that the world contains powers and creatures beyond human control, and that the correct response to that is reverence — not anxiety.
+
+Related Pujans
+  ↳ Live / Coming Soon status is computed from whether the linked article is published. Do not edit the badge — it updates automatically.
+
+Sawan Somwar Vrat
+Same day in 2026 — Shiva wears serpent Vasuki  ·  Deity Cluster
+LIVE
+
+Hariyali Teej
+Falls two days before, same Shravan window  ·  Season Cluster
+LIVE
+
+Kajari Teej
+Same Shravan Pratha window  ·  Season Cluster
+LIVE
+
+WhatsApp Subscription Nudge
+  ↳ Generic copy — never festival-specific. Do not customise this per article.
+
+💬  Get reminded before every festival   WhatsApp reminders — ₹99/yr  ›
+
+Sticky Bottom Bar
+  ↳ Shows at bottom of screen at all times. For Nag Panchami: Download only (no kit, no pandit flow). When a kit is added: update to 'Buy Ritual Kit'.
+
+Download Ritual Card   Save this guide for 17 August   [ Download ↓ ]
+
+RITUAL CARD 1 OF 7
+तप्
+Nag Panchami
+17 August 2026  |  Monday  |  Shravana Shukla Panchami
+
+DATE
+TITHI
+PUJA MUHURAT
+17 Aug
+Monday
+Shravana Shukla Panchami
+Ends 5:00 PM
+6:04 AM
+to 8:39 AM
+
+VIDHI — STEP BY STEP
+1
+Bathe early and wear clean clothes
+2
+Set up a Naga idol or draw a serpent image
+3
+Offer flowers, turmeric, rice (akshata), incense
+4
+Offer milk, honey, or sugar — to the idol, not a live snake
+5
+Chant a Naga stotra or the Ashta Naga mantra
+6
+Perform aarti and conclude with a moment of stillness
+
+FASTING
+Fasting is Pratha — the puja is the core observance.
+One meal on Chaturthi (day before) OR no fast — both accepted.
+
+तप्
+thetapaco.com
+Source: Drik Panchang, Delhi-NCR  |  2026

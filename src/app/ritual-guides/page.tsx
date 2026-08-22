@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React, { useState, useEffect, Suspense } from "react";
@@ -5,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import TopNav from "@/components/TopNav";
 import Footer from "@/components/Footer";
+import { extractTextFromTiptap } from "@/utils/tiptap";
 
 // Types for views
 type ViewKey = "rg" | "pa" | "dc" | "rk" | "purohit";
@@ -20,6 +22,8 @@ interface CardData {
   pills?: [string, string][];  // list of pills e.g. [['d', 'DHARMA · 4/5']]
   read?: string;   // e.g. '9 min'
   myth?: string;   // corrections myth
+  slug?: string;
+  thumbnailUrl?: string;
 }
 
 interface ViewData {
@@ -44,6 +48,110 @@ function RitualGuidesContent() {
 
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<string>("Ritual Guides");
+  const [session, setSession] = useState<any>(null);
+
+  const [guides, setGuides] = useState<any[]>([]);
+  const [loadingGuides, setLoadingGuides] = useState(true);
+  const [panchang, setPanchang] = useState<any>(null);
+  const [nextVrat, setNextVrat] = useState<any>(null);
+
+  useEffect(() => {
+    async function fetchSession() {
+      try {
+        const res = await fetch("/api/auth/session");
+        const data = await res.json();
+        if (data?.session) {
+          setSession(data.session);
+        }
+      } catch (err) {
+        console.error("Session load failed:", err);
+      }
+    }
+
+    async function loadGuides() {
+      try {
+        const res = await fetch("/api/public/ritual-guides");
+        if (res.ok) {
+          const data = await res.json();
+          setGuides(data);
+        }
+      } catch (err) {
+        console.error("Failed to load public ritual guides:", err);
+      } finally {
+        setLoadingGuides(false);
+      }
+    }
+
+    async function loadPanchang() {
+      try {
+        const res = await fetch("/api/public/panchang");
+        if (res.ok) {
+          const data = await res.json();
+          if (data.panchang) setPanchang(data.panchang);
+          if (data.nextVrat) setNextVrat(data.nextVrat);
+        }
+      } catch (err) {
+        console.error("Failed to load public panchang:", err);
+      }
+    }
+
+    fetchSession();
+    loadGuides();
+    loadPanchang();
+  }, []);
+
+
+
+  const getGuideSubtitle = (guide: any) => {
+    if (!guide) return "A detailed ritual guide with scriptural source verification and fear-free context.";
+    const text = extractTextFromTiptap(guide.introText);
+    if (!text) return "A detailed ritual guide with scriptural source verification and fear-free context.";
+    const paragraphs = text.split("\n").map(p => p.trim()).filter(p => p.length > 0);
+    const cleanParagraph = paragraphs.find(p => {
+      const pUpper = p.toUpperCase();
+      return !pUpper.includes("PART A") && !pUpper.includes("PART B") && !pUpper.includes("PART C") && !pUpper.includes("IMAGE BRIEF") && !pUpper.includes("BACKEND");
+    });
+    return cleanParagraph || paragraphs[0] || "A detailed ritual guide with scriptural source verification and fear-free context.";
+  };
+
+  const getGuideTag = (guide: any): "DHARMA" | "PRATHA" | "BHRANTI" => {
+    if (!guide || !guide.dpbEntries || guide.dpbEntries.length === 0) return "DHARMA";
+    const tags = guide.dpbEntries.map((e: any) => e.tag);
+    if (tags.includes("BHRANTI")) return "BHRANTI";
+    if (tags.includes("PRATHA")) return "PRATHA";
+    return "DHARMA";
+  };
+
+  const getGuidesByCategory = (catKey: string) => {
+    return guides.filter((g) => {
+      const gCat = g.category || "";
+      if (catKey === "Beginner's Guides") {
+        return gCat.toLowerCase().includes("beginner") || gCat.toLowerCase().includes("sundarkand");
+      }
+      if (catKey === "Festive Pujans") {
+        return gCat === "Festive Pujans";
+      }
+      if (catKey === "All-Year Pujans") {
+        return gCat === "All-Year Pujans";
+      }
+      return (
+        !gCat.toLowerCase().includes("beginner") &&
+        !gCat.toLowerCase().includes("sundarkand") &&
+        gCat !== "Festive Pujans" &&
+        gCat !== "All-Year Pujans"
+      );
+    });
+  };
+
+  const handlePanchangDownload = (type: "calendar" | "vrat" | "festival", filter: string = "All") => {
+    if (!session) {
+      triggerToast("Please login to download the calendar PDF.");
+      router.push(window.location.pathname + "?login=true");
+      return;
+    }
+    triggerToast("Preparing your PDF download...");
+    window.open(`/api/panchang/calendar-pdf?type=${type}&city=${encodeURIComponent(city)}&calendarSystem=${calendarSystem}&filter=${encodeURIComponent(filter)}`, "_blank");
+  };
   const [view, setView] = useState<ViewKey>(initialView);
   const [activeFilters, setActiveFilters] = useState<Record<string, string>>({
     rg: "Coming up",
@@ -217,7 +325,7 @@ function RitualGuidesContent() {
 
   // Card renderer
   const renderCard = (o: CardData) => {
-    const slug = o.t.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+    const slug = o.slug || o.t.toLowerCase().replace(/[^a-z0-9]+/g, "-");
     return (
       <a
         key={o.t}
@@ -228,35 +336,44 @@ function RitualGuidesContent() {
             router.push(`/ritual-kits/${slug}`);
           } else if (view === "rg") {
             router.push(`/ritual-guides/${slug}`);
+          } else if (view === "dc") {
+            if (o.rt === "LIVE") {
+              router.push(`/dharmic-concepts/${slug}`);
+            } else {
+              triggerToast(`"${o.t}" is launching soon!`);
+            }
           } else {
             triggerToast(`Opening details for: "${o.t}"`);
           }
         }}
       >
-      <div className={`c-top ${o.h || ""}`}>
-        {o.when && (
-          <span className={`c-when ${o.now ? "now" : ""}`}>{o.when}</span>
+        <div 
+          className={`c-top ${o.h || ""}`}
+          style={o.thumbnailUrl ? { backgroundImage: `url(${o.thumbnailUrl})`, backgroundSize: "cover", backgroundPosition: "center" } : {}}
+        >
+          {o.when && (
+            <span className={`c-when ${o.now ? "now" : ""}`}>{o.when}</span>
+          )}
+          {o.rt && <span className="c-when">{o.rt}</span>}
+        </div>
+        <div className="c-b">
+          <div className="c-t">{o.t}</div>
+          {o.d && <div className="c-d">{o.d}</div>}
+          <p className="c-s">{o.s}</p>
+          <div className="c-f">
+            {(o.pills || []).map((p, idx) => (
+              <span key={idx} className={`pill ${p[0]}`}>
+                {p[1]}
+              </span>
+            ))}
+            {o.read && <span className="c-read">{o.read}</span>}
+          </div>
+        </div>
+        {o.myth && (
+          <div className="myth">
+            <b>Corrects:</b> {o.myth}
+          </div>
         )}
-        {o.rt && <span className="c-when">{o.rt}</span>}
-      </div>
-      <div className="c-b">
-        <div className="c-t">{o.t}</div>
-        {o.d && <div className="c-d">{o.d}</div>}
-        <p className="c-s">{o.s}</p>
-        <div className="c-f">
-          {(o.pills || []).map((p, idx) => (
-            <span key={idx} className={`pill ${p[0]}`}>
-              {p[1]}
-            </span>
-          ))}
-          {o.read && <span className="c-read">{o.read}</span>}
-        </div>
-      </div>
-      {o.myth && (
-        <div className="myth">
-          <b>Corrects:</b> {o.myth}
-        </div>
-      )}
       </a>
     );
   };
@@ -509,23 +626,39 @@ function RitualGuidesContent() {
                 <div className="today select-none">
                   <div className="td-h">
                     <span className="td-l">{"☀ TODAY'S PANCHANG"}</span>
-                    <span className="td-live"><span className="livedot" />DELHI-NCR</span>
+                    <span className="td-live"><span className="livedot" />{panchang ? panchang.city : "DELHI-NCR"}</span>
                   </div>
-                  <div className="td-date">
-                    <div className="td-day">Bhadrapada Krishna Panchami</div>
-                    <div className="td-sub">Monday, 7 September 2026 · Purnimanta</div>
-                  </div>
-                  <div className="td-rows">
-                    <div className="tdr"><span className="tdk">PAKSHA</span><span className="tdv">Krishna — waning</span></div>
-                    <div className="tdr"><span className="tdk">NAKSHATRA</span><span className="tdv">Rohini (Auspicious)</span></div>
-                    <div className="tdr"><span className="tdk">SUNRISE / SUNSET</span><span className="tdv">5:58 AM / 6:34 PM</span></div>
-                    <div className="tdr"><span className="tdk">RAHU KAAL</span><span className="tdv">7:32 AM - 9:07 AM</span></div>
-                    <div className="tdr"><span className="tdk">YOGA · KARANA</span><span className="tdv">Vriddhi · Kaulava</span></div>
-                  </div>
-                  <div className="td-foot" onClick={() => router.push("/ritual-guides/ganesh-chaturthi")} style={{ cursor: "pointer" }}>
-                    <span className="tdf-t"><b>Next major date —</b> Ganesh Chaturthi, 14 September</span>
-                    <span className="tdf-c">Open guide &rsaquo;</span>
-                  </div>
+                  {panchang ? (
+                    <>
+                      <div className="td-date">
+                        <div className="td-day">{panchang.tithi} Tithi · {panchang.paksha} Paksha</div>
+                        <div className="td-sub">
+                          {new Date(panchang.date).toLocaleDateString("en-US", { weekday: "long", day: "numeric", month: "long", year: "numeric" })} · {calendarSystem}
+                        </div>
+                      </div>
+                      <div className="td-rows">
+                        <div className="tdr"><span className="tdk">PAKSHA</span><span className="tdv">{panchang.paksha} — {panchang.pakshaSub}</span></div>
+                        <div className="tdr"><span className="tdk">NAKSHATRA</span><span className="tdv">{panchang.nakshatra} {panchang.nakshatraSub ? `(${panchang.nakshatraSub})` : ""}</span></div>
+                        <div className="tdr"><span className="tdk">SUNRISE / SUNSET</span><span className="tdv">{panchang.sunrise} am / {panchang.sunset ? panchang.sunset + " pm" : "N/A"}</span></div>
+                        <div className="tdr"><span className="tdk">RAHU KAAL</span><span className="tdv">{panchang.rahuKaal || "N/A"}</span></div>
+                        <div className="tdr"><span className="tdk">YOGA · KARANA</span><span className="tdv">{panchang.yogaKarana || "N/A"}</span></div>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="py-6 text-center text-xs text-[#8A7A6E] italic font-sans">
+                      Panchang data pending.
+                    </div>
+                  )}
+                  {nextVrat ? (
+                    <div className="td-foot" onClick={() => nextVrat.linkedGuideId ? router.push(`/ritual-guides/${nextVrat.linkedGuideId}`) : triggerToast(`Vrat: ${nextVrat.name}`)} style={{ cursor: "pointer" }}>
+                      <span className="tdf-t"><b>Next major date —</b> {nextVrat.name}, {new Date(nextVrat.date).toLocaleDateString("en-US", { day: "numeric", month: "short" })}</span>
+                      <span className="tdf-c">Open guide &rsaquo;</span>
+                    </div>
+                  ) : (
+                    <div className="td-foot font-sans text-xs text-center py-4 bg-white/5 border-t border-[#EADFC9]/20" style={{ color: "#8A7A6E" }}>
+                      No upcoming major vrat guides.
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -544,7 +677,7 @@ function RitualGuidesContent() {
                 <>
                   <button className={`fc ${calendarSystem === "Purnimanta" ? "on" : ""}`} onClick={() => setCalendarSystem("Purnimanta")}>Purnimanta</button>
                   <button className={`fc ${calendarSystem === "Amanta" ? "on" : ""}`} onClick={() => setCalendarSystem("Amanta")}>Amanta</button>
-                  <button className="dl" onClick={() => triggerToast("Downloading 2026 calendar PDF...")}>↓ Download 2026 calendar</button>
+                  <button className="dl-btn" onClick={() => handlePanchangDownload("calendar")}>↓ Download 2026 calendar</button>
                 </>
               )}
               {panchangTab === "vc" && (
@@ -552,7 +685,7 @@ function RitualGuidesContent() {
                   {["All", "Ekadashi", "Pradosh", "Chaturthi", "Purnima", "Amavasya"].map((type) => (
                     <button key={type} className={`fc ${vratFilter === type ? "on" : ""}`} onClick={() => setVratFilter(type)}>{type}</button>
                   ))}
-                  <button className="dl" onClick={() => triggerToast("Downloading Vrat Calendar PDF...")}>↓ Download PDF</button>
+                  <button className="dl-btn" onClick={() => handlePanchangDownload("vrat", vratFilter)}>↓ Download PDF</button>
                 </>
               )}
               {panchangTab === "fc" && (
@@ -560,7 +693,7 @@ function RitualGuidesContent() {
                   {["All festivals", "Major only", "Shiva", "Vishnu", "Devi", "Ganesha"].map((type) => (
                     <button key={type} className={`fc ${festFilter === type ? "on" : ""}`} onClick={() => setFestFilter(type)}>{type}</button>
                   ))}
-                  <button className="dl" onClick={() => triggerToast("Downloading Festival Calendar PDF...")}>↓ Download PDF</button>
+                  <button className="dl-btn" onClick={() => handlePanchangDownload("festival", festFilter)}>↓ Download PDF</button>
                 </>
               )}
             </div>
@@ -572,139 +705,143 @@ function RitualGuidesContent() {
       <div className="wrap">
         <div className="pagepad">
           {view === "rg" && (
-            <>
+            loadingGuides ? (
+              <div className="flex items-center justify-center p-12 bg-white/5 border border-[#EADFC9]/20 rounded-2xl">
+                <div className="w-8 h-8 border-4 border-[#C82A54] border-t-transparent rounded-full animate-spin"></div>
+              </div>
+            ) : (
+              <>
               {/* Beginner's Guides */}
               <div className="sec">
-                {renderSectionHeader(
-                  "START HERE",
-                  "Beginner's Guides",
-                  "Plain language, no citations, no Sanskrit to look up. Read in order — it takes about half an hour.",
-                  "5 guides",
-                  "View all"
-                )}
-                <div className="fcard">
-                  <div className="fc-l beg">
-                    <span className="fc-tag">READ IN THIS ORDER</span>
-                    <div className="fc-t">Nobody is born knowing the vidhi</div>
-                    <p className="fc-d">
-                      Five guides that assume nothing. What to buy, what to say,
-                      how long it takes, and what genuinely does not matter as
-                      much as you have been told.
+                <div className="sec-head">
+                  <div>
+                    <div className="sec-ey">START HERE</div>
+                    <div className="sec-t">Beginner&apos;s Guides</div>
+                    <p className="sec-s">
+                      Plain language, no citations, no Sanskrit to look up. Read in order — it takes about half an hour.
                     </p>
-                    <button
-                      className="fc-c"
-                      onClick={() => triggerToast("Starting Step 1...")}
+                  </div>
+                  <div className="sec-meta-r font-sans text-xs flex items-center gap-1.5 self-end sm:self-center">
+                    <span className="text-[#8A7A6E]">5 guides</span>
+                    <button 
+                      onClick={() => triggerToast("Navigating to all beginner guides...")}
+                      className="text-[#C82A54] hover:underline font-bold"
+                    >
+                      View all ›
+                    </button>
+                  </div>
+                </div>
+
+                <div className="beginner-card">
+                  {/* Left Column (Chocolate Brown Panel) */}
+                  <div className="bc-left">
+                    <div>
+                      <span className="bc-badge">READ IN THIS ORDER</span>
+                      <h2 className="bc-title font-serif">Nobody is born knowing the vidhi</h2>
+                      <p className="bc-desc font-sans">
+                        Five guides that assume nothing. What to buy, what to say, how long it takes, and what genuinely does not matter as much as you have been told.
+                      </p>
+                    </div>
+                    <button 
+                      onClick={() => triggerToast("What is a vrat? guide is coming soon!")}
+                      className="bc-btn font-sans"
                     >
                       Start at step 1 ›
                     </button>
                   </div>
-                  <div className="fc-r">
-                    <a
-                      className="fc-i"
-                      onClick={() => triggerToast("Opening: 1 · What is a vrat?")}
-                    >
-                      <span>
-                        <span className="fc-in">1 · What is a vrat?</span>
-                        <span className="fc-is">6 min read</span>
-                      </span>
-                      <span className="fc-ia">›</span>
-                    </a>
-                    <a
-                      className="fc-i"
-                      onClick={() =>
-                        triggerToast("Opening: 2 · Your first puja at home")
+
+                  {/* Right Column (Sequential List) */}
+                  <div className="bc-right font-sans">
+                    {[
+                      {
+                        num: 1,
+                        title: "What is a vrat?",
+                        sub: "6 min read",
+                        link: "/ritual-guides/what-is-a-vrat",
+                        isReal: false
+                      },
+                      {
+                        num: 2,
+                        title: "Your first puja at home",
+                        sub: "8 min · under ₹300 to start",
+                        link: "/ritual-guides/your-first-puja-at-home",
+                        isReal: false
+                      },
+                      {
+                        num: 3,
+                        title: "Ganesh Chaturthi for beginners",
+                        sub: "9 min · for 14 September",
+                        link: "/dharmic-concepts/ganesh-chaturthi-beginners",
+                        isReal: true
+                      },
+                      {
+                        num: 4,
+                        title: "Diwali for beginners",
+                        sub: "9 min · for November",
+                        link: "/ritual-guides/diwali-beginners",
+                        isReal: false
+                      },
+                      {
+                        num: 5,
+                        title: "The seven kandas",
+                        sub: "6 min · no Sanskrit required",
+                        link: "/dharmic-concepts/ramcharitmanas-7-kandas-explained",
+                        isReal: true
                       }
-                    >
-                      <span>
-                        <span className="fc-in">2 · Your first puja at home</span>
-                        <span className="fc-is">8 min · under ₹300 to start</span>
-                      </span>
-                      <span className="fc-ia">›</span>
-                    </a>
-                    <a
-                      className="fc-i"
-                      onClick={() =>
-                        triggerToast("Opening: 3 · Ganesh Chaturthi for beginners")
-                      }
-                    >
-                      <span>
-                        <span className="fc-in">
-                          3 · Ganesh Chaturthi for beginners
-                        </span>
-                        <span className="fc-is">9 min · for 14 September</span>
-                      </span>
-                      <span className="fc-ia">›</span>
-                    </a>
-                    <a
-                      className="fc-i"
-                      onClick={() =>
-                        triggerToast("Opening: 4 · Diwali for beginners")
-                      }
-                    >
-                      <span>
-                        <span className="fc-in">4 · Diwali for beginners</span>
-                        <span className="fc-is">9 min · for November</span>
-                      </span>
-                      <span className="fc-ia">›</span>
-                    </a>
-                    <a
-                      className="fc-i"
-                      onClick={() =>
-                        triggerToast("Opening: 5 · The seven kandas")
-                      }
-                    >
-                      <span>
-                        <span className="fc-in">5 · The seven kandas</span>
-                        <span className="fc-is">6 min · no Sanskrit required</span>
-                      </span>
-                      <span className="fc-ia">›</span>
-                    </a>
+                    ].map((step) => (
+                      <div 
+                        key={step.num}
+                        onClick={() => {
+                          if (step.isReal) {
+                            router.push(step.link);
+                          } else {
+                            triggerToast(`${step.title} guide is coming soon!`);
+                          }
+                        }}
+                        className="bc-step-item"
+                      >
+                        <div className="bc-step-meta">
+                          <div className="bc-step-title">
+                            {step.num} · {step.title}
+                          </div>
+                          <div className="bc-step-sub">{step.sub}</div>
+                        </div>
+                        <span className="bc-step-arrow">›</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
 
-              {/* Fixed to a Tithi */}
+              {/* Festive Pujans */}
               <div className="sec">
                 {renderSectionHeader(
                   "FIXED TO A TITHI",
                   "Festive Pujans",
-                  "The date moves each year because it follows the lunar calendar, not the Gregorian one. Every guide states both.",
-                  "18 guides",
+                  "The date moves each year because it follows the lunar calendar. Every guide states both dates.",
+                  `${getGuidesByCategory("Festive Pujans").length} guides`,
                   "View all"
                 )}
                 <div className="grid">
-                  {renderCard({
-                    h: "h-teej",
-                    when: "IN 6 DAYS",
-                    now: true,
-                    t: "Hartalika Teej",
-                    d: "13 September",
-                    s: "The sand Shivalinga, the night vigil, and why this is a different vrat from Hariyali Teej.",
-                    pills: [["d", "DHARMA · 4/5"]],
-                    read: "9 min",
-                    myth: '"Nirjala or the vrat doesn’t count."',
-                  })}
-                  {renderCard({
-                    h: "h-ganesh",
-                    when: "IN 7 DAYS",
-                    now: true,
-                    t: "Ganesh Chaturthi",
-                    d: "14 September",
-                    s: "Prana pratishtha at the Madhyahna muhurat, and what a pandit is genuinely for.",
-                    pills: [["d", "DHARMA · 4/5"]],
-                    read: "11 min",
-                    myth: '"Only a pandit can perform this."',
-                  })}
-                  {renderCard({
-                    h: "h-devi",
-                    when: "IN 34 DAYS",
-                    t: "Sharad Navratri",
-                    d: "11–19 October",
-                    s: "Nine nights, nine forms, one Mother. Ghatasthapana to Maha Navami, day by day.",
-                    pills: [["d", "DHARMA · 4/5"]],
-                    read: "18 min",
-                    myth: '"If the Akhand Jyoti goes out, it is wasted."',
-                  })}
+                  {getGuidesByCategory("Festive Pujans").length > 0 ? (
+                    getGuidesByCategory("Festive Pujans").map((g) =>
+                      renderCard({
+                        t: g.title,
+                        s: getGuideSubtitle(g),
+                        d: g.category || "Festive Pujan",
+                        h: g.slug.includes("shiva") || g.slug.includes("sawan") ? "h-shiva" : g.slug.includes("ganesh") ? "h-ganesh" : g.slug.includes("devi") || g.slug.includes("navratri") ? "h-devi" : "h-teej",
+                        pills: [["d", getGuideTag(g)]],
+                        read: g.steps?.length ? `${g.steps.length} steps` : "",
+                        myth: g.dpbEntries?.find((e: any) => e.tag === "BHRANTI")?.elementName,
+                        slug: g.slug,
+                        thumbnailUrl: g.thumbnailUrl,
+                      })
+                    )
+                  ) : (
+                    <div className="col-span-full py-8 text-center text-xs text-[#8A7A6E] border border-dashed border-[#EADFC9]/60 rounded-xl bg-white/30 font-sans italic">
+                      We&apos;re adding this category soon. Check back after Navratri.
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -714,35 +851,29 @@ function RitualGuidesContent() {
                   "NOT TIED TO ONE DATE",
                   "All-Year Pujans",
                   "Recurring observances and household rituals. Kept when the household needs them, not when the calendar says so.",
-                  "11 guides",
+                  `${getGuidesByCategory("All-Year Pujans").length} guides`,
                   "View all"
                 )}
                 <div className="grid">
-                  {renderCard({
-                    h: "h-shiva",
-                    t: "Sawan Somwar Vrat",
-                    d: "Every Monday of Shravan",
-                    s: "Jalabhishek, the bilva offering, and the fasting forms that are genuinely accepted.",
-                    pills: [["d", "DHARMA · 4/5"]],
-                    read: "12 min",
-                    myth: '"Missing one Monday invalidates all of them."',
-                  })}
-                  {renderCard({
-                    h: "h-earth",
-                    t: "Sundarkand Path",
-                    d: "Most often on Tuesday",
-                    s: "The fifth kanda, recited at home. What you need, how long it takes, and the parts people skip.",
-                    pills: [["d", "DHARMA · 4/5"]],
-                    read: "13 min",
-                  })}
-                  {renderCard({
-                    h: "h-vishnu",
-                    t: "Satyanarayan Katha",
-                    d: "Purnima, or any auspicious day",
-                    s: "The five-chapter katha, the prasad, and why this is the most performed household puja in North India.",
-                    pills: [["d", "DHARMA · 4/5"]],
-                    read: "14 min",
-                  })}
+                  {getGuidesByCategory("All-Year Pujans").length > 0 ? (
+                    getGuidesByCategory("All-Year Pujans").map((g) =>
+                      renderCard({
+                        t: g.title,
+                        s: getGuideSubtitle(g),
+                        d: g.category || "All-Year Pujan",
+                        h: g.slug.includes("shiva") || g.slug.includes("sawan") ? "h-shiva" : g.slug.includes("satyanarayan") || g.slug.includes("vishnu") ? "h-vishnu" : "h-earth",
+                        pills: [["d", getGuideTag(g)]],
+                        read: g.steps?.length ? `${g.steps.length} steps` : "",
+                        myth: g.dpbEntries?.find((e: any) => e.tag === "BHRANTI")?.elementName,
+                        slug: g.slug,
+                        thumbnailUrl: g.thumbnailUrl,
+                      })
+                    )
+                  ) : (
+                    <div className="col-span-full py-8 text-center text-xs text-[#8A7A6E] border border-dashed border-[#EADFC9]/60 rounded-xl bg-white/30 font-sans italic">
+                      We&apos;re adding this category soon. Check back after Navratri.
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -752,38 +883,33 @@ function RitualGuidesContent() {
                   "ONCE IN A LIFE",
                   "Sanskar & Life Events",
                   "The sixteen sacraments, from before birth to after death. Written with care, and without fear.",
-                  "8 guides",
+                  `${getGuidesByCategory("Navagraha & Life Events").length} guides`,
                   "View all"
                 )}
                 <div className="grid">
-                  {renderCard({
-                    h: "h-sanskar",
-                    t: "Naamkaran",
-                    d: "Birth & childhood",
-                    s: "Naming the child. When it is done, who does it, and what the ceremony actually requires.",
-                    pills: [["d", "DHARMA · 5/5"]],
-                    read: "10 min",
-                  })}
-                  {renderCard({
-                    h: "h-sanskar",
-                    t: "Griha Pravesh",
-                    d: "Home & space",
-                    s: "Entering a new home. The kalash, the boiling of milk, and the muhurat that matters.",
-                    pills: [["d", "DHARMA · 4/5"]],
-                    read: "12 min",
-                  })}
-                  {renderCard({
-                    h: "h-sanskar",
-                    t: "Shraddha & Pitru Karma",
-                    d: "End of life",
-                    s: "Tarpan, the sixteen days of Pitru Paksha, and what is asked of the one performing it.",
-                    pills: [["d", "DHARMA · 5/5"]],
-                    read: "16 min",
-                    myth: '"Skipping shraddha harms the departed."',
-                  })}
+                  {getGuidesByCategory("Navagraha & Life Events").length > 0 ? (
+                    getGuidesByCategory("Navagraha & Life Events").map((g) =>
+                      renderCard({
+                        t: g.title,
+                        s: getGuideSubtitle(g),
+                        d: g.category || "Sanskar & Life Event",
+                        h: "h-sanskar",
+                        pills: [["d", getGuideTag(g)]],
+                        read: g.steps?.length ? `${g.steps.length} steps` : "",
+                        myth: g.dpbEntries?.find((e: any) => e.tag === "BHRANTI")?.elementName,
+                        slug: g.slug,
+                        thumbnailUrl: g.thumbnailUrl,
+                      })
+                    )
+                  ) : (
+                    <div className="col-span-full py-8 text-center text-xs text-[#8A7A6E] border border-dashed border-[#EADFC9]/60 rounded-xl bg-white/30 font-sans italic">
+                      We&apos;re adding this category soon. Check back after Navratri.
+                    </div>
+                  )}
                 </div>
               </div>
-            </>
+              </>
+            )
           )}
 
           {view === "pa" && (
@@ -945,7 +1071,7 @@ function RitualGuidesContent() {
                       <div className="dl-t">The full 2026 calendar, on one PDF</div>
                       <p className="dl-s">Every tithi, vrat and festival date for the year, computed for your city. Print it, or keep it on your phone.</p>
                     </div>
-                    <button className="dl-c hover:brightness-110" onClick={() => triggerToast("Downloading 2026 calendar...")}>Download calendar ›</button>
+                    <button className="dl-c hover:brightness-110" onClick={() => handlePanchangDownload("calendar")}>Download calendar ›</button>
                   </div>
                 </>
               )}
@@ -1036,7 +1162,7 @@ function RitualGuidesContent() {
                       <div className="dl-t">All 142 dates, on one page</div>
                       <p className="dl-s">The complete 2026 vrat calendar as a PDF — computed for your city, ready to print or forward.</p>
                     </div>
-                    <button className="dl-c hover:brightness-110" onClick={() => triggerToast("Downloading Vrat Calendar...")}>Download PDF ›</button>
+                    <button className="dl-c hover:brightness-110" onClick={() => handlePanchangDownload("vrat", vratFilter)}>Download PDF ›</button>
                   </div>
                 </>
               )}
@@ -1104,7 +1230,7 @@ function RitualGuidesContent() {
                       <div className="dl-t">The whole year, month by month</div>
                       <p className="dl-s">Every festival date for 2026 as a PDF — Gregorian dates with the tithi beneath each one.</p>
                     </div>
-                    <button className="dl-c hover:brightness-110" onClick={() => triggerToast("Downloading Festival Calendar...")}>Download PDF ›</button>
+                    <button className="dl-c hover:brightness-110" onClick={() => handlePanchangDownload("festival", festFilter)}>Download PDF ›</button>
                   </div>
                 </>
               )}

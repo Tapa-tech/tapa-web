@@ -761,7 +761,7 @@
   flex: 1;
   height: 2px;
   background: var(--border);
-  margin-top: 31px
+  /* margin-top: 31px */
 }
 
 .j-connector.done {
@@ -3400,5 +3400,1152 @@
 
   .chat-note {
     text-align: center;
+  }
+}
+
+/* ══════════ HEADER SYSTEM (PHASE 2) ══════════ */
+.announce{background:var(--dark);padding:7px 28px;display:flex;align-items:center;justify-content:space-between}
+.ann-text{font-size:10px;color:#E3B567}
+.ann-text strong{color:var(--pink);font-weight:600}
+.ann-links{display:flex;gap:20px}
+.ann-link{font-size:10px;color:var(--sub-text)}
+.nav{background:var(--card);border-bottom:1px solid var(--border);position:relative}
+.nav-in{padding:0 28px;display:flex;align-items:center;height:72px}
+.burger{display:none;width:36px;border:none;background:none;flex-direction:column;gap:4.5px;padding:0 7px}
+.burger span{height:2px;background:var(--dark);border-radius:2px;width:22px}
+.burger span:nth-child(2){width:15px}
+.logo{display:flex;align-items:center;gap:11px;margin-right:30px;flex-shrink:0}
+.logo img{height:52px;width:auto;display:block}
+.logo-wm{font-size:10px;color:var(--pink);font-weight:600;letter-spacing:.3px;line-height:1.25;max-width:76px}
+.cats{display:flex;flex:1}
+.cat{font-size:15px;font-weight:500;color:var(--sub-text);padding:0 14px;height:72px;display:flex;align-items:center;gap:6px;border:none;border-bottom:3px solid transparent;background:none;white-space:nowrap;position:relative}
+.cat .car{font-size:9px;opacity:.6;transition:transform .18s}
+.cat.on,.cat:hover{color:var(--pink);border-bottom-color:var(--pink);font-weight:600}
+.cat.on .car{transform:rotate(180deg)}
+.cat .new{font-size:8.5px;font-weight:700;background:var(--pink);color:#fff;border-radius:4px;padding:2px 6px;letter-spacing:.4px}
+.right{display:flex;align-items:center;gap:9px;margin-left:auto}
+.srch{display:flex;align-items:center;gap:9px;background:var(--bg);border:1px solid var(--border);border-radius:22px;padding:10px 16px;font-size:13.5px;color:var(--sub-text);width:190px}
+.lang{display:flex;gap:2px;background:var(--bg);border-radius:8px;padding:3px}
+.lang button{border:none;border-radius:6px;padding:6px 11px;font-size:12px;font-weight:700;background:none;color:var(--pink)}
+.lang button.on{background:var(--pink);color:#fff}
+.ico{width:40px;height:40px;border:1.5px solid var(--border);border-radius:10px;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;position:relative;cursor:pointer}
+.ico .badge{position:absolute;top:-5px;right:-5px;min-width:18px;height:18px;border-radius:9px;background:var(--pink);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 5px}
+.signin{background:none;border:1.5px solid var(--border);border-radius:10px;padding:10px 17px;font-size:13.5px;font-weight:600;color:var(--body-text);white-space:nowrap;cursor:pointer}
+.signup{background:var(--pink);border:none;border-radius:10px;padding:11px 19px;font-size:13.5px;font-weight:700;color:#fff;white-space:nowrap;cursor:pointer}
+
+/* ── DROPDOWN ── */
+.dd{position:absolute;left:0;right:0;top:100%;background:var(--card);border-top:1px solid var(--border);border-bottom:1px solid var(--border);box-shadow:0 14px 34px rgba(28,23,18,.13);z-index:120;display:none}
+.dd.open{display:block}
+.dd-in{padding:26px 28px 22px;display:grid;grid-template-columns:1.05fr 1fr 1fr 1.15fr;gap:30px}
+.col-h{font-size:9.5px;font-weight:700;color:var(--gold);letter-spacing:.7px;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border-light)}
+.dl{display:block;padding:7px 0;font-size:14px;color:var(--body-text);cursor:pointer}
+.dl:hover{color:var(--pink)}
+.dl b{display:block;font-weight:600}
+.dl small{display:block;font-size:11.5px;color:var(--sub-text);margin-top:1px;line-height:1.5}
+.dl.lead{background:#FFF0F5;border:1px solid #F7C0D6;border-radius:11px;padding:12px 14px;margin-bottom:8px}
+.dl.lead b{color:var(--pink)}
+.dl .dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:7px;vertical-align:1px}
+.dl .when{font-size:11px;color:var(--amber);font-weight:700;margin-left:6px}
+.pill{font-size:9px;font-weight:700;letter-spacing:.4px;border-radius:4px;padding:2px 7px;margin-left:7px}
+.pill.live{background:var(--d-bg);color:var(--d-tx);border:1px solid var(--d-bd)}
+.pill.soon{background:var(--b-bg);color:var(--b-tx);border:1px solid var(--b-bd)}
+.feat{background:var(--darkbar);border-radius:13px;padding:18px 20px;display:flex;flex-direction:column}
+.feat.amber{background:var(--p-bg);border:1px solid var(--p-bd)}
+.feat.data{background:var(--data-bg);border:1px solid var(--data-bd)}
+.feat-l{font-size:9.5px;font-weight:700;letter-spacing:.6px;margin-bottom:9px}
+.feat .feat-l{color:#E3B567}
+.feat.amber .feat-l{color:var(--p-tx)}
+.feat.data .feat-l{color:var(--data-tx)}
+.feat-t{font-size:16px;font-weight:700;line-height:1.32;margin-bottom:7px;color:#fff}
+.feat.amber .feat-t,.feat.data .feat-t{color:var(--dark)}
+.feat-s{font-size:12.5px;line-height:1.7;color:#A99070;flex:1;margin-bottom:13px}
+.feat.amber .feat-s,.feat.data .feat-s{color:var(--sub-text)}
+.feat-b{border:none;border-radius:10px;padding:11px;font-size:13px;font-weight:700;background:var(--pink);color:#fff;width:100%;cursor:pointer}
+.feat.data .feat-b{background:var(--data-tx)}
+.dd-foot{border-top:1px solid var(--border-light);background:#FCFAF6;padding:12px 28px;font-size:12.5px;color:var(--sub-text);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.dd-foot b{color:var(--body-text);font-weight:600}
+.dd-foot a{color:var(--pink);font-weight:700;cursor:pointer}
+.live-now{display:flex;align-items:flex-start;gap:9px;background:var(--data-bg);border:1px solid var(--data-bd);border-radius:11px;padding:12px 14px;margin-bottom:10px}
+.ln-d{width:7px;height:7px;border-radius:50%;background:#3FBF6A;box-shadow:0 0 0 3px rgba(63,191,106,.2);flex-shrink:0}
+.ln-t{display:block;font-size:9.5px;font-weight:700;color:var(--data-tx);letter-spacing:.5px}
+.ln-v{display:block;font-size:13.5px;font-weight:700;color:var(--data-tx);margin-top:2px}
+
+/* ── SEARCH OVERLAY ── */
+.so{position:absolute;left:0;right:0;top:100%;background:var(--card);border-bottom:1px solid var(--border);box-shadow:0 14px 34px rgba(28,23,18,.13);z-index:130;padding:22px 28px 24px}
+.so-f{display:flex;align-items:center;gap:12px;background:var(--bg);border:1.5px solid var(--pink);border-radius:13px;padding:14px 18px;margin-bottom:18px}
+.so-f input{flex:1;background:none;border:none;outline:none;font-size:16px;color:var(--dark);font-family:inherit}
+.so-esc{font-size:11px;color:var(--sub-text);border:1px solid var(--border);border-radius:6px;padding:4px 9px;cursor:pointer}
+.so-g{display:grid;grid-template-columns:1fr 1fr 1fr;gap:26px}
+.so-h{font-size:9.5px;font-weight:700;color:var(--gold);letter-spacing:.6px;margin-bottom:10px}
+.so-i{display:block;padding:6px 0;font-size:13.5px;color:var(--body-text);cursor:pointer}
+.so-i span{color:var(--sub-text);font-size:11.5px;margin-left:6px}
+.so-chip{display:inline-block;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:12.5px;margin:0 6px 6px 0;color:var(--body-text);cursor:pointer}
+
+/* ── ACCOUNT MENU ── */
+.acct{position:absolute;right:28px;top:100%;width:280px;background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:0 14px 34px rgba(28,23,18,.16);z-index:130;overflow:hidden}
+.acct-h{padding:15px 18px;border-bottom:1px solid var(--border-light);background:#FCFAF6}
+.acct-n{font-size:15px;font-weight:700;color:var(--dark)}
+.acct-e{font-size:12px;color:var(--sub-text);margin-top:2px}
+.acct-i{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 18px;font-size:13.5px;border-bottom:.5px solid var(--border-light);cursor:pointer;color:var(--body-text)}
+.acct-i:hover{background:var(--bg)}
+.acct-i .n{font-size:10px;font-weight:700;background:var(--p-bg);color:var(--p-tx);border:1px solid var(--p-bd);border-radius:5px;padding:2px 7px}
+.acct-o{padding:11px 18px;font-size:13.5px;color:var(--sub-text);cursor:pointer}
+.acct-o:hover{background:var(--bg);color:var(--pink)}
+
+/* ── MINI CART ── */
+.cart{position:absolute;right:28px;top:100%;width:340px;background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:0 14px 34px rgba(28,23,18,.16);z-index:130;overflow:hidden}
+.cart-h{padding:14px 18px;border-bottom:1px solid var(--border-light);display:flex;justify-content:space-between;align-items:baseline}
+.cart-t{font-size:14px;font-weight:700;color:var(--dark)}
+.cart-c{font-size:12px;color:var(--sub-text)}
+.cart-items-list{max-height:220px;overflow-y:auto}
+.cart-i{display:flex;gap:12px;padding:13px 18px;border-bottom:.5px solid var(--border-light);align-items:center}
+.cart-th{width:46px;height:46px;border-radius:9px;flex-shrink:0}
+.cart-n{font-size:13.5px;font-weight:600;color:var(--dark);line-height:1.3}
+.cart-m{font-size:11.5px;color:var(--amber);font-weight:700;margin-top:3px}
+.cart-p{font-size:13.5px;font-weight:700;color:var(--dark);margin-left:auto;white-space:nowrap}
+.cart-f{padding:14px 18px;background:#FCFAF6}
+.cart-row{display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:11px}
+.cart-row b{font-weight:700;color:var(--dark)}
+.cart-b{width:100%;background:var(--pink);border:none;border-radius:11px;padding:12px;font-size:13.5px;font-weight:700;color:#fff;cursor:pointer}
+.cart-note{font-size:11.5px;color:var(--sub-text);line-height:1.6;margin-top:10px;text-align:center}
+
+/* ── MOBILE DRAWER ── */
+.mob{max-width:390px;margin:0 auto;border:1px solid var(--border);border-radius:20px;overflow:hidden;background:var(--card)}
+.mob-top{display:flex;align-items:center;height:70px;padding:0 12px;gap:10px;border-bottom:1px solid var(--border)}
+.mob-top .logo img{height:46px}
+.mob-close{width:38px;height:38px;border:1.5px solid var(--border);border-radius:10px;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:17px;cursor:pointer}
+.mob-srch{margin:14px 16px;display:flex;align-items:center;gap:10px;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:12px 15px;font-size:14px;color:var(--sub-text)}
+.mob-srch input{background:none;border:none;outline:none;font-size:14px;color:var(--dark);width:100%}
+.mob-acc{border-top:1px solid var(--border-light)}
+.mob-a{padding:15px 16px;display:flex;align-items:center;justify-content:space-between;font-size:16px;font-weight:700;color:var(--dark);border-bottom:1px solid var(--border-light);cursor:pointer}
+.mob-a .car{font-size:12px;color:var(--sub-text);transition:transform 0.2s}
+.mob-a.on .car{transform:rotate(180deg)}
+.mob-sub{background:var(--bg);padding:4px 16px 12px;border-bottom:1px solid var(--border-light)}
+.mob-s{display:block;padding:10px 0;font-size:14.5px;color:var(--body-text);border-bottom:.5px solid var(--border);cursor:pointer}
+.mob-s:last-child{border-bottom:none}
+.mob-s.lead{color:var(--pink);font-weight:700}
+.mob-util{padding:14px 16px;display:flex;flex-direction:column;gap:2px;border-bottom:1px solid var(--border-light)}
+.mob-u{padding:9px 0;font-size:14px;color:var(--sub-text);cursor:pointer}
+.mob-cta{padding:16px}
+.mob-b{width:100%;border:none;border-radius:12px;padding:14px;font-size:14.5px;font-weight:700;margin-bottom:9px;cursor:pointer}
+.mob-b.pink{background:var(--pink);color:#fff}
+.mob-b.wa{background:#1F9D52;color:#fff;display:flex;align-items:center;justify-content:center;gap:9px}
+.mob-b.ghost{background:none;border:1.5px solid var(--border);color:var(--body-text)}
+.mob-lang{display:flex;gap:8px;padding:0 16px 18px}
+.mob-lang button{flex:1;border:1.5px solid var(--border);border-radius:10px;padding:11px;font-size:14px;font-weight:700;background:none;color:var(--body-text);cursor:pointer}
+.mob-lang button.on{background:var(--pink);border-color:var(--pink);color:#fff}
+
+/* ── SPEC TABLE ── */
+.spec{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-top:12px}
+.spec-r{display:grid;grid-template-columns:210px 1fr;gap:18px;padding:13px 20px;border-bottom:.5px solid var(--border-light);font-size:13.5px}
+.spec-r:last-child{border-bottom:none}
+.spec-k{font-weight:700;color:var(--dark)}
+.spec-v{color:var(--body-text);line-height:1.7}
+
+@media (max-width:900px){
+  .burger{display:flex}
+  .cats,.right .srch,.right .lang,.right .signin,.right .signup{display:none}
+  .dd-in,.so-g{grid-template-columns:1fr;gap:18px}
+  .spec-r{grid-template-columns:1fr;gap:4px}
+}
+
+/* ── BEGINNER'S GUIDES (CUSTOM DESIGN SYSTEM) ── */
+
+.beginner-guide-page {
+  --bg: #F2EDE4;
+  --card: #FFFFFF;
+  --dark: #1C1712;
+  --darkbar: #1A1208;
+  --pink: #FD066D;
+  --rose: #EF0F54;
+  --amber: #E8A020;
+  --gold: #A07800;
+  --yellow: #EDAB3A;
+  --body-text: #2C2010;
+  --mid-text: #5C4B12;
+  --sub-text: #8A7A68;
+  --border: #E8E0D0;
+  --border-light: #F0E8D8;
+  --hero-text: #FFFDF5;
+  --dim: #7A6A55;
+  --dimmer: #5C4E36;
+  --d-bg: #E6F1E6;
+  --d-tx: #27500A;
+  --d-bd: #C9DFC9;
+  --p-bg: #FFF8E6;
+  --p-tx: #A07800;
+  --p-bd: #EFE0B8;
+  --b-bg: #F0E9E1;
+  --b-tx: #4A3525;
+  --b-bd: #D9CBB8;
+}
+
+.beginner-guide-page .hero {
+  position: relative;
+  height: 360px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.beginner-guide-page .hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 58% 55% at 76% 32%,rgba(210,120,40,.30) 0%,transparent 62%),
+    radial-gradient(ellipse 46% 70% at 10% 90%,rgba(40,12,8,.66) 0%,transparent 56%),
+    linear-gradient(155deg,#2E0C08 0%,#7A2412 34%,#3A1008 66%,#1C0604 100%);
+}
+
+.beginner-guide-page .hero-ov {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right,rgba(28,6,4,.94) 0%,rgba(28,6,4,.7) 42%,rgba(28,6,4,.16) 74%,rgba(28,6,4,.02) 100%);
+}
+
+.beginner-guide-page .hero-share {
+  position: absolute;
+  top: 20px;
+  right: 40px;
+  z-index: 6;
+  background: rgba(255,255,255,.15);
+  border: 1px solid rgba(255,255,255,.28);
+  border-radius: 20px;
+  padding: 7px 16px;
+  color: #fff;
+  font-size: 12.5px;
+  font-weight: 500;
+}
+
+.beginner-guide-page .hero-c {
+  position: relative;
+  z-index: 5;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 40px;
+  width: 100%;
+}
+
+.beginner-guide-page .hero-in {
+  max-width: 660px;
+}
+
+.beginner-guide-page .hero-ey {
+  font-size: 10px;
+  color: #E3B567;
+  letter-spacing: .9px;
+  margin-bottom: 9px;
+}
+
+.beginner-guide-page .hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(255,243,204,.16);
+  border: 1px solid rgba(255,243,204,.3);
+  border-radius: 20px;
+  padding: 5px 13px;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #FFD88A;
+  margin-bottom: 12px;
+}
+
+.beginner-guide-page .hero-h1 {
+  font-size: 38px;
+  font-weight: 700;
+  color: var(--hero-text);
+  line-height: 1.14;
+  letter-spacing: -.7px;
+  margin-bottom: 10px;
+}
+
+.beginner-guide-page .hero-sub {
+  font-size: 16px;
+  color: #D8BFA0;
+  line-height: 1.6;
+  margin-bottom: 21px;
+}
+
+.beginner-guide-page .hero-btns {
+  display: flex;
+  gap: 10px;
+  flex-wrap: nowrap;
+  align-items: stretch;
+}
+
+.beginner-guide-page .hb-p {
+  background: rgba(255,255,255,.94);
+  border: none;
+  border-radius: 10px;
+  padding: 12px 22px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #1C1712;
+  white-space: nowrap;
+}
+
+.beginner-guide-page .hb-g {
+  background: transparent;
+  border: 1.5px solid rgba(255,255,255,.42);
+  border-radius: 10px;
+  padding: 12px 22px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--hero-text);
+  white-space: nowrap;
+}
+
+.beginner-guide-page .reassure {
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+}
+
+.beginner-guide-page .re-in {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 13px 40px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.beginner-guide-page .re {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--mid-text);
+  font-weight: 500;
+}
+
+.beginner-guide-page .re-i {
+  font-size: 15px;
+}
+
+.beginner-guide-page .chips {
+  background: var(--p-bg);
+  border-bottom: 1px solid var(--p-bd);
+  padding: 12px 40px;
+  position: sticky;
+  top: 64px;
+  z-index: 30;
+}
+
+.beginner-guide-page .chips-in {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.beginner-guide-page .chips-in::-webkit-scrollbar {
+  display: none;
+}
+
+.beginner-guide-page .chip-l {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: .5px;
+  white-space: nowrap;
+  margin-right: 5px;
+}
+
+.beginner-guide-page .chip {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--dark);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.beginner-guide-page .chip:hover {
+  border-color: var(--pink);
+  background: var(--b-bg);
+}
+
+.beginner-guide-page .layout {
+  display: grid;
+  grid-template-columns: 1fr 330px;
+  gap: 44px;
+  align-items: start;
+  padding-top: 30px;
+}
+
+.beginner-guide-page .main {
+  max-width: 720px;
+}
+
+.beginner-guide-page .open {
+  font-size: 23px;
+  font-weight: 700;
+  color: var(--dark);
+  line-height: 1.4;
+  letter-spacing: -.3px;
+  margin: 0 0 16px;
+}
+
+.beginner-guide-page .p {
+  font-size: 15.5px;
+  line-height: 1.88;
+  margin-bottom: 15px;
+}
+
+.beginner-guide-page .p strong {
+  color: var(--dark);
+  font-weight: 600;
+}
+
+.beginner-guide-page .turn {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--pink);
+  line-height: 1.55;
+  margin: 22px 0;
+  padding-left: 16px;
+  border-left: 3px solid var(--pink);
+}
+
+.beginner-guide-page .sh {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 34px 0 5px;
+  scroll-margin-top: 150px;
+}
+
+.beginner-guide-page .sh-p {
+  color: var(--pink);
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.beginner-guide-page .sh-t {
+  font-size: 19.5px;
+  font-weight: 700;
+  color: var(--dark);
+  line-height: 1.3;
+}
+
+.beginner-guide-page .sh-s {
+  font-size: 13.5px;
+  color: var(--sub-text);
+  font-style: italic;
+  margin: 0 0 16px 22px;
+  line-height: 1.65;
+}
+
+.beginner-guide-page .hr {
+  height: 1px;
+  background: var(--border);
+  margin: 30px 0;
+}
+
+.beginner-guide-page figure.art {
+  margin: 26px 0;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--darkbar);
+}
+
+.beginner-guide-page figure.art img {
+  width: 100%;
+  display: block;
+}
+
+.beginner-guide-page .kandas {
+  display: flex;
+  flex-direction: column;
+}
+
+.beginner-guide-page .kd {
+  display: flex;
+  gap: 16px;
+}
+
+.beginner-guide-page .kd-c {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.beginner-guide-page .kd-n {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--p-bg);
+  border: 1.5px solid var(--p-bd);
+  color: var(--p-tx);
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.beginner-guide-page .kd.now .kd-n {
+  background: var(--pink);
+  border-color: var(--pink);
+  color: #fff;
+}
+
+.beginner-guide-page .kd-l {
+  width: 2px;
+  flex: 1;
+  background: var(--border);
+  margin: 5px 0;
+  min-height: 12px;
+}
+
+.beginner-guide-page .kd.now .kd-l {
+  background: #F7C0D6;
+}
+
+.beginner-guide-page .kd-b {
+  flex: 1;
+  padding-bottom: 20px;
+  min-width: 0;
+}
+
+.beginner-guide-page .kd-t {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--dark);
+  line-height: 1.3;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.beginner-guide-page .kd.now .kd-t {
+  color: var(--pink);
+}
+
+.beginner-guide-page .kd-dev {
+  font-size: 15px;
+  color: var(--sub-text);
+  font-weight: 500;
+}
+
+.beginner-guide-page .kd-s {
+  font-size: 15px;
+  color: var(--body-text);
+  line-height: 1.8;
+  margin-top: 5px;
+}
+
+.beginner-guide-page .kd-badge {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .5px;
+  background: var(--b-bg);
+  color: var(--b-tx);
+  border: 1px solid var(--b-bd);
+  border-radius: 5px;
+  padding: 3px 9px;
+}
+
+.beginner-guide-page .worry {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.beginner-guide-page .w-q {
+  background: var(--bg);
+  padding: 14px 17px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--dark);
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.beginner-guide-page .w-q span {
+  color: var(--sub-text);
+  flex-shrink: 0;
+}
+
+.beginner-guide-page .w-a {
+  padding: 14px 17px;
+  font-size: 14.5px;
+  line-height: 1.8;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.beginner-guide-page .w-a span {
+  color: var(--d-tx);
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.beginner-guide-page .closing {
+  background: var(--darkbar);
+  border-radius: 15px;
+  padding: 26px 30px;
+  margin: 28px 0;
+}
+
+.beginner-guide-page .closing p {
+  font-size: 15.5px;
+  color: var(--hero-text);
+  line-height: 1.88;
+  margin-bottom: 13px;
+}
+
+.beginner-guide-page .closing p:last-child {
+  margin-bottom: 0;
+  color: #E8C89A;
+}
+
+.beginner-guide-page .ladder {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.beginner-guide-page .lad {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  padding: 16px 19px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.beginner-guide-page .lad:hover {
+  border-color: var(--pink);
+}
+
+.beginner-guide-page .lad-k {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .5px;
+  padding: 4px 10px;
+  border-radius: 5px;
+  flex-shrink: 0;
+}
+
+.beginner-guide-page .lad-k.rg {
+  background: var(--b-bg);
+  color: var(--b-tx);
+  border: 1px solid var(--b-bd);
+}
+
+.beginner-guide-page .lad-k.dc {
+  background: var(--d-bg);
+  color: var(--d-tx);
+  border: 1px solid var(--d-bd);
+}
+
+.beginner-guide-page .lad-k.pa {
+  background: var(--p-bg);
+  color: var(--p-tx);
+  border: 1px solid var(--p-bd);
+}
+
+.beginner-guide-page .lad > span:nth-child(2) {
+  flex: 1;
+  min-width: 0;
+}
+
+.beginner-guide-page .lad-t {
+  display: block;
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--dark);
+  line-height: 1.32;
+}
+
+.beginner-guide-page .lad-s {
+  display: block;
+  font-size: 13.5px;
+  color: var(--sub-text);
+  margin-top: 3px;
+  line-height: 1.6;
+}
+
+.beginner-guide-page .lad-a {
+  font-size: 19px;
+  color: var(--pink);
+  flex-shrink: 0;
+}
+
+.beginner-guide-page .rev {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 13px;
+  margin: 18px 0 0;
+  align-items: stretch;
+}
+
+.beginner-guide-page .rev-c {
+  border-radius: 15px;
+  padding: 19px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  text-align: left;
+  height: 100%;
+  border: 1px solid;
+}
+
+.beginner-guide-page .rev-c.live {
+  background: var(--card);
+  border-color: var(--border);
+}
+
+.beginner-guide-page .rev-c.feat {
+  background: linear-gradient(150deg, #7A2412, #2E0C08);
+  border-color: transparent;
+}
+
+.beginner-guide-page .rev-c.soon {
+  background: #EFEAE0;
+  border-color: #DDD4C4;
+}
+
+.beginner-guide-page .rev-i {
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  margin-bottom: 12px;
+  flex-shrink: 0;
+}
+
+.beginner-guide-page .rev-c.live .rev-i {
+  background: var(--p-bg);
+  border: 1px solid var(--p-bd);
+}
+
+.beginner-guide-page .rev-c.feat .rev-i {
+  background: rgba(255, 255, 255, .14);
+  border: 1px solid rgba(255, 255, 255, .22);
+}
+
+.beginner-guide-page .rev-c.soon .rev-i {
+  background: #E4DCCC;
+  border: 1px solid #D4C9B4;
+  opacity: .6;
+}
+
+.beginner-guide-page .rev-l {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .6px;
+  margin-bottom: 6px;
+}
+
+.beginner-guide-page .rev-c.live .rev-l {
+  color: var(--gold);
+}
+
+.beginner-guide-page .rev-c.feat .rev-l {
+  color: #E3B567;
+}
+
+.beginner-guide-page .rev-c.soon .rev-l {
+  color: #9A8E7A;
+}
+
+.beginner-guide-page .rev-t {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.32;
+  margin-bottom: 6px;
+}
+
+.beginner-guide-page .rev-c.live .rev-t {
+  color: var(--dark);
+}
+
+.beginner-guide-page .rev-c.feat .rev-t {
+  color: #fff;
+}
+
+.beginner-guide-page .rev-c.soon .rev-t {
+  color: #7A705F;
+}
+
+.beginner-guide-page .rev-s {
+  font-size: 12.5px;
+  line-height: 1.7;
+  flex: 1 1 auto;
+  margin-bottom: 15px;
+}
+
+.beginner-guide-page .rev-c.live .rev-s {
+  color: var(--sub-text);
+}
+
+.beginner-guide-page .rev-c.feat .rev-s {
+  color: #E0B8A4;
+}
+
+.beginner-guide-page .rev-c.soon .rev-s {
+  color: #948872;
+}
+
+.beginner-guide-page .rev-b {
+  border: none;
+  border-radius: 11px;
+  padding: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  width: 100%;
+  cursor: pointer;
+  margin: 0;
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+.beginner-guide-page .rev-c.live .rev-b {
+  background: var(--pink);
+  color: #fff;
+}
+
+.beginner-guide-page .rev-c.live .rev-b.wa {
+  background: #1F9D52;
+  color: #fff;
+}
+
+.beginner-guide-page .rev-c.feat .rev-b {
+  background: #fff;
+  color: #7A2412;
+}
+
+.beginner-guide-page .rev-c.soon .rev-b {
+  background: transparent;
+  border: 1.5px solid #C9BFAC;
+  color: #7A705F;
+}
+
+.beginner-guide-page .rev-note {
+  font-size: 13px;
+  color: var(--sub-text);
+  line-height: 1.75;
+  margin-top: 13px;
+  text-align: center;
+}
+
+.beginner-guide-page .side {
+  position: sticky;
+  top: 150px;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.beginner-guide-page .ladder-sb {
+  background: linear-gradient(150deg, #7A2412, #2E0C08);
+  border-radius: 14px;
+  padding: 17px 19px;
+}
+
+.beginner-guide-page .lsb-h {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #E3B567;
+  letter-spacing: .6px;
+  margin-bottom: 12px;
+}
+
+.beginner-guide-page .lsb-r {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  font-size: 13px;
+  color: #D8BFA0;
+}
+
+.beginner-guide-page .lsb-r b {
+  color: #fff;
+  font-weight: 700;
+}
+
+.beginner-guide-page .lsb-n {
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .14);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.beginner-guide-page .lsb-r.now .lsb-n {
+  background: var(--pink);
+}
+
+.beginner-guide-page .lsb-r.now {
+  color: #fff;
+}
+
+.beginner-guide-page .sbcta {
+  width: 100%;
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+}
+
+.beginner-guide-page .sbcta.wa {
+  background: #1F9D52;
+}
+
+.beginner-guide-page .sbcta.dk {
+  background: var(--darkbar);
+}
+
+.beginner-guide-page .sb-ci {
+  font-size: 19px;
+}
+
+.beginner-guide-page .sb-ct {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.beginner-guide-page .sb-cs {
+  font-size: 10px;
+  color: rgba(255, 255, 255, .6);
+  text-align: center;
+  line-height: 1.5;
+}
+
+.beginner-guide-page .sbcomp {
+  background: var(--bg);
+  border: 1px dashed #D8CCB6;
+  border-radius: 13px;
+  padding: 14px 16px;
+}
+
+.beginner-guide-page .sbcomp-h {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 8px;
+}
+
+.beginner-guide-page .sbcomp-i {
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.beginner-guide-page .sbcomp-i img {
+  height: 17px;
+  width: auto;
+  display: block;
+}
+
+.beginner-guide-page .sbcomp-l {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: .6px;
+}
+
+.beginner-guide-page .sbcomp-t {
+  font-size: 12.5px;
+  color: var(--sub-text);
+  line-height: 1.6;
+  margin-bottom: 11px;
+}
+
+.beginner-guide-page .sbcomp-b {
+  width: 100%;
+  background: transparent;
+  border: 1.5px solid var(--yellow);
+  border-radius: 9px;
+  padding: 9px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #8A6100;
+  cursor: pointer;
+}
+
+.beginner-guide-page .sbcomp-d {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .5px;
+  background: var(--b-bg);
+  color: var(--b-tx);
+  border: 1px solid var(--b-bd);
+  border-radius: 4px;
+  padding: 2px 7px;
+  margin-left: auto;
+}
+
+.beginner-guide-page .whyno {
+  background: var(--p-bg);
+  border: 1px solid var(--p-bd);
+  border-radius: 14px;
+  padding: 15px 17px;
+}
+
+.beginner-guide-page .wn-h {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: .6px;
+  margin-bottom: 9px;
+}
+
+.beginner-guide-page .wn-t {
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--body-text);
+}
+
+.beginner-guide-page .wn-t b {
+  color: var(--p-tx);
+}
+
+/* ══ MOBILE OVERRIDES ══ */
+@media (max-width:900px) {
+  .beginner-guide-page {
+    max-width: 430px;
+    margin: 0 auto;
+    padding-bottom: 78px;
+  }
+  .beginner-guide-page .hero {
+    height: auto;
+    min-height: 330px;
+    align-items: flex-end;
+  }
+  .beginner-guide-page .hero-ov {
+    background: linear-gradient(to top,rgba(28,6,4,.95) 12%,rgba(28,6,4,.66) 48%,rgba(28,6,4,.2) 100%);
+  }
+  .beginner-guide-page .hero-share {
+    top: 13px;
+    right: 14px;
+    padding: 6px 13px;
+    font-size: 11.5px;
+  }
+  .beginner-guide-page .hero-c {
+    padding: 0 16px 24px;
+  }
+  .beginner-guide-page .hero-h1 {
+    font-size: 28px;
+  }
+  .beginner-guide-page .hero-sub {
+    font-size: 14px;
+  }
+  .beginner-guide-page .hero-btns {
+    flex-direction: row;
+    gap: 9px;
+  }
+  .beginner-guide-page .hb-p, .beginner-guide-page .hb-g {
+    flex: 1 1 0;
+    min-width: 0;
+    text-align: center;
+    padding: 12px 8px;
+    font-size: 12.5px;
+    line-height: 1.25;
+    white-space: normal;
+  }
+  .beginner-guide-page .re-in {
+    padding: 12px 16px;
+    gap: 14px;
+  }
+  .beginner-guide-page .re {
+    font-size: 12.5px;
+  }
+  .beginner-guide-page .chips {
+    padding: 10px 16px;
+    top: 64px;
+  }
+  .beginner-guide-page .chip-l {
+    display: none;
+  }
+  .beginner-guide-page .layout {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding-top: 18px;
+  }
+  .beginner-guide-page .main {
+    max-width: none;
+  }
+  .beginner-guide-page .side {
+    position: static;
+    margin-top: 26px;
+  }
+  .beginner-guide-page .open {
+    font-size: 20px;
+  }
+  .beginner-guide-page .p {
+    font-size: 15px;
+  }
+  .beginner-guide-page .sh-t {
+    font-size: 18px;
+  }
+  .beginner-guide-page figure.art {
+    margin: 22px -16px;
+    border-radius: 0;
+  }
+  .beginner-guide-page .kd {
+    gap: 13px;
+  }
+  .beginner-guide-page .kd-t {
+    font-size: 16px;
+  }
+  .beginner-guide-page .kd-s {
+    font-size: 14.5px;
+  }
+  .beginner-guide-page .rev {
+    grid-template-columns: 1fr;
+    gap: 11px;
+  }
+  .beginner-guide-page .rev-c {
+    padding: 17px 18px;
+    height: auto;
+    align-items: stretch;
+  }
+  .beginner-guide-page .rev-c .rev-s {
+    flex: 0 0 auto;
+  }
+  .beginner-guide-page .closing {
+    padding: 22px 20px;
   }
 }

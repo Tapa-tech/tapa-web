@@ -1,0 +1,792 @@
+/* src/app/ritual-card/card.css */
+
+.ritual-card-page {
+  --bg:#F2EDE4; --card:#FFFFFF; --dark:#1C1712; --darkbar:#1A1208;
+  --pink:#FD066D; --amber:#E8A020; --gold:#A07800; --yellow:#EDAB3A;
+  --body-text:#2C2010; --mid-text:#5C4B12; --sub-text:#8A7A68;
+  --border:#E8E0D0; --border-light:#F0E8D8;
+  --hero-text:#FFFDF5; --dim:#7A6A55;
+  --d-bg:#E6F1E6; --d-tx:#27500A; --d-bd:#C9DFC9;
+  --p-bg:#FFF8E6; --p-tx:#A07800; --p-bd:#EFE0B8;
+  --b-bg:#F0E9E1; --b-tx:#4A3525; --b-bd:#D9CBB8;
+  --ink:#1A1208;
+
+  background: #E4DDD0;
+  color: var(--body-text);
+  font-family: system-ui,-apple-system,'Segoe UI',sans-serif;
+  min-height: 100vh;
+}
+
+.ritual-card-page button {
+  font-family: inherit;
+}
+
+/* Control Bar */
+.ritual-card-page .ctrl-bar {
+  background: #2E2260;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+}
+
+.ritual-card-page .ctrl-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #B9A9DC;
+  letter-spacing: .7px;
+  text-transform: uppercase;
+}
+
+.ritual-card-page .ctrl-btn {
+  background: rgba(255,255,255,.09);
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 7px;
+  padding: 6px 13px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #D8CEF0;
+  transition: all 0.2s ease;
+}
+
+.ritual-card-page .ctrl-btn:hover {
+  background: rgba(255,255,255,.15);
+}
+
+.ritual-card-page .ctrl-btn.on {
+  background: #fff;
+  color: #2E2260;
+  border-color: #fff;
+}
+
+.ritual-card-page .ctrl-divider {
+  width: 1px;
+  height: 20px;
+  background: rgba(255,255,255,0.2);
+  margin: 0 4px;
+}
+
+.ritual-card-page .ctrl-n {
+  margin-left: auto;
+  font-size: 10.5px;
+  color: #9A8AC0;
+  font-style: italic;
+}
+
+/* Workspace Stage */
+.ritual-card-page .stage {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 40px;
+  padding: 30px 32px 80px;
+  max-width: 1400px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+.ritual-card-page .sheet {
+  width: 794px;
+  background: #fff;
+  box-shadow: 0 10px 40px rgba(28,23,18,.16);
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+/* Sheet layouts */
+.ritual-card-page .sheet.layout-a4-cols .cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.ritual-card-page .sheet.layout-a4-cols .cols > div {
+  border-right: 1.5px solid var(--ink);
+}
+
+.ritual-card-page .sheet.layout-a4-cols .cols > div:last-child {
+  border-right: none;
+}
+
+/* Compact layout: A4 Fit */
+.ritual-card-page .sheet.layout-a4-fit .c1 {
+  padding: 14px 24px 12px;
+}
+.ritual-card-page .sheet.layout-a4-fit .c1-t {
+  font-size: 24px;
+  margin-bottom: 6px;
+}
+.ritual-card-page .sheet.layout-a4-fit .c1-top {
+  margin-bottom: 11px;
+}
+.ritual-card-page .sheet.layout-a4-fit .c1-mark img {
+  height: 29px;
+}
+.ritual-card-page .sheet.layout-a4-fit .c1-s {
+  font-size: 12px;
+}
+.ritual-card-page .sheet.layout-a4-fit .c1-meta {
+  margin-top: 10px;
+  padding-top: 10px;
+  gap: 16px;
+}
+.ritual-card-page .sheet.layout-a4-fit .c1-m b {
+  font-size: 13px;
+}
+.ritual-card-page .sheet.layout-a4-fit .c2,
+.ritual-card-page .sheet.layout-a4-fit .c3,
+.ritual-card-page .sheet.layout-a4-fit .c4,
+.ritual-card-page .sheet.layout-a4-fit .c5,
+.ritual-card-page .sheet.layout-a4-fit .c6 {
+  padding: 11px 20px;
+}
+.ritual-card-page .sheet.layout-a4-fit .blk-l {
+  margin-bottom: 7px;
+  font-size: 8.5px;
+}
+.ritual-card-page .sheet.layout-a4-fit .c2-g {
+  gap: 9px;
+}
+.ritual-card-page .sheet.layout-a4-fit .c2-v {
+  font-size: 16px;
+}
+.ritual-card-page .sheet.layout-a4-fit .c2-n {
+  font-size: 10.5px;
+  margin-top: 2px;
+}
+.ritual-card-page .sheet.layout-a4-fit .c2-warn {
+  margin-top: 10px;
+  padding-top: 9px;
+  font-size: 11px;
+}
+.ritual-card-page .sheet.layout-a4-fit .c3-i {
+  font-size: 11.5px;
+  padding: 2.5px 0;
+}
+.ritual-card-page .sheet.layout-a4-fit .c3-n {
+  font-size: 10px;
+}
+.ritual-card-page .sheet.layout-a4-fit .c3-note {
+  margin-top: 10px;
+  padding-top: 9px;
+  font-size: 11px;
+}
+.ritual-card-page .sheet.layout-a4-fit .c4-i {
+  padding: 3.5px 0;
+}
+.ritual-card-page .sheet.layout-a4-fit .c4-t {
+  font-size: 11.5px;
+  line-height: 1.5;
+}
+.ritual-card-page .sheet.layout-a4-fit .c4-t i {
+  font-size: 10.5px;
+}
+.ritual-card-page .sheet.layout-a4-fit .c4-n {
+  width: 18px;
+  height: 18px;
+  font-size: 10px;
+}
+.ritual-card-page .sheet.layout-a4-fit .c5-d {
+  font-size: 17px;
+  margin-bottom: 5px;
+}
+.ritual-card-page .sheet.layout-a4-fit .c5-r {
+  font-size: 12px;
+}
+.ritual-card-page .sheet.layout-a4-fit .c5-m {
+  font-size: 11px;
+}
+.ritual-card-page .sheet.layout-a4-fit .c5-cnt {
+  margin-top: 10px;
+  padding-top: 10px;
+}
+.ritual-card-page .sheet.layout-a4-fit .c6-g {
+  gap: 7px;
+}
+.ritual-card-page .sheet.layout-a4-fit .c6-i {
+  padding: 7px 10px;
+}
+.ritual-card-page .sheet.layout-a4-fit .c6-t {
+  font-size: 11.5px;
+  margin-bottom: 3px;
+}
+.ritual-card-page .sheet.layout-a4-fit .c6-s {
+  font-size: 10.5px;
+}
+.ritual-card-page .sheet.layout-a4-fit .c6-note {
+  margin-top: 9px;
+  padding: 8px 11px;
+  font-size: 11px;
+}
+.ritual-card-page .sheet.layout-a4-fit .c7 {
+  padding: 11px 24px 14px;
+}
+.ritual-card-page .sheet.layout-a4-fit .c7-src {
+  font-size: 10px;
+  margin-bottom: 9px;
+}
+.ritual-card-page .sheet.layout-a4-fit .c7-b {
+  padding-top: 9px;
+}
+.ritual-card-page .sheet.layout-a4-fit .c7-tag {
+  font-size: 12px;
+}
+.ritual-card-page .sheet.layout-a4-fit .c7-u {
+  font-size: 9.5px;
+}
+.ritual-card-page .sheet.layout-a4-fit .c7-qr {
+  width: 52px;
+  height: 52px;
+  font-size: 7.5px;
+}
+
+/* Two columns custom overrides */
+.ritual-card-page .sheet.layout-a4-cols .c1 {
+  padding: 20px 26px 18px;
+}
+.ritual-card-page .sheet.layout-a4-cols .c1-t {
+  font-size: 27px;
+}
+.ritual-card-page .sheet.layout-a4-cols .c2,
+.ritual-card-page .sheet.layout-a4-cols .c3,
+.ritual-card-page .sheet.layout-a4-cols .c4,
+.ritual-card-page .sheet.layout-a4-cols .c5,
+.ritual-card-page .sheet.layout-a4-cols .c6 {
+  padding: 15px 22px;
+}
+.ritual-card-page .sheet.layout-a4-cols .c2-g {
+  grid-template-columns: 1fr;
+  gap: 11px;
+}
+.ritual-card-page .sheet.layout-a4-cols .c2-v {
+  font-size: 17px;
+}
+.ritual-card-page .sheet.layout-a4-cols .c3-g {
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+.ritual-card-page .sheet.layout-a4-cols .c3-i {
+  font-size: 12px;
+  padding: 4px 0;
+}
+.ritual-card-page .sheet.layout-a4-cols .c4-i {
+  padding: 6px 0;
+}
+.ritual-card-page .sheet.layout-a4-cols .c4-t {
+  font-size: 12px;
+  line-height: 1.55;
+}
+.ritual-card-page .sheet.layout-a4-cols .c5-d {
+  font-size: 19px;
+}
+.ritual-card-page .sheet.layout-a4-cols .c6-g {
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+.ritual-card-page .sheet.layout-a4-cols .c6-i {
+  padding: 9px 11px;
+}
+.ritual-card-page .sheet.layout-a4-cols .c7 {
+  padding: 14px 26px 16px;
+}
+.ritual-card-page .sheet.layout-a4-cols .blk-l {
+  margin-bottom: 9px;
+}
+.ritual-card-page .sheet.layout-a4-cols .full {
+  grid-column: 1/-1;
+  border-right: none;
+}
+
+/* Greyscale mode */
+.ritual-card-page .sheet.grey {
+  filter: grayscale(1) contrast(1.06);
+}
+
+/* Sidebar Notes Column */
+.ritual-card-page .notes {
+  max-width: 480px;
+}
+
+.ritual-card-page .n-ey {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--pink);
+  letter-spacing: .8px;
+  margin-bottom: 7px;
+}
+
+.ritual-card-page .n-t {
+  font-size: 25px;
+  font-weight: 700;
+  color: var(--dark);
+  letter-spacing: -.5px;
+  line-height: 1.22;
+  margin-bottom: 12px;
+}
+
+.ritual-card-page .n-p {
+  font-size: 14.5px;
+  line-height: 1.82;
+  margin-bottom: 13px;
+}
+
+.ritual-card-page .n-p b {
+  font-weight: 600;
+  color: var(--dark);
+}
+
+.ritual-card-page .n-box {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px 18px;
+  margin-bottom: 11px;
+}
+
+.ritual-card-page .n-bh {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: .6px;
+  margin-bottom: 9px;
+}
+
+.ritual-card-page .n-r {
+  display: flex;
+  gap: 10px;
+  padding: 6px 0;
+  font-size: 13.5px;
+  line-height: 1.7;
+}
+
+.ritual-card-page .n-r span:first-child {
+  color: var(--pink);
+  font-weight: 700;
+  flex-shrink: 0;
+  min-width: 14px;
+}
+
+.ritual-card-page .n-rule {
+  background: var(--darkbar);
+  border-radius: 13px;
+  padding: 16px 18px;
+  margin-bottom: 11px;
+}
+
+.ritual-card-page .n-rl {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: #E3B567;
+  letter-spacing: .6px;
+  margin-bottom: 8px;
+}
+
+.ritual-card-page .n-rt {
+  font-size: 14.5px;
+  color: var(--hero-text);
+  line-height: 1.75;
+}
+
+.ritual-card-page .n-rt b {
+  color: var(--amber);
+}
+
+.ritual-card-page .n-warn {
+  background: var(--p-bg);
+  border: 1px solid var(--p-bd);
+  border-radius: 13px;
+  padding: 15px 17px;
+  font-size: 13.5px;
+  line-height: 1.78;
+  margin-bottom: 11px;
+}
+
+.ritual-card-page .n-warn b {
+  color: var(--p-tx);
+}
+
+/* ══════════ CARD DETAILED BLOCKS ══════════ */
+.ritual-card-page .c {
+  padding: 0;
+  color: var(--ink);
+}
+
+/* 1 · MASTHEAD */
+.ritual-card-page .c1 {
+  background: var(--ink);
+  padding: 22px 30px 20px;
+  position: relative;
+}
+.ritual-card-page .c1-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.ritual-card-page .c1-mark {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.ritual-card-page .c1-mark img {
+  height: 34px;
+  width: auto;
+}
+.ritual-card-page .c1-wm {
+  font-size: 8px;
+  color: #FF9EBE;
+  font-weight: 600;
+  letter-spacing: .3px;
+  line-height: 1.25;
+  max-width: 52px;
+}
+.ritual-card-page .c1-cat {
+  font-size: 8.5px;
+  font-weight: 700;
+  color: #E3B567;
+  letter-spacing: .8px;
+  text-align: right;
+  line-height: 1.6;
+}
+.ritual-card-page .c1-t {
+  font-size: 30px;
+  font-weight: 700;
+  color: #FFFDF5;
+  line-height: 1.12;
+  letter-spacing: -.6px;
+  margin-bottom: 8px;
+}
+.ritual-card-page .c1-s {
+  font-size: 13px;
+  color: #C4A882;
+  line-height: 1.6;
+}
+.ritual-card-page .c1-meta {
+  display: flex;
+  gap: 20px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255,255,255,.14);
+  flex-wrap: wrap;
+}
+.ritual-card-page .c1-m {
+  font-size: 11px;
+  color: #A99070;
+}
+.ritual-card-page .c1-m b {
+  display: block;
+  font-size: 14px;
+  color: #fff;
+  font-weight: 700;
+  margin-top: 2px;
+}
+
+/* 2 · TIMINGS */
+.ritual-card-page .c2 {
+  background: #F7F2E8;
+  padding: 18px 30px;
+  border-bottom: 1.5px solid var(--ink);
+}
+.ritual-card-page .blk-l {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: .9px;
+  margin-bottom: 11px;
+}
+.ritual-card-page .c2-g {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.ritual-card-page .c2-i {
+  border-left: 3px solid var(--ink);
+  padding-left: 12px;
+}
+.ritual-card-page .c2-k {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--mid-text);
+  letter-spacing: .5px;
+  margin-bottom: 3px;
+}
+.ritual-card-page .c2-v {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.15;
+  letter-spacing: -.3px;
+}
+.ritual-card-page .c2-n {
+  font-size: 11px;
+  color: var(--sub-text);
+  margin-top: 3px;
+  line-height: 1.5;
+}
+.ritual-card-page .c2-warn {
+  margin-top: 13px;
+  padding-top: 12px;
+  border-top: 1px dashed #C9BFAC;
+  font-size: 11.5px;
+  line-height: 1.65;
+  color: var(--mid-text);
+}
+.ritual-card-page .c2-warn b {
+  color: var(--ink);
+}
+
+/* 3 · SAMAGRI */
+.ritual-card-page .c3 {
+  padding: 20px 30px;
+  border-bottom: none;
+}
+.ritual-card-page .c3-g {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px 22px;
+}
+.ritual-card-page .c3-i {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  padding: 5px 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+.ritual-card-page .c3-b {
+  width: 13px;
+  height: 13px;
+  border: 1.5px solid var(--ink);
+  border-radius: 2px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.ritual-card-page .c3-n {
+  font-size: 10.5px;
+  color: var(--sub-text);
+  display: block;
+  margin-top: 1px;
+}
+.ritual-card-page .c3-note {
+  margin-top: 13px;
+  font-size: 11.5px;
+  color: var(--mid-text);
+  line-height: 1.65;
+  padding-top: 11px;
+  border-top: 1px dashed #C9BFAC;
+}
+.ritual-card-page .c3-note b {
+  color: var(--ink);
+}
+
+/* 4 · VIDHI */
+.ritual-card-page .c4 {
+  padding: 20px 30px;
+  border-bottom: 1.5px solid var(--ink);
+}
+.ritual-card-page .c4-i {
+  display: flex;
+  gap: 12px;
+  padding: 7px 0;
+  border-bottom: .5px solid #EDE6D8;
+}
+.ritual-card-page .c4-i:last-child {
+  border-bottom: none;
+}
+.ritual-card-page .c4-n {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.ritual-card-page .c4-t {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--ink);
+}
+.ritual-card-page .c4-t b {
+  font-weight: 700;
+}
+.ritual-card-page .c4-t i {
+  font-style: normal;
+  color: var(--sub-text);
+  font-size: 11.5px;
+  display: block;
+  margin-top: 1px;
+}
+
+/* 5 · MANTRA */
+.ritual-card-page .c5 {
+  background: var(--ink);
+  padding: 20px 30px;
+}
+.ritual-card-page .c5 .blk-l {
+  color: #E3B567;
+}
+.ritual-card-page .c5-d {
+  font-size: 22px;
+  color: #F5C86A;
+  line-height: 1.55;
+  margin-bottom: 7px;
+}
+.ritual-card-page .c5-r {
+  font-size: 13px;
+  color: #fff;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.ritual-card-page .c5-m {
+  font-size: 11.5px;
+  color: #A99070;
+  line-height: 1.6;
+}
+.ritual-card-page .c5-cnt {
+  margin-top: 14px;
+  padding-top: 13px;
+  border-top: 1px solid rgba(255,255,255,.14);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.ritual-card-page .c5-ck {
+  font-size: 10.5px;
+  color: #A99070;
+}
+.ritual-card-page .c5-boxes {
+  display: flex;
+  gap: 5px;
+  margin-left: auto;
+}
+.ritual-card-page .c5-boxes i {
+  width: 15px;
+  height: 15px;
+  border: 1.5px solid rgba(255,255,255,.4);
+  border-radius: 2px;
+  display: block;
+}
+
+/* 6 · FASTING */
+.ritual-card-page .c6 {
+  padding: 18px 30px;
+  border-bottom: none;
+}
+.ritual-card-page .c6-g {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 11px;
+}
+.ritual-card-page .c6-i {
+  border: 1px solid #D8CFBC;
+  border-radius: 8px;
+  padding: 11px 12px;
+}
+.ritual-card-page .c6-t {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.ritual-card-page .c6-s {
+  font-size: 11px;
+  color: var(--mid-text);
+  line-height: 1.55;
+}
+.ritual-card-page .c6-note {
+  margin-top: 12px;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--ink);
+  background: #F0F5EE;
+  border-left: 3px solid var(--d-tx);
+  padding: 10px 13px;
+}
+.ritual-card-page .c6-note b {
+  color: var(--d-tx);
+}
+
+/* 7 · FOOTER */
+.ritual-card-page .c7 {
+  background: #F7F2E8;
+  padding: 16px 30px 20px;
+}
+.ritual-card-page .c7-src {
+  font-size: 11px;
+  color: var(--mid-text);
+  line-height: 1.7;
+  margin-bottom: 11px;
+}
+.ritual-card-page .c7-src b {
+  color: var(--ink);
+  font-weight: 700;
+}
+.ritual-card-page .c7-b {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 12px;
+  border-top: 1px solid #DDD4C0;
+}
+.ritual-card-page .c7-tag {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.4;
+}
+.ritual-card-page .c7-tag em {
+  color: var(--pink);
+  font-style: normal;
+}
+.ritual-card-page .c7-u {
+  font-size: 10.5px;
+  color: var(--sub-text);
+  margin-top: 4px;
+  line-height: 1.6;
+}
+.ritual-card-page .c7-qr {
+  width: 60px;
+  height: 60px;
+  border: 1.5px solid var(--ink);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  color: var(--sub-text);
+  text-align: center;
+  line-height: 1.3;
+  flex-shrink: 0;
+  padding: 4px;
+}
+
+@media (max-width: 1100px) {
+  .ritual-card-page .stage {
+    grid-template-columns: 1fr;
+    padding: 20px 14px 60px;
+    gap: 24px;
+  }
+  .ritual-card-page .sheet {
+    width: 100%;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+  .ritual-card-page .ctrl-bar {
+    padding: 10px 14px;
+  }
+  .ritual-card-page .ctrl-n {
+    display: none;
+  }
+}

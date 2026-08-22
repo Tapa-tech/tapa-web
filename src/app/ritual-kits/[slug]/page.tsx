@@ -6,198 +6,12 @@ import AnnouncementBar from "@/components/AnnouncementBar";
 import TopNav from "@/components/TopNav";
 import Footer from "@/components/Footer";
 import "./pdp.css";
+import { useCartStore } from "@/lib/store/cartStore";
+import { trackProductView, trackAddToCart, trackCheckoutInitiation } from "@/lib/analytics";
 
-interface KitItem {
-  id: string;
-  name: string;
-  hindi?: string;
-  occ: string;
-  deity: string;
-  price: number;
-  mrp?: number;
-  inStock: boolean;
-  stockLeft?: number;
-  itemsCount: string;
-  delivery: string;
-  isFeatured?: boolean;
-  description: string;
-}
 
-const KITS_LIST: KitItem[] = [
-  {
-    id: "shubh-sampada",
-    name: "Shubh Sampada",
-    hindi: "शुभ सम्पदा — Auspicious Abundance",
-    occ: "navratri",
-    deity: "devi",
-    price: 2749,
-    mrp: 3200,
-    inStock: true,
-    stockLeft: 4,
-    itemsCount: "16 items",
-    delivery: "🚚 Delivered before Navratri begins · Delhi-NCR by 30 Sept",
-    isFeatured: true,
-    description: "Premium, scripturally aligned Navratri Ghatasthapana and daily pujan kit. Sourced from organic, high-vibration farms.",
-  },
-  {
-    id: "shakti-aradhana",
-    name: "Shakti Aradhana",
-    hindi: "शक्ति आराधना — Goddess Devotion",
-    occ: "navratri",
-    deity: "devi",
-    price: 2199,
-    mrp: 2600,
-    inStock: true,
-    stockLeft: 3,
-    itemsCount: "12 items",
-    delivery: "🚚 Delivered before Navratri begins · Delhi-NCR by 30 Sept",
-    description: "Essential Navratri kit containing 12 key components for Durga Puja. Sourced and packaged in compliance with Devi Bhagavatam.",
-  },
-  {
-    id: "purna-ghatasthapana",
-    name: "Purna Ghatasthapana",
-    hindi: "पूर्ण घटस्थापना — Complete Kalash Set",
-    occ: "navratri",
-    deity: "devi",
-    price: 1099,
-    mrp: 1299,
-    inStock: false,
-    itemsCount: "10 items",
-    delivery: "🚚 Restocking soon · Ships in October",
-    description: "Dedicated set with premium copper Kalash, coconut, mango leaves, and holy thread for ritual establishment of the divine pot.",
-  },
-  {
-    id: "shubh-akshaya-thali",
-    name: "Shubh Akshaya Thali",
-    hindi: "शुभ अक्षय थाली — Eternal Abundance Platter",
-    occ: "diwali",
-    deity: "vishnu",
-    price: 1649,
-    mrp: 1950,
-    inStock: true,
-    itemsCount: "13 items",
-    delivery: "🚚 Delivered before Diwali begins · Ships late October",
-    description: "Elegant brass puja platter with 13 key items including organic haldi, kumkum, and gangajal for Diwali Lakshmi-Ganesh Puja.",
-  },
-  {
-    id: "shashti-deepam",
-    name: "Shashti Deepam",
-    hindi: "षष्टि दीपम् — Sixty Clay Lamps Set",
-    occ: "diwali",
-    deity: "devi",
-    price: 1099,
-    mrp: 1299,
-    inStock: true,
-    stockLeft: 4,
-    itemsCount: "6 items",
-    delivery: "🚚 Delivered before Diwali begins · Ships late October",
-    description: "Authentic Diwali diya kit containing 60 hand-poured clay lamps from local potters to bring warm, positive light to your home.",
-  },
-  {
-    id: "deepa-vaibhava",
-    name: "Deepa Vaibhava",
-    hindi: "दीप वैभव — Grand Festive Lights",
-    occ: "diwali",
-    deity: "vishnu",
-    price: 934,
-    mrp: 1099,
-    inStock: true,
-    itemsCount: "8 items",
-    delivery: "🚚 Shipped before Diwali · Express delivery option available",
-    description: "Premium brass deepak and ghee wicks package, handpicked to elevate your temple's festive aesthetic and energy.",
-  },
-  {
-    id: "trimshat-deepam",
-    name: "Trimshat Deepam",
-    hindi: "त्रिंशत् दीपम् — Thirty Sacred Lamps",
-    occ: "diwali",
-    deity: "vishnu",
-    price: 604,
-    mrp: 699,
-    inStock: true,
-    itemsCount: "4 items",
-    delivery: "🚚 Delivered before Diwali begins · Ships late October",
-    description: "Set of 30 traditional clay lamps with pure cow ghee wicks for daily lighting during the holy month of Kartik.",
-  },
-  {
-    id: "tulsi-kalyanam",
-    name: "Tulsi Kalyanam Collection",
-    hindi: "तुलसी कल्याणम् — Sacred Tulsi Marriage Kit",
-    occ: "satyanarayan",
-    deity: "vishnu",
-    price: 1979,
-    mrp: 2300,
-    inStock: true,
-    itemsCount: "10 items",
-    delivery: "🚚 Year-round delivery · Shipped within 48 hours",
-    description: "Complete Tulsi Vivah samagri including shringar items, sacred thread, and prasad, verified by Shastri scholars.",
-  },
-  {
-    id: "satyanarayan-pujan",
-    name: "Satyanarayan Pujan",
-    hindi: "सत्यनारायण पूजन — Lord of Truth Ritual Samagri",
-    occ: "satyanarayan",
-    deity: "vishnu",
-    price: 1979,
-    mrp: 2300,
-    inStock: true,
-    itemsCount: "11 items",
-    delivery: "🚚 Year-round delivery · Shipped within 48 hours",
-    description: "Authentic Sri Satyanarayan Vrat Katha kit containing banana stems, panchamrit essentials, and yellow altar cloth.",
-  },
-  {
-    id: "sundarkand-path",
-    name: "Sundarkand Path Kit Essentials",
-    hindi: "सुन्दरकाण्ड पाठ — Hanumant Aradhana",
-    occ: "yearround",
-    deity: "vishnu",
-    price: 2419,
-    mrp: 2800,
-    inStock: true,
-    itemsCount: "9 items",
-    delivery: "🚚 Year-round delivery · Shipped within 48 hours",
-    description: "Complete Sundarkand path kit containing clean-text path books, red offerings, and standard prasad ingredients.",
-  },
-  {
-    id: "yajna",
-    name: "Yajña",
-    hindi: "यज्ञ — Sacred Havan Samagri",
-    occ: "yearround",
-    deity: "vishnu",
-    price: 1209,
-    mrp: 1400,
-    inStock: true,
-    itemsCount: "8 items",
-    delivery: "🚚 Year-round delivery · Shipped within 48 hours",
-    description: "Himalayan herb-infused pure havan samagri, dried mango wood, and cow dung cakes for scriptural purification yajñas.",
-  },
-  {
-    id: "ekadash",
-    name: "Ekadash",
-    hindi: "एकादश — Eleven Sacred Senses Kit",
-    occ: "yearround",
-    deity: "vishnu",
-    price: 879,
-    mrp: 999,
-    inStock: true,
-    itemsCount: "7 items",
-    delivery: "🚚 Year-round delivery · Shipped within 48 hours",
-    description: "Set of 11 premium elements for daily temple purification, including premium dhoop, chandan, and gangajal.",
-  },
-  {
-    id: "panch-jyoti",
-    name: "Panch Jyoti Gift Tray",
-    hindi: "पंच ज्योति — Festive Gifting Platter",
-    occ: "yearround",
-    deity: "devi",
-    price: 659,
-    mrp: 799,
-    inStock: true,
-    itemsCount: "5 items",
-    delivery: "🚚 Year-round delivery · Shipped within 48 hours",
-    description: "Five-wick heavy brass aarti lamp set with pure cotton wicks for a daily high-energy shringar aarti.",
-  },
-];
+
+
 
 interface DpbEntry {
   tag: string;
@@ -217,6 +31,28 @@ interface SamagriItem {
   id?: string;
   name: string;
   function: string;
+}
+
+interface Product {
+  id: string;
+  name: string;
+  slug: string;
+  type: "PUJA_KIT" | "SAMAGRI_ITEM";
+  description: string;
+  images: string[];
+  price: number;
+  mrp?: number;
+  stock: number;
+  occ: string;
+  deity: string;
+  hindi?: string | null;
+  category: string;
+  codAvailability: "AVAILABLE" | "NOT_AVAILABLE";
+  inStock: boolean;
+  stockLeft: number;
+  itemsCount: string;
+  delivery: string;
+  kitItems: Array<{ id?: string; itemName: string; itemFunction: string }>;
 }
 
 interface Guide {
@@ -251,6 +87,12 @@ const kitToGuideMap: Record<string, string> = {
 export default function ShubhSampadaPDP({ params }: { params: { slug: string } }) {
   const router = useRouter();
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const triggerToast = (message: string) => {
+    setToastMessage(message);
+    setTimeout(() => {
+      setToastMessage(null);
+    }, 3000);
+  };
   const [currentImage, setCurrentImage] = useState(0);
   const [itemsExpanded, setItemsExpanded] = useState(false);
   const [pincode, setPincode] = useState("");
@@ -262,11 +104,64 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
     message: "✓ Delivered by 30 September · 110001, Delhi–NCR",
   });
 
-  const kit = useMemo(() => {
-    return KITS_LIST.find((k) => k.id === params.slug) || KITS_LIST[0];
+  const [kit, setKit] = useState<Product | null>(null);
+  const [kitLoading, setKitLoading] = useState(true);
+  const quantity = 1;
+
+  // Zustand Store
+  const addToCartStore = useCartStore((state) => state.addToCart);
+
+  useEffect(() => {
+    async function loadKit() {
+      setCurrentImage(0);
+      try {
+        const res = await fetch(`/api/public/products?slug=${encodeURIComponent(params.slug)}`);
+        if (res.ok) {
+          const data = await res.json();
+          const mapped = {
+            id: data.id,
+            name: data.name,
+            slug: data.slug,
+            occ: data.category,
+            deity: data.category === "navratri" ? "devi" : data.category === "diwali" ? "vishnu" : "devi-vishnu",
+            price: Number(data.price),
+            mrp: data.mrp ? Number(data.mrp) : undefined,
+            inStock: data.stock > 0,
+            stockLeft: data.stock,
+            itemsCount: data.type === "PUJA_KIT" ? `${data.kitItems?.length || 0} items` : "1 item",
+            delivery: "🚚 Delivered in 48 hours",
+            description: data.description,
+            images: data.images || [],
+            codAvailability: data.codAvailability,
+            kitItems: data.kitItems || [],
+            stock: data.stock,
+            hindi: data.hindi,
+            category: data.category,
+            type: data.type,
+          };
+          setKit(mapped);
+          trackProductView(mapped.id, mapped.name, mapped.price, mapped.category);
+        }
+      } catch (err) {
+        console.error("Failed to load kit details:", err);
+      } finally {
+        setKitLoading(false);
+      }
+    }
+    loadKit();
   }, [params.slug]);
 
   const IMAGES = useMemo(() => {
+    if (!kit) return [];
+    if (kit.images && kit.images.length > 0) {
+      return kit.images.map((img: string, idx: number) => ({
+        bg: `url(${img})`,
+        isImage: true,
+        icon: "",
+        label: `${kit.name} Image ${idx + 1}`,
+      }));
+    }
+
     let firstIcon = "📦";
     const firstLabel = `Flat-lay hero for ${kit.name}\nAll items arranged · Tap to browse`;
     let firstBg = "linear-gradient(155deg,#3A1C08,#A06020,#2A1208)";
@@ -290,16 +185,19 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
         bg: firstBg,
         icon: firstIcon,
         label: firstLabel,
+        isImage: false,
       },
       {
         bg: "linear-gradient(155deg,#2A1208,#7A4018,#1A0E06)",
         icon: "🪔",
         label: `All ${kit.itemsCount} laid out individually\nEach with scriptural verified purpose`,
+        isImage: false,
       },
       {
         bg: "linear-gradient(155deg,#1C0E06,#5A2A14,#100806)",
         icon: "🎁",
         label: "Kit packaging · Premium dark box\nWith The Tapa Co. branding",
+        isImage: false,
       },
     ];
   }, [kit]);
@@ -330,7 +228,7 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
   };
 
   const linkedGuide = useMemo(() => {
-    if (!allGuides || allGuides.length === 0) return null;
+    if (!kit || !allGuides || allGuides.length === 0) return null;
     
     // 1. Exact map slug
     const mappedSlug = kitToGuideMap[kit.id];
@@ -374,7 +272,7 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
   }, [dynamicSamagri]);
 
   const occGuides = useMemo(() => {
-    if (!allGuides || allGuides.length === 0) return null;
+    if (!kit || !allGuides || allGuides.length === 0) return null;
     const occ = kit.occ?.toLowerCase();
     const filtered = allGuides.filter((g) => {
       const titleLower = g.title.toLowerCase();
@@ -385,7 +283,7 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
   }, [allGuides, kit]);
 
   const deityGuides = useMemo(() => {
-    if (!allGuides || allGuides.length === 0) return null;
+    if (!kit || !allGuides || allGuides.length === 0) return null;
     const deity = kit.deity?.toLowerCase();
     const filtered = allGuides.filter((g) => {
       const titleLower = g.title.toLowerCase();
@@ -398,6 +296,20 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
     });
     return filtered.length > 0 ? filtered.slice(0, 3) : null;
   }, [allGuides, kit]);
+
+  if (kitLoading || !kit) {
+    return (
+      <div className="min-h-screen bg-[#F2EDE4] text-[#2C2010] font-sans antialiased pdp-container">
+        <AnnouncementBar />
+        <TopNav activeTab="Ritual Kits" onTriggerToast={triggerToast} />
+        <div className="flex flex-col items-center justify-center py-20">
+          <div className="w-10 h-10 border-4 border-[#C82A54] border-t-transparent rounded-full animate-spin"></div>
+          <span className="text-[#8A7A6E] mt-4 font-semibold">Loading kit details...</span>
+        </div>
+        <Footer onTriggerToast={triggerToast} />
+      </div>
+    );
+  }
 
   const renderGuideCard = (g: Guide, idx: number) => {
     const tag = getGuideTag(g);
@@ -435,23 +347,36 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
     );
   };
 
-  const triggerToast = (message: string) => {
-    setToastMessage(message);
-    setTimeout(() => {
-      setToastMessage(null);
-    }, 3000);
-  };
+
 
   const nextImage = () => {
     setCurrentImage((prev) => (prev + 1) % IMAGES.length);
   };
 
+
   const handleAddToCart = () => {
-    triggerToast(`Added ${kit.name} to your cart!`);
+    addToCartStore(kit.id, quantity, {
+      name: kit.name,
+      price: kit.price,
+      image: kit.images?.[0] || undefined,
+      category: kit.category,
+      codAvailability: kit.codAvailability,
+    });
+    trackAddToCart(kit.id, kit.name, kit.price, quantity, kit.category);
+    triggerToast(`Added ${quantity} x ${kit.name} to your cart!`);
   };
 
   const handleBuyNow = () => {
-    triggerToast(`Proceeding to checkout — ${kit.name} · ₹${kit.price.toLocaleString()}`);
+    addToCartStore(kit.id, quantity, {
+      name: kit.name,
+      price: kit.price,
+      image: kit.images?.[0] || undefined,
+      category: kit.category,
+      codAvailability: kit.codAvailability,
+    });
+    trackAddToCart(kit.id, kit.name, kit.price, quantity, kit.category);
+    trackCheckoutInitiation(kit.price * quantity, quantity);
+    router.push("/checkout");
   };
 
   const checkPin = () => {
@@ -524,7 +449,12 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
         <div className="gallery-col">
           <div
             className="gallery-main"
-            style={{ background: IMAGES[currentImage].bg }}
+            style={{
+              backgroundImage: IMAGES[currentImage]?.bg,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+            }}
             onClick={nextImage}
             role="button"
             aria-label="Browse kit images"
@@ -532,18 +462,22 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
             <span className="gallery-ribbon">Bestseller</span>
             {kit.stockLeft && <span className="gallery-low-pill">⚡ Only {kit.stockLeft} left</span>}
             <div className="gallery-placeholder">
-              <span className="gallery-placeholder-icon" aria-hidden="true">
-                {IMAGES[currentImage].icon}
-              </span>
-              <div
-                className="gallery-placeholder-lbl"
-                style={{ whiteSpace: "pre-line" }}
-              >
-                {IMAGES[currentImage].label}
-              </div>
+              {IMAGES[currentImage] && !IMAGES[currentImage].isImage && (
+                <>
+                  <span className="gallery-placeholder-icon" aria-hidden="true">
+                    {IMAGES[currentImage]?.icon}
+                  </span>
+                  <div
+                    className="gallery-placeholder-lbl"
+                    style={{ whiteSpace: "pre-line" }}
+                  >
+                    {IMAGES[currentImage]?.label}
+                  </div>
+                </>
+              )}
             </div>
             <div className="gallery-dots" aria-label="Image gallery">
-              {IMAGES.map((_, i) => (
+              {IMAGES.map((_, i: number) => (
                 <button
                   key={i}
                   className={`gdot ${currentImage === i ? "on" : ""}`}
@@ -657,16 +591,21 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
               </div>
             </>
           ) : (
-            <div className="cta-row">
-              <button className="cta-cart" style={{ background: "var(--sub-text)", cursor: "not-allowed" }} disabled>
-                Sold out
-              </button>
-              <button
-                className="cta-buy"
-                onClick={() => triggerToast(`Alert set! We will notify you when ${kit.name} is in stock.`)}
-              >
-                🔔 Notify me
-              </button>
+            <div className="space-y-3 w-full">
+              <div className="bg-amber-50 border border-amber-200 text-amber-800 text-xs px-4 py-3 rounded-xl font-medium">
+                This Ritual Kit is temporarily out of stock. Notify me when it&apos;s available.
+              </div>
+              <div className="cta-row">
+                <button className="cta-cart" style={{ background: "var(--sub-text)", cursor: "not-allowed" }} disabled>
+                  Sold out
+                </button>
+                <button
+                  className="cta-buy"
+                  onClick={() => triggerToast(`Alert set! We will notify you when ${kit.name} is in stock.`)}
+                >
+                  🔔 Notify me
+                </button>
+              </div>
             </div>
           )}
 

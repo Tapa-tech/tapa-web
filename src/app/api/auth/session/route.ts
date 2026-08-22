@@ -22,6 +22,7 @@ export async function GET(req: NextRequest) {
           role: payload.role,
           phone: payload.phone,
           email: payload.email,
+          consentGiven: payload.consentGiven || false,
         },
       },
     });

@@ -1,11 +1,26 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import React, { useState, Suspense } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import TopNav from "@/components/TopNav";
 import Footer from "@/components/Footer";
+
+const HINDU_MONTHS_MAP: Record<string, string> = {
+  Jan: "Pausha into Magha",
+  Feb: "Magha into Phalguna",
+  Mar: "Phalguna into Chaitra",
+  Apr: "Chaitra into Vaishakha",
+  May: "Vaishakha into Jyeshtha",
+  Jun: "Jyeshtha into Ashadha",
+  Jul: "Ashadha into Shravana",
+  Aug: "Shravana into Bhadrapada",
+  Sep: "Bhadrapada into Ashwin",
+  Oct: "Ashwin into Kartika",
+  Nov: "Kartika into Margashirsha",
+  Dec: "Margashirsha into Pausha",
+};
 
 export default function PanchangPage() {
   const router = useRouter();
@@ -15,8 +30,162 @@ export default function PanchangPage() {
   const [festFilter, setFestFilter] = useState("All festivals");
   const [selectedMonth, setSelectedMonth] = useState("Sep");
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [session, setSession] = useState<any>(null);
 
-  const city = "New Delhi";
+  const [panchang, setPanchang] = useState<any>(null);
+  const [nextVrat, setNextVrat] = useState<any>(null);
+  const [vratEntries, setVratEntries] = useState<any[]>([]);
+
+  const [selectedCity, setSelectedCity] = useState("Delhi-NCR");
+  const [showCitySelector, setShowCitySelector] = useState(false);
+
+  useEffect(() => {
+    const stored = localStorage.getItem("tapa-city") || "Delhi-NCR";
+    setSelectedCity(stored);
+
+    async function loadPanchangAndSession() {
+      try {
+        const res = await fetch(`/api/public/panchang?city=${encodeURIComponent(stored)}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.panchang) setPanchang(data.panchang);
+          if (data.nextVrat) setNextVrat(data.nextVrat);
+          if (data.vratEntries) setVratEntries(data.vratEntries);
+        }
+
+        const sessionRes = await fetch("/api/auth/session");
+        const sessionData = await sessionRes.json();
+        if (sessionData?.session) {
+          setSession(sessionData.session);
+        }
+      } catch (err) {
+        console.error("Failed to load public panchang data:", err);
+      }
+    }
+    loadPanchangAndSession();
+
+    const handleCityUpdated = () => {
+      const updatedCity = localStorage.getItem("tapa-city") || "Delhi-NCR";
+      setSelectedCity(updatedCity);
+      
+      async function reloadPanchang() {
+        try {
+          const res = await fetch(`/api/public/panchang?city=${encodeURIComponent(updatedCity)}`);
+          if (res.ok) {
+            const data = await res.json();
+            if (data.panchang) setPanchang(data.panchang);
+            if (data.nextVrat) setNextVrat(data.nextVrat);
+            if (data.vratEntries) setVratEntries(data.vratEntries);
+          }
+        } catch (err) {
+          console.error("Failed to reload public panchang data:", err);
+        }
+      }
+      reloadPanchang();
+    };
+
+    window.addEventListener("city-updated", handleCityUpdated);
+    return () => {
+      window.removeEventListener("city-updated", handleCityUpdated);
+    };
+  }, []);
+
+  const updateSelectedCity = (cityVal: string) => {
+    localStorage.setItem("tapa-city", cityVal);
+    window.dispatchEvent(new Event("city-updated"));
+  };
+
+  const handlePanchangDownload = (type: "calendar" | "vrat" | "festival", filter: string = "All") => {
+    if (!session) {
+      triggerToast("Please login to download the calendar PDF.");
+      router.push(window.location.pathname + "?login=true");
+      return;
+    }
+    triggerToast("Preparing your PDF download...");
+    window.open(`/api/panchang/calendar-pdf?type=${type}&city=${encodeURIComponent(selectedCity)}&calendarSystem=${calendarSystem}&filter=${encodeURIComponent(filter)}`, "_blank");
+  };
+
+  const formatDate = (dateStr: string) => {
+    try {
+      const d = new Date(dateStr);
+      return d.toLocaleDateString("en-IN", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+        timeZone: "UTC",
+      });
+    } catch {
+      return dateStr;
+    }
+  };
+
+  const formatVratDate = (dateStr: string) => {
+    try {
+      const d = new Date(dateStr);
+      return d.toLocaleDateString("en-IN", {
+        weekday: "short",
+        day: "numeric",
+        month: "short",
+        timeZone: "UTC",
+      });
+    } catch {
+      return dateStr;
+    }
+  };
+
+  const calculateCountdown = (dateStr: string) => {
+    try {
+      const today = new Date();
+      const todayUtc = new Date(Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()));
+      const target = new Date(dateStr);
+      const targetUtc = new Date(Date.UTC(target.getUTCFullYear(), target.getUTCMonth(), target.getUTCDate()));
+      
+      const diffTime = targetUtc.getTime() - todayUtc.getTime();
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      
+      if (diffDays === 0) return "TODAY";
+      if (diffDays === 1) return "TOMORROW";
+      if (diffDays < 0) return "PASSED";
+      return `IN ${diffDays} DAYS`;
+    } catch {
+      return "COMING SOON";
+    }
+  };
+
+  const getVratMonthAbbr = (dateStr: string) => {
+    try {
+      const d = new Date(dateStr);
+      return d.toLocaleDateString("en-US", { month: "short", timeZone: "UTC" });
+    } catch {
+      return "";
+    }
+  };
+
+  const getObservancesCountForMonth = (month: string) => {
+    return vratEntries.filter(vrat => getVratMonthAbbr(vrat.date) === month).length;
+  };
+
+  const getFestStyle = (category: string, name: string) => {
+    const n = name.toLowerCase();
+    if (n.includes("shiva") || n.includes("pradosh") || n.includes("mahashivratri")) return "h-shiva";
+    if (n.includes("krishna") || n.includes("janmashtami")) return "h-krishna";
+    if (n.includes("ganesh") || n.includes("chaturthi")) return "h-ganesh";
+    if (n.includes("devi") || n.includes("teej") || n.includes("navratri") || n.includes("durga")) return "h-devi";
+    if (n.includes("vishnu") || n.includes("ekadashi")) return "h-vishnu";
+    return "h-earth";
+  };
+
+  const formatTimeString = (timeStr: string) => {
+    if (!timeStr) return "";
+    if (timeStr.includes("AM") || timeStr.includes("PM")) return timeStr;
+    const [hours, minutes] = timeStr.split(":");
+    const h = parseInt(hours);
+    const ampm = h >= 12 ? "PM" : "AM";
+    const displayHour = h % 12 || 12;
+    return `${displayHour}:${minutes} ${ampm}`;
+  };
+
 
   const triggerToast = (message: string = "Feature launching soon!") => {
     setToastMessage(message);
@@ -89,7 +258,7 @@ export default function PanchangPage() {
         if (o.slug) {
           router.push(`/ritual-guides/${o.slug}`);
         } else {
-          triggerToast(`Opening guide for "${o.n}"...`);
+          triggerToast("This guide will be available soon.");
         }
       }}
     >
@@ -175,23 +344,44 @@ export default function PanchangPage() {
             <div className="today select-none">
               <div className="td-h">
                 <span className="td-l">{"☀ TODAY'S PANCHANG"}</span>
-                <span className="td-live"><span className="livedot" />DELHI-NCR</span>
+                <span className="td-live"><span className="livedot" />{panchang ? panchang.city.toUpperCase() : "DELHI-NCR"}</span>
               </div>
               <div className="td-date">
-                <div className="td-day">Bhadrapada Krishna Panchami</div>
-                <div className="td-sub">Monday, 7 September 2026 · Purnimanta</div>
+                <div className="td-day">{panchang ? `${panchang.tithi} (${panchang.tithiSub})` : "Bhadrapada Krishna Panchami"}</div>
+                <div className="td-sub">{panchang ? `${formatDate(panchang.date)} · ${panchang.city}` : "Monday, 7 September 2026 · Purnimanta"}</div>
               </div>
               <div className="td-rows">
-                <div className="tdr"><span className="tdk">PAKSHA</span><span className="tdv">Krishna — waning</span></div>
-                <div className="tdr"><span className="tdk">NAKSHATRA</span><span className="tdv">Rohini (Auspicious)</span></div>
-                <div className="tdr"><span className="tdk">SUNRISE / SUNSET</span><span className="tdv">5:58 AM / 6:34 PM</span></div>
-                <div className="tdr"><span className="tdk">RAHU KAAL</span><span className="tdv">7:32 AM - 9:07 AM</span></div>
-                <div className="tdr"><span className="tdk">YOGA · KARANA</span><span className="tdv">Vriddhi · Kaulava</span></div>
+                <div className="tdr">
+                  <span className="tdk">PAKSHA</span>
+                  <span className="tdv">{panchang ? `${panchang.paksha} — ${panchang.pakshaSub}` : "Pending"}</span>
+                </div>
+                <div className="tdr">
+                  <span className="tdk">NAKSHATRA</span>
+                  <span className="tdv">{panchang ? `${panchang.nakshatra} ${panchang.nakshatraSub ? `(${panchang.nakshatraSub})` : ""}` : "Pending"}</span>
+                </div>
+                <div className="tdr">
+                  <span className="tdk">SUNRISE / SUNSET</span>
+                  <span className="tdv">{panchang ? `${formatTimeString(panchang.sunrise)} / ${panchang.sunset ? formatTimeString(panchang.sunset) : 'N/A'}` : "Pending"}</span>
+                </div>
+                <div className="tdr">
+                  <span className="tdk">RAHU KAAL</span>
+                  <span className="tdv">{panchang ? panchang.rahuKaal : "Pending"}</span>
+                </div>
+                <div className="tdr">
+                  <span className="tdk">YOGA · KARANA</span>
+                  <span className="tdv">{panchang ? panchang.yogaKarana : "Pending"}</span>
+                </div>
               </div>
-              <div className="td-foot" onClick={() => router.push("/ritual-guides/ganesh-chaturthi")} style={{ cursor: "pointer" }}>
-                <span className="tdf-t"><b>Next major date —</b> Ganesh Chaturthi, 14 September</span>
-                <span className="tdf-c">Open guide &rsaquo;</span>
-              </div>
+              {nextVrat ? (
+                <div className="td-foot" onClick={() => nextVrat.linkedGuideId ? router.push(`/ritual-guides/${nextVrat.linkedGuideId}`) : triggerToast(`Vrat details for "${nextVrat.name}"`)} style={{ cursor: "pointer" }}>
+                  <span className="tdf-t"><b>Next major date —</b> {nextVrat.name}, {formatVratDate(nextVrat.date)}</span>
+                  <span className="tdf-c">Open guide &rsaquo;</span>
+                </div>
+              ) : (
+                <div className="td-foot font-sans text-xs text-center py-4 bg-white/5 border-t border-[#EADFC9]/20" style={{ color: "#8A7A6E" }}>
+                  No upcoming major vrat guides.
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -200,17 +390,36 @@ export default function PanchangPage() {
       {/* Custom Controls for Panchang */}
       <div className="ctrl">
         <div className="ctrl-in">
-          <div className="city cursor-pointer" onClick={() => triggerToast("City selector launch scheduled for October 2026.")}>
+          <div className="city cursor-pointer relative" onClick={() => setShowCitySelector(!showCitySelector)}>
             <span className="city-l">COMPUTED FOR</span>
-            <span className="city-v">{city}</span>
+            <span className="city-v">{selectedCity}</span>
             <span className="city-c">Change &rsaquo;</span>
+            {showCitySelector && (
+              <div 
+                className="absolute top-full left-0 mt-1 bg-white border border-[#EADFC9] rounded-xl shadow-lg z-50 p-2 min-w-[160px] flex flex-col gap-1 text-left select-none"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {["Delhi-NCR", "Mumbai", "Bengaluru", "Kolkata", "Chennai", "Pune", "Hyderabad", "Varanasi"].map(c => (
+                  <button 
+                    key={c} 
+                    onClick={() => {
+                      updateSelectedCity(c);
+                      setShowCitySelector(false);
+                    }} 
+                    className={`px-3 py-1.5 text-xs text-left rounded-lg transition-colors ${selectedCity === c ? "bg-[#B5651D]/10 text-[#B5651D] font-bold" : "hover:bg-[#F2EDE4] text-[#2C2010]"}`}
+                  >
+                    {c}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
           <div className="sep" />
           {panchangTab === "pl" && (
             <>
               <button className={`fc ${calendarSystem === "Purnimanta" ? "on" : ""}`} onClick={() => setCalendarSystem("Purnimanta")}>Purnimanta</button>
               <button className={`fc ${calendarSystem === "Amanta" ? "on" : ""}`} onClick={() => setCalendarSystem("Amanta")}>Amanta</button>
-              <button className="dl" onClick={() => triggerToast("Downloading 2026 calendar PDF...")}>↓ Download 2026 calendar</button>
+              <button className="dl" onClick={() => handlePanchangDownload("calendar")}>↓ Download 2026 calendar</button>
             </>
           )}
           {panchangTab === "vc" && (
@@ -218,7 +427,7 @@ export default function PanchangPage() {
               {["All", "Ekadashi", "Pradosh", "Chaturthi", "Purnima", "Amavasya"].map((type) => (
                 <button key={type} className={`fc ${vratFilter === type ? "on" : ""}`} onClick={() => setVratFilter(type)}>{type}</button>
               ))}
-              <button className="dl" onClick={() => triggerToast("Downloading Vrat Calendar PDF...")}>↓ Download PDF</button>
+              <button className="dl" onClick={() => handlePanchangDownload("vrat", vratFilter)}>↓ Download PDF</button>
             </>
           )}
           {panchangTab === "fc" && (
@@ -226,7 +435,7 @@ export default function PanchangPage() {
               {["All festivals", "Major only", "Shiva", "Vishnu", "Devi", "Ganesha"].map((type) => (
                 <button key={type} className={`fc ${festFilter === type ? "on" : ""}`} onClick={() => setFestFilter(type)}>{type}</button>
               ))}
-              <button className="dl" onClick={() => triggerToast("Downloading Festival Calendar PDF...")}>↓ Download PDF</button>
+              <button className="dl" onClick={() => handlePanchangDownload("festival", festFilter)}>↓ Download PDF</button>
             </>
           )}
         </div>
@@ -244,7 +453,7 @@ export default function PanchangPage() {
                 </div>
               </div>
               <div className="subs select-none">
-                <a className="sub cursor-pointer" onClick={() => triggerToast("Opening today's Panchang...")}>
+                <a className="sub cursor-pointer" onClick={() => router.push("/panchang/today")}>
                   <div className="sub-i">☀</div>
                   <div className="sub-t">{"Today's Panchang"}</div>
                   <p className="sub-s">The full day — tithi, nakshatra, yoga, karana, sunrise, sunset and Rahu Kaal.</p>
@@ -262,7 +471,7 @@ export default function PanchangPage() {
                   <p className="sub-s">Gregorian dates month by month, for anyone who thinks in months rather than tithis.</p>
                   <span className="sub-c">Browse by month ›</span>
                 </a>
-                <a className="sub cursor-pointer" onClick={() => triggerToast("Grahan & Eclipse details launching soon!")}>
+                <a className="sub cursor-pointer" onClick={() => router.push("/panchang/eclipse")}>
                   <div className="sub-i">🌑</div>
                   <div className="sub-t">Eclipse &amp; Grahan</div>
                   <p className="sub-s">Upcoming eclipses, visibility by city, and what actually determines Sutak Kaal.</p>
@@ -274,7 +483,7 @@ export default function PanchangPage() {
                 <div>
                   <div className="sh-ey">NEXT 30 DAYS</div>
                   <div className="sh-t">Coming up</div>
-                  <p className="sh-s">Dates shown for {city}. Change your city above if you observe elsewhere.</p>
+                  <p className="sh-s">Dates shown for {selectedCity}. Change your city above if you observe elsewhere.</p>
                 </div>
                 <a className="sh-a cursor-pointer" onClick={() => setPanchangTab("vc")}>Full vrat calendar ›</a>
               </div>
@@ -286,60 +495,37 @@ export default function PanchangPage() {
                   <span>TITHI</span>
                   <span />
                 </div>
-                {renderVratRow({
-                  d: "11 Sep",
-                  dw: "Friday",
-                  n: "Parsva Ekadashi",
-                  x: "Grain avoidance · parana next morning",
-                  t: "Bhadrapada Shukla Ekadashi",
-                  cd: "IN 4 DAYS",
-                  cd_c: " soon",
-                  next: true,
-                  slug: "parsva-ekadashi"
-                })}
-                {renderVratRow({
-                  d: "13 Sep",
-                  dw: "Sunday",
-                  n: "Hartalika Teej",
-                  x: "Sand Shivalinga · night vigil",
-                  t: "Bhadrapada Shukla Tritiya",
-                  cd: "IN 6 DAYS",
-                  cd_c: " soon",
-                  slug: "hartalika-teej"
-                })}
-                {renderVratRow({
-                  d: "14 Sep",
-                  dw: "Monday",
-                  n: "Ganesh Chaturthi",
-                  x: "Prana pratishtha · Madhyahna muhurat",
-                  t: "Bhadrapada Shukla Chaturthi",
-                  cd: "IN 7 DAYS",
-                  cd_c: " soon",
-                  slug: "ganesh-chaturthi"
-                })}
-                {renderVratRow({
-                  d: "19 Sep",
-                  dw: "Saturday",
-                  n: "Radha Ashtami",
-                  t: "Bhadrapada Shukla Ashtami",
-                  cd: "IN 12 DAYS"
-                })}
-                {renderVratRow({
-                  d: "23 Sep",
-                  dw: "Wednesday",
-                  n: "Anant Chaturdashi",
-                  x: "Ganesh Visarjan",
-                  t: "Bhadrapada Shukla Chaturdashi",
-                  cd: "IN 16 DAYS"
-                })}
-                {renderVratRow({
-                  d: "26 Sep",
-                  dw: "Saturday",
-                  n: "Pitru Paksha begins",
-                  x: "Shraddha period · 16 days",
-                  t: "Bhadrapada Purnima",
-                  cd: "IN 19 DAYS"
-                })}
+                {(() => {
+                  const today = new Date();
+                  const todayUtc = new Date(Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()));
+                  const upcomingVrats = vratEntries
+                    .filter(vrat => new Date(vrat.date).getTime() >= todayUtc.getTime())
+                    .slice(0, 6);
+
+                  if (upcomingVrats.length === 0) {
+                    return (
+                      <div className="p-8 text-center text-xs text-[#8A7A6E]">No upcoming observances found in the database. Use admin panel to sync dates.</div>
+                    );
+                  }
+
+                  return upcomingVrats.map(vrat => {
+                    const dObj = new Date(vrat.date);
+                    const day = dObj.getUTCDate();
+                    const month = dObj.toLocaleDateString("en-US", { month: "short", timeZone: "UTC" });
+                    const weekday = dObj.toLocaleDateString("en-US", { weekday: "long", timeZone: "UTC" });
+                    
+                    return renderVratRow({
+                      d: `${day} ${month}`,
+                      dw: weekday,
+                      n: Math.abs(dObj.getTime() - todayUtc.getTime()) < 24 * 60 * 60 * 1000 ? `${vrat.name} (Today)` : vrat.name,
+                      x: vrat.description || undefined,
+                      t: vrat.tithiDetail || `${vrat.category} Tithi`,
+                      cd: calculateCountdown(vrat.date),
+                      cd_c: calculateCountdown(vrat.date) === "PASSED" ? " past" : " soon",
+                      slug: vrat.linkedGuideId || undefined,
+                    });
+                  });
+                })()}
               </div>
 
               <div className="learn mb-6">
@@ -387,7 +573,7 @@ export default function PanchangPage() {
                   <div className="dl-t">The full 2026 calendar, on one PDF</div>
                   <p className="dl-s">Every tithi, vrat and festival date for the year, computed for your city. Print it, or keep it on your phone.</p>
                 </div>
-                <button className="dl-c hover:brightness-110" onClick={() => triggerToast("Downloading 2026 calendar PDF...")}>Download calendar ›</button>
+                <button className="dl-c hover:brightness-110" onClick={() => handlePanchangDownload("calendar")}>Download calendar ›</button>
               </div>
             </>
           )}
@@ -395,155 +581,191 @@ export default function PanchangPage() {
           {panchangTab === "vc" && (
             <>
               <div className="mtabs select-none">
-                {["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"].map((m) => (
-                  <button key={m} className="mt" onClick={() => setSelectedMonth(m)}>
-                    {m}
-                    <span>—</span>
-                  </button>
-                ))}
-                <button className={`mt ${selectedMonth === "Sep" ? "on" : ""}`} onClick={() => setSelectedMonth("Sep")}>
-                  Sep
-                  <span>12 dates</span>
-                </button>
-                {["Oct", "Nov", "Dec"].map((m) => (
-                  <button key={m} className="mt" onClick={() => setSelectedMonth(m)}>
-                    {m}
-                    <span>—</span>
-                  </button>
-                ))}
+                {["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"].map((m) => {
+                  const count = getObservancesCountForMonth(m);
+                  return (
+                    <button 
+                      key={m} 
+                      className={`mt ${selectedMonth === m ? "on" : ""}`} 
+                      onClick={() => setSelectedMonth(m)}
+                    >
+                      {m}
+                      <span>{count > 0 ? `${count} dates` : "—"}</span>
+                    </button>
+                  );
+                })}
               </div>
 
-              {selectedMonth === "Sep" ? (
-                <>
-                  <div className="dtable select-none mb-6">
-                    <div className="dt-mh">
-                      <span className="dt-mt">SEPTEMBER 2026</span>
-                      <span className="dt-mc">12 observances · Bhadrapada into Ashwin</span>
-                    </div>
-                    <div className="dt-head">
-                      <span>DATE</span>
-                      <span>OBSERVANCE</span>
-                      <span>TITHI</span>
-                      <span />
-                    </div>
-                    {renderVratRow({ d: "2 Sep", dw: "Wednesday", n: "Sankashti Chaturthi", x: "Moonrise required to break the fast", t: "Bhadrapada Krishna Chaturthi", cd: "PASSED", cd_c: " past" })}
-                    {renderVratRow({ d: "4 Sep", dw: "Friday", n: "Krishna Janmashtami", x: "Smarta observance · Nishita Kaal", t: "Bhadrapada Krishna Ashtami", cd: "PASSED", cd_c: " past", slug: "krishna-janmashtami" })}
-                    {renderVratRow({ d: "8 Sep", dw: "Tuesday", n: "Aja Ekadashi", x: "Grain avoidance · parana next morning", t: "Bhadrapada Krishna Ekadashi", cd: "TOMORROW", cd_c: " soon", next: true, slug: "aja-ekadashi" })}
-                    {renderVratRow({ d: "9 Sep", dw: "Wednesday", n: "Pradosh Vrat", x: "Bhauma-adjacent · evening Shiva puja", t: "Bhadrapada Krishna Trayodashi", cd: "IN 2 DAYS", cd_c: " soon" })}
-                    {renderVratRow({ d: "11 Sep", dw: "Friday", n: "Amavasya", x: "Pithori Amavasya · Shraddha observed", t: "Bhadrapada Amavasya", cd: "IN 4 DAYS", cd_c: " soon" })}
-                    {renderVratRow({ d: "13 Sep", dw: "Sunday", n: "Hartalika Teej", x: "Sand Shivalinga · night vigil", t: "Bhadrapada Shukla Tritiya", cd: "IN 6 DAYS", cd_c: " soon", slug: "hartalika-teej" })}
-                    {renderVratRow({ d: "14 Sep", dw: "Monday", n: "Ganesh Chaturthi", x: "Prana pratishtha · Madhyahna muhurat", t: "Bhadrapada Shukla Chaturthi", cd: "IN 7 DAYS", cd_c: " soon", slug: "ganesh-chaturthi" })}
-                    {renderVratRow({ d: "19 Sep", dw: "Saturday", n: "Radha Ashtami", t: "Bhadrapada Shukla Ashtami", cd: "IN 12 DAYS", slug: "radha-ashtami" })}
-                    {renderVratRow({ d: "22 Sep", dw: "Tuesday", n: "Parsva Ekadashi", x: "Chaturmas midpoint", t: "Bhadrapada Shukla Ekadashi", cd: "IN 15 DAYS", slug: "parsva-ekadashi" })}
-                    {renderVratRow({ d: "23 Sep", dw: "Wednesday", n: "Anant Chaturdashi", x: "Ganesh Visarjan", t: "Bhadrapada Shukla Chaturdashi", cd: "IN 16 DAYS", slug: "anant-chaturdashi" })}
-                    {renderVratRow({ d: "24 Sep", dw: "Thursday", n: "Pradosh Vrat", t: "Bhadrapada Shukla Trayodashi", cd: "IN 17 DAYS" })}
-                    {renderVratRow({ d: "26 Sep", dw: "Saturday", n: "Bhadrapada Purnima", x: "Pitru Paksha begins", t: "Bhadrapada Purnima", cd: "IN 19 DAYS", slug: "pitru-paksha" })}
-                  </div>
+              {(() => {
+                const filteredVrats = vratEntries.filter(vrat => {
+                  const vratMonth = getVratMonthAbbr(vrat.date);
+                  if (vratMonth !== selectedMonth) return false;
+                  
+                  if (vratFilter !== "All") {
+                    return (
+                      vrat.category.toLowerCase().includes(vratFilter.toLowerCase()) || 
+                      vrat.name.toLowerCase().includes(vratFilter.toLowerCase())
+                    );
+                  }
+                  return true;
+                });
 
-                  <div className="learn mb-6">
-                    <div>
-                      <div className="ln-ey">WHY YOUR CITY MATTERS</div>
-                      <div className="ln-t">Two apps can show different dates, and both can be right</div>
-                      <p className="ln-p">A tithi begins at a fixed moment in time — but the Hindu day begins at sunrise, and sunrise is not the same everywhere. A tithi that starts before sunrise in Delhi may start after it in Mumbai, moving the date by a day.</p>
-                      <button className="ln-c hover:brightness-110" onClick={() => triggerToast("Opening city documentation...")}>Read the full explanation ›</button>
+                return (
+                  <>
+                    <div className="dtable select-none mb-6">
+                      <div className="dt-mh">
+                        <span className="dt-mt">{selectedMonth.toUpperCase()} 2026</span>
+                        <span className="dt-mc">{filteredVrats.length} observances · {HINDU_MONTHS_MAP[selectedMonth]}</span>
+                      </div>
+                      <div className="dt-head">
+                        <span>DATE</span>
+                        <span>OBSERVANCE</span>
+                        <span>TITHI</span>
+                        <span />
+                      </div>
+                      {filteredVrats.length === 0 ? (
+                        <div className="p-8 text-center text-xs text-[#8A7A6E]">
+                          No observances found in {selectedMonth} 2026. Use admin panel to sync dates.
+                        </div>
+                      ) : (
+                        filteredVrats.map(vrat => {
+                          const dObj = new Date(vrat.date);
+                          const day = dObj.getUTCDate();
+                          const weekday = dObj.toLocaleDateString("en-US", { weekday: "long", timeZone: "UTC" });
+                          
+                          return renderVratRow({
+                            d: `${day} ${selectedMonth}`,
+                            dw: weekday,
+                            n: vrat.name,
+                            x: vrat.description || undefined,
+                            t: vrat.tithiDetail || `${vrat.category} Tithi`,
+                            cd: calculateCountdown(vrat.date),
+                            cd_c: calculateCountdown(vrat.date) === "PASSED" ? " past" : " soon",
+                            slug: vrat.linkedGuideId || undefined,
+                          });
+                        })
+                      )}
                     </div>
-                    <div className="ln-list">
-                      <div className="ln-i">
-                        <span className="ln-n">✓</span>
-                        <div>
-                          <div className="ln-it">Set your city once</div>
-                          <div className="ln-is">Every date on the platform recomputes</div>
-                        </div>
-                      </div>
-                      <div className="ln-i">
-                        <span className="ln-n">✓</span>
-                        <div>
-                          <div className="ln-it">Purnimanta or Amanta</div>
-                          <div className="ln-is">North India uses Purnimanta — the default here</div>
-                        </div>
-                      </div>
-                      <div className="ln-i">
-                        <span className="ln-n">✓</span>
-                        <div>
-                          <div className="ln-it">Verified manually</div>
-                          <div className="ln-is">Entered and checked, never auto-fetched</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
 
-                  <div className="dlband select-none mb-6">
-                    <div className="dl-i">📿</div>
-                    <div>
-                      <div className="dl-t">All 142 dates, on one page</div>
-                      <p className="dl-s">The complete 2026 vrat calendar as a PDF — computed for your city, ready to print or forward.</p>
+                    <div className="learn mb-6">
+                      <div>
+                        <div className="ln-ey">WHY YOUR CITY MATTERS</div>
+                        <div className="ln-t">Two apps can show different dates, and both can be right</div>
+                        <p className="ln-p">A tithi begins at a fixed moment in time — but the Hindu day begins at sunrise, and sunrise is not the same everywhere. A tithi that starts before sunrise in Delhi may start after it in Mumbai, moving the date by a day.</p>
+                        <button className="ln-c hover:brightness-110" onClick={() => triggerToast("Opening city documentation...")}>Read the full explanation ›</button>
+                      </div>
+                      <div className="ln-list">
+                        <div className="ln-i">
+                          <span className="ln-n">✓</span>
+                          <div>
+                            <div className="ln-it">Set your city once</div>
+                            <div className="ln-is">Every date on the platform recomputes</div>
+                          </div>
+                        </div>
+                        <div className="ln-i">
+                          <span className="ln-n">✓</span>
+                          <div>
+                            <div className="ln-it">Purnimanta or Amanta</div>
+                            <div className="ln-is">North India uses Purnimanta — the default here</div>
+                          </div>
+                        </div>
+                        <div className="ln-i">
+                          <span className="ln-n">✓</span>
+                          <div>
+                            <div className="ln-it">Verified manually</div>
+                            <div className="ln-is">Entered and checked, never auto-fetched</div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <button className="dl-c hover:brightness-110" onClick={() => triggerToast("Downloading Vrat Calendar...")}>Download PDF ›</button>
-                  </div>
-                </>
-              ) : (
-                <div className="bg-white border border-border rounded-2xl p-12 text-center text-sub-text mb-6">
-                  Vrat calendar for {selectedMonth} 2026 is loading...
-                </div>
-              )}
+
+                    <div className="dlband select-none mb-6">
+                      <div className="dl-i">📿</div>
+                      <div>
+                        <div className="dl-t">All 142 dates, on one page</div>
+                        <p className="dl-s">The complete 2026 vrat calendar as a PDF — computed for your city, ready to print or forward.</p>
+                      </div>
+                      <button className="dl-c hover:brightness-110" onClick={() => handlePanchangDownload("vrat", vratFilter)}>Download PDF ›</button>
+                    </div>
+                  </>
+                );
+              })()}
             </>
           )}
 
           {panchangTab === "fc" && (
             <>
               <div className="mtabs select-none">
-                {["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"].map((m) => (
-                  <button
-                    key={m}
-                    className={`mt ${selectedMonth === m ? "on" : ""}`}
-                    onClick={() => setSelectedMonth(m)}
-                  >
-                    {m}
-                    <span>{m === "Sep" ? "6 festivals" : "—"}</span>
-                  </button>
-                ))}
+                {["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"].map((m) => {
+                  const filteredFests = vratEntries.filter(v => getVratMonthAbbr(v.date) === m);
+                  const count = filteredFests.length;
+                  return (
+                    <button
+                      key={m}
+                      className={`mt ${selectedMonth === m ? "on" : ""}`}
+                      onClick={() => setSelectedMonth(m)}
+                    >
+                      {m}
+                      <span>{count > 0 ? `${count} festivals` : "—"}</span>
+                    </button>
+                  );
+                })}
               </div>
 
-              {selectedMonth === "Sep" ? (
-                <>
-                  <div className="sh" style={{ marginTop: 0 }}>
-                    <div>
-                      <div className="sh-ey">SEPTEMBER 2026</div>
-                      <div className="sh-t">Bhadrapada, into Ashwin</div>
-                      <p className="sh-s">The busiest festival month of the second half of the year.</p>
+              {(() => {
+                const filteredFests = vratEntries.filter(vrat => {
+                  const vratMonth = getVratMonthAbbr(vrat.date);
+                  if (vratMonth !== selectedMonth) return false;
+                  
+                  if (festFilter !== "All festivals") {
+                    const filter = festFilter.toLowerCase();
+                    if (filter === "shiva") return vrat.name.toLowerCase().includes("shiva") || vrat.category.toLowerCase().includes("pradosh");
+                    if (filter === "vishnu") return vrat.name.toLowerCase().includes("vishnu") || vrat.category.toLowerCase().includes("ekadashi");
+                    if (filter === "devi") return vrat.name.toLowerCase().includes("devi") || vrat.name.toLowerCase().includes("teej") || vrat.name.toLowerCase().includes("navratri") || vrat.name.toLowerCase().includes("durga");
+                    if (filter === "ganesha") return vrat.name.toLowerCase().includes("ganesh") || vrat.category.toLowerCase().includes("chaturthi");
+                  }
+                  return true;
+                });
+
+                return (
+                  <>
+                    <div className="sh" style={{ marginTop: 0 }}>
+                      <div>
+                        <div className="sh-ey">{selectedMonth.toUpperCase()} 2026</div>
+                        <div className="sh-t">{HINDU_MONTHS_MAP[selectedMonth]}</div>
+                        <p className="sh-s">Observances listed in chronological order.</p>
+                      </div>
+                      <a className="sh-a cursor-pointer" onClick={() => triggerToast(`Syncing ${selectedMonth} festivals to calendar...`)}>Add to your calendar ›</a>
                     </div>
-                    <a className="sh-a cursor-pointer" onClick={() => triggerToast("Syncing September festivals to calendar...")}>Add to your calendar ›</a>
-                  </div>
 
-                  <div className="fgrid select-none mb-6">
-                    {renderFestCard({ h: "h-krishna", dd: "4", mm: "SEP", dw: "Friday", n: "Krishna Janmashtami", t: "Bhadrapada Krishna Ashtami · Smarta", tags: [["g", "GUIDE LIVE"], ["n", "Also 5 Sep — Vaishnava"]], slug: "krishna-janmashtami" })}
-                    {renderFestCard({ h: "h-shiva", dd: "13", mm: "SEP", dw: "Sunday", n: "Hartalika Teej", t: "Bhadrapada Shukla Tritiya", tags: [["g", "GUIDE LIVE"]], slug: "hartalika-teej" })}
-                    {renderFestCard({ h: "h-ganesh", dd: "14", mm: "SEP", dw: "Monday", n: "Ganesh Chaturthi", t: "Bhadrapada Shukla Chaturthi", tags: [["g", "GUIDE LIVE"], ["n", "Madhyahna muhurat"]], slug: "ganesh-chaturthi" })}
-                    {renderFestCard({ h: "h-devi", dd: "19", mm: "SEP", dw: "Saturday", n: "Radha Ashtami", t: "Bhadrapada Shukla Ashtami", tags: [["g", "GUIDE LIVE"]], slug: "radha-ashtami" })}
-                    {renderFestCard({ h: "h-ganesh", dd: "23", mm: "SEP", dw: "Wednesday", n: "Anant Chaturdashi", t: "Bhadrapada Shukla Chaturdashi", tags: [["g", "GUIDE LIVE"], ["n", "Ganesh Visarjan"]], slug: "anant-chaturdashi" })}
-                    {renderFestCard({ h: "h-earth", dd: "26", mm: "SEP", dw: "Saturday", n: "Pitru Paksha begins", t: "Bhadrapada Purnima · 16 days", tags: [["n", "GUIDE COMING"]], slug: "pitru-paksha" })}
-                  </div>
-
-                  <div className="sh">
-                    <div>
-                      <div className="sh-ey">NEXT MONTH</div>
-                      <div className="sh-t">October — Navratri and Deepavali</div>
-                      <p className="sh-s">The two largest observances of the year fall within five weeks of each other.</p>
+                    <div className="fgrid select-none mb-6">
+                      {filteredFests.length === 0 ? (
+                        <div className="col-span-full bg-white border border-border rounded-2xl p-12 text-center text-sub-text">
+                          No observances found in {selectedMonth} 2026. Use admin panel to sync dates.
+                        </div>
+                      ) : (
+                        filteredFests.map(vrat => {
+                          const dObj = new Date(vrat.date);
+                          const day = dObj.getUTCDate().toString();
+                          const month = dObj.toLocaleDateString("en-US", { month: "short", timeZone: "UTC" }).toUpperCase();
+                          const weekday = dObj.toLocaleDateString("en-US", { weekday: "long", timeZone: "UTC" });
+                          
+                          return renderFestCard({
+                            h: getFestStyle(vrat.category, vrat.name),
+                            dd: day,
+                            mm: month,
+                            dw: weekday,
+                            n: vrat.name,
+                            t: vrat.tithiDetail || `${vrat.category} Tithi`,
+                            tags: vrat.linkedGuideId ? [["g", "GUIDE LIVE"]] : [["n", "GUIDE COMING"]],
+                            slug: vrat.linkedGuideId || undefined,
+                          });
+                        })
+                      )}
                     </div>
-                    <a className="sh-a cursor-pointer" onClick={() => triggerToast("Syncing October festivals to calendar...")}>See October ›</a>
-                  </div>
-
-                  <div className="fgrid select-none mb-6">
-                    {renderFestCard({ h: "h-devi", dd: "11", mm: "OCT", dw: "Sunday", n: "Sharad Navratri begins", t: "Ashwin Shukla Pratipada · Ghatsthapana", tags: [["n", "GUIDE COMING"]], slug: "sharad-navratri" })}
-                    {renderFestCard({ h: "h-devi", dd: "19", mm: "OCT", dw: "Monday", n: "Durga Ashtami", t: "Ashwin Shukla Ashtami", tags: [["n", "GUIDE COMING"]], slug: "durga-ashtami" })}
-                    {renderFestCard({ h: "h-vishnu", dd: "21", mm: "OCT", dw: "Wednesday", n: "Vijayadashami", t: "Ashwin Shukla Dashami", tags: [["n", "GUIDE COMING"]], slug: "vijayadashami" })}
-                  </div>
-                </>
-              ) : (
-                <div className="bg-white border border-border rounded-2xl p-12 text-center text-sub-text mb-6">
-                  Festival calendar for {selectedMonth} 2026 is loading...
-                </div>
-              )}
+                  </>
+                );
+              })()}
 
               {/* Download Band */}
               <div className="dlband select-none mb-6">
@@ -552,7 +774,7 @@ export default function PanchangPage() {
                   <div className="dl-t">The whole year, month by month</div>
                   <p className="dl-s">Every festival date for 2026 as a PDF — Gregorian dates with the tithi beneath each one.</p>
                 </div>
-                <button className="dl-c hover:brightness-110" onClick={() => triggerToast("Downloading Festival Calendar...")}>Download PDF ›</button>
+                <button className="dl-c hover:brightness-110" onClick={() => handlePanchangDownload("festival", festFilter)}>Download PDF ›</button>
               </div>
             </>
           )}

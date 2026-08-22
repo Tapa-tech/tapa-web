@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 interface PanchangData {
   id: string;
@@ -23,6 +24,7 @@ interface VratData {
 }
 
 export default function PanchangCard() {
+  const router = useRouter();
   const [panchang, setPanchang] = useState<PanchangData | null>(null);
   const [nextVrat, setNextVrat] = useState<VratData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -122,6 +124,59 @@ export default function PanchangCard() {
     );
   }
 
+  if (!panchang) {
+    return (
+      <div className="panchang-band select-none w-full animate-fadeIn">
+        <div className="wrap">
+          {/* Date & Location column */}
+          <div className="panch-label-col">
+            <div className="panch-label-eyebrow font-sans">+ PANCHANG TODAY</div>
+            <div className="panch-label-date font-sans">
+              {new Date().toLocaleDateString("en-US", {
+                weekday: "long",
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+              })}
+            </div>
+            <div className="panch-label-loc font-sans text-pink font-bold">
+              Panchang Pending
+            </div>
+          </div>
+
+          {/* Pending Notification instead of fake cells */}
+          <div className="flex-1 flex items-center justify-center font-sans text-dim text-xs px-4 py-6 text-center italic">
+            Panchang calculations for today are currently pending. Please check back in a few minutes.
+          </div>
+
+          {/* Next Vrat and CTA column */}
+          <div className="panch-next-col">
+            <div className="panch-next-inner font-sans">
+              <div className="panch-next-label">NEXT VRAT</div>
+              <div className="panch-next-val">
+                {nextVrat 
+                  ? `${nextVrat.name} — ${formatVratDate(nextVrat.date)}` 
+                  : "None scheduled"
+                }
+              </div>
+            </div>
+            {nextVrat && (
+              <button className="panch-countdown font-sans cursor-pointer hover:opacity-95 transition-opacity">
+                {calculateCountdown(nextVrat.date)}
+              </button>
+            )}
+            <button 
+              onClick={() => router.push("/panchang")}
+              className="panch-full font-sans cursor-pointer hover:bg-white/15 transition-all"
+            >
+              Full calendar →
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="panchang-band select-none w-full animate-fadeIn">
       <div className="wrap">
@@ -129,13 +184,10 @@ export default function PanchangCard() {
         <div className="panch-label-col">
           <div className="panch-label-eyebrow font-sans">+ PANCHANG TODAY</div>
           <div className="panch-label-date font-sans">
-            {panchang ? formatDate(panchang.date) : "Wednesday, 15 July 2026"}
+            {formatDate(panchang.date)}
           </div>
           <div className="panch-label-loc font-sans">
-            {panchang 
-              ? `${panchang.paksha} Paksha · ${panchang.city}` 
-              : "Ashadha Shukla Paksha · Delhi–NCR"
-            }
+            {`${panchang.paksha} Paksha · ${panchang.city}`}
           </div>
         </div>
 
@@ -143,24 +195,24 @@ export default function PanchangCard() {
         <div className="panch-data font-sans">
           <div className="panch-cell">
             <div className="panch-key">TITHI</div>
-            <div className="panch-val">{panchang ? panchang.tithi : "Saptami"}</div>
-            <div className="panch-sub text-gold">{panchang ? panchang.tithiSub : "7th day"}</div>
+            <div className="panch-val">{panchang.tithi}</div>
+            <div className="panch-sub text-gold">{panchang.tithiSub}</div>
           </div>
           <div className="panch-cell">
             <div className="panch-key">PAKSHA</div>
-            <div className="panch-val">{panchang ? panchang.paksha : "Shukla"}</div>
-            <div className="panch-sub text-gold">{panchang ? panchang.pakshaSub : "Waxing moon"}</div>
+            <div className="panch-val">{panchang.paksha}</div>
+            <div className="panch-sub text-gold">{panchang.pakshaSub}</div>
           </div>
           <div className="panch-cell">
             <div className="panch-key">NAKSHATRA</div>
-            <div className="panch-val">{panchang ? panchang.nakshatra : "Rohini"}</div>
+            <div className="panch-val">{panchang.nakshatra}</div>
             <div className="panch-sub text-gold">
-              {panchang ? (panchang.nakshatraSub || "Auspicious") : "Auspicious"}
+              {panchang.nakshatraSub || "Auspicious"}
             </div>
           </div>
           <div className="panch-cell">
             <div className="panch-key">SUNRISE</div>
-            <div className="panch-val">{panchang ? panchang.sunrise : "5:28"}</div>
+            <div className="panch-val">{panchang.sunrise}</div>
             <div className="panch-sub text-gold">am</div>
           </div>
         </div>
@@ -172,14 +224,19 @@ export default function PanchangCard() {
             <div className="panch-next-val">
               {nextVrat 
                 ? `${nextVrat.name} — ${formatVratDate(nextVrat.date)}` 
-                : "Sawan Somwar — Mon, 20 July"
+                : "None scheduled"
               }
             </div>
           </div>
-          <button className="panch-countdown font-sans cursor-pointer hover:opacity-95 transition-opacity">
-            {nextVrat ? calculateCountdown(nextVrat.date) : "In 5 days"}
-          </button>
-          <button className="panch-full font-sans cursor-pointer hover:bg-white/15 transition-all">
+          {nextVrat && (
+            <button className="panch-countdown font-sans cursor-pointer hover:opacity-95 transition-opacity">
+              {calculateCountdown(nextVrat.date)}
+            </button>
+          )}
+          <button 
+            onClick={() => router.push("/panchang")}
+            className="panch-full font-sans cursor-pointer hover:bg-white/15 transition-all"
+          >
             Full calendar →
           </button>
         </div>

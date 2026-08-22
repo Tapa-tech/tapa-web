@@ -68,6 +68,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           userId: dbUser.id,
           role: dbUser.role,
           email: dbUser.email || undefined,
+          consentGiven: dbUser.consentGiven,
         });
 
         const refreshTokenVal = generateOpaqueToken();

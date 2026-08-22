@@ -9,6 +9,7 @@ export interface JWTPayload {
   role: string;
   phone?: string;
   email?: string;
+  consentGiven?: boolean;
 }
 
 export async function signAccessToken(payload: JWTPayload): Promise<string> {
@@ -17,6 +18,7 @@ export async function signAccessToken(payload: JWTPayload): Promise<string> {
     role: payload.role,
     phone: payload.phone,
     email: payload.email,
+    consentGiven: payload.consentGiven || false,
   })
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
@@ -32,6 +34,7 @@ export async function verifyAccessToken(token: string): Promise<JWTPayload | nul
       role: payload.role as string,
       phone: payload.phone as string,
       email: payload.email as string,
+      consentGiven: payload.consentGiven as boolean,
     };
   } catch {
     return null;

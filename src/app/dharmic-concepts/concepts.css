@@ -1,0 +1,1902 @@
+/* ============================================================
+   THE TAPA CO. — DHARMIC CONCEPTS CSS
+   ============================================================ */
+
+.concepts-page {
+  --bg: #F2EDE4; 
+  --card: #FFFFFF; 
+  --dark: #1C1712; 
+  --darkbar: #1A1208;
+  --pink: #FD066D; 
+  --rose: #EF0F54;
+  --amber: #E8A020; 
+  --gold: #A07800; 
+  --yellow: #EDAB3A;
+  --body-text: #2C2010; 
+  --mid-text: #5C4B12; 
+  --sub-text: #8A7A68;
+  --border: #E8E0D0; 
+  --border-light: #F0E8D8;
+  --hero-text: #FFFDF5; 
+  --dim: #7A6A55; 
+  --dimmer: #5C4E36;
+  --d-bg: #E6F1E6; 
+  --d-tx: #27500A; 
+  --d-bd: #C9DFC9;
+  --p-bg: #FFF8E6; 
+  --p-tx: #A07800; 
+  --p-bd: #EFE0B8;
+  --b-bg: #F0E9E1; 
+  --b-tx: #4A3525; 
+  --b-bd: #D9CBB8;
+
+  background: var(--bg);
+  color: var(--body-text);
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.concepts-page a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.concepts-page button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.concepts-page .wrap {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* ── BREADCRUMB ── */
+.concepts-page .bcrumb {
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  padding: 0 40px;
+}
+.concepts-page .bc-in {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.concepts-page .bc-l {
+  font-size: 13px;
+  color: var(--sub-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.concepts-page .bc-l b {
+  color: var(--body-text);
+  font-weight: 500;
+}
+.concepts-page .bc-r {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.concepts-page .lang {
+  display: flex;
+  gap: 2px;
+  background: var(--bg);
+  border-radius: 7px;
+  padding: 3px;
+}
+.concepts-page .lang button {
+  border: none;
+  border-radius: 5px;
+  padding: 5px 13px;
+  font-size: 12px;
+  font-weight: 700;
+  background: none;
+  color: var(--pink);
+}
+.concepts-page .lang button.on {
+  background: var(--pink);
+  color: #fff;
+}
+.concepts-page .bcb {
+  height: 34px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: var(--card);
+  padding: 0 14px;
+  font-size: 12.5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ── HERO ── */
+.concepts-page .hero {
+  position: relative;
+  height: 380px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+.concepts-page .hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 58% 55% at 76% 32%, rgba(150, 120, 50, .30) 0%, transparent 62%),
+    radial-gradient(ellipse 46% 70% at 10% 88%, rgba(20, 26, 14, .66) 0%, transparent 56%),
+    linear-gradient(155deg, #141A0C 0%, #3A4420 34%, #1B2210 66%, #0C1006 100%);
+}
+.concepts-page .hero-bg.bilva {
+  background:
+    radial-gradient(ellipse 58% 55% at 76% 32%, rgba(96, 132, 64, .36) 0%, transparent 62%),
+    radial-gradient(ellipse 46% 70% at 10% 88%, rgba(14, 26, 12, .62) 0%, transparent 56%),
+    linear-gradient(155deg, #101A0E 0%, #2A3E1C 34%, #141F10 66%, #080D06 100%);
+}
+.concepts-page .hero-ov {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(12, 16, 6, .94) 0%, rgba(12, 16, 6, .7) 42%, rgba(12, 16, 6, .16) 74%, rgba(12, 16, 6, .02) 100%);
+}
+.concepts-page .hero-share {
+  position: absolute;
+  top: 20px;
+  right: 40px;
+  z-index: 6;
+  background: rgba(255, 255, 255, .15);
+  border: 1px solid rgba(255, 255, 255, .28);
+  border-radius: 20px;
+  padding: 7px 16px;
+  color: #fff;
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.concepts-page .hero-c {
+  position: relative;
+  z-index: 5;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 40px;
+  width: 100%;
+}
+.concepts-page .hero-in {
+  max-width: 660px;
+}
+.concepts-page .hero-ey {
+  font-size: 10px;
+  color: #E3B567;
+  letter-spacing: .9px;
+  margin-bottom: 9px;
+}
+.concepts-page .hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(230, 241, 230, .16);
+  border: 1px solid rgba(230, 241, 230, .3);
+  border-radius: 20px;
+  padding: 5px 13px;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #BFE0BF;
+  margin-bottom: 12px;
+}
+.concepts-page .hero-h1 {
+  font-size: 40px;
+  font-weight: 700;
+  color: var(--hero-text);
+  line-height: 1.12;
+  letter-spacing: -.8px;
+  margin-bottom: 10px;
+}
+.concepts-page .hero-sub {
+  font-size: 16px;
+  color: #C3C8A8;
+  line-height: 1.6;
+  margin-bottom: 21px;
+}
+.concepts-page .hero-btns {
+  display: flex;
+  gap: 10px;
+  flex-wrap: nowrap;
+  align-items: stretch;
+}
+.concepts-page .hb-p {
+  background: rgba(255, 255, 255, .94);
+  border: none;
+  border-radius: 10px;
+  padding: 12px 22px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #1C1712;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.concepts-page .hb-g {
+  background: transparent;
+  border: 1.5px solid rgba(255, 255, 255, .42);
+  border-radius: 10px;
+  padding: 12px 22px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--hero-text);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+/* ── TRUST + AUDIO ── */
+.concepts-page .strip {
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+}
+.concepts-page .strip-in {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  gap: 20px;
+}
+.concepts-page .tp {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.concepts-page .tpi {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--mid-text);
+  font-weight: 500;
+  white-space: nowrap;
+}
+.concepts-page .tpd {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+.concepts-page .audio {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  background: var(--darkbar);
+  border-radius: 10px;
+  padding: 9px 14px;
+  flex-shrink: 0;
+}
+.concepts-page .aplay {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--pink);
+  border: none;
+  color: #fff;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.concepts-page .alab {
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  text-align: left;
+}
+.concepts-page .asub {
+  font-size: 10.5px;
+  color: var(--dim);
+  text-align: left;
+}
+.concepts-page .alangs {
+  display: flex;
+  gap: 5px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.concepts-page .alg {
+  border: 1.5px solid var(--pink);
+  border-radius: 6px;
+  padding: 5px 11px;
+  font-size: 11px;
+  line-height: 1.35;
+  font-weight: 700;
+  background: none;
+  color: var(--pink);
+  min-width: 38px;
+  cursor: pointer;
+}
+.concepts-page .alg.on {
+  background: var(--pink);
+  color: #fff;
+}
+
+/* ── CHIPS ── */
+.concepts-page .chips {
+  background: var(--p-bg);
+  border-bottom: 1px solid var(--p-bd);
+  padding: 12px 40px;
+  position: sticky;
+  top: 60px;
+  z-index: 50;
+}
+.concepts-page .chips-in {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.concepts-page .chips-in::-webkit-scrollbar {
+  display: none;
+}
+.concepts-page .chip-l {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: .5px;
+  white-space: nowrap;
+  margin-right: 5px;
+}
+.concepts-page .chip {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--dark);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.concepts-page .chip:hover {
+  border-color: var(--pink);
+  background: var(--b-bg);
+}
+
+/* ── LAYOUT ── */
+.concepts-page .layout {
+  display: grid;
+  grid-template-columns: 1fr 330px;
+  gap: 44px;
+  align-items: start;
+  padding-top: 30px;
+}
+.concepts-page .main {
+  max-width: 720px;
+  text-align: left;
+}
+
+/* ── CREDIBILITY CARD ── */
+.concepts-page .cc {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+.concepts-page .cc-h {
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.concepts-page .cc-hl {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--sub-text);
+  letter-spacing: .6px;
+}
+.concepts-page .cc-hr {
+  font-size: 11.5px;
+  color: var(--pink);
+  font-weight: 700;
+  cursor: pointer;
+}
+.concepts-page .cc-b {
+  padding: 17px 20px;
+}
+.concepts-page .cc-core {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: .6px;
+  margin-bottom: 6px;
+}
+.concepts-page .cc-claim {
+  font-size: 16.5px;
+  font-weight: 700;
+  color: var(--dark);
+  line-height: 1.45;
+  margin-bottom: 13px;
+}
+.concepts-page .cc-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.concepts-page .pill {
+  font-size: 10.5px;
+  padding: 4px 11px;
+  border-radius: 6px;
+  font-weight: 700;
+  display: inline-block;
+}
+.concepts-page .pill.d {
+  background: var(--d-bg);
+  color: var(--d-tx);
+  border: 1px solid var(--d-bd);
+}
+.concepts-page .pill.p {
+  background: var(--p-bg);
+  color: var(--p-tx);
+  border: 1px solid var(--p-bd);
+}
+.concepts-page .pill.src {
+  background: var(--bg);
+  color: var(--mid-text);
+  border: 1px solid var(--border);
+  font-weight: 600;
+}
+.concepts-page .badge {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .5px;
+  padding: 4px 11px;
+  border-radius: 6px;
+  display: inline-block;
+  background: var(--d-bg);
+  color: var(--d-tx);
+  border: 1px solid var(--d-bd);
+}
+
+/* ── PROSE ── */
+.concepts-page .open {
+  font-size: 23px;
+  font-weight: 700;
+  color: var(--dark);
+  line-height: 1.4;
+  letter-spacing: -.3px;
+  margin: 0 0 16px;
+}
+.concepts-page .p {
+  font-size: 15px;
+  line-height: 1.9;
+  margin-bottom: 15px;
+  color: var(--body-text);
+}
+.concepts-page .p strong {
+  color: var(--dark);
+  font-weight: 600;
+}
+.concepts-page .p em {
+  font-style: italic;
+  color: var(--mid-text);
+}
+.concepts-page .turn {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--pink);
+  line-height: 1.55;
+  margin: 24px 0;
+  padding-left: 16px;
+  border-left: 3px solid var(--pink);
+}
+.concepts-page .sh {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 34px 0 4px;
+  scroll-margin-top: 150px;
+}
+.concepts-page .sh-p {
+  color: var(--pink);
+  font-weight: 700;
+  font-size: 16px;
+}
+.concepts-page .sh-t {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--dark);
+  line-height: 1.3;
+}
+.concepts-page .sh-s {
+  font-size: 13px;
+  color: var(--sub-text);
+  font-style: italic;
+  margin: 0 0 15px 22px;
+  line-height: 1.65;
+  text-align: left;
+}
+.concepts-page .tagrow {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+  margin: 4px 0 18px;
+}
+.concepts-page .hr {
+  height: 1px;
+  background: var(--border);
+  margin: 30px 0;
+}
+
+/* ── IMAGE ── */
+.concepts-page figure.art {
+  margin: 26px 0;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--darkbar);
+}
+.concepts-page figure.art img {
+  width: 100%;
+  display: block;
+}
+
+/* ── PULL PANEL ── */
+.concepts-page .pull {
+  background: var(--darkbar);
+  border-radius: 15px;
+  padding: 26px 30px;
+  margin: 26px 0;
+}
+.concepts-page .pull-l {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: #E3B567;
+  letter-spacing: .7px;
+  margin-bottom: 12px;
+}
+.concepts-page .pull p {
+  font-size: 15.5px;
+  color: var(--hero-text);
+  line-height: 1.88;
+  margin-bottom: 13px;
+}
+.concepts-page .pull p:last-child {
+  margin-bottom: 0;
+  color: #E8C89A;
+}
+.concepts-page .pull b {
+  color: var(--amber);
+}
+
+/* ── MYTH CARDS ── */
+.concepts-page .myth {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  overflow: hidden;
+  margin-bottom: 11px;
+}
+.concepts-page .my-q {
+  background: var(--b-bg);
+  padding: 13px 17px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.concepts-page .my-qt {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--b-tx);
+  line-height: 1.6;
+  text-align: left;
+}
+.concepts-page .my-bd {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .5px;
+  padding: 3px 9px;
+  border-radius: 5px;
+  background: var(--b-tx);
+  color: #fff;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+.concepts-page .my-a {
+  padding: 13px 17px;
+  font-size: 14px;
+  line-height: 1.82;
+  text-align: left;
+}
+
+/* ── REVENUE ROW ── */
+.concepts-page .rev {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 13px;
+  margin: 18px 0 0;
+  align-items: stretch;
+}
+.concepts-page .rev-c {
+  border-radius: 15px;
+  padding: 19px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  text-align: left;
+  height: 100%;
+  border: 1px solid;
+}
+.concepts-page .rev-c.live {
+  background: var(--card);
+  border-color: var(--border);
+}
+.concepts-page .rev-c.soon {
+  background: #EFEAE0;
+  border-color: #DDD4C4;
+}
+.concepts-page .rev-i {
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  margin-bottom: 12px;
+  flex-shrink: 0;
+}
+.concepts-page .rev-c.live .rev-i {
+  background: var(--p-bg);
+  border: 1px solid var(--p-bd);
+}
+.concepts-page .rev-c.soon .rev-i {
+  background: #E4DCCC;
+  border: 1px solid #D4C9B4;
+  opacity: .6;
+}
+.concepts-page .rev-l {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .6px;
+  margin-bottom: 6px;
+}
+.concepts-page .rev-c.live .rev-l {
+  color: var(--gold);
+}
+.concepts-page .rev-c.soon .rev-l {
+  color: #9A8E7A;
+}
+.concepts-page .rev-t {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.32;
+  margin-bottom: 6px;
+}
+.concepts-page .rev-c.live .rev-t {
+  color: var(--dark);
+}
+.concepts-page .rev-c.soon .rev-t {
+  color: #7A705F;
+}
+.concepts-page .rev-s {
+  font-size: 12.5px;
+  line-height: 1.7;
+  margin-bottom: 15px;
+}
+.concepts-page .rev-c.live .rev-s {
+  color: var(--sub-text);
+}
+.concepts-page .rev-c.soon .rev-s {
+  color: #948872;
+}
+.concepts-page .rev-b {
+  border: none;
+  border-radius: 11px;
+  padding: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  width: 100%;
+  cursor: pointer;
+}
+.concepts-page .rev-c.live .rev-b {
+  background: var(--pink);
+  color: #fff;
+}
+.concepts-page .rev-c.live .rev-b.wa {
+  background: #1F9D52;
+  color: #fff;
+}
+.concepts-page .rev-c.soon .rev-b {
+  background: transparent;
+  border: 1.5px solid #C9BFAC;
+  color: #7A705F;
+}
+.concepts-page .rev-c .rev-b {
+  margin: 0;
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+.concepts-page .rev-c .rev-s {
+  flex: 1 1 auto;
+  margin-bottom: 15px;
+}
+.concepts-page .rev-note {
+  font-size: 13px;
+  color: var(--sub-text);
+  line-height: 1.75;
+  margin-top: 13px;
+  text-align: center;
+}
+
+/* ── FOUR RELATED BLOCKS ── */
+.concepts-page .relgrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.concepts-page .rel {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px 18px;
+  text-align: left;
+}
+.concepts-page .rel-h {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: .6px;
+  margin-bottom: 11px;
+}
+.concepts-page .rel-i {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: .5px solid var(--border-light);
+}
+.concepts-page .rel-i:last-child {
+  border-bottom: none;
+}
+.concepts-page .rel-i>span:first-child {
+  flex: 1;
+  min-width: 0;
+}
+.concepts-page .rel-n {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--dark);
+  line-height: 1.3;
+}
+.concepts-page .rel-s {
+  display: block;
+  font-size: 11px;
+  color: var(--sub-text);
+  margin-top: 2px;
+}
+.concepts-page .rel-a {
+  font-size: 15px;
+  color: var(--pink);
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+/* ── SIDEBAR ── */
+.concepts-page .side {
+  position: sticky;
+  top: 150px;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+.concepts-page .sbcta {
+  width: 100%;
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+}
+.concepts-page .sbcta.wa {
+  background: #1F9D52;
+}
+.concepts-page .sbcta.dk {
+  background: var(--darkbar);
+}
+.concepts-page .sb-ci {
+  font-size: 19px;
+}
+.concepts-page .sb-ct {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+}
+.concepts-page .sb-cs {
+  font-size: 10px;
+  color: rgba(255, 255, 255, .6);
+  text-align: center;
+  line-height: 1.5;
+}
+.concepts-page .sbn {
+  background: var(--p-bg);
+  border: 1px solid var(--p-bd);
+  border-radius: 13px;
+  padding: 14px 16px;
+  text-align: left;
+}
+.concepts-page .sbn-h {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: .6px;
+  margin-bottom: 8px;
+}
+.concepts-page .sbn-t {
+  font-size: 12px;
+  color: var(--body-text);
+  line-height: 1.75;
+}
+.concepts-page .sbn-t b {
+  color: var(--p-tx);
+}
+.concepts-page .sbn-c {
+  font-size: 11.5px;
+  color: var(--pink);
+  font-weight: 700;
+  margin-top: 8px;
+  display: block;
+}
+.concepts-page .sbcomp {
+  background: var(--bg);
+  border: 1px dashed #D8CCB6;
+  border-radius: 13px;
+  padding: 14px 16px;
+  text-align: left;
+}
+.concepts-page .sbcomp-h {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 8px;
+}
+.concepts-page .sbcomp-i {
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.concepts-page .sbcomp-i img {
+  height: 17px;
+  width: auto;
+  display: block;
+}
+.concepts-page .sbcomp-l {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: .6px;
+}
+.concepts-page .sbcomp-t {
+  font-size: 12.5px;
+  color: var(--sub-text);
+  line-height: 1.6;
+  margin-bottom: 11px;
+}
+.concepts-page .sbcomp-b {
+  width: 100%;
+  background: transparent;
+  border: 1.5px solid var(--yellow);
+  border-radius: 9px;
+  padding: 9px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #8A6100;
+  cursor: pointer;
+}
+.concepts-page .sbcomp-d {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .5px;
+  background: var(--b-bg);
+  color: var(--b-tx);
+  border: 1px solid var(--b-bd);
+  border-radius: 4px;
+  padding: 2px 7px;
+  margin-left: auto;
+}
+.concepts-page .sbq {
+  background: var(--darkbar);
+  border-radius: 13px;
+  padding: 16px 18px;
+  text-align: left;
+}
+.concepts-page .sbq-t {
+  font-size: 14px;
+  color: var(--amber);
+  line-height: 1.7;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.concepts-page .sbq-s {
+  font-size: 11.5px;
+  color: #A99070;
+  line-height: 1.65;
+}
+
+/* ── SHLOKA ── */
+.concepts-page .shloka {
+  background: var(--dark);
+  border-radius: 14px;
+  padding: 24px 26px;
+  margin: 22px 0;
+  text-align: left;
+}
+.concepts-page .shloka-ey {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: .6px;
+  margin-bottom: 14px;
+}
+.concepts-page .shloka-dev {
+  font-size: 22px;
+  color: var(--amber);
+  line-height: 1.75;
+  margin-bottom: 12px;
+}
+.concepts-page .shloka-rom {
+  font-size: 13px;
+  color: #C4A882;
+  font-style: italic;
+  line-height: 1.8;
+  margin-bottom: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, .1);
+}
+.concepts-page .shloka-mean {
+  font-size: 14px;
+  color: var(--hero-text);
+  line-height: 1.85;
+}
+.concepts-page .shloka-attr {
+  font-size: 11px;
+  color: var(--sub-text);
+  margin-top: 12px;
+  line-height: 1.6;
+}
+
+/* ── READINGS ── */
+.concepts-page .readings {
+  margin: 18px 0;
+  text-align: left;
+}
+.concepts-page .reading {
+  padding: 12px 0 12px 18px;
+  border-left: 2px solid var(--border);
+  position: relative;
+}
+.concepts-page .reading::before {
+  content: '';
+  position: absolute;
+  left: -5px;
+  top: 19px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--amber);
+}
+.concepts-page .reading b {
+  color: var(--dark);
+  font-weight: 600;
+  font-size: 14.5px;
+}
+.concepts-page .reading span {
+  display: block;
+  font-size: 13.5px;
+  color: var(--mid-text);
+  line-height: 1.7;
+  margin-top: 3px;
+}
+
+/* ── ASK BLOCK ── */
+.concepts-page .ask {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 6px 22px;
+  margin: 18px 0;
+  text-align: left;
+}
+.concepts-page .ask-item {
+  padding: 16px 0;
+  border-bottom: .5px solid var(--border-light);
+}
+.concepts-page .ask-item:last-child {
+  border-bottom: none;
+}
+.concepts-page .ask-q {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--pink);
+  margin-bottom: 7px;
+}
+.concepts-page .ask-a {
+  font-size: 14px;
+  line-height: 1.82;
+  color: var(--body-text);
+}
+.concepts-page .ask-a b {
+  color: var(--dark);
+  font-weight: 600;
+}
+
+/* ── WEB OF DEITY-PLANT PAIRS ── */
+.concepts-page .pairs {
+  margin: 16px 0;
+  text-align: left;
+}
+.concepts-page .pair {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-bottom: 9px;
+}
+.concepts-page .pair-h {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 5px;
+}
+.concepts-page .pair-h em {
+  font-style: normal;
+  color: #8B6914;
+}
+.concepts-page .pair p {
+  font-size: 13.5px;
+  line-height: 1.75;
+  color: var(--body-text);
+}
+.concepts-page .negative .pair {
+  background: #FEF0F4;
+  border-color: #F0B8CC;
+}
+.concepts-page .negative .pair-h {
+  color: #5C1A30;
+}
+.concepts-page .negative .pair-h em {
+  color: var(--pink);
+}
+
+/* ── DHARMA VS PRATHA GRID ── */
+.concepts-page .dp-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 14px;
+  text-align: left;
+}
+.concepts-page .dp-col {
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid;
+}
+.concepts-page .dp-col.d {
+  border-color: #C5DFB8;
+}
+.concepts-page .dp-col.p {
+  border-color: #E8D8A0;
+}
+.concepts-page .dp-head {
+  padding: 12px 16px;
+}
+.concepts-page .dp-col.d .dp-head {
+  background: #EBF5EC;
+}
+.concepts-page .dp-col.p .dp-head {
+  background: #FFF8E8;
+}
+.concepts-page .dp-head-t {
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: .4px;
+}
+.concepts-page .dp-col.d .dp-head-t {
+  color: #1A5C28;
+}
+.concepts-page .dp-col.p .dp-head-t {
+  color: #8B6914;
+}
+.concepts-page .dp-head-s {
+  font-size: 10.5px;
+  margin-top: 3px;
+  line-height: 1.5;
+}
+.concepts-page .dp-col.d .dp-head-s {
+  color: #3E7A4A;
+}
+.concepts-page .dp-col.p .dp-head-s {
+  color: #A08535;
+}
+.concepts-page .dp-body {
+  background: var(--card);
+  padding: 5px 16px 11px;
+}
+.concepts-page .dp-item {
+  padding: 11px 0;
+  border-bottom: .5px solid var(--border-light);
+  font-size: 13px;
+  line-height: 1.72;
+}
+.concepts-page .dp-item:last-child {
+  border-bottom: none;
+}
+.concepts-page .dp-item b {
+  color: var(--dark);
+  font-weight: 600;
+}
+.concepts-page .dp-close {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--pink);
+  border-radius: 0 12px 12px 0;
+  padding: 15px 19px;
+  font-size: 13.5px;
+  line-height: 1.82;
+  font-style: italic;
+  text-align: left;
+}
+.concepts-page .dp-close strong {
+  color: var(--dark);
+  font-style: normal;
+}
+
+/* ── MYTHS (Alternative Myth card format) ── */
+.concepts-page .myth-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  text-align: left;
+}
+.concepts-page .myth-q {
+  background: #FEF0F4;
+  padding: 14px 17px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.concepts-page .myth-a {
+  padding: 14px 17px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.concepts-page .myth-icon {
+  font-size: 14px;
+  flex-shrink: 0;
+  font-weight: 700;
+  margin-top: 2px;
+}
+.concepts-page .myth-q .myth-icon {
+  color: var(--pink);
+}
+.concepts-page .myth-a .myth-icon {
+  color: #1A5C28;
+}
+.concepts-page .myth-text {
+  font-size: 13.5px;
+  line-height: 1.75;
+}
+.concepts-page .myth-q .myth-text {
+  font-weight: 600;
+  color: #5C1A30;
+}
+
+/* ── REFRAME ── */
+.concepts-page .reframe {
+  background: var(--dark);
+  border-radius: 16px;
+  padding: 30px 32px;
+  margin: 30px 0;
+  text-align: left;
+}
+.concepts-page .reframe-ey {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: .7px;
+  margin-bottom: 14px;
+}
+.concepts-page .reframe p {
+  font-size: 16px;
+  color: var(--hero-text);
+  line-height: 1.9;
+}
+.concepts-page .reframe p em {
+  color: #F0D9A8;
+  font-style: normal;
+}
+
+/* ── RELATED / WA ── */
+.concepts-page .rel-item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  padding: 13px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 9px;
+  text-align: left;
+}
+.concepts-page .rel-item:hover {
+  border-color: var(--pink);
+}
+.concepts-page .rel-name {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--dark);
+}
+.concepts-page .rel-sub {
+  font-size: 11.5px;
+  color: var(--sub-text);
+  margin-top: 3px;
+}
+.concepts-page .badge-live {
+  background: var(--d-bg);
+  color: var(--d-tx);
+  font-size: 10px;
+  padding: 3px 9px;
+  border-radius: 4px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.concepts-page .badge-soon {
+  background: var(--p-bg);
+  color: var(--p-tx);
+  font-size: 10px;
+  padding: 3px 9px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.concepts-page .series {
+  background: #FFF8E8;
+  border: 1px dashed #E8D8A0;
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-top: 12px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--body-text);
+  text-align: left;
+}
+.concepts-page .series b {
+  color: #8B6914;
+}
+.concepts-page .wa-nudge {
+  background: #FEF0F4;
+  border: 1px solid #F0B8CC;
+  border-radius: 14px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 20px 0 48px;
+  text-align: left;
+  cursor: pointer;
+}
+.concepts-page .wa-icon {
+  font-size: 23px;
+  flex-shrink: 0;
+}
+.concepts-page .wa-t {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #5C1A30;
+}
+.concepts-page .wa-s {
+  font-size: 12px;
+  color: #A0324A;
+  margin-top: 2px;
+}
+.concepts-page .wa-arrow {
+  font-size: 20px;
+  color: var(--pink);
+  margin-left: auto;
+}
+
+/* ── SIDEBAR DETAILS ── */
+.concepts-page .cred-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  text-align: left;
+}
+.concepts-page .cred-head {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.concepts-page .cred-label {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--sub-text);
+  letter-spacing: .5px;
+}
+.concepts-page .cred-read {
+  font-size: 11px;
+  color: var(--pink);
+  font-weight: 600;
+  cursor: pointer;
+}
+.concepts-page .cred-cell {
+  padding: 12px 16px;
+  border-bottom: .5px solid var(--border-light);
+}
+.concepts-page .cred-cell:last-of-type {
+  border-bottom: none;
+}
+.concepts-page .cred-key {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--sub-text);
+  letter-spacing: .5px;
+  margin-bottom: 4px;
+}
+.concepts-page .cred-val {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--dark);
+  line-height: 1.35;
+}
+.concepts-page .cred-sub {
+  font-size: 10.5px;
+  color: var(--sub-text);
+  margin-top: 4px;
+  line-height: 1.55;
+}
+.concepts-page .cred-stars {
+  color: var(--amber);
+  font-size: 12px;
+}
+.concepts-page .cred-dharma {
+  padding: 12px 16px;
+  border-top: .5px solid var(--border-light);
+}
+.concepts-page .dhot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-right: 8px;
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+.concepts-page .dhot-row {
+  font-size: 11px;
+  color: var(--body-text);
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 7px;
+  line-height: 1.6;
+}
+.concepts-page .dhot-row:last-child {
+  margin-bottom: 0;
+}
+.concepts-page .intel-sb {
+  background: linear-gradient(150deg, #2A3E1C, #101A0E);
+  border-radius: 14px;
+  padding: 17px 18px;
+  text-align: left;
+}
+.concepts-page .intel-ey {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: .6px;
+  margin-bottom: 8px;
+}
+.concepts-page .intel-t {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.4;
+  margin-bottom: 7px;
+}
+.concepts-page .intel-s {
+  font-size: 11.5px;
+  color: #B8CBA4;
+  line-height: 1.65;
+}
+.concepts-page .sb-note {
+  background: #FFF8E8;
+  border: 1px solid #E8D8A0;
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-size: 11.5px;
+  color: var(--body-text);
+  line-height: 1.72;
+  text-align: left;
+}
+.concepts-page .sb-note b {
+  color: #8B6914;
+}
+.concepts-page .sb-quote {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 18px;
+  text-align: left;
+}
+.concepts-page .sb-quote-dev {
+  font-size: 15px;
+  color: #8B6914;
+  line-height: 1.7;
+  margin-bottom: 8px;
+}
+.concepts-page .sb-quote-t {
+  font-size: 11.5px;
+  color: var(--mid-text);
+  font-style: italic;
+  line-height: 1.7;
+}
+.concepts-page .sb-quote-a {
+  font-size: 10px;
+  color: var(--sub-text);
+  margin-top: 8px;
+}
+
+/* ── STICKY ── */
+.concepts-page .sticky {
+  display: none;
+}
+
+
+/* ── RAMCHARITMANAS 7 KANDAS CUSTOM STYLES ── */
+.concepts-page .hero-bg.ramcharitmanas {
+  background:
+    radial-gradient(ellipse 58% 55% at 76% 32%, rgba(210, 120, 40, .30) 0%, transparent 62%),
+    radial-gradient(ellipse 46% 70% at 10% 90%, rgba(40, 12, 8, .66) 0%, transparent 56%),
+    linear-gradient(155deg, #2E0C08 0%, #7A2412 34%, #3A1008 66%, #1C0604 100%);
+}
+
+.concepts-page .kandas {
+  display: flex;
+  flex-direction: column;
+}
+.concepts-page .kd {
+  display: flex;
+  gap: 16px;
+}
+.concepts-page .kd-c {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.concepts-page .kd-n {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--p-bg);
+  border: 1.5px solid var(--p-bd);
+  color: var(--p-tx);
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.concepts-page .kd.now .kd-n {
+  background: var(--pink);
+  border-color: var(--pink);
+  color: #fff;
+}
+.concepts-page .kd-l {
+  width: 2px;
+  flex: 1;
+  background: var(--border);
+  margin: 5px 0;
+  min-height: 12px;
+}
+.concepts-page .kd.now .kd-l {
+  background: #F7C0D6;
+}
+.concepts-page .kd-b {
+  flex: 1;
+  padding-bottom: 20px;
+  min-width: 0;
+}
+.concepts-page .kd-t {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--dark);
+  line-height: 1.3;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.concepts-page .kd.now .kd-t {
+  color: var(--pink);
+}
+.concepts-page .kd-dev {
+  font-size: 15px;
+  color: var(--sub-text);
+  font-weight: 500;
+}
+.concepts-page .kd-s {
+  font-size: 15px;
+  color: var(--body-text);
+  line-height: 1.8;
+  margin-top: 5px;
+}
+.concepts-page .kd-badge {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .5px;
+  background: var(--b-bg);
+  color: var(--b-tx);
+  border: 1px solid var(--b-bd);
+  border-radius: 5px;
+  padding: 3px 9px;
+}
+
+/* WORRIES */
+.concepts-page .worry {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.concepts-page .w-q {
+  background: var(--bg);
+  padding: 14px 17px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--dark);
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.concepts-page .w-q span {
+  color: var(--sub-text);
+  flex-shrink: 0;
+}
+.concepts-page .w-a {
+  padding: 14px 17px;
+  font-size: 14.5px;
+  line-height: 1.8;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.concepts-page .w-a span {
+  color: var(--d-tx);
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* CLOSING */
+.concepts-page .closing {
+  background: var(--darkbar);
+  border-radius: 15px;
+  padding: 26px 30px;
+  margin: 28px 0;
+}
+.concepts-page .closing p {
+  font-size: 15.5px;
+  color: var(--hero-text);
+  line-height: 1.88;
+  margin-bottom: 13px;
+}
+.concepts-page .closing p:last-child {
+  margin-bottom: 0;
+  color: #E8C89A;
+}
+
+/* LADDER */
+.concepts-page .ladder {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.concepts-page .lad {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  padding: 16px 19px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.concepts-page .lad:hover {
+  border-color: var(--pink);
+}
+.concepts-page .lad-k {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .5px;
+  padding: 4px 10px;
+  border-radius: 5px;
+  flex-shrink: 0;
+}
+.concepts-page .lad-k.rg {
+  background: var(--b-bg);
+  color: var(--b-tx);
+  border: 1px solid var(--b-bd);
+}
+.concepts-page .lad-k.dc {
+  background: var(--d-bg);
+  color: var(--d-tx);
+  border: 1px solid var(--d-bd);
+}
+.concepts-page .lad-k.pa {
+  background: var(--p-bg);
+  color: var(--p-tx);
+  border: 1px solid var(--p-bd);
+}
+.concepts-page .lad > span:nth-child(2) {
+  flex: 1;
+  min-width: 0;
+}
+.concepts-page .lad-t {
+  display: block;
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--dark);
+  line-height: 1.32;
+}
+.concepts-page .lad-s {
+  display: block;
+  font-size: 13.5px;
+  color: var(--sub-text);
+  margin-top: 3px;
+  line-height: 1.6;
+}
+.concepts-page .lad-a {
+  font-size: 19px;
+  color: var(--pink);
+  flex-shrink: 0;
+}
+
+/* SIDEBAR LADDER */
+.concepts-page .ladder-sb {
+  background: linear-gradient(150deg, #7A2412, #2E0C08);
+  border-radius: 14px;
+  padding: 17px 19px;
+}
+.concepts-page .lsb-h {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #E3B567;
+  letter-spacing: .6px;
+  margin-bottom: 12px;
+}
+.concepts-page .lsb-r {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  font-size: 13px;
+  color: #D8BFA0;
+}
+.concepts-page .lsb-r b {
+  color: #fff;
+  font-weight: 700;
+}
+.concepts-page .lsb-n {
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .14);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.concepts-page .lsb-r.now .lsb-n {
+  background: var(--pink);
+}
+.concepts-page .lsb-r.now {
+  color: #fff;
+}
+
+/* ══ MOBILE RESPONSIVE ══ */
+@media (max-width: 900px) {
+  .concepts-page {
+    max-width: 430px;
+    margin: 0 auto;
+    padding-bottom: 78px;
+  }
+  .concepts-page .wrap {
+    padding: 0 16px;
+  }
+  .concepts-page .bcrumb {
+    padding: 0 16px;
+  }
+  .concepts-page .bc-l {
+    font-size: 12px;
+  }
+  .concepts-page .bcb {
+    display: none;
+  }
+  .concepts-page .hero {
+    height: auto;
+    min-height: 340px;
+    align-items: flex-end;
+  }
+  .concepts-page .hero-ov {
+    background: linear-gradient(to top, rgba(12, 16, 6, .95) 12%, rgba(12, 16, 6, .66) 48%, rgba(12, 16, 6, .2) 100%);
+  }
+  .concepts-page .hero-share {
+    top: 13px;
+    right: 14px;
+    padding: 6px 13px;
+    font-size: 11.5px;
+  }
+  .concepts-page .hero-c {
+    padding: 0 16px 24px;
+  }
+  .concepts-page .hero-h1 {
+    font-size: 29px;
+  }
+  .concepts-page .hero-sub {
+    font-size: 14px;
+  }
+  .concepts-page .hero-btns {
+    flex-direction: row;
+    gap: 9px;
+  }
+  .concepts-page .hb-p,
+  .concepts-page .hb-g {
+    flex: 1 1 0;
+    min-width: 0;
+    text-align: center;
+    padding: 12px 8px;
+    font-size: 12.5px;
+    line-height: 1.25;
+    white-space: normal;
+  }
+  .concepts-page .strip-in {
+    padding: 11px 16px;
+    height: auto;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .concepts-page .tp {
+    gap: 12px;
+  }
+  .concepts-page .chips {
+    padding: 10px 16px;
+    top: 56px;
+  }
+  .concepts-page .chip-l {
+    display: none;
+  }
+  .concepts-page .layout {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding-top: 18px;
+  }
+  .concepts-page .main {
+    max-width: none;
+  }
+  .concepts-page .side {
+    position: static;
+    margin-top: 26px;
+  }
+  .concepts-page .open {
+    font-size: 20px;
+  }
+  .concepts-page .p {
+    font-size: 14.5px;
+  }
+  .concepts-page .sh-t {
+    font-size: 17.5px;
+  }
+  .concepts-page .turn {
+    font-size: 17px;
+  }
+  .concepts-page figure.art {
+    margin: 22px -16px;
+    border-radius: 0;
+  }
+  .concepts-page .pull {
+    padding: 22px 20px;
+  }
+  .concepts-page .rev {
+    grid-template-columns: 1fr;
+    gap: 11px;
+  }
+  .concepts-page .rev-c {
+    padding: 17px 18px;
+    height: auto;
+    align-items: stretch;
+  }
+  .concepts-page .rev-c .rev-s {
+    flex: 0 0 auto;
+  }
+  .concepts-page .relgrid {
+    grid-template-columns: 1fr;
+  }
+  .concepts-page .sticky {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 70;
+    background: rgba(255, 255, 255, .97);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid var(--border);
+    padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
+    max-width: 430px;
+    margin: 0 auto;
+    gap: 9px;
+    box-shadow: 0 -2px 16px rgba(28, 23, 18, .08);
+  }
+  .concepts-page .sticky .a {
+    flex: 1;
+    background: #1F9D52;
+    color: #fff;
+    border: none;
+    border-radius: 11px;
+    padding: 12px;
+    font-size: 13.5px;
+    font-weight: 700;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.25;
+  }
+  .concepts-page .sticky .b {
+    flex: 1;
+    background: var(--darkbar);
+    border: none;
+    border-radius: 11px;
+    padding: 12px;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .concepts-page .sticky small {
+    font-size: 11px;
+    font-weight: 500;
+    opacity: .85;
+  }
+}

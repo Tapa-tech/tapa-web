@@ -11,6 +11,7 @@ generator client {
 enum UserRole {
   CUSTOMER
   ADMIN
+  SUPER_ADMIN
 }
 
 enum AuthProvider {
@@ -28,12 +29,27 @@ model User {
   passwordHash  String?       // Hashed password for email/password credentials
   emailVerified DateTime?
   phoneVerified DateTime?
+
+  // --- Consent fields ---
+  consentGiven      Boolean   @default(false)
+  consentGivenAt    DateTime?
+  consentVersion    String?   // e.g. "v1.0"
+  consentIpAddress  String?   // IP at time of consent
+
+  isActive      Boolean       @default(true)
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
 
   accounts      OAuthAccount[]
   refreshTokens RefreshToken[]
   otpRequests   OTPRequest[]
+  savedGuides   RitualGuide[]  @relation("SavedGuides")
+  downloadRecords DownloadRecord[]
+
+  cartItems     CartItem[]
+  wishlistItems WishlistItem[]
+  orders        Order[]
+  tapaCircleSubscriber TapaCircleSubscriber?
 }
 
 model OAuthAccount {
@@ -109,6 +125,8 @@ model RitualGuide {
   status            ContentStatus       @default(DRAFT)
   category          String              // e.g. "Festive Pujans", "All-year Pujans", "Navagraha Pujans"
   introText         String              @db.Text
+  introTitle        String?
+  introDesc         String?             @db.Text
   sankalpaBody      String              @db.Text
   sankalpaQuote     String              @db.Text            // "Say this - or your own words" card
   fastOptions       Json                // [{ name: "Nirjala", desc: "...", recommended: bool }]
@@ -122,10 +140,75 @@ model RitualGuide {
   dpbEntries        DPBEntry[]
   sources           RitualGuideSource[]
   faqs              RitualGuideFAQ[]
-  thumbnailUrl      String?
-  audioUrl          String?
-  createdAt         DateTime            @default(now())
+  thumbnailUrl          String?
+  audioUrl              String?
+  panchangObservance    String?
+  panchangObservanceSub String?
+  panchangAlignment     String?
+  panchangMuhurta       String?
+  panchangMuhurtaSub    String?
+  panchangTithi         String?
+  panchangTithiSub      String?
+  panchangVijay         String?
+  panchangVijaySub      String?
+  panchangNote          String?             @db.Text
+  panchangDays          Json?
+  
+  // New CMS editable fields
+  heroStoryImage        String?
+  heroImageCaption      String?
+  narrationAudioFileUrl String?
+  narrationDuration     String?
+  narrationLanguage     String?
+  heroCtaButtons        Json?
+  sankalpaWho           String?
+  sankalpaWhenWhere     String?
+  sankalpaForWhat       String?
+  sankalpaLanguageNote  String?
+  sankalpaTitle         String?
+  sankalpaSub           String?
+  sankalpaDesc          String?             @db.Text
+  vidhiTitle            String?
+  vidhiSubtitle         String?
+  vidhiMuhuratNote      String?             @db.Text
+  nineFormsBannerImage  String?
+  nineFormsBannerCaption String?
+  nineFormsTable        Json?
+  nineFormsColourNote   String?
+  nineFormsOfferingsNote String?
+  kathaSourceLabel      String?
+  kathaCardHeadline     String?
+  kathaCardTeaser       String?
+  kathaAudioDuration    String?
+  kathaAudioFileUrl     String?
+  kathaSteps            Json?
+  kathaWhyNineNightsNote String?
+  ashtamiNavamiBody     String?             @db.Text
+  ashtamiNavamiTag      String?
+  ashtamiNavamiSandhiNote String?
+  deepDiveTitle         String?
+  deepDiveTeaser        String?
+  deepDiveBody          String?             @db.Text
+  deepDiveConceptId     String?
+  deepDiveClosingText   String?
+  relatedRitualGuides   Json?
+  relatedPujans         Json?
+  relatedConcepts       Json?
+  relatedDates          Json?
+  preferCareGlobal      Boolean             @default(true)
+  kitName               String?
+  kitPrice              String?
+  kitDescription        String?
+  purohitServiceDescription String?
+  tapaCircleDescription String?
+  showKitCard           Boolean             @default(true)
+  showPurohitCard       Boolean             @default(true)
+  showCircleCard        Boolean             @default(true)
+
+  createdAt             DateTime            @default(now())
   updatedAt         DateTime            @updatedAt
+
+  savedBy           User[]              @relation("SavedGuides")
 }
 
 model RitualStep {
@@ -136,6 +219,7 @@ model RitualStep {
   title         String
   description   String      @db.Text
   note          String?     @db.Text            // Pratha correction embedded in a step, e.g. "Green attire is regional custom"
+  stepTags      String?
 }
 
 model Mantra {
@@ -258,3 +342,230 @@ model DPBEntry {
   createdAt        DateTime        @default(now())
   updatedAt        DateTime        @updatedAt
 }
+
+model RitualKit {
+  id          String   @id
+  name        String
+  hindi       String?
+  occ         String
+  deity       String
+  price       Float
+  mrp         Float?
+  inStock     Boolean  @default(true)
+  stockLeft   Int?
+  itemsCount  String
+  ribbon      String?
+  delivery    String
+  isFeatured  Boolean  @default(false)
+  description String?  @db.Text
+  imageUrl    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum DownloadContentType {
+  RITUAL_GUIDE_PDF
+  SAMAGRI_CHECKLIST
+  PANCHANG_CALENDAR
+}
+
+model DownloadRecord {
+  id            String              @id @default(cuid())
+  userId        String
+  user          User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  contentType   DownloadContentType
+  contentId     String?             // RitualGuide.id when relevant; null for the Panchang calendar
+  contentTitle  String              // denormalized snapshot of the title at download time
+  downloadedAt  DateTime            @default(now())
+  ipAddress     String?
+  userAgent     String?
+
+  @@index([userId])
+  @@index([contentType])
+}
+
+model UpcomingFeature {
+  id            String   @id @default(cuid())
+  key           String   @unique  // "ritual_kits" | "purohit_booking" | "bhajan_mandali"
+  launchLabel   String?  // e.g. "LAUNCHING September 24th" — null if no specific date is set yet
+  badgeText     String?  // e.g. "Launching soon" — shown on nav tabs/cards
+  teaserTitle   String?  // e.g. "Complete Samagri for every puja."
+  teaserBody    String?  // e.g. "Ritually correct. Sourced right. Delivered before your ritual."
+  isLive        Boolean  @default(false) // flips to true when the real feature ships in a later gate
+  updatedAt     DateTime @updatedAt
+}
+
+model AnnouncementMessage {
+  id          String    @id @default(cuid())
+  message     String
+  isActive    Boolean   @default(false) // only one should be active at a time — enforce this in the admin UI/logic
+  startDate   DateTime? // optional scheduling — e.g. auto-activate during Sawan
+  endDate     DateTime?
+  priority    Int       @default(0)     // if multiple are active/scheduled to overlap, higher priority wins
+  createdAt   DateTime  @default(now())
+}
+
+enum ProductType {
+  SAMAGRI_ITEM
+  PUJA_KIT
+}
+
+enum CODAvailability {
+  AVAILABLE
+  NOT_AVAILABLE
+}
+
+enum PaymentMethod {
+  COD
+  RAZORPAY_UPI
+  RAZORPAY_CARD
+  RAZORPAY_NETBANKING
+}
+
+enum PaymentStatus {
+  PENDING_ON_DELIVERY
+  PAID
+  FAILED
+  REFUNDED
+}
+
+enum OrderStatus {
+  CONFIRMED
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+model Product {
+  id              String           @id @default(cuid())
+  name            String
+  slug            String           @unique
+  type            ProductType
+  description     String           @db.Text
+  images          String[]         // Array of image URLs
+  price           Decimal          @db.Decimal(10, 2)
+  mrp             Decimal?         @db.Decimal(10, 2) // Struck-through original price
+  stock           Int              @default(0)
+  category        String           // Occasion or category for COD grouping
+  codAvailability CODAvailability  @default(AVAILABLE)
+  kitItems        KitItem[]        // Mapped when type = PUJA_KIT
+  linkedRitualGuideId String?      // Mapped to helper article
+  status          ContentStatus    @default(DRAFT)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  cartItems       CartItem[]
+  wishlistItems   WishlistItem[]
+  orderItems      OrderItem[]
+}
+
+model KitItem {
+  id           String   @id @default(cuid())
+  productId    String
+  product      Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  itemName     String
+  itemFunction String   // "For Maa Parvati's offering"
+}
+
+model CartItem {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  quantity  Int      @default(1)
+  addedAt   DateTime @default(now())
+
+  @@unique([userId, productId])
+}
+
+model WishlistItem {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  addedAt   DateTime @default(now())
+
+  @@unique([userId, productId])
+}
+
+model Order {
+  id                String        @id @default(cuid())
+  orderNumber       String        @unique // format: TK-2026-0714 per content spec
+  userId            String
+  user              User          @relation(fields: [userId], references: [id])
+  items             OrderItem[]
+  paymentMethod     PaymentMethod
+  paymentStatus     PaymentStatus
+  orderStatus       OrderStatus   @default(CONFIRMED)
+  totalAmount       Decimal       @db.Decimal(10, 2)
+  deliveryAddress   Json          // snapshot of address at order time
+  estimatedDelivery DateTime?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+}
+
+model OrderItem {
+  id           String   @id @default(cuid())
+  orderId      String
+  order        Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId    String
+  product      Product  @relation(fields: [productId], references: [id])
+  productName  String   // denormalized snapshot
+  quantity     Int
+  priceAtOrder Decimal  @db.Decimal(10, 2)
+}
+
+model TapaCircleSubscriber {
+  id             String    @id @default(cuid())
+  userId         String    @unique
+  user           User      @relation(fields: [userId], references: [id])
+  whatsappNumber String
+  consentGiven   Boolean   @default(false)
+  consentGivenAt DateTime?
+  status         String    @default("PENDING_PAYMENT")
+  expiresAt      DateTime?
+  createdAt      DateTime  @default(now())
+}
+
+model BroadcastMessage {
+  id              String   @id @default(cuid())
+  message         String   @db.Text
+  recipientsCount Int
+  sentAt          DateTime @default(now())
+}
+
+model AuditLog {
+  id           String   @id @default(cuid())
+  action       String   // "ROLE_CHANGE" | "USER_DEACTIVATED" | "USER_ACTIVATED" | "ORDER_STATUS_OVERRIDE" | etc.
+  targetType   String   // "User" | "Order" | "Product" etc.
+  targetId     String
+  performedBy  String   // userId of the admin/super-admin who did it
+  details      Json?    // e.g. { from: "ADMIN", to: "SUPER_ADMIN" }
+  createdAt    DateTime @default(now())
+}
+
+model HomepageBanner {
+  id              String   @id @default(cuid())
+  isActive        Boolean  @default(false)
+  imageUrl        String   // Banner background image
+  orderByDate     DateTime? // Order-by date
+  festivalTitle   String   // e.g. "Complete Ganesh Chaturthi Puja Kit"
+  mainHeading     String   // e.g. "Complete Ganesh Chaturthi"
+  highlightedText String   // e.g. "Puja Kit"
+  description     String   @db.Text
+  price           Decimal  @db.Decimal(10, 2)
+  mrp             Decimal? @db.Decimal(10, 2) // Optional original struck-through price
+  primaryCtaText  String   @default("Pre-book Kit now ›")
+  primaryCtaLink  String   @default("/cart")
+  secondaryCtaText String? @default("View Kit Details")
+  secondaryCtaLink String? @default("/ritual-kits")
+  festivalDate    DateTime? // Festival/event date
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+
+

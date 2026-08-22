@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
       const dateOnly = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
 
       const exists = await db.panchangEntry.findUnique({
-        where: { date: dateOnly },
+        where: { date_city: { date: dateOnly, city: item.city || "Delhi-NCR" } },
       });
 
       if (exists) {

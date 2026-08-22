@@ -1,18 +1,41 @@
-import React from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
 
 export default function AnnouncementBar() {
+  const [message, setMessage] = useState("<strong>Dharma does not demand fear.</strong> It demands devotion.");
+
+  useEffect(() => {
+    async function loadAnnouncement() {
+      try {
+        const res = await fetch("/api/public/announcements");
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.message) {
+            if (data.message.includes("demand fear")) {
+              setMessage("<strong>Dharma does not demand fear.</strong> It demands devotion.");
+            } else {
+              setMessage(data.message);
+            }
+          }
+        }
+      } catch (err) {
+        console.error("Failed to load active announcement:", err);
+      }
+    }
+    loadAnnouncement();
+  }, []);
+
+  if (!message) return null;
+
   return (
     <div className="announce select-none">
-      <div className="wrap">
-        <p className="announce-text font-sans">
-          <strong>Dharma doesn&apos;t demand fear</strong> — it demands pure devotion.
-        </p>
-        <div className="announce-links">
-          <span className="announce-link font-sans cursor-not-allowed">Scripture References</span>
-          <span className="announce-link font-sans cursor-not-allowed">Authenticity</span>
-          <span className="announce-link font-sans cursor-not-allowed">About The Tapa Co.</span>
-        </div>
-      </div>
+      <p
+        className="ann-text font-sans"
+        dangerouslySetInnerHTML={{ __html: message }}
+      />
     </div>
   );
 }
+
+

@@ -13,7 +13,7 @@ export async function GET() {
         sources: { include: { source: true } },
         faqs: { include: { faq: true }, orderBy: { order: "asc" } },
       },
-      orderBy: { createdAt: "desc" },
+      orderBy: { createdAt: "asc" },
     });
 
     return NextResponse.json(guides);

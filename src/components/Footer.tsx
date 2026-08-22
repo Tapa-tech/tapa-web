@@ -1,12 +1,30 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 
 interface FooterProps {
   onTriggerToast: (message: string) => void;
 }
 
 export default function Footer({ onTriggerToast }: FooterProps) {
+  const [features, setFeatures] = React.useState<Record<string, { launchLabel?: string | null; badgeText?: string | null; teaserTitle?: string | null; teaserBody?: string | null; isLive?: boolean }>>({});
+
+  React.useEffect(() => {
+    async function loadFeatures() {
+      try {
+        const res = await fetch("/api/public/upcoming-features");
+        if (res.ok) {
+          const data = await res.json();
+          setFeatures(data);
+        }
+      } catch (err) {
+        console.error("Failed to load upcoming features in footer:", err);
+      }
+    }
+    loadFeatures();
+  }, []);
+
   const triggerToast = (msg: string) => {
     onTriggerToast(msg);
   };
@@ -115,12 +133,18 @@ export default function Footer({ onTriggerToast }: FooterProps) {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mt-6 pt-6 border-t border-dashed border-white/10 font-sans">
             <div className="sm-cat locked">
               <div className="sm-cat-t font-bold text-hero-text">Ritual Kits</div>
-              <span className="sm-when">Opening October 2026</span>
-              <span className="sm-when-s">Samagri kits for every ritual guide, delivered before the date.</span>
+              <span className="sm-when">
+                {features.ritual_kits?.launchLabel || "Opening October 2026"}
+              </span>
+              <span className="sm-when-s">
+                {features.ritual_kits?.teaserBody || "Samagri kits for every ritual guide, delivered before the date."}
+              </span>
             </div>
             <div className="sm-cat locked">
               <div className="sm-cat-t font-bold text-hero-text">Purohit &amp; Puja</div>
-              <span className="sm-when">Opening November 2026</span>
+              <span className="sm-when">
+                {features.purohit_booking?.launchLabel || "Opening November 2026"}
+              </span>
               <span className="sm-when-s">
                 Book a verified purohit.{" "}
                 <a
@@ -137,8 +161,12 @@ export default function Footer({ onTriggerToast }: FooterProps) {
             </div>
             <div className="sm-cat locked">
               <div className="sm-cat-t font-bold text-hero-text">Bhajan Mandali</div>
-              <span className="sm-when">Coming soon</span>
-              <span className="sm-when-s">Sundarkand, Mata Ki Chowki, Shyam Darbaar and more.</span>
+              <span className="sm-when">
+                {features.bhajan_mandali?.launchLabel || "Coming soon"}
+              </span>
+              <span className="sm-when-s">
+                {features.bhajan_mandali?.teaserBody || "Sundarkand, Mata Ki Chowki, Shyam Darbaar and more."}
+              </span>
             </div>
             <div></div>
           </div>
@@ -172,8 +200,8 @@ export default function Footer({ onTriggerToast }: FooterProps) {
             </div>
             <div>
               <div className="fcol-label font-bold text-gold">FOR YOU</div>
-              <span onClick={() => triggerToast("Opening My Account...")} className="flink cursor-pointer hover:text-white transition-colors">My Account</span>
-              <span onClick={() => triggerToast("Opening Saved Rituals...")} className="flink cursor-pointer hover:text-white transition-colors">Saved Rituals</span>
+              <Link href="/account" className="flink hover:text-white transition-colors">My Account</Link>
+              <Link href="/account" className="flink hover:text-white transition-colors">Saved Rituals</Link>
               <span className="flink locked">Order History</span>
               <span onClick={() => triggerToast("Opening My Reminders...")} className="flink cursor-pointer hover:text-white transition-colors">My Reminders</span>
               <span onClick={() => triggerToast("Opening Notification Preferences...")} className="flink cursor-pointer hover:text-white transition-colors">Notification Preferences</span>

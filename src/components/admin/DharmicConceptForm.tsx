@@ -18,6 +18,8 @@ export default function DharmicConceptForm({ initialId }: DharmicConceptFormProp
   const [bodyJson, setBodyJson] = useState("");
   const [thumbnailUrl, setThumbnailUrl] = useState("");
 
+  const [bodyLoaded, setBodyLoaded] = useState(false);
+
   const [loading, setLoading] = useState(initialId ? true : false);
   const [uploading, setUploading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -27,6 +29,7 @@ export default function DharmicConceptForm({ initialId }: DharmicConceptFormProp
   const editor = useEditor({
     extensions: [StarterKit],
     content: "",
+    immediatelyRender: false,
     onUpdate({ editor }) {
       setBodyJson(JSON.stringify(editor.getJSON()));
     },
@@ -49,16 +52,6 @@ export default function DharmicConceptForm({ initialId }: DharmicConceptFormProp
         setStatus(data.status);
         setThumbnailUrl(data.thumbnailUrl || "");
         setBodyJson(data.body);
-
-        // Load content into editor
-        if (editor) {
-          try {
-            const parsed = JSON.parse(data.body);
-            editor.commands.setContent(parsed);
-          } catch {
-            editor.commands.setContent(data.body);
-          }
-        }
       }
     } catch (err) {
       console.error("Failed to load concept:", err);
@@ -70,15 +63,16 @@ export default function DharmicConceptForm({ initialId }: DharmicConceptFormProp
 
   // Set editor content once loaded
   useEffect(() => {
-    if (editor && bodyJson && !initialId) {
+    if (editor && bodyJson && !bodyLoaded) {
       try {
         const parsed = JSON.parse(bodyJson);
         editor.commands.setContent(parsed);
       } catch {
         editor.commands.setContent(bodyJson);
       }
+      setBodyLoaded(true);
     }
-  }, [editor, bodyJson, initialId]);
+  }, [editor, bodyJson, bodyLoaded]);
 
   // Auto-generate slug from title
   const handleTitleChange = (val: string) => {

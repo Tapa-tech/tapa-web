@@ -1,10 +1,41 @@
-import React from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
 
 interface CategoryTabsProps {
   activeTab?: string;
 }
 
+interface FeatureMetadata {
+  launchLabel?: string;
+  badgeText?: string;
+  isLive?: boolean;
+}
+
 export default function CategoryTabs({ activeTab = "Ritual Guides" }: CategoryTabsProps) {
+  const [kitsMeta, setKitsMeta] = useState<FeatureMetadata>({ badgeText: "Launching soon" });
+  const [purohitMeta, setPurohitMeta] = useState<FeatureMetadata>({ launchLabel: "(will be launched in November)" });
+
+  useEffect(() => {
+    async function loadTeasers() {
+      try {
+        const res = await fetch("/api/public/upcoming-features");
+        if (res.ok) {
+          const data = await res.json();
+          if (data.ritual_kits) {
+            setKitsMeta(data.ritual_kits);
+          }
+          if (data.purohit_booking) {
+            setPurohitMeta(data.purohit_booking);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to load upcoming features for tabs:", err);
+      }
+    }
+    loadTeasers();
+  }, []);
+
   const tabs = [
     {
       id: "Ritual Guides",
@@ -13,18 +44,19 @@ export default function CategoryTabs({ activeTab = "Ritual Guides" }: CategoryTa
     {
       id: "Ritual Kits",
       label: "Ritual Kits",
-      badge: "Launching soon",
+      badge: kitsMeta.isLive ? undefined : (kitsMeta.badgeText || undefined),
     },
     {
       id: "Pujan with Purohit",
       label: "Pujan with Purohit",
-      subLabel: "(will be launched in November)",
+      subLabel: purohitMeta.isLive ? undefined : (purohitMeta.launchLabel || undefined),
     },
     {
       id: "Panchang",
       label: "Panchang",
     },
   ];
+
 
   return (
     <nav className="border-b border-border bg-card w-full sticky top-[64px] z-50 shadow-sm overflow-x-auto scrollbar-none select-none">
