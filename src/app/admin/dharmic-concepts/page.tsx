@@ -57,7 +57,7 @@ export default function DharmicConceptsList() {
 
   return (
     <div className="space-y-6 animate-fadeIn">
-      {/* Header */}
+      
       <div className="flex items-center justify-between border-b border-[#F2ECE4] pb-4">
         <div>
           <h1 className="font-serif font-bold text-2xl text-[#3A332C]">Dharmic Concepts</h1>
@@ -74,7 +74,7 @@ export default function DharmicConceptsList() {
         </Link>
       </div>
 
-      {/* List */}
+      
       {loading ? (
         <div className="flex justify-center py-10">
           <div className="w-6 h-6 border-2 border-[#C82A54] border-t-transparent rounded-full animate-spin"></div>

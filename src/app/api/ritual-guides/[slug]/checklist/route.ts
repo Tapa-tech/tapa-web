@@ -13,7 +13,7 @@ export async function GET(
   try {
     const slug = params.slug;
 
-    // 1. Authenticate & Verify Consent
+    
     const token = req.cookies.get("access_token")?.value;
     if (!token) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -28,7 +28,7 @@ export async function GET(
       return NextResponse.json({ error: "Consent required to download checklist" }, { status: 403 });
     }
 
-    // 2. Fetch guide data
+    
     const guide = await db.ritualGuide.findUnique({
       where: { slug },
       include: {
@@ -40,7 +40,7 @@ export async function GET(
       return NextResponse.json({ error: "Ritual Guide not found" }, { status: 404 });
     }
 
-    // 3. Log Download Record
+    
     await db.downloadRecord.create({
       data: {
         userId: payload.userId,
@@ -52,19 +52,19 @@ export async function GET(
       },
     });
 
-    // 4. Generate PDF Checklist
+    
     const doc = new jsPDF("p", "pt", "a4");
 
-    // Draw page 1 header
+    
     drawBrandedHeader(doc, `${guide.title} — Samagri Checklist`, `Checklist · ${guide.category}`);
 
-    // Title
+    
     doc.setFont("helvetica", "bold");
     doc.setFontSize(18);
-    doc.setTextColor(44, 32, 16); // Dark Charcoal
+    doc.setTextColor(44, 32, 16); 
     doc.text(`${guide.title} — Checklist`, 35, 78);
 
-    // Subtitle / Intro
+    
     doc.setFont("helvetica", "normal");
     doc.setFontSize(9.5);
     doc.setTextColor(106, 90, 78);
@@ -84,7 +84,7 @@ export async function GET(
       d.text("FUNCTION / SCRIPTURAL RATIONALE", 225, y + 14);
     };
 
-    // Checklist Columns headers
+    
     drawTableHead(doc, currentY);
     currentY += 22;
 
@@ -97,7 +97,7 @@ export async function GET(
         currentY += 22;
       }
 
-      // Alternating row styling
+      
       if (idx % 2 === 0) {
         doc.setFillColor(255, 255, 255);
       } else {
@@ -108,17 +108,17 @@ export async function GET(
       doc.setDrawColor(232, 224, 208);
       doc.line(35, currentY + 24, 560, currentY + 24);
 
-      // Checkbox visual block
+      
       doc.setDrawColor(138, 122, 104);
       doc.rect(45, currentY + 6, 12, 12);
 
-      // Item Name
+      
       doc.setFont("helvetica", "bold");
       doc.setFontSize(9);
       doc.setTextColor(44, 32, 16);
       doc.text(item.name, 85, currentY + 15);
 
-      // Function description
+      
       doc.setFont("helvetica", "normal");
       doc.setFontSize(8.5);
       doc.setTextColor(106, 90, 78);
@@ -128,7 +128,7 @@ export async function GET(
       currentY += 24;
     });
 
-    // Footers across all pages
+    
     const pageCount = doc.getNumberOfPages();
     for (let i = 1; i <= pageCount; i++) {
       doc.setPage(i);

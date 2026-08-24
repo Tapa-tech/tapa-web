@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
 
     const { email, password } = parse.data;
 
-    // 1. Look up user by email
+    
     const user = await db.user.findUnique({
       where: { email },
     });
@@ -51,14 +51,14 @@ export async function POST(req: NextRequest) {
     }
 
     if (!user || !user.passwordHash || (user.role !== "ADMIN" && user.role !== "SUPER_ADMIN")) {
-      // Return generic error to prevent email/account enumeration
+      
       return NextResponse.json(
         { error: "Invalid email or password." },
         { status: 401 }
       );
     }
 
-    // 2. Timing-safe password verification
+    
     const inputHash = hashSHA256(password);
     const isMatch = safeCompare(inputHash, user.passwordHash);
 
@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // 3. Issue Access and Refresh Tokens
+    
     const accessToken = await signAccessToken({
       userId: user.id,
       role: user.role,
@@ -80,7 +80,7 @@ export async function POST(req: NextRequest) {
     const refreshTokenVal = generateOpaqueToken();
     const refreshTokenHash = hashSHA256(refreshTokenVal);
     const family = generateOpaqueToken();
-    const refreshTokenExpiry = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // 30 days
+    const refreshTokenExpiry = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); 
 
     const ipAddress = req.headers.get("x-forwarded-for") || req.ip || null;
     const userAgent = req.headers.get("user-agent") || null;
@@ -96,7 +96,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // 4. Set cookies and response
+    
     const response = NextResponse.json({
       success: true,
       user: {
@@ -112,7 +112,7 @@ export async function POST(req: NextRequest) {
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       path: "/",
-      maxAge: 15 * 60, // 15 mins
+      maxAge: 15 * 60, 
     });
 
     response.cookies.set("refresh_token", refreshTokenVal, {
@@ -120,7 +120,7 @@ export async function POST(req: NextRequest) {
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       path: "/",
-      maxAge: 30 * 24 * 60 * 60, // 30 days
+      maxAge: 30 * 24 * 60 * 60, 
     });
 
     return response;

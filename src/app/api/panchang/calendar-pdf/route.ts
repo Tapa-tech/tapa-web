@@ -50,7 +50,7 @@ const getHinduMonthAmanta2026 = (date: Date): string => {
 
 export async function GET(req: NextRequest) {
   try {
-    // 1. Authenticate & Verify Consent
+    
     const token = req.cookies.get("access_token")?.value;
     if (!token) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -65,14 +65,14 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Consent required to download panchang" }, { status: 403 });
     }
 
-    // 2. Parse query parameters
+    
     const searchParams = req.nextUrl.searchParams;
     const type = (searchParams.get("type") || "calendar") as "calendar" | "vrat" | "festival";
     const city = searchParams.get("city") || "Delhi-NCR";
     const calendarSystem = (searchParams.get("calendarSystem") || "Purnimanta") as "Purnimanta" | "Amanta";
     const currentFilter = searchParams.get("filter") || "All";
 
-    // 3. Log Download Record
+    
     await db.downloadRecord.create({
       data: {
         userId: payload.userId,
@@ -83,7 +83,7 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    // 4. Fetch dynamic Panchang & Vrat entries from DB
+    
     const vratEntries = await db.vratEntry.findMany({
       orderBy: { date: "asc" },
     });
@@ -118,7 +118,7 @@ export async function GET(req: NextRequest) {
       };
     });
 
-    // 5. Generate PDF
+    
     const doc = new jsPDF("p", "pt", "a4");
     const startX = 35;
 
@@ -127,7 +127,7 @@ export async function GET(req: NextRequest) {
 
       doc.setFont("helvetica", "bold");
       doc.setFontSize(16);
-      doc.setTextColor(44, 32, 16); // Dark Charcoal
+      doc.setTextColor(44, 32, 16); 
       doc.text("2026 Calendar", 35, 78);
 
       doc.setFont("helvetica", "normal");
@@ -348,7 +348,7 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    // Draw branded footers across all pages
+    
     const pageCount = doc.getNumberOfPages();
     for (let i = 1; i <= pageCount; i++) {
       doc.setPage(i);

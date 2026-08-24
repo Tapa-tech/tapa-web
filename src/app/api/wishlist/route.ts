@@ -15,7 +15,7 @@ async function getUserId(req: NextRequest): Promise<string | null> {
   }
 }
 
-// GET: Fetch all wishlist items for current user
+
 export async function GET(req: NextRequest) {
   const userId = await getUserId(req);
   if (!userId) {
@@ -40,7 +40,7 @@ export async function GET(req: NextRequest) {
   }
 }
 
-// POST: Save product to wishlist
+
 export async function POST(req: NextRequest) {
   const userId = await getUserId(req);
   if (!userId) {
@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "productId is required" }, { status: 400 });
     }
 
-    // Verify product exists
+    
     const product = await db.product.findUnique({
       where: { id: productId },
     });
@@ -61,7 +61,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Product not found" }, { status: 404 });
     }
 
-    // Create unique item
+    
     const existing = await db.wishlistItem.findUnique({
       where: {
         userId_productId: { userId, productId },
@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
     });
 
     if (existing) {
-      return NextResponse.json(existing); // Already in wishlist
+      return NextResponse.json(existing); 
     }
 
     const created = await db.wishlistItem.create({
@@ -86,7 +86,7 @@ export async function POST(req: NextRequest) {
   }
 }
 
-// DELETE: Remove product from wishlist
+
 export async function DELETE(req: NextRequest) {
   const userId = await getUserId(req);
   if (!userId) {

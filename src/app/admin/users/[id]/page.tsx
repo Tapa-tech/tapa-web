@@ -150,7 +150,7 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
 
   return (
     <div className="space-y-8 font-sans">
-      {/* Back button */}
+      
       <div>
         <Link
           href="/admin/users"
@@ -161,7 +161,7 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
         </Link>
       </div>
 
-      {/* Profile Header Grid */}
+      
       <div className="bg-white border border-[#EADFC9] rounded-2xl p-6 md:p-8 shadow-sm flex flex-col md:flex-row justify-between gap-6">
         <div className="flex items-start gap-4">
           <div className="w-14 h-14 rounded-full bg-[#FAF6EC] border border-[#EADFC9] text-[#C82A54] flex items-center justify-center flex-shrink-0">
@@ -198,7 +198,7 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
           </div>
         </div>
 
-        {/* Command Box */}
+        
         <div className="bg-[#FAF6EC] border border-[#EADFC9] rounded-xl p-5 md:max-w-xs w-full shadow-inner space-y-4">
           <div className="font-bold text-[9px] uppercase text-[#C82A54] tracking-wider border-b border-[#EADFC9]/50 pb-1.5">
             Super Admin Controls
@@ -236,9 +236,9 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Left column - Consent and Saved Guides */}
+        
         <div className="lg:col-span-1 space-y-8">
-          {/* Consent auditing */}
+          
           <div className="bg-white border border-[#EADFC9] rounded-2xl p-6 shadow-sm space-y-4">
             <h3 className="font-serif font-bold text-lg text-dark flex items-center gap-1.5 border-b border-[#F2ECE4] pb-2">
               <ShieldCheck size={18} className="text-green-600" />
@@ -273,7 +273,7 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
             )}
           </div>
 
-          {/* Bookmarked/Saved Guides */}
+          
           <div className="bg-white border border-[#EADFC9] rounded-2xl p-6 shadow-sm space-y-4">
             <h3 className="font-serif font-bold text-lg text-dark flex items-center gap-1.5 border-b border-[#F2ECE4] pb-2">
               <BookMarked size={18} className="text-pink" />
@@ -300,9 +300,9 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
           </div>
         </div>
 
-        {/* Right column - Download logs and Orders */}
+        
         <div className="lg:col-span-2 space-y-8">
-          {/* Order history */}
+          
           <div className="bg-white border border-[#EADFC9] rounded-2xl p-6 shadow-sm space-y-4">
             <h3 className="font-serif font-bold text-lg text-dark flex items-center gap-1.5 border-b border-[#F2ECE4] pb-2">
               <ShoppingBag size={18} className="text-[#C82A54]" />
@@ -358,7 +358,7 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
             )}
           </div>
 
-          {/* Download Logs */}
+          
           <div className="bg-white border border-[#EADFC9] rounded-2xl p-6 shadow-sm space-y-4">
             <h3 className="font-serif font-bold text-lg text-dark flex items-center gap-1.5 border-b border-[#F2ECE4] pb-2">
               <Download size={18} className="text-[#A67C52]" />

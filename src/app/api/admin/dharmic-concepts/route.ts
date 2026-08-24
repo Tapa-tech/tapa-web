@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: parse.error.issues[0].message }, { status: 400 });
     }
 
-    // Check slug uniqueness
+    
     const exists = await db.dharmicConcept.findUnique({
       where: { slug: parse.data.slug },
     });

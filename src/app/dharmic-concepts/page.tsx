@@ -2,8 +2,8 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import TopNav from "@/components/TopNav";
-import Footer from "@/components/Footer";
+import TopNav from "@/components/layout/TopNav";
+import Footer from "@/components/layout/Footer";
 import "./concepts.css";
 
 interface CardData {
@@ -140,7 +140,7 @@ export default function DharmicConceptsPage() {
     <div className="concepts-page min-h-screen">
       <TopNav />
 
-      {/* Toast Alert */}
+      
       {toastMessage && (
         <div 
           style={{
@@ -160,7 +160,7 @@ export default function DharmicConceptsPage() {
         </div>
       )}
 
-      {/* Breadcrumbs */}
+      
       <div className="bcrumb">
         <div className="bc-in">
           <div className="bc-l">
@@ -169,7 +169,7 @@ export default function DharmicConceptsPage() {
         </div>
       </div>
 
-      {/* Hero */}
+      
       <section className="hero">
         <div className="hero-bg"></div>
         <div className="hero-ov"></div>
@@ -190,14 +190,14 @@ export default function DharmicConceptsPage() {
         </div>
       </section>
 
-      {/* Page Body Wrap */}
+      
       <div className="wrap" style={{ paddingBottom: "60px" }}>
         <div className="layout">
           
-          {/* Main Column */}
+          
           <div className="main">
             
-            {/* Section 1: Materials */}
+            
             <div style={{ marginTop: "30px" }}>
               {renderSectionHeader(
                 "Materials",
@@ -239,7 +239,7 @@ export default function DharmicConceptsPage() {
 
             <div className="hr"></div>
 
-            {/* Section 2: Meanings & Practices */}
+            
             <div>
               {renderSectionHeader(
                 "Meanings & Practices",
@@ -281,7 +281,7 @@ export default function DharmicConceptsPage() {
 
             <div className="hr"></div>
 
-            {/* Section 3: Every Morning */}
+            
             <div>
               {renderSectionHeader(
                 "Daily Puja",
@@ -309,7 +309,7 @@ export default function DharmicConceptsPage() {
 
           </div>
 
-          {/* Sidebar */}
+          
           <div className="side">
             <div className="sbn">
               <div className="sbn-h">◗ LOOK UP ANY TERM</div>

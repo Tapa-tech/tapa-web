@@ -17,12 +17,12 @@ export async function POST(req: NextRequest) {
     const city = "Delhi-NCR";
 
     if (triggerAll) {
-      // Trigger the 45-day sync job via Inngest client
-      // Since it's a cron function, we can send a trigger or run it in background
-      // To run it asynchronously in the background so the HTTP response is fast:
+      
+      
+      
       const DAYS_AHEAD = 45;
       
-      // We run the sync in the background so the admin doesn't timeout
+      
       (async () => {
         try {
           console.log(`[MANUAL SYNC ALL] Starting 45-day rolling sync in background...`);

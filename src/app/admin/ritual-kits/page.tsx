@@ -82,7 +82,7 @@ export default function AdminKitsList() {
 
   return (
     <div className="space-y-6 animate-fadeIn font-sans">
-      {/* Header Banner */}
+      
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#F2ECE4] pb-4">
         <div>
           <div className="flex items-center gap-2 mb-1.5 text-xs text-[#8A7A6E]">

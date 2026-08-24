@@ -25,7 +25,7 @@ export default function AdminTapaCirclePage() {
   const [broadcasts, setBroadcasts] = useState<BroadcastLog[]>([]);
   const [loading, setLoading] = useState(true);
   
-  // Broadcast form states
+  
   const [broadcastMessage, setBroadcastMessage] = useState("");
   const [sendingBroadcast, setSendingBroadcast] = useState(false);
   const [updatingId, setUpdatingId] = useState<string | null>(null);
@@ -112,7 +112,7 @@ export default function AdminTapaCirclePage() {
         triggerToast(`Broadcast queued successfully! Mapped to ${data.count} subscribers.`);
         setBroadcastMessage("");
         
-        // Reload list to see logged message
+        
         loadData();
       } else {
         alert(data.error || "Failed to dispatch broadcast");
@@ -136,7 +136,7 @@ export default function AdminTapaCirclePage() {
 
   return (
     <div className="space-y-8 font-sans">
-      {/* Header Banner */}
+      
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#F2ECE4] pb-4 select-none">
         <div>
           <div className="flex items-center gap-2 mb-1.5 text-[10px] text-[#8A7A6E] uppercase font-bold tracking-wider">
@@ -155,7 +155,7 @@ export default function AdminTapaCirclePage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-8 items-start">
         
-        {/* Left Column: Subscribers Directory Table */}
+        
         <div className="space-y-4">
           <h2 className="font-serif font-bold text-lg text-dark flex items-center gap-2 select-none">
             <Users size={20} className="text-[#C82A54]" />
@@ -221,9 +221,9 @@ export default function AdminTapaCirclePage() {
           )}
         </div>
 
-        {/* Right Column: Send Broadcast alerts */}
+        
         <div className="space-y-6">
-          {/* Broadcast Composer */}
+          
           <div className="bg-card border border-[#EADFC9] rounded-2xl p-5 md:p-6 shadow-sm space-y-4">
             <h3 className="font-serif font-bold text-base text-dark border-b border-border pb-3 flex items-center gap-2 select-none">
               <Send size={16} className="text-[#C82A54]" />
@@ -263,7 +263,7 @@ export default function AdminTapaCirclePage() {
             </form>
           </div>
 
-          {/* Broadcast History logs */}
+          
           <div className="space-y-3">
             <h3 className="font-serif font-bold text-sm text-dark select-none">Broadcast Dispatch Logs</h3>
             
@@ -289,7 +289,7 @@ export default function AdminTapaCirclePage() {
 
       </div>
 
-      {/* Premium Toast Notification */}
+      
       {toastMessage && (
         <div className="fixed bottom-6 right-6 z-[100] bg-dark text-white border border-white/10 px-5 py-3 rounded-xl shadow-2xl flex items-center gap-2 animate-bounce font-sans text-xs select-none">
           <span className="w-1.5 h-1.5 rounded-full bg-pink animate-ping" />

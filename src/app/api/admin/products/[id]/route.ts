@@ -15,7 +15,7 @@ async function isAdmin(req: NextRequest): Promise<boolean> {
   }
 }
 
-// GET: Fetch detailed product by ID (including nested kitItems)
+
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
   if (!(await isAdmin(req))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -41,7 +41,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
   }
 }
 
-// PUT: Update an existing product
+
 export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
   if (!(await isAdmin(req))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -66,7 +66,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
       status,
     } = body;
 
-    // Check product exists
+    
     const product = await db.product.findUnique({
       where: { id },
     });
@@ -74,7 +74,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
       return NextResponse.json({ error: "Product not found" }, { status: 404 });
     }
 
-    // Verify unique slug if changed
+    
     if (slug && slug !== product.slug) {
       const existing = await db.product.findUnique({
         where: { slug },
@@ -84,14 +84,14 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
       }
     }
 
-    // Perform update (including deleting/re-creating kit items if PUJA_KIT)
+    
     const updated = await db.$transaction(async (tx) => {
-      // Delete old kitItems
+      
       await tx.kitItem.deleteMany({
         where: { productId: id },
       });
 
-      // Update product fields
+      
       return await tx.product.update({
         where: { id },
         data: {
@@ -129,7 +129,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   }
 }
 
-// DELETE: Delete a product
+
 export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
   if (!(await isAdmin(req))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

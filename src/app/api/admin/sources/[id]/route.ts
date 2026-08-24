@@ -41,7 +41,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
   }
 
   try {
-    // Delete any relation records first
+    
     await db.ritualGuideSource.deleteMany({
       where: { sourceId: params.id },
     });

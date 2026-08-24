@@ -4,9 +4,9 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Clock, MapPin, CreditCard, ShoppingBag, CheckCircle, Package, Truck, Smile } from "lucide-react";
-import AnnouncementBar from "@/components/AnnouncementBar";
-import TopNav from "@/components/TopNav";
-import Footer from "@/components/Footer";
+import AnnouncementBar from "@/components/layout/AnnouncementBar";
+import TopNav from "@/components/layout/TopNav";
+import Footer from "@/components/layout/Footer";
 
 interface OrderItem {
   id: string;
@@ -23,7 +23,7 @@ interface Order {
   paymentMethod: string;
   paymentStatus: "PENDING" | "PAID" | "FAILED" | "REFUNDED" | "PENDING_ON_DELIVERY";
   orderStatus: "CONFIRMED" | "PROCESSING" | "SHIPPED" | "DELIVERED" | "CANCELLED";
-  deliveryAddress: string; // JSON String
+  deliveryAddress: string; 
   items: OrderItem[];
 }
 
@@ -76,7 +76,7 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
     );
   }
 
-  // Safe parsing of address snapshot
+  
   let addressInfo = {
     name: "",
     mobile: "",
@@ -96,11 +96,11 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
     addressInfo.addressLine1 = order.deliveryAddress;
   }
 
-  // Calculate Subtotal & Shipping
+  
   const itemsSubtotal = order.items.reduce((sum, item) => sum + Number(item.priceAtOrder) * item.quantity, 0);
   const shippingFee = itemsSubtotal >= 1500 ? 0 : 99;
 
-  // Timeline Step Status Mapping
+  
   const steps = [
     { label: "Confirmed", status: "CONFIRMED", icon: CheckCircle },
     { label: "Processing", status: "PROCESSING", icon: Clock },
@@ -122,7 +122,7 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
         <TopNav activeTab="" onTriggerToast={triggerToast} />
 
         <main className="max-w-4xl mx-auto w-full px-4 py-8">
-          {/* Back Action */}
+          
           <Link
             href="/account"
             className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#C82A54] hover:text-[#B02047] transition-colors mb-6 group"
@@ -131,7 +131,7 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
             <span>Back to Account</span>
           </Link>
 
-          {/* Header Card */}
+          
           <div className="bg-[#FAF6EC] border border-[#EADFC9] rounded-2xl p-6 shadow-sm mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
               <div className="text-[10px] uppercase font-bold text-[#C82A54] tracking-wider mb-1">
@@ -157,7 +157,7 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
             </div>
           </div>
 
-          {/* Order Status Timeline Card */}
+          
           {order.orderStatus === "CANCELLED" ? (
             <div className="bg-red-50/50 border border-red-200 rounded-2xl p-6 shadow-sm mb-6 text-center">
               <span className="text-2xl block mb-1">🛑</span>
@@ -174,7 +174,7 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
               </h3>
               
               <div className="relative flex flex-col md:flex-row justify-between items-start md:items-center gap-6 md:gap-2">
-                {/* Horizontal line for desktop */}
+                
                 <div className="absolute left-[18px] top-[18px] bottom-[18px] w-0.5 md:left-4 md:right-4 md:top-4 md:h-0.5 md:w-auto bg-[#F2ECE4] z-0" />
                 
                 {steps.map((step, idx) => {
@@ -206,11 +206,11 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
             </div>
           )}
 
-          {/* Details columns grid */}
+          
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Left side info (Address + Payment) */}
+            
             <div className="md:col-span-2 space-y-6">
-              {/* Shipping Address */}
+              
               <div className="bg-white border border-[#EADFC9] rounded-2xl p-6 shadow-sm">
                 <h3 className="font-serif font-bold text-[#3A332C] text-lg mb-4 flex items-center gap-2 border-b border-[#F2ECE4] pb-2">
                   <MapPin size={18} className="text-[#C82A54]" />
@@ -231,7 +231,7 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
                 </div>
               </div>
 
-              {/* Payment Details */}
+              
               <div className="bg-white border border-[#EADFC9] rounded-2xl p-6 shadow-sm">
                 <h3 className="font-serif font-bold text-[#3A332C] text-lg mb-4 flex items-center gap-2 border-b border-[#F2ECE4] pb-2">
                   <CreditCard size={18} className="text-[#C82A54]" />
@@ -252,9 +252,9 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
               </div>
             </div>
 
-            {/* Right side info (Items + Bill) */}
+            
             <div className="space-y-6">
-              {/* Order Items & Totals */}
+              
               <div className="bg-white border border-[#EADFC9] rounded-2xl p-6 shadow-sm flex flex-col justify-between h-full">
                 <div>
                   <h3 className="font-serif font-bold text-[#3A332C] text-lg mb-4 flex items-center gap-2 border-b border-[#F2ECE4] pb-2">

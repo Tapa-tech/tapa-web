@@ -3,8 +3,8 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import TopNav from "@/components/TopNav";
-import Footer from "@/components/Footer";
+import TopNav from "@/components/layout/TopNav";
+import Footer from "@/components/layout/Footer";
 import { useCartStore } from "@/lib/store/cartStore";
 import { trackPageView, trackAddToCart } from "@/lib/analytics";
 import "./prebook.css";
@@ -89,10 +89,10 @@ export default function HomePage() {
   const [activeBanner, setActiveBanner] = useState<any>(null);
   const [nextVrat, setNextVrat] = useState<any>(null);
 
-  // Zustand Cart Store
+  
   const addToCartStore = useCartStore((state) => state.addToCart);
 
-  // Trigger Toast Notification
+  
   const triggerToast = (message: string) => {
     setToastMessage(message);
     setTimeout(() => {
@@ -154,7 +154,7 @@ export default function HomePage() {
   };
 
   const handlePrebook = (kitName: string, price: number) => {
-    // Try to find if we have a seeded/published product matching this slug
+    
     let matchingProduct = null;
     const nameLower = kitName.toLowerCase();
     if (nameLower.includes("ganesh")) {
@@ -164,7 +164,7 @@ export default function HomePage() {
     } else if (nameLower.includes("shiva")) {
       matchingProduct = products.find(p => p.slug === "shiva-puja-kit");
     } else {
-      // Fallback: try search by name match
+      
       matchingProduct = products.find(p => 
         p.name.toLowerCase().includes(nameLower) || 
         nameLower.includes(p.name.toLowerCase())
@@ -190,14 +190,14 @@ export default function HomePage() {
     triggerToast(`Alert set! We will notify you when ${kitName} bookings open.`);
   };
 
-  // Navratri Ghatsthapana Product check
+  
   const navratriProduct = products.find((p) => p.slug === "purna-ghatasthapana");
   const navratriPrice = navratriProduct ? `₹${navratriProduct.price}` : "₹1,890";
   const navratriPriceType = navratriProduct ? "incl. delivery" : "estimated";
 
   return (
     <div className="min-h-screen bg-[#F2EDE4] text-[#2C2010] font-sans antialiased">
-      {/* Toast Alert */}
+      
       {toastMessage && (
         <div className="fixed bottom-5 right-5 z-[9999] bg-[#FD066D] text-white px-5 py-3 rounded-xl shadow-2xl font-bold font-sans animate-fade-in">
           {toastMessage}
@@ -210,7 +210,7 @@ export default function HomePage() {
         onTriggerToast={triggerToast}
       />
 
-      {/* Pre-booking Bar */}
+      
       <div className="launch">
         <p>
           <span className="lb">PRE-BOOKING OPEN</span>
@@ -218,7 +218,7 @@ export default function HomePage() {
         </p>
       </div>
 
-      {/* Hero Section */}
+      
       <section className="hero-prebook">
         <div className="hero-img">
           <img 
@@ -229,7 +229,7 @@ export default function HomePage() {
         <div className="hero-scrim"></div>
         <div className="hero-wrap">
           <div className="hero-grid">
-            {/* Left Column: Hero Text Content */}
+            
             <div>
               <div className="hero-cut">PRE-BOOKING OPEN</div>
               <p className="hero-ey">{activeBanner?.festivalTitle || "DELIVERED BEFORE GANESH CHATURTHI"}</p>
@@ -283,7 +283,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Right Column: Dynamic Today's Panchang Panel */}
+            
             <div className="panchang-card">
               <div className="flex justify-between items-center mb-4 pb-3 border-b border-white/10 font-sans">
                 <div>
@@ -323,7 +323,7 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* Next Major Date */}
+              
               {nextVrat && (
                 <div className="mt-5 p-3 rounded-xl bg-[#E8A020]/15 border border-[#E8A020]/20 flex flex-col gap-1 font-sans">
                   <div className="text-[9px] uppercase tracking-wider text-[#E8A020] font-bold">NEXT MAJOR FESTIVAL</div>
@@ -348,7 +348,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Kit Shelf Section */}
+      
       <section className="sec">
         <div className="wrap">
           <div className="sec-head">
@@ -365,7 +365,7 @@ export default function HomePage() {
           </div>
 
           <div className="kshelf">
-            {/* Ganesh Sthapana Kit */}
+            
             <div className="kcard lead">
               <div className="k-top k-ganesh">
                 <span className="k-badge pre">PRE-BOOK</span>
@@ -396,7 +396,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Hartalika Teej Kit */}
+            
             <div className="kcard">
               <div className="k-top k-teej">
                 <span className="k-badge pre">PRE-BOOK</span>
@@ -427,7 +427,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Navratri Ghatsthapana Kit */}
+            
             <div className="kcard">
               <div className="k-top k-navratri">
                 <span className="k-badge">OPENS 20 SEP</span>
@@ -457,7 +457,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Shiva Puja Kit */}
+            
             <div className="kcard">
               <div className="k-top k-shiva">
                 <span className="k-badge">ALL YEAR</span>
@@ -488,7 +488,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Commerce Trust Strip */}
+          
           <div className="ctrust">
             <div className="ct">
               <div className="ct-t">Delivered before the date</div>
@@ -510,7 +510,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Knowledge-First Band */}
+      
       <section className="sec">
         <div className="wrap">
           <div className="kfirst">
@@ -556,7 +556,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Calendar Shelf Section */}
+      
       <section className="sec">
         <div className="wrap">
           <div className="sec-head">
@@ -571,7 +571,7 @@ export default function HomePage() {
           </div>
 
           <div className="shelf">
-            {/* Hartalika Teej */}
+            
             <div
               className="scard cursor-pointer"
               onClick={() => router.push("/ritual-guides/hartalika-teej")}
@@ -592,7 +592,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Ganesh Chaturthi */}
+            
             <div
               className="scard cursor-pointer"
               onClick={() => triggerToast("Ganesh Chaturthi guide is being compiled and will be live soon!")}
@@ -611,7 +611,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Radha Ashtami */}
+            
             <div
               className="scard cursor-pointer"
               onClick={() => triggerToast("Radha Ashtami guide is being drafted and will be live soon!")}
@@ -629,7 +629,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Anant Chaturdashi */}
+            
             <div
               className="scard cursor-pointer"
               onClick={() => triggerToast("Anant Chaturdashi guide will be published ahead of the date!")}
@@ -652,7 +652,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Category Shelf Section */}
+      
       <section className="sec">
         <div className="wrap">
           <div className="home-cats font-sans">
@@ -710,7 +710,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Myths Grid Section */}
+      
       <section className="sec">
         <div className="wrap">
           <div className="myths">
@@ -767,7 +767,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Editorial Method Section */}
+      
       <section className="sec">
         <div className="wrap">
           <div className="method font-sans">
@@ -805,7 +805,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* WhatsApp reminders bar */}
+      
       <section className="sec pb-12">
         <div className="wrap">
           <div className="circ font-sans">

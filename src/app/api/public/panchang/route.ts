@@ -13,7 +13,7 @@ interface PanchangaResult {
 const { getPanchanga } = PanchangLib as unknown as {
   getPanchanga: (date: Date, lat: number, lon: number, tz: string) => PanchangaResult;
 };
-import "@/lib/panchang/provider"; // Ensures NOAA monkeypatch is loaded
+import "@/lib/panchang/provider"; 
 
 export const dynamic = "force-dynamic";
 
@@ -35,15 +35,15 @@ export async function GET(req: NextRequest) {
     const coords = CITY_COORDS[city] || CITY_COORDS["Delhi-NCR"];
 
     const today = new Date();
-    // Standardize to UTC Midnight to match the database format
+    
     const todayUtc = new Date(Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()));
 
-    // Look for an entry matching today's date
+    
     let panchang = await db.panchangEntry.findUnique({
       where: { date_city: { date: todayUtc, city: "Delhi-NCR" } },
     });
 
-    // If not found, fall back to the latest entry in the database
+    
     if (!panchang) {
       panchang = await db.panchangEntry.findFirst({
         orderBy: { date: "desc" },
@@ -79,7 +79,7 @@ export async function GET(req: NextRequest) {
       };
     }
 
-    // Query the next upcoming vrat (date >= today)
+    
     const nextVrat = await db.vratEntry.findFirst({
       where: {
         date: { gte: todayUtc },
@@ -87,12 +87,12 @@ export async function GET(req: NextRequest) {
       orderBy: { date: "asc" },
     });
 
-    // Query all Vrat entries for calendar display
+    
     const vratEntries = await db.vratEntry.findMany({
       orderBy: { date: "asc" },
     });
 
-    // Query Panchang entries to map paksha/tithi details
+    
     const panchangEntries = await db.panchangEntry.findMany({
       where: { city: "Delhi-NCR" },
       select: {

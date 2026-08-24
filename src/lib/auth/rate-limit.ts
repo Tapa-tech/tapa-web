@@ -1,7 +1,7 @@
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 
-// Check if Upstash Redis credentials are set in environment
+
 const hasRedis =
   !!process.env.UPSTASH_REDIS_REST_URL &&
   !!process.env.UPSTASH_REDIS_REST_TOKEN;
@@ -14,7 +14,7 @@ if (hasRedis) {
   });
 }
 
-// Local in-memory sliding window fallback cache
+
 const inMemoryCache = new Map<string, { count: number; resetTime: number }>();
 
 export interface RateLimitResult {
@@ -44,7 +44,7 @@ export async function rateLimit(
     }
   }
 
-  // Memory fallback rate-limiting logic
+  
   const now = Date.now();
   const cached = inMemoryCache.get(key);
 

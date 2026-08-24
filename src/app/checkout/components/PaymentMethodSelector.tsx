@@ -32,7 +32,7 @@ export function PaymentMethodSelector({
       )}
 
       <div className="space-y-3 font-sans">
-        {/* COD Option */}
+        
         <label
           className={`flex items-center justify-between p-4 border rounded-xl cursor-pointer transition-all ${
             codDisabledInfo.disabled
@@ -60,7 +60,7 @@ export function PaymentMethodSelector({
           <span className="text-xs font-bold text-green-600">Active</span>
         </label>
 
-        {/* Online Payment Stub Options */}
+        
         {ONLINE_PAYMENT_OPTIONS.map((opt) => (
           <div
             key={opt.value}

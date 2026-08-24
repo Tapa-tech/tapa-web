@@ -2,9 +2,9 @@
 
 import React, { useState, useMemo, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import AnnouncementBar from "@/components/AnnouncementBar";
-import TopNav from "@/components/TopNav";
-import Footer from "@/components/Footer";
+import AnnouncementBar from "@/components/layout/AnnouncementBar";
+import TopNav from "@/components/layout/TopNav";
+import Footer from "@/components/layout/Footer";
 import { useCartStore } from "@/lib/store/cartStore";
 import { trackPageView, trackAddToCart, trackProductView } from "@/lib/analytics";
 import { Loader2 } from "lucide-react";
@@ -33,10 +33,10 @@ export default function RitualKitsPLP() {
   const router = useRouter();
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  // Zustand Cart Store
+  
   const addToCartStore = useCartStore((state) => state.addToCart);
 
-  // Filter States
+  
   const [activeOccasionTab, setActiveOccasionTab] = useState<string>("all");
   const [selectedOccasions, setSelectedOccasions] = useState<string[]>([]);
   const [selectedTypes, setSelectedTypes] = useState<string[]>(["PUJA_KIT", "SAMAGRI_ITEM"]);
@@ -45,7 +45,7 @@ export default function RitualKitsPLP() {
   const [inStockOnly, setInStockOnly] = useState<boolean>(false);
   const [sortBy, setSortBy] = useState<string>("recommended");
 
-  // Sections collapse toggles
+  
   const [sectionsCollapsed, setSectionsCollapsed] = useState({
     type: false,
     occasion: false,
@@ -63,11 +63,11 @@ export default function RitualKitsPLP() {
     setSectionsCollapsed((prev) => ({ ...prev, [sec]: !prev[sec] }));
   };
 
-  // Live products list from backend
+  
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Page View Analytics
+  
   useEffect(() => {
     trackPageView("/ritual-kits");
   }, []);
@@ -78,7 +78,7 @@ export default function RitualKitsPLP() {
         const res = await fetch("/api/public/products");
         if (res.ok) {
           const data = await res.json();
-          // Map prisma Decimal string fields to number
+          
           const mapped = (data as DBProduct[]).map((p) => ({
             ...p,
             price: Number(p.price),
@@ -117,36 +117,36 @@ export default function RitualKitsPLP() {
     setActiveOccasionTab("all");
   };
 
-  // Filtered and Sorted Products
+  
   const filteredProducts = useMemo(() => {
     let result = products;
 
-    // 1. Top Occasion Tab filter
+    
     if (activeOccasionTab !== "all") {
       result = result.filter((prod) => prod.category === activeOccasionTab);
     }
 
-    // 2. Sidebar Occasion filter checkboxes (if any are selected)
+    
     if (selectedOccasions.length > 0) {
       result = result.filter((prod) => selectedOccasions.includes(prod.category));
     }
 
-    // 3. Product Type filter checkboxes
+    
     if (selectedTypes.length > 0) {
       result = result.filter((prod) => selectedTypes.includes(prod.type));
     }
 
-    // 4. In Stock check
+    
     if (inStockOnly) {
       result = result.filter((prod) => prod.stock > 0);
     }
 
-    // 5. Price boundaries
+    
     const minVal = parseFloat(priceMin) || 0;
     const maxVal = parseFloat(priceMax) || 99999;
     result = result.filter((prod) => prod.price >= minVal && prod.price <= maxVal);
 
-    // Sort algorithms
+    
     if (sortBy === "price-low") {
       result = [...result].sort((a, b) => a.price - b.price);
     } else if (sortBy === "price-high") {
@@ -158,12 +158,12 @@ export default function RitualKitsPLP() {
     return result;
   }, [products, activeOccasionTab, selectedOccasions, selectedTypes, inStockOnly, priceMin, priceMax, sortBy]);
 
-  // Featured Kit check
+  
   const featuredProduct = useMemo(() => {
     return products.find((prod) => prod.isFeatured);
   }, [products]);
 
-  // Determine if featured card matches active filters
+  
   const showFeaturedCard = useMemo(() => {
     if (!featuredProduct) return false;
     if (activeOccasionTab !== "all" && activeOccasionTab !== "navratri") return false;
@@ -186,7 +186,7 @@ export default function RitualKitsPLP() {
       category: prod.category,
       codAvailability: prod.codAvailability,
     });
-    // Trigger analytics
+    
     trackAddToCart(prod.id, prod.name, prod.price, 1, prod.category);
     triggerToast(`Added ${prod.name} to your cart!`);
   };
@@ -217,13 +217,13 @@ export default function RitualKitsPLP() {
 
   return (
     <div className="min-h-screen bg-bg text-body-text font-sans antialiased plp-container">
-      {/* 1. Announcement Bar */}
+      
       <AnnouncementBar />
 
-      {/* 2. Top Navigation */}
+      
       <TopNav activeTab="Ritual Kits" onTriggerToast={triggerToast} />
 
-      {/* 3. Breadcrumb */}
+      
       <div className="breadcrumb-bar select-none">
         <div className="wrap">
           <a href="/" className="hover:underline">Home</a>
@@ -232,7 +232,7 @@ export default function RitualKitsPLP() {
         </div>
       </div>
 
-      {/* 4. Page Hero Band */}
+      
       <div className="page-hero select-none">
         <div className="wrap">
           <div className="hero-inner">
@@ -282,7 +282,7 @@ export default function RitualKitsPLP() {
         </div>
       </div>
 
-      {/* 5. Subnav Tabs (Sticky Below Header) */}
+      
       <div className="sticky top-[64px] z-40 bg-card border-b border-border w-full select-none">
         <div className="max-w-[var(--content-w)] mx-auto px-4 md:px-10 flex items-center justify-between h-12">
           <div className="flex gap-2 overflow-x-auto scrollbar-none whitespace-nowrap py-1 select-none w-full md:w-auto" role="tablist">
@@ -322,17 +322,17 @@ export default function RitualKitsPLP() {
         </div>
       </div>
 
-      {/* 6. Content Sidebar + Grid */}
+      
       <div className="max-w-[var(--content-w)] mx-auto px-4 md:px-10 py-7 grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-8 items-start w-full">
         
-        {/* Sidebar Filters */}
+        
         <aside className="bg-card border border-border rounded-2xl overflow-hidden lg:sticky lg:top-[112px] flex flex-col w-full select-none" aria-label="Filter kits">
           <div className="sidebar-head">
             <span className="sidebar-title">FILTERS</span>
             <button className="sidebar-reset cursor-pointer font-bold" onClick={handleResetFilters}>Clear all</button>
           </div>
 
-          {/* Product Type Section */}
+          
           <div className="sidebar-section">
             <div className="sidebar-sec-head" onClick={() => toggleSection("type")}>
               <span className="sidebar-sec-label">PRODUCT TYPE</span>
@@ -352,7 +352,7 @@ export default function RitualKitsPLP() {
             )}
           </div>
 
-          {/* Occasion Section */}
+          
           <div className="sidebar-section">
             <div className="sidebar-sec-head" onClick={() => toggleSection("occasion")}>
               <span className="sidebar-sec-label">OCCASION / CATEGORY</span>
@@ -376,7 +376,7 @@ export default function RitualKitsPLP() {
             )}
           </div>
 
-          {/* Price Range Section */}
+          
           <div className="sidebar-section">
             <div className="sidebar-sec-head" onClick={() => toggleSection("price")}>
               <span className="sidebar-sec-label">PRICE RANGE</span>
@@ -405,7 +405,7 @@ export default function RitualKitsPLP() {
             )}
           </div>
 
-          {/* Availability Section */}
+          
           <div className="sidebar-section">
             <div className="sidebar-sec-head" onClick={() => toggleSection("availability")}>
               <span className="sidebar-sec-label">AVAILABILITY</span>
@@ -429,10 +429,10 @@ export default function RitualKitsPLP() {
           </div>
         </aside>
 
-        {/* Product Grid Area */}
+        
         <div className="flex flex-col gap-4">
           
-          {/* Announcement banner */}
+          
           <div className="early-bar font-sans select-none" role="note">
             <span className="early-bar-icon">🎁</span>
             <div>
@@ -441,7 +441,7 @@ export default function RitualKitsPLP() {
             </div>
           </div>
 
-          {/* Results Summary and Sorting */}
+          
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 w-full select-none">
             <span className="results-count font-sans font-semibold">
               {filteredProducts.length} {filteredProducts.length === 1 ? "item" : "items"} available · Ships within 48 hrs
@@ -462,7 +462,7 @@ export default function RitualKitsPLP() {
             </div>
           </div>
 
-          {/* ── FEATURED PRODUCT CARD ── */}
+          
           {showFeaturedCard && featuredProduct && (
             <div
               className="bg-card border border-border rounded-2xl overflow-hidden grid grid-cols-1 md:grid-cols-[1fr_320px] min-h-[220px] cursor-pointer transition-all hover:border-pink hover:shadow-lg w-full font-sans"
@@ -520,7 +520,7 @@ export default function RitualKitsPLP() {
             </div>
           )}
 
-          {/* ── 3-COLUMN PRODUCT LISTING GRID ── */}
+          
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" role="list">
             {filteredProducts.filter((p) => p.slug !== "shubh-sampada").map((prod) => (
               <div
@@ -528,7 +528,7 @@ export default function RitualKitsPLP() {
                 className={`kit-card font-sans ${prod.stock > 0 && prod.stock <= 4 ? "low-stock" : ""} ${prod.stock <= 0 ? "sold-out" : ""}`}
                 role="listitem"
                 onClick={() => {
-                  // Track product view
+                  
                   trackProductView(prod.id, prod.name, prod.price, prod.category);
                   router.push(`/ritual-kits/${prod.slug}`);
                 }}
@@ -593,7 +593,7 @@ export default function RitualKitsPLP() {
               </div>
             ))}
 
-            {/* Empty state view */}
+            
             {filteredProducts.length === 0 && (
               <div className="empty-state visible font-sans select-none" role="status">
                 <div className="empty-icon text-3xl">🔍</div>
@@ -610,7 +610,7 @@ export default function RitualKitsPLP() {
         </div>
       </div>
 
-      {/* 7. WhatsApp Chat CTA */}
+      
       <div className="w-full max-w-[var(--content-w)] mx-auto px-4 md:px-10 mt-10 select-none">
         <div className="bg-card border border-border rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center md:items-stretch gap-5 w-full font-sans" role="complementary">
           <div className="w-12 h-12 rounded-xl bg-[#22C35E]/10 border border-[#22C35E]/30 text-[#22C35E] flex items-center justify-center text-2xl shrink-0">💬</div>
@@ -626,10 +626,10 @@ export default function RitualKitsPLP() {
         </div>
       </div>
 
-      {/* 8. Brand Footer (identical) */}
+      
       <Footer onTriggerToast={triggerToast} />
 
-      {/* Premium Toast Notification */}
+      
       {toastMessage && (
         <div className="fixed bottom-6 right-6 z-[100] bg-dark text-white border border-white/10 px-5 py-3 rounded-xl shadow-2xl flex items-center gap-2 animate-bounce font-sans text-xs select-none">
           <span className="w-1.5 h-1.5 rounded-full bg-pink animate-ping" />

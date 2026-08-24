@@ -15,7 +15,7 @@ async function isAdmin(req: NextRequest): Promise<boolean> {
   }
 }
 
-// GET: Fetch all orders for admin orders table
+
 export async function GET(req: NextRequest) {
   if (!(await isAdmin(req))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -45,7 +45,7 @@ export async function GET(req: NextRequest) {
   }
 }
 
-// PUT: Update order status or payment status
+
 export async function PUT(req: NextRequest) {
   if (!(await isAdmin(req))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -62,7 +62,7 @@ export async function PUT(req: NextRequest) {
     if (orderStatus) updateData.orderStatus = orderStatus;
     if (paymentStatus) updateData.paymentStatus = paymentStatus;
 
-    // If orderStatus becomes DELIVERED, and it was a COD order, set paymentStatus to PAID
+    
     const order = await db.order.findUnique({
       where: { id: orderId },
     });

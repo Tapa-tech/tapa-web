@@ -19,7 +19,7 @@ export default function AdminAnnouncements() {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
 
-  // Form states
+  
   const [message, setMessage] = useState("");
   const [isActive, setIsActive] = useState(false);
   const [startDate, setStartDate] = useState("");
@@ -276,7 +276,7 @@ export default function AdminAnnouncements() {
         </div>
       )}
 
-      {/* Announcements Table */}
+      
       <div className="bg-white rounded-2xl border border-[#EADFC9] overflow-hidden">
         {loading ? (
           <div className="flex items-center justify-center p-12">

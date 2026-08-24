@@ -68,7 +68,7 @@ export default function SuperAdminUsersPage() {
     loadUsers();
   }, []);
 
-  // Filter and search logic
+  
   useEffect(() => {
     let result = users;
 
@@ -141,7 +141,7 @@ export default function SuperAdminUsersPage() {
         </div>
       </div>
 
-      {/* Filters and search */}
+      
       <div className="bg-white border border-[#EADFC9] rounded-2xl p-4 flex flex-col sm:flex-row gap-4 items-center justify-between shadow-sm">
         <div className="relative w-full sm:max-w-xs">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[#8A7A6E]" size={16} />
@@ -169,7 +169,7 @@ export default function SuperAdminUsersPage() {
         </div>
       </div>
 
-      {/* Table grid */}
+      
       <div className="bg-white border border-[#EADFC9] rounded-2xl overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
@@ -285,12 +285,12 @@ export default function SuperAdminUsersPage() {
                         </td>
                       </tr>
 
-                      {/* Expandable row showing download logs */}
+                      
                       {isExpanded && (
                         <tr>
                           <td colSpan={6} className="bg-[#FAF6EC]/20 border-b border-[#EADFC9] px-6 py-4">
                             <div className="max-w-4xl space-y-4">
-                              {/* Command controls */}
+                              
                               <div className="bg-[#FAF6EC] border border-[#EADFC9] rounded-xl p-4 flex flex-col md:flex-row gap-6 md:items-center justify-between shadow-inner">
                                 <div>
                                   <div className="font-bold text-xs uppercase text-[#C82A54] tracking-wider mb-1">
@@ -302,7 +302,7 @@ export default function SuperAdminUsersPage() {
                                 </div>
 
                                 <div className="flex flex-wrap gap-3 items-center">
-                                  {/* Role control */}
+                                  
                                   <div className="flex items-center gap-2">
                                     <span className="text-xs font-semibold text-dark">Role:</span>
                                     <select
@@ -334,7 +334,7 @@ export default function SuperAdminUsersPage() {
                                     </select>
                                   </div>
 
-                                  {/* Deactivation toggle */}
+                                  
                                   <button
                                     onClick={async () => {
                                       const nextActiveState = !user.isActive;
@@ -364,7 +364,7 @@ export default function SuperAdminUsersPage() {
                                     {user.isActive ? "Deactivate Account" : "Activate Account"}
                                   </button>
 
-                                  {/* Aggregate profile link */}
+                                  
                                   <Link
                                     href={`/admin/users/${user.id}`}
                                     className="bg-white hover:bg-gray-50 text-[#6A5A4E] border border-[#EADFC9] rounded-lg px-3 py-1.5 text-xs font-bold shadow-sm transition-all"

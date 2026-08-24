@@ -32,7 +32,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     const { date, ...rest } = parse.data;
     const dateOnly = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
 
-    // Check date uniqueness excluding current entry
+    
     const exists = await db.panchangEntry.findFirst({
       where: {
         date: dateOnly,

@@ -16,7 +16,7 @@ async function isAdmin(req: NextRequest): Promise<boolean> {
   }
 }
 
-// GET: Fetch all Tapa Circle subscribers for admin panel
+
 export async function GET(req: NextRequest) {
   if (!(await isAdmin(req))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -50,7 +50,7 @@ export async function GET(req: NextRequest) {
   }
 }
 
-// POST: Trigger manual broadcast to all active subscribers
+
 export async function POST(req: NextRequest) {
   if (!(await isAdmin(req))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -63,7 +63,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Message is required" }, { status: 400 });
     }
 
-    // Fetch all active subscribers
+    
     const subscribers = await db.tapaCircleSubscriber.findMany({
       include: {
         user: {
@@ -78,17 +78,17 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "No subscribers found to broadcast to." }, { status: 400 });
     }
 
-    // Map to WhatsAppRecipient list
+    
     const recipients = subscribers.map((sub) => ({
       userId: sub.userId,
       whatsappNumber: sub.whatsappNumber,
       name: sub.user?.name,
     }));
 
-    // Trigger WhatsApp stub broadcast
+    
     const broadcastResult = await sendBroadcast(message, recipients);
 
-    // Save record of the broadcast message
+    
     const record = await db.broadcastMessage.create({
       data: {
         message,

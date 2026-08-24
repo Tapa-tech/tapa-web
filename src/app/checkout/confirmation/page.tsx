@@ -2,9 +2,9 @@
 
 import React, { useState, useMemo, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import AnnouncementBar from "@/components/AnnouncementBar";
-import TopNav from "@/components/TopNav";
-import Footer from "@/components/Footer";
+import AnnouncementBar from "@/components/layout/AnnouncementBar";
+import TopNav from "@/components/layout/TopNav";
+import Footer from "@/components/layout/Footer";
 import { CheckCircle2, ShoppingBag, ArrowRight } from "lucide-react";
 
 function ConfirmationPageContent() {
@@ -20,7 +20,7 @@ function ConfirmationPageContent() {
     setTimeout(() => setToastMessage(null), 3000);
   };
 
-  // Estimated delivery date (3 days from now)
+  
   const estDate = useMemo(() => {
     const d = new Date();
     d.setDate(d.getDate() + 3);
@@ -50,7 +50,7 @@ function ConfirmationPageContent() {
           Hare Krishna! Your order has been placed successfully and is being prepared for delivery.
         </p>
 
-        {/* Order Details box */}
+        
         <div className="bg-card border border-border rounded-2xl p-6 my-8 text-left space-y-3.5">
           <div className="flex justify-between items-center text-xs">
             <span className="text-sub-text uppercase tracking-wider font-bold">Order Number</span>
@@ -95,7 +95,7 @@ function ConfirmationPageContent() {
 
       <Footer onTriggerToast={triggerToast} />
 
-      {/* Premium Toast Notification */}
+      
       {toastMessage && (
         <div className="fixed bottom-6 right-6 z-[100] bg-dark text-white border border-white/10 px-5 py-3 rounded-xl shadow-2xl flex items-center gap-2 animate-bounce font-sans text-xs select-none">
           <span className="w-1.5 h-1.5 rounded-full bg-pink animate-ping" />

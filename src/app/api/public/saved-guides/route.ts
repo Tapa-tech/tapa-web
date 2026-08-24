@@ -2,14 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { verifyAccessToken } from "@/lib/auth/jwt";
 
-// Helper to authenticate and verify user and consent
+
 async function getAuthedUser(req: NextRequest) {
   const token = req.cookies.get("access_token")?.value;
   if (!token) return null;
   const payload = await verifyAccessToken(token);
   if (!payload) return null;
   
-  // If not consented, block
+  
   if (!payload.consentGiven) return null;
   
   return payload.userId;
@@ -58,13 +58,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "guideId is required" }, { status: 400 });
     }
 
-    // Check if the guide exists
+    
     const guide = await db.ritualGuide.findUnique({ where: { id: guideId } });
     if (!guide) {
       return NextResponse.json({ error: "Ritual guide not found" }, { status: 404 });
     }
 
-    // Check if user already saved this guide
+    
     const user = await db.user.findUnique({
       where: { id: userId },
       include: {
@@ -77,7 +77,7 @@ export async function POST(req: NextRequest) {
     const isCurrentlySaved = (user?.savedGuides.length || 0) > 0;
 
     if (isCurrentlySaved) {
-      // Disconnect/Remove
+      
       await db.user.update({
         where: { id: userId },
         data: {
@@ -88,7 +88,7 @@ export async function POST(req: NextRequest) {
       });
       return NextResponse.json({ saved: false });
     } else {
-      // Connect/Save
+      
       await db.user.update({
         where: { id: userId },
         data: {

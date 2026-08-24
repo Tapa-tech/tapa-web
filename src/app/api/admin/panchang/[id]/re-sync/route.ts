@@ -18,10 +18,10 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
       return NextResponse.json({ error: "Panchang entry not found" }, { status: 404 });
     }
 
-    // Call provider to fetch fresh astronomical variables
+    
     const data = await fetchPanchangData(entry.date, entry.city);
 
-    // Update entry in database, resetting override tracking variables
+    
     const updated = await db.panchangEntry.update({
       where: { id: entry.id },
       data: {

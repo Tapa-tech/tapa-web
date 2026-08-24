@@ -19,11 +19,11 @@ export async function middleware(req: NextRequest) {
     if (path.startsWith("/api/")) {
       return NextResponse.json({ error: "Unauthorized. Please authenticate." }, { status: 401 });
     }
-    // Redirect web clients to homepage with login query trigger
+    
     return NextResponse.redirect(new URL("/?login=true", req.url));
   }
 
-  // Enforce SUPER_ADMIN routes
+  
   const isSuperAdminRoute = SUPER_ADMIN_ROUTES.some((p) => path.startsWith(p));
   if (isSuperAdminRoute) {
     if (!hasRequiredRole(payload.role as UserRole, "SUPER_ADMIN")) {
@@ -35,7 +35,7 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  // Allow general admin access for ADMIN (and SUPER_ADMIN via hierarchy)
+  
   if (!hasRequiredRole(payload.role as UserRole, "ADMIN")) {
     if (path.startsWith("/api/")) {
       return NextResponse.json({ error: "Forbidden. Admin privileges required." }, { status: 403 });

@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import TopNav from "@/components/TopNav";
-import Footer from "@/components/Footer";
+import TopNav from "@/components/layout/TopNav";
+import Footer from "@/components/layout/Footer";
 
 interface PanchangRecord {
   id: string;
@@ -107,14 +107,14 @@ export default function TodayPanchangPage() {
     <div className="ritual-guide-page min-h-screen bg-[#F2EDE4] text-[#2C2010] font-sans antialiased">
       <TopNav activeTab="Panchang" onTriggerToast={triggerToast} />
 
-      {/* Breadcrumbs */}
+      
       <div className="bcrumb">
         <div className="bc-in">
           Home › <span className="cursor-pointer hover:underline" onClick={() => router.push("/panchang")}>Panchang</span> › <b>Today&apos;s Panchang</b>
         </div>
       </div>
 
-      {/* Hero / Header Section */}
+      
       <section className="chero pa">
         <div className="wrap">
           <div className="chero-in">
@@ -126,7 +126,7 @@ export default function TodayPanchangPage() {
               </p>
             </div>
 
-            {/* Today's Panchang Box */}
+            
             <div className="today select-none">
               <div className="td-h">
                 <span className="td-l">☀ LOCAL PANCHANG</span>
@@ -185,7 +185,7 @@ export default function TodayPanchangPage() {
         </div>
       </section>
 
-      {/* Control Band */}
+      
       <div className="ctrl">
         <div className="ctrl-in">
           <div className="city cursor-pointer relative" onClick={() => setShowCitySelector(!showCitySelector)}>

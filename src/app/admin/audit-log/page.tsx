@@ -59,7 +59,7 @@ export default function AuditLogPage() {
 
   return (
     <div className="space-y-6">
-      {/* Title */}
+      
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="font-serif font-bold text-2xl md:text-3xl text-dark flex items-center gap-2.5">
@@ -81,7 +81,7 @@ export default function AuditLogPage() {
         </button>
       </div>
 
-      {/* Filter and Content Card */}
+      
       <div className="bg-white border border-[#EADFC9] rounded-2xl p-6 shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-4 mb-6 border-b border-[#F2ECE4] pb-4">
           <div className="text-xs font-bold text-dark uppercase tracking-wider">

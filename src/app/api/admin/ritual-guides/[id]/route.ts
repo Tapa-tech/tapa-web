@@ -62,7 +62,7 @@ const ritualGuideInputSchema = z.object({
   steps: z.array(stepInputSchema).default([]),
   mantras: z.array(mantraInputSchema).default([]),
   samagriItems: z.array(samagriInputSchema).default([]),
-  sources: z.array(z.string()).default([]), // Source library IDs
+  sources: z.array(z.string()).default([]), 
   faqs: z.array(z.object({ faqId: z.string(), order: z.number() })).default([]),
   dpbEntries: z.array(dpbInputSchema).default([]),
   panchangObservance: z.string().optional().nullable(),
@@ -151,7 +151,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
       return NextResponse.json({ error: "Ritual guide not found" }, { status: 404 });
     }
 
-    // Unpack fastOptions JSON
+    
     let parsedFastOptions = [];
     try {
       if (typeof guide.fastOptions === "string") {
@@ -189,7 +189,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 
     const data = parse.data;
 
-    // Check slug uniqueness
+    
     const slugExists = await db.ritualGuide.findFirst({
       where: {
         slug: data.slug,
@@ -200,7 +200,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
       return NextResponse.json({ error: "Slug is already in use by another guide" }, { status: 400 });
     }
 
-    // Integrity validations on DPB tag/scores
+    
     for (const entry of data.dpbEntries) {
       if (entry.tag === "DHARMA" && (entry.confidenceScore < 4 || entry.confidenceScore > 5)) {
         return NextResponse.json(
@@ -222,9 +222,9 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
       }
     }
 
-    // Execute transaction to update
+    
     const updatedGuide = await db.$transaction(async (tx) => {
-      // 1. Update the base guide
+      
       const guide = await tx.ritualGuide.update({
         where: { id: params.id },
         data: {
@@ -307,7 +307,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
         },
       });
 
-      // 2. Clear out steps and recreate
+      
       await tx.ritualStep.deleteMany({ where: { ritualGuideId: params.id } });
       if (data.steps.length > 0) {
         await tx.ritualStep.createMany({
@@ -322,7 +322,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
         });
       }
 
-      // 3. Clear out mantras and recreate
+      
       await tx.mantra.deleteMany({ where: { ritualGuideId: params.id } });
       if (data.mantras.length > 0) {
         await tx.mantra.createMany({
@@ -336,7 +336,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
         });
       }
 
-      // 4. Clear out samagri and recreate
+      
       await tx.samagriItem.deleteMany({ where: { ritualGuideId: params.id } });
       if (data.samagriItems.length > 0) {
         await tx.samagriItem.createMany({
@@ -349,7 +349,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
         });
       }
 
-      // 5. Clear out sources and recreate
+      
       await tx.ritualGuideSource.deleteMany({ where: { ritualGuideId: params.id } });
       if (data.sources.length > 0) {
         await tx.ritualGuideSource.createMany({
@@ -360,7 +360,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
         });
       }
 
-      // 6. Clear out faqs and recreate
+      
       await tx.ritualGuideFAQ.deleteMany({ where: { ritualGuideId: params.id } });
       if (data.faqs.length > 0) {
         await tx.ritualGuideFAQ.createMany({
@@ -372,15 +372,15 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
         });
       }
 
-      // 7. Reconcile DPB entries
-      // Rather than deleting and forcing recalculation of reviews, we look at existing ones to retain status
+      
+      
       const existingDpb = await tx.dPBEntry.findMany({ where: { ritualGuideId: params.id } });
       await tx.dPBEntry.deleteMany({ where: { ritualGuideId: params.id } });
 
       if (data.dpbEntries.length > 0) {
         await tx.dPBEntry.createMany({
           data: data.dpbEntries.map((d) => {
-            // Find if there was an identical claim to preserve reviewStatus
+            
             const match = existingDpb.find(
               (ext) =>
                 ext.elementName === d.elementName &&
@@ -406,7 +406,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
       return guide;
     });
 
-    // Re-index updated guide in Elasticsearch
+    
     if (updatedGuide && updatedGuide.id) {
       indexRitualGuide(updatedGuide.id).catch((err) => {
         console.error("Background Elasticsearch update indexing failed:", err);
@@ -427,11 +427,11 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
   }
 
   try {
-    // Delete base guide - relations will cascade delete due to prisma schema Cascade setup
+    
     await db.ritualGuide.delete({
       where: { id: params.id },
     });
-    // Delete guide from Elasticsearch
+    
     deleteRitualGuide(params.id).catch((err) => {
       console.error("Background Elasticsearch delete failed:", err);
     });

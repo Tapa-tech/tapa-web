@@ -7,14 +7,14 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    // 1. Verify caller is SUPER_ADMIN
+    
     const token = req.cookies.get("access_token")?.value;
     const payload = token ? await verifyAccessToken(token) : null;
     if (!payload || payload.role !== "SUPER_ADMIN") {
       return NextResponse.json({ error: "Forbidden. Super Admin privileges required." }, { status: 403 });
     }
 
-    // 2. Fetch the target user with all aggregates
+    
     const userDetail = await db.user.findUnique({
       where: { id: params.id },
       include: {

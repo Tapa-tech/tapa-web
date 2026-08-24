@@ -48,10 +48,10 @@ export async function POST(req: NextRequest) {
 
     const { date, ...rest } = parse.data;
 
-    // Standardize date to Midnight UTC
+    
     const dateOnly = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
 
-    // Check if entry for this date already exists
+    
     const exists = await db.panchangEntry.findUnique({
       where: { date_city: { date: dateOnly, city: rest.city || "Delhi-NCR" } },
     });

@@ -61,7 +61,7 @@ const ritualGuideInputSchema = z.object({
   steps: z.array(stepInputSchema).default([]),
   mantras: z.array(mantraInputSchema).default([]),
   samagriItems: z.array(samagriInputSchema).default([]),
-  sources: z.array(z.string()).default([]), // Source library IDs
+  sources: z.array(z.string()).default([]), 
   faqs: z.array(z.object({ faqId: z.string(), order: z.number() })).default([]),
   dpbEntries: z.array(dpbInputSchema).default([]),
   panchangObservance: z.string().optional().nullable(),
@@ -167,7 +167,7 @@ export async function POST(req: NextRequest) {
 
     const data = parse.data;
 
-    // Check slug uniqueness
+    
     const slugExists = await db.ritualGuide.findUnique({
       where: { slug: data.slug },
     });
@@ -175,7 +175,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Slug is already in use by another guide" }, { status: 400 });
     }
 
-    // Integrity validations on DPB tag/scores
+    
     for (const entry of data.dpbEntries) {
       if (entry.tag === "DHARMA" && (entry.confidenceScore < 4 || entry.confidenceScore > 5)) {
         return NextResponse.json(
@@ -197,7 +197,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // Execute transaction to populate related records
+    
     const guide = await db.$transaction(async (tx) => {
       const createdGuide = await tx.ritualGuide.create({
         data: {
@@ -280,7 +280,7 @@ export async function POST(req: NextRequest) {
         },
       });
 
-      // Steps
+      
       if (data.steps.length > 0) {
         await tx.ritualStep.createMany({
           data: data.steps.map((s) => ({
@@ -294,7 +294,7 @@ export async function POST(req: NextRequest) {
         });
       }
 
-      // Mantras
+      
       if (data.mantras.length > 0) {
         await tx.mantra.createMany({
           data: data.mantras.map((m) => ({
@@ -307,7 +307,7 @@ export async function POST(req: NextRequest) {
         });
       }
 
-      // Samagri Items
+      
       if (data.samagriItems.length > 0) {
         await tx.samagriItem.createMany({
           data: data.samagriItems.map((s) => ({
@@ -319,7 +319,7 @@ export async function POST(req: NextRequest) {
         });
       }
 
-      // Sources
+      
       if (data.sources.length > 0) {
         await tx.ritualGuideSource.createMany({
           data: data.sources.map((sId) => ({
@@ -329,7 +329,7 @@ export async function POST(req: NextRequest) {
         });
       }
 
-      // FAQs
+      
       if (data.faqs.length > 0) {
         await tx.ritualGuideFAQ.createMany({
           data: data.faqs.map((f) => ({
@@ -340,7 +340,7 @@ export async function POST(req: NextRequest) {
         });
       }
 
-      // DPB Entries
+      
       if (data.dpbEntries.length > 0) {
         await tx.dPBEntry.createMany({
           data: data.dpbEntries.map((d) => ({
@@ -360,7 +360,7 @@ export async function POST(req: NextRequest) {
       return createdGuide;
     });
 
-    // Index newly created guide in Elasticsearch
+    
     if (guide && guide.id) {
       indexRitualGuide(guide.id).catch((err) => {
         console.error("Background Elasticsearch indexing failed:", err);
@@ -381,15 +381,15 @@ export async function DELETE(req: NextRequest) {
   }
 
   try {
-    // 1. Get all guides to delete from Elasticsearch
+    
     const guides = await db.ritualGuide.findMany({
       select: { id: true },
     });
 
-    // 2. Delete all guides from DB
+    
     await db.ritualGuide.deleteMany();
 
-    // 3. Delete from Elasticsearch in background
+    
     for (const guide of guides) {
       deleteRitualGuide(guide.id).catch((err) => {
         console.error(`Background Elasticsearch delete failed for guide ${guide.id}:`, err);

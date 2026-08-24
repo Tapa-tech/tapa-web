@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import AnnouncementBar from "@/components/AnnouncementBar";
-import TopNav from "@/components/TopNav";
-import Footer from "@/components/Footer";
+import AnnouncementBar from "@/components/layout/AnnouncementBar";
+import TopNav from "@/components/layout/TopNav";
+import Footer from "@/components/layout/Footer";
+import JapaCounter from "@/components/japa/JapaCounter";
 
 export default function FestivePage() {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -14,24 +15,12 @@ export default function FestivePage() {
 
   const [activeLang, setActiveLang] = useState<"EN" | "HI">("EN");
   const [isSaved, setIsSaved] = useState(false);
-  const [audioPlaying, setAudioPlaying] = useState(false);
 
-  // Steps checklist state
+
+  
   const [checklist, setChecklist] = useState<boolean[]>([
     false, false, false, false, false, false, false
   ]);
-
-  // Japa counter state
-  const [japaCount, setJapaCount] = useState(27);
-  const [japaPreset, setJapaPreset] = useState<number>(108);
-
-  const handleIncrement = () => {
-    setJapaCount(prev => prev + 1);
-  };
-
-  const handleDecrement = () => {
-    setJapaCount(prev => (prev > 0 ? prev - 1 : 0));
-  };
 
   const handleCheck = (idx: number) => {
     const nextChecklist = [...checklist];
@@ -46,7 +35,7 @@ export default function FestivePage() {
       <AnnouncementBar />
       <TopNav activeTab="Ritual Guides" onTriggerToast={triggerToast} />
 
-      {/* Breadcrumb section */}
+      
       <div className="bcrumb select-none">
         <div className="bc-in">
           <div className="bc-l font-sans">
@@ -75,7 +64,7 @@ export default function FestivePage() {
         </div>
       </div>
 
-      {/* Hero section */}
+      
       <section className="hero relative">
         <div className="hero-bg"></div>
         <div className="hero-ov"></div>
@@ -114,7 +103,7 @@ export default function FestivePage() {
         </div>
       </section>
 
-      {/* Trust & Audio narration strip */}
+      
       <div className="strip select-none">
         <div className="strip-in">
           <div className="tp">
@@ -122,39 +111,10 @@ export default function FestivePage() {
             <span className="tpi"><span className="tpd bg-[#E8A020]" />Region aware</span>
             <span className="tpi"><span className="tpd bg-[#EF0F54]" />Fear-free</span>
           </div>
-          <div className="audio">
-            <button 
-              onClick={() => {
-                setAudioPlaying(!audioPlaying);
-                triggerToast(audioPlaying ? "Audio guide paused" : "Playing audio guide narration...");
-              }} 
-              className="aplay hover:scale-105 transition-transform cursor-pointer"
-            >
-              {audioPlaying ? "⏸" : "▶"}
-            </button>
-            <div>
-              <div className="alab font-sans">Listen to this guide</div>
-              <div className="asub font-sans">18 min · narrated</div>
-            </div>
-            <div className="alangs select-none">
-              <button 
-                onClick={() => { setActiveLang("EN"); triggerToast("Narration language: English"); }} 
-                className={`alg ${activeLang === "EN" ? "on" : ""}`}
-              >
-                EN
-              </button>
-              <button 
-                onClick={() => { setActiveLang("HI"); triggerToast("Narration language: Hindi"); }} 
-                className={`alg ${activeLang === "HI" ? "on" : ""}`}
-              >
-                हिं
-              </button>
-            </div>
-          </div>
         </div>
       </div>
 
-      {/* Navigation chips */}
+      
       <div className="chips">
         <div className="chips-in font-sans">
           <span className="chip-l">JUMP TO</span>
@@ -169,14 +129,14 @@ export default function FestivePage() {
         </div>
       </div>
 
-      {/* Core layout wrapping content */}
+      
       <div className="wrap">
         <div className="layout">
           
-          {/* Main content column */}
+          
           <div className="main">
             
-            {/* Puranic Credibility Box */}
+            
             <div className="cc select-none">
               <div className="cc-h font-sans">
                 <span className="cc-hl">SOURCE OF TRUTH</span>
@@ -194,7 +154,7 @@ export default function FestivePage() {
               <p className="cc-comp font-sans">This guide: <b>1 core practice</b> · <b>4 scriptural elements</b> · <b>4 regional customs</b> · <b>3 corrections</b></p>
             </div>
 
-            {/* Panchang Observance Card */}
+            
             <div className="pan select-none">
               <div className="pan-h font-sans">
                 <span className="pan-hl">📅 NAVRATRI 2026</span>
@@ -227,13 +187,13 @@ export default function FestivePage() {
               </p>
             </div>
 
-            {/* Opening Paragraphs */}
+            
             <p className="open font-serif">Nine nights, one Mother.</p>
             <p className="p font-sans">
               Navratri means nine nights. It is not nine separate festivals — it is one continuous arc of worship, moving from darkness through fire to light.
             </p>
 
-            {/* Story section */}
+            
             <div className="sh" id="story">
               <span className="sh-p">+</span>
               <span className="sh-t">The story the nine nights re-enact</span>
@@ -252,7 +212,7 @@ export default function FestivePage() {
 
             <div className="hr"></div>
 
-            {/* Sankalpa section */}
+            
             <div className="sh" id="sankalp">
               <span className="sh-p">+</span>
               <span className="sh-t">The sankalpa</span>
@@ -274,7 +234,7 @@ export default function FestivePage() {
               <p className="sank-note font-sans"><b>Say it in whatever language you think in.</b> The Sanskrit is given because people ask for it. A sankalpa said in Hindi or English, meant sincerely, is a sankalpa.</p>
             </div>
 
-            {/* Vidhi Steps Ghatasthapana */}
+            
             <div className="sh" id="vidhi">
               <span className="sh-p">+</span>
               <span className="sh-t">Day 1 — Ghatasthapana</span>
@@ -365,34 +325,14 @@ export default function FestivePage() {
 
             </div>
 
-            {/* Day 1 Mantra Pronunciation Section */}
+            
             <div className="mantra select-none">
               <div className="mn-top" style={{ display: "block" }}>
                 <div className="mn-l">DAY ONE MANTRA</div>
               </div>
               <div className="mn-d">ओं ह्रीं शैलपुत्र्यै नमः</div>
               <div className="mn-r">Om Hreem Shailputryai Namah</div>
-              
-              <div className="japa">
-                <div>
-                  <div className="jp-l">JAPA COUNT</div>
-                  <div className="jp-t" style={{ textAlign: "left", marginTop: "4px" }}>Tap as you complete each round</div>
-                </div>
-                <div className="jp-ctr">
-                  <button onClick={handleDecrement} className="jp-b hover:bg-white/10">-</button>
-                  <div>
-                    <div className="jp-n">{japaCount}</div>
-                    <div className="jp-t">of 108</div>
-                  </div>
-                  <button onClick={handleIncrement} className="jp-b hover:bg-white/10">+</button>
-                </div>
-                <div className="jp-presets">
-                  <button onClick={() => { setJapaCount(11); setJapaPreset(11); }} className={`jp-p ${japaPreset === 11 ? "on" : ""}`}>11</button>
-                  <button onClick={() => { setJapaCount(21); setJapaPreset(21); }} className={`jp-p ${japaPreset === 21 ? "on" : ""}`}>21</button>
-                  <button onClick={() => { setJapaCount(51); setJapaPreset(51); }} className={`jp-p ${japaPreset === 51 ? "on" : ""}`}>51</button>
-                  <button onClick={() => { setJapaCount(108); setJapaPreset(108); }} className={`jp-p ${japaPreset === 108 ? "on" : ""}`}>108</button>
-                </div>
-              </div>
+              <JapaCounter mantraText="ओं ह्रीं शैलपुत्र्यै नमः" initialCount={0} triggerToast={triggerToast} />
             </div>
 
             <p className="p font-sans">
@@ -404,7 +344,7 @@ export default function FestivePage() {
 
             <div className="hr"></div>
 
-            {/* Section: Nine forms list */}
+            
             <div className="sh" id="nine">
               <span className="sh-p">+</span>
               <span className="sh-t">The nine forms, day by day</span>
@@ -523,7 +463,7 @@ export default function FestivePage() {
 
             <div className="hr"></div>
 
-            {/* Section: Vrat Katha */}
+            
             <div className="sh" id="katha">
               <span className="sh-p">+</span>
               <span className="sh-t">The Vrat Katha</span>
@@ -561,13 +501,12 @@ export default function FestivePage() {
                 </div>
                 <div className="k-f">
                   <p className="k-moral"><b>Why it is read across nine nights, not one:</b> the battle took nine. The reading follows the fight rather than summarising it.</p>
-                  <button onClick={() => triggerToast("Playing katha audio...")} className="k-audio cursor-pointer">🎧 Listen · 14 min</button>
                   <button onClick={() => triggerToast("Opening full text of Vrat Katha...")} className="k-c cursor-pointer">Read the full katha ›</button>
                 </div>
               </div>
             </div>
 
-            {/* Ashtami / Navami text */}
+            
             <div className="sh">
               <span className="sh-p">+</span>
               <span className="sh-t">Durga Ashtami and Maha Navami</span>
@@ -588,7 +527,7 @@ export default function FestivePage() {
 
             <div className="hr"></div>
 
-            {/* Section: Samagri */}
+            
             <div className="sh" id="samagri">
               <span className="sh-p">+</span>
               <span className="sh-t">Samagri</span>
@@ -611,7 +550,7 @@ export default function FestivePage() {
 
             <div className="hr"></div>
 
-            {/* Section: Fasting */}
+            
             <div className="sh" id="fast">
               <span className="sh-p">+</span>
               <span className="sh-t">Fasting</span>
@@ -629,7 +568,7 @@ export default function FestivePage() {
 
             <div className="hr"></div>
 
-            {/* Section: Myths & Corrections */}
+            
             <div className="sh" id="myths">
               <span className="sh-p">✕</span>
               <span className="sh-t">Myths &amp; Facts</span>
@@ -665,7 +604,7 @@ export default function FestivePage() {
               </p>
             </div>
 
-            {/* Section: Companion article teaser */}
+            
             <div className="intel select-none">
               <div className="in-l font-sans">◗ WHY NINE NIGHTS?</div>
               <div className="in-t font-sans">The number is not decorative</div>
@@ -673,13 +612,13 @@ export default function FestivePage() {
               <span onClick={() => triggerToast("Opening background article...")} className="in-c font-sans font-bold cursor-pointer">Read: What Navratri is — the nine nights ›</span>
             </div>
 
-            {/* Section: Closing paragraphs */}
+            
             <div className="closing font-sans">
               <p className="mb-3">Navratri is the tradition&apos;s most sustained worship — nine nights without a break. The kalash stays filled. The flame stays lit. The flowers are replaced each morning. The mantra changes daily.</p>
               <p>And on the ninth night you look at the barley you sowed on the first day, now tall and green and reaching upward, and you understand what the nine nights were doing: growing something that was barely a seed when you began.</p>
             </div>
 
-            {/* Related section */}
+            
             <div className="sh"><span className="sh-p">+</span><span className="sh-t">Related</span></div>
             <div className="relgrid select-none">
               <div className="rel font-sans">
@@ -703,7 +642,7 @@ export default function FestivePage() {
               </div>
             </div>
 
-            {/* Final checkout block */}
+            
             <div className="sh"><span className="sh-p">+</span><span className="sh-t">Prefer to have it all taken care of?</span></div>
             <div className="rev select-none">
               <div className="rev-c feat font-sans">
@@ -732,10 +671,10 @@ export default function FestivePage() {
 
           </div>
 
-          {/* Right sidebar checklist column */}
+          
           <div className="side">
             
-            {/* Checklist sidebar card */}
+            
             <div className="sb select-none">
               <div className="sb-h font-sans">
                 <span>Puja Checklist</span>
@@ -822,7 +761,7 @@ export default function FestivePage() {
               </div>
             </div>
 
-            {/* Sidebar quick actions */}
+            
             <button 
               onClick={() => triggerToast("Adding Shakti Kit to checkout...")} 
               className="sbcta pink hover:opacity-95 transition-opacity cursor-pointer select-none"
@@ -850,7 +789,7 @@ export default function FestivePage() {
               <span className="sb-cs font-sans">One page — samagri, steps, mantras, timings</span>
             </button>
 
-            {/* Reference info box */}
+            
             <div className="sbn select-none font-sans">
               <div className="sbn-h">SCRIPTURAL BACKING</div>
               <div className="sbn-t">
@@ -868,7 +807,7 @@ export default function FestivePage() {
 
       <Footer onTriggerToast={triggerToast} />
 
-      {/* Global Toast component */}
+      
       {toastMessage && (
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] bg-black/90 text-white px-5 py-3 rounded-2xl shadow-xl font-sans text-xs flex items-center gap-2 border border-white/10 animate-fade-in select-none">
           <span>🔔</span>

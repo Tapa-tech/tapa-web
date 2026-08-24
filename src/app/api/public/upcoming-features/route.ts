@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   try {
     const features = await db.upcomingFeature.findMany();
-    // Reduce array into key-value map for easier lookup
+    
     const featureMap = features.reduce<Record<string, typeof features[0]>>((acc, cur) => {
       acc[cur.key] = cur;
       return acc;

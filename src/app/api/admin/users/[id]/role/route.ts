@@ -12,7 +12,7 @@ export async function PATCH(
   { params }: { params: { id: string } }
 ) {
   try {
-    // 1. Verify caller is SUPER_ADMIN
+    
     const token = req.cookies.get("access_token")?.value;
     const payload = token ? await verifyAccessToken(token) : null;
     if (!payload || payload.role !== "SUPER_ADMIN") {
@@ -27,7 +27,7 @@ export async function PATCH(
 
     const newRole = parse.data.role;
 
-    // 2. Fetch the target user
+    
     const targetUser = await db.user.findUnique({
       where: { id: params.id },
     });
@@ -36,7 +36,7 @@ export async function PATCH(
       return NextResponse.json({ error: "User not found." }, { status: 404 });
     }
 
-    // 3. "Last Super Admin" check
+    
     if (targetUser.role === "SUPER_ADMIN" && newRole !== "SUPER_ADMIN") {
       const superAdminCount = await db.user.count({
         where: { role: "SUPER_ADMIN" },
@@ -46,7 +46,7 @@ export async function PATCH(
       }
     }
 
-    // 4. Perform update
+    
     const updatedUser = await db.user.update({
       where: { id: params.id },
       data: { role: newRole },
@@ -60,7 +60,7 @@ export async function PATCH(
       },
     });
 
-    // 5. Append to Audit Log (Immutable)
+    
     await db.auditLog.create({
       data: {
         action: "ROLE_CHANGE",

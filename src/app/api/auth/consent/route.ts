@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
 
     const ip = req.headers.get("x-forwarded-for") || "unknown";
 
-    // Update user in DB
+    
     const updatedUser = await db.user.update({
       where: { id: payload.userId },
       data: {
@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // Re-issue Access Token containing the new consentGiven = true value
+    
     const newAccessToken = await signAccessToken({
       userId: updatedUser.id,
       role: updatedUser.role,
@@ -40,13 +40,13 @@ export async function POST(req: NextRequest) {
 
     const response = NextResponse.json({ success: true, consentGiven: true });
 
-    // Update the cookie
+    
     response.cookies.set("access_token", newAccessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       path: "/",
-      maxAge: 15 * 60, // 15 mins
+      maxAge: 15 * 60, 
     });
 
     return response;

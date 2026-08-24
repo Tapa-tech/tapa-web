@@ -3,7 +3,7 @@ import { db } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
-// Keep in sync with the 13 kits available on the frontend
+
 import { getElasticClient } from "@/lib/elasticsearch";
 
 export async function GET(req: NextRequest) {
@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ guides: [], kits: [] });
     }
 
-    // Attempt Elasticsearch query if client is initialized
+    
     const elasticClient = getElasticClient();
     if (elasticClient) {
       try {
@@ -70,7 +70,7 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    // FALLBACK: Search Ritual Guides in the Database with proper matching across relevant fields
+    
     const guides = await db.ritualGuide.findMany({
       where: {
         status: "PUBLISHED",
@@ -122,7 +122,7 @@ export async function GET(req: NextRequest) {
       take: 6,
     });
 
-    // FALLBACK: Search Ritual Kits in the database
+    
     const kits = await db.ritualKit.findMany({
       where: {
         OR: [

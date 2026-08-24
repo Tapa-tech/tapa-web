@@ -7,15 +7,15 @@ export function speakText(
     return { supported: false };
   }
 
-  // Cancel any ongoing speech first
+  
   window.speechSynthesis.cancel();
 
-  // Create utterance
+  
   const utterance = new SpeechSynthesisUtterance(text);
   
-  // Set locale options
+  
   utterance.lang = options?.lang ?? "hi-IN"; 
-  utterance.rate = options?.rate ?? 0.92; // slightly slower than default for clarity on devotional and mantra content
+  utterance.rate = options?.rate ?? 0.92; 
 
   if (options?.onStart) {
     utterance.onstart = options.onStart;

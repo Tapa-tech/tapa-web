@@ -2,9 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import AnnouncementBar from "@/components/AnnouncementBar";
-import TopNav from "@/components/TopNav";
-import Footer from "@/components/Footer";
+import AnnouncementBar from "@/components/layout/AnnouncementBar";
+import TopNav from "@/components/layout/TopNav";
+import Footer from "@/components/layout/Footer";
 import { useCartStore } from "@/lib/store/cartStore";
 import { Trash2, Heart, ArrowRight, ArrowLeft, ShoppingBag, Plus, Minus } from "lucide-react";
 
@@ -12,7 +12,7 @@ export default function CartPage() {
   const router = useRouter();
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  // Zustand Cart Store
+  
   const { items, fetchCart, updateQuantity, removeFromCart, clearCart, isLoggedIn } = useCartStore();
 
   useEffect(() => {
@@ -24,7 +24,7 @@ export default function CartPage() {
     setTimeout(() => setToastMessage(null), 3000);
   };
 
-  // Calculations
+  
   const subtotal = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
   const deliveryFee = subtotal === 0 ? 0 : subtotal >= 1500 ? 0 : 99;
   const totalAmount = subtotal + deliveryFee;
@@ -32,7 +32,7 @@ export default function CartPage() {
   const handleSaveToWishlist = async (productId: string, productName: string) => {
     if (!isLoggedIn) {
       triggerToast("Please log in to save items to your wishlist.");
-      // Trigger login modal
+      
       router.push("/cart?login=true");
       return;
     }
@@ -45,7 +45,7 @@ export default function CartPage() {
       });
 
       if (res.ok) {
-        // Remove from cart
+        
         await removeFromCart(productId);
         triggerToast(`Moved ${productName} to your wishlist!`);
       } else {
@@ -74,7 +74,7 @@ export default function CartPage() {
       <AnnouncementBar />
       <TopNav activeTab="Ritual Kits" onTriggerToast={triggerToast} />
 
-      {/* Breadcrumb */}
+      
       <div className="breadcrumb-bar select-none">
         <div className="wrap">
           <a href="/" className="hover:underline">Home</a>
@@ -103,7 +103,7 @@ export default function CartPage() {
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8 items-start">
             
-            {/* Cart Items List */}
+            
             <div className="space-y-4">
               <div className="flex items-center justify-between border-b border-border pb-3">
                 <span className="text-xs font-bold text-[#8A7A6E] uppercase tracking-wider">{items.length} Items</span>
@@ -141,7 +141,7 @@ export default function CartPage() {
                       </div>
                     </div>
 
-                    {/* Custom kit item breakdown if present */}
+                    
                     {item.isCustomKit && item.customKitItems && (
                       <div className="w-full text-[10px] text-sub-text bg-[#FAF6EC] border border-[#EADFC9] rounded-xl p-2.5 space-y-1 mt-1 sm:mt-0 max-h-24 overflow-y-auto font-sans">
                         {item.customKitItems.map((kitem, kidx) => (
@@ -153,7 +153,7 @@ export default function CartPage() {
                     )}
 
                     <div className="flex items-center justify-between sm:justify-end gap-6 w-full sm:w-auto pt-3 sm:pt-0 border-t sm:border-none border-border">
-                      {/* Quantity Selector */}
+                      
                       {!item.isCustomKit ? (
                         <div className="flex items-center gap-2">
                           <button
@@ -174,7 +174,7 @@ export default function CartPage() {
                         <span className="text-xs font-bold text-[#8A7A6E] mr-2">Qty: 1</span>
                       )}
 
-                      {/* Actions */}
+                      
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => handleSaveToWishlist(item.productId, item.name)}
@@ -205,7 +205,7 @@ export default function CartPage() {
               </button>
             </div>
 
-            {/* Order Summary sidebar */}
+            
             <div className="bg-card border border-border rounded-2xl p-6 space-y-5">
               <h2 className="font-serif font-bold text-lg text-dark">Order Summary</h2>
 
@@ -250,7 +250,7 @@ export default function CartPage() {
 
       <Footer onTriggerToast={triggerToast} />
 
-      {/* Premium Toast Notification */}
+      
       {toastMessage && (
         <div className="fixed bottom-6 right-6 z-[100] bg-dark text-white border border-white/10 px-5 py-3 rounded-xl shadow-2xl flex items-center gap-2 animate-bounce font-sans text-xs select-none">
           <span className="w-1.5 h-1.5 rounded-full bg-pink animate-ping" />

@@ -11,7 +11,7 @@ export const db =
 
 if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = db;
 
-// Auto-seed default Super Admin if no admin exists
+
 async function seedAdmin() {
   try {
     const adminExists = await db.user.findFirst({
@@ -47,7 +47,7 @@ async function seedAdmin() {
       console.log(`==================================================\n`);
     }
   } catch {
-    // Gracefully handle db connection blockers during compilation or stub local runs
+    
   }
 }
 
@@ -308,7 +308,7 @@ async function seedProducts() {
   try {
     const count = await db.product.count();
     if (count === 0) {
-      // Find Raksha Bandhan guide to link it if possible
+      
       const guide = await db.ritualGuide.findFirst({
         where: { slug: "rakshabandhan" },
       });

@@ -23,7 +23,7 @@ export async function GET(
       return NextResponse.json({ error: "Ritual Guide not found" }, { status: 404 });
     }
 
-    // Resolve Deep-Dive concept
+    
     let deepDiveConcept = null;
     if (guide.deepDiveConceptId) {
       deepDiveConcept = await db.dharmicConcept.findUnique({
@@ -31,7 +31,7 @@ export async function GET(
       });
     }
 
-    // Resolve Related Concepts
+    
     let resolvedRelatedConcepts: unknown[] = [];
     if (guide.relatedConcepts) {
       try {
@@ -48,7 +48,7 @@ export async function GET(
       }
     }
 
-    // Resolve Related Guides
+    
     let resolvedRelatedGuides: unknown[] = [];
     if (guide.relatedRitualGuides) {
       try {

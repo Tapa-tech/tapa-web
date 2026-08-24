@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
     }
 
     if (isActive) {
-      // Deactivate all other banners
+      
       await db.homepageBanner.updateMany({
         where: { isActive: true },
         data: { isActive: false },

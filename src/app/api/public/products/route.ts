@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
     const type = req.nextUrl.searchParams.get("type");
     const category = req.nextUrl.searchParams.get("category");
 
-    // Get single product details
+    
     if (id || slug) {
       const product = await db.product.findFirst({
         where: {
@@ -29,7 +29,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json(product);
     }
 
-    // Get list of products
+    
     const products = await db.product.findMany({
       where: {
         status: "PUBLISHED",

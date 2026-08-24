@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Only Cash on Delivery (COD) is currently active" }, { status: 400 });
     }
 
-    // Get user's cart items
+    
     const cartItems = await db.cartItem.findMany({
       where: { userId },
       include: {
@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Your cart is empty" }, { status: 400 });
     }
 
-    // Validate stock and COD availability
+    
     for (const item of cartItems) {
       if (item.product.stock < item.quantity) {
         return NextResponse.json({
@@ -84,24 +84,24 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // Calculate total amount
+    
     const subtotal = cartItems.reduce((sum, item) => sum + Number(item.product.price) * item.quantity, 0);
-    const shippingFee = subtotal >= 1500 ? 0 : 99; // Free shipping above ₹1500, flat ₹99 otherwise
+    const shippingFee = subtotal >= 1500 ? 0 : 99; 
     const totalAmount = subtotal + shippingFee;
 
-    // Generate Order Number: e.g. TK-2026-1001, TK-2026-1002
+    
     const orderCount = await db.order.count();
     const currentYear = new Date().getFullYear();
     const sequentialNum = 1000 + orderCount + 1;
     const orderNumber = `TK-${currentYear}-${sequentialNum}`;
 
-    // Estimated delivery (e.g., 3 days from now)
+    
     const estimatedDelivery = new Date();
     estimatedDelivery.setDate(estimatedDelivery.getDate() + 3);
 
-    // Place order in transaction
+    
     const order = await db.$transaction(async (tx) => {
-      // 1. Create order
+      
       const newOrder = await tx.order.create({
         data: {
           orderNumber,
@@ -115,7 +115,7 @@ export async function POST(req: NextRequest) {
         },
       });
 
-      // 2. Create order items and decrement stock
+      
       for (const item of cartItems) {
         await tx.orderItem.create({
           data: {
@@ -137,7 +137,7 @@ export async function POST(req: NextRequest) {
         });
       }
 
-      // 3. Clear cart
+      
       await tx.cartItem.deleteMany({
         where: { userId },
       });
@@ -145,7 +145,7 @@ export async function POST(req: NextRequest) {
       return newOrder;
     });
 
-    // Send transactional notification stub
+    
     try {
       await sendOrderConfirmationNotification(order.orderNumber, address.mobile, totalAmount);
     } catch (e) {

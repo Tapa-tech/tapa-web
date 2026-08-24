@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   try {
     const now = new Date();
-    // Query active announcements or scheduled announcements
+    
     const announcements = await db.announcementMessage.findMany({
       where: {
         OR: [

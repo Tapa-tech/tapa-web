@@ -4,11 +4,7 @@ export interface WhatsAppRecipient {
   name?: string | null;
 }
 
-/**
- * Sends a manual broadcast message to all active subscribers.
- * 
- * TODO: WhatsApp Business API integration - see Prompt #11 Section 7
- */
+
 export async function sendBroadcast(message: string, subscribers: WhatsAppRecipient[]) {
   console.log(`\n================== [WHATSAPP BROADCAST STUB] ==================`);
   console.log(`Timestamp: ${new Date().toISOString()}`);
@@ -26,11 +22,7 @@ export async function sendBroadcast(message: string, subscribers: WhatsAppRecipi
   };
 }
 
-/**
- * Sends transactional order/payment confirmation notification.
- * 
- * TODO: WhatsApp Business API integration - see Prompt #11 Section 7
- */
+
 export async function sendOrderConfirmationNotification(orderNumber: string, phone: string, amount: number) {
   console.log(`\n================= [WHATSAPP TRANSACTIONAL STUB] =================`);
   console.log(`Type: ORDER_CONFIRMATION`);

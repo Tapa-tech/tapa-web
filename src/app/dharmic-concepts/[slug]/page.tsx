@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import TopNav from "@/components/TopNav";
-import Footer from "@/components/Footer";
+import TopNav from "@/components/layout/TopNav";
+import Footer from "@/components/layout/Footer";
 import "../concepts.css";
 
 interface DpbEntry {
@@ -48,7 +48,7 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
   };
 
   useEffect(() => {
-    // Only fetch from API if not one of the pre-built fallback routes, or fallback as background
+    
     const fetchConcept = async () => {
       try {
         const res = await fetch(`/api/public/dharmic-concepts/${slug}`);
@@ -66,11 +66,11 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
     fetchConcept();
   }, [slug]);
 
-  // RENDER FALLBACK 1: Why Is Bilva Dear to Mahadev?
+  
   const renderBilvaFallback = () => {
     return (
       <div className="concepts-detail-page bilva-theme">
-        {/* Breadcrumb */}
+        
         <div className="bcrumb">
           <div className="bc-in">
             <div className="bc-l">
@@ -83,7 +83,7 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
           </div>
         </div>
 
-        {/* Hero */}
+        
         <section className="hero">
           <div className="hero-bg bilva-bg"></div>
           <div className="hero-ov"></div>
@@ -101,13 +101,12 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
                   const el = document.getElementById("story");
                   el?.scrollIntoView({ behavior: "smooth" });
                 }}>📖 Read the story</button>
-                <button className="hb-g" onClick={() => triggerToast("Audio narration is launching soon!")}>🎧 Listen instead</button>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Chip band */}
+        
         <div className="chips">
           <div className="chips-in">
             <span className="chip-l">JUMP TO</span>
@@ -118,12 +117,12 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
           </div>
         </div>
 
-        {/* Page body wrap */}
+        
         <div className="wrap">
           <div className="layout">
-            {/* Main Column */}
+            
             <div className="main">
-              {/* The Story Section */}
+              
               <div id="story">
                 <p className="story-open">There was a hunter who got lost in a forest one night.</p>
                 <p className="p">
@@ -155,7 +154,7 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
 
               <div className="hr"></div>
 
-              {/* The Leaf Section */}
+              
               <div id="leaf">
                 <div className="sh">
                   <span className="sh-p">+</span>
@@ -180,7 +179,7 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
 
               <div className="hr"></div>
 
-              {/* How to Offer Section */}
+              
               <div id="offer">
                 <div className="sh">
                   <span className="sh-p">+</span>
@@ -190,7 +189,7 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
                   Devotees follow many rules when offering Bilva leaves. Here is the distinction between what the scriptures specify (Dharma) and what has developed as family or regional practice (Pratha).
                 </p>
                 
-                {/* Protocol Card 1 */}
+                
                 <div className="protocol-card border-gold">
                   <div className="pro-head">
                     <span className="pro-label text-gold">DHARMA · SCRIPTURAL STANDARD</span>
@@ -203,7 +202,7 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
                   </div>
                 </div>
 
-                {/* Protocol Card 2 */}
+                
                 <div className="protocol-card border-pink">
                   <div className="pro-head">
                     <span className="pro-label text-pink">PRATHA · CUSTOMARY PROTOCOL</span>
@@ -218,7 +217,7 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
 
                 <div className="hr"></div>
 
-                {/* Myths and Misconceptions */}
+                
                 <div className="sh">
                   <span className="sh-p">+</span>
                   <span className="sh-t">Myths &amp; Reframes</span>
@@ -249,7 +248,7 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
                   </div>
                 </div>
 
-                {/* Reframe Box */}
+                
                 <div className="reframe">
                   <div className="reframe-ey">THE REFRAME</div>
                   <p style={{ fontSize: "13px", lineHeight: "1.6", color: "var(--dark)" }}>
@@ -260,7 +259,7 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
 
               <div className="hr"></div>
 
-              {/* Where This Appears */}
+              
               <div id="connected">
                 <div className="sh">
                   <span className="sh-p">+</span>
@@ -291,7 +290,7 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
               </div>
             </div>
 
-            {/* Sidebar Column */}
+            
             <div className="side">
               <div className="cred-card">
                 <div className="cred-head" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1.5px solid var(--border-light)", paddingBottom: "10px", marginBottom: "15px" }}>
@@ -346,11 +345,11 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
     );
   };
 
-  // RENDER FALLBACK 2: Three Stories, One Thread (Raksha Sutra)
+  
   const renderRakshaSutraFallback = () => {
     return (
       <div className="concepts-detail-page sutra-theme">
-        {/* Breadcrumb */}
+        
         <div className="bcrumb">
           <div className="bc-in">
             <div className="bc-l">
@@ -363,7 +362,7 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
           </div>
         </div>
 
-        {/* Hero */}
+        
         <section className="hero">
           <div className="hero-bg sutra-bg"></div>
           <div className="hero-ov"></div>
@@ -381,13 +380,12 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
                   const el = document.getElementById("three");
                   el?.scrollIntoView({ behavior: "smooth" });
                 }}>Read the three stories</button>
-                <button className="hb-g" onClick={() => triggerToast("Audio narration is launching soon!")}>🎧 Listen instead</button>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Chip band */}
+        
         <div className="chips">
           <div className="chips-in">
             <span className="chip-l">JUMP TO</span>
@@ -399,12 +397,12 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
           </div>
         </div>
 
-        {/* Page body wrap */}
+        
         <div className="wrap">
           <div className="layout">
-            {/* Main Column */}
+            
             <div className="main">
-              {/* Sourced Statement */}
+              
               <div className="cc" style={{ border: "1.5px solid var(--border)", borderRadius: "12px", padding: "16px", background: "var(--card)", marginBottom: "25px" }}>
                 <div className="cc-h" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
                   <span className="cc-hl" style={{ fontSize: "10.5px", fontWeight: "bold", color: "var(--gold)" }}>SOURCE OF TRUTH</span>
@@ -423,7 +421,7 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
                 </div>
               </div>
 
-              {/* Three Stories Intro */}
+              
               <div id="three">
                 <div className="sh">
                   <span className="sh-p">+</span>
@@ -436,7 +434,7 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
                   <b>Not one is about a sister and a brother.</b> What they share is a thread, a mantra, and someone who needed protecting.
                 </p>
 
-                {/* Story 1: Sachi and Indra */}
+                
                 <div id="sachi" style={{ marginTop: "25px" }}>
                   <h3 style={{ fontSize: "16px", fontWeight: "bold", color: "var(--dark)", marginBottom: "8px" }}>1. Wife to Husband: Sachi &amp; Indra (Bhavishya Purana)</h3>
                   <p className="p">
@@ -450,7 +448,7 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
                   </p>
                 </div>
 
-                {/* Story 2: Draupadi and Krishna */}
+                
                 <div id="draupadi" style={{ marginTop: "25px" }}>
                   <h3 style={{ fontSize: "16px", fontWeight: "bold", color: "var(--dark)", marginBottom: "8px" }}>2. Friend to Friend: Draupadi &amp; Krishna (Mahabharata)</h3>
                   <p className="p">
@@ -464,7 +462,7 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
                   </p>
                 </div>
 
-                {/* Story 3: Lakshmi and Bali */}
+                
                 <div id="lakshmi" style={{ marginTop: "25px" }}>
                   <h3 style={{ fontSize: "16px", fontWeight: "bold", color: "var(--dark)", marginBottom: "8px" }}>3. Devotee to King: Lakshmi &amp; Bali (Bhagavata Purana)</h3>
                   <p className="p">
@@ -481,7 +479,7 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
 
               <div className="hr"></div>
 
-              {/* What They Share */}
+              
               <div id="share">
                 <div className="sh">
                   <span className="sh-p">+</span>
@@ -506,7 +504,7 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
 
               <div className="hr"></div>
 
-              {/* Myths and Misconceptions */}
+              
               <div className="sh">
                 <span className="sh-p">+</span>
                 <span className="sh-t">Myths &amp; Reframes</span>
@@ -538,7 +536,7 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
               </div>
             </div>
 
-            {/* Sidebar Column */}
+            
             <div className="side">
               <div className="cred-card">
                 <div className="cred-head" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1.5px solid var(--border-light)", paddingBottom: "10px", marginBottom: "15px" }}>
@@ -576,11 +574,11 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
     );
   };
 
-  // RENDER FALLBACK 3: Ramcharitmanas 7 Kandas
+  
   const renderRamcharitmanasFallback = () => {
     return (
       <div className="concepts-detail-page ramcharitmanas-theme">
-        {/* Breadcrumb */}
+        
         <div className="bcrumb">
           <div className="bc-in">
             <div className="bc-l">
@@ -597,7 +595,7 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
           </div>
         </div>
 
-        {/* Hero */}
+        
         <section className="hero">
           <div className="hero-bg ramcharitmanas"></div>
           <div className="hero-ov"></div>
@@ -621,7 +619,7 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
           </div>
         </section>
 
-        {/* Reassurance Band */}
+        
         <div className="reassure" style={{ background: "var(--card)", borderBottom: "1px solid var(--border)" }}>
           <div className="wrap">
             <div style={{ padding: "13px 0", display: "flex", alignItems: "center", gap: "24px", flexWrap: "wrap", fontSize: "13px", color: "var(--mid-text)", fontWeight: 500 }}>
@@ -633,7 +631,7 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
           </div>
         </div>
 
-        {/* Chip band */}
+        
         <div className="chips">
           <div className="chips-in">
             <span className="chip-l">JUMP TO</span>
@@ -644,10 +642,10 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
           </div>
         </div>
 
-        {/* Page body wrap */}
+        
         <div className="wrap">
           <div className="layout">
-            {/* Main Column */}
+            
             <div className="main" style={{ marginTop: "30px" }}>
               <p className="open">The map before the journey.</p>
               <p className="p">
@@ -661,7 +659,7 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
                 <img src="/uploads/ramcharitmanas-7-kandas-explained.png" alt="Ramcharitmanas Map" />
               </figure>
 
-              {/* The Seven Kandas Section */}
+              
               <div id="seven">
                 <div className="sh">
                   <span className="sh-p">+</span>
@@ -672,7 +670,7 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
                 </p>
 
                 <div className="kandas">
-                  {/* Kanda 1 */}
+                  
                   <div className="kd">
                     <div className="kd-c">
                       <span className="kd-n">1</span>
@@ -689,7 +687,7 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
                     </div>
                   </div>
 
-                  {/* Kanda 2 */}
+                  
                   <div className="kd">
                     <div className="kd-c">
                       <span className="kd-n">2</span>
@@ -706,7 +704,7 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
                     </div>
                   </div>
 
-                  {/* Kanda 3 */}
+                  
                   <div className="kd">
                     <div className="kd-c">
                       <span className="kd-n">3</span>
@@ -723,7 +721,7 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
                     </div>
                   </div>
 
-                  {/* Kanda 4 */}
+                  
                   <div className="kd">
                     <div className="kd-c">
                       <span className="kd-n">4</span>
@@ -740,7 +738,7 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
                     </div>
                   </div>
 
-                  {/* Kanda 5 */}
+                  
                   <div className="kd now">
                     <div className="kd-c">
                       <span className="kd-n">5</span>
@@ -757,7 +755,7 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
                     </div>
                   </div>
 
-                  {/* Kanda 6 */}
+                  
                   <div className="kd">
                     <div className="kd-c">
                       <span className="kd-n">6</span>
@@ -774,7 +772,7 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
                     </div>
                   </div>
 
-                  {/* Kanda 7 */}
+                  
                   <div className="kd">
                     <div className="kd-c">
                       <span className="kd-n">7</span>
@@ -795,7 +793,7 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
 
               <div className="hr"></div>
 
-              {/* Why Sundarkand Section */}
+              
               <div id="why">
                 <div className="sh">
                   <span className="sh-p">+</span>
@@ -811,7 +809,7 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
 
               <div className="hr"></div>
 
-              {/* Where to Start Section */}
+              
               <div id="start">
                 <div className="sh">
                   <span className="sh-p">+</span>
@@ -824,7 +822,7 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
 
               <div className="hr"></div>
 
-              {/* Common Worries & Myths Section */}
+              
               <div id="worries">
                 <div className="sh">
                   <span className="sh-p">✕</span>
@@ -856,7 +854,7 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
                 </div>
               </div>
 
-              {/* Closing advice block */}
+              
               <div className="closing">
                 <p>
                   <b>The Tapa Co. Closing Advice:</b> The Ramcharitmanas is a companion, not a test. Read it at your own pace, with quiet concentration, and keep the focus on understanding the character of Hanuman.
@@ -866,7 +864,7 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
                 </p>
               </div>
 
-              {/* Related articles grid */}
+              
               <div className="hr"></div>
               <div className="sh">
                 <span className="sh-p">🔗</span>
@@ -891,7 +889,7 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
                 </div>
               </div>
 
-              {/* Revenue Row */}
+              
               <div className="rev" style={{ marginTop: "30px" }}>
                 <div className="rev-c live">
                   <div className="rev-i" style={{ backgroundColor: "var(--p-bg)", border: "1px solid var(--p-bd)", color: "var(--p-tx)" }}>💬</div>
@@ -918,7 +916,7 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
               <p className="rev-note">Revenue goes directly toward verifying text citations and supporting traditional scholars.</p>
             </div>
 
-            {/* Sidebar Column */}
+            
             <div className="side" style={{ marginTop: "30px" }}>
               <div className="ladder-sb">
                 <div className="lsb-h">THE SEVEN KANDAS CHECKLIST</div>
@@ -973,18 +971,18 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
     );
   };
 
-  // RENDER DYNAMIC DATABASE CONTENT (General Concept)
+  
   const renderDynamicContent = () => {
     if (!concept) return null;
 
     const parsedParagraphs = (concept.body || "")
-      .replace(/<[^>]*>/g, "") // strip simple html tags if any
+      .replace(/<[^>]*>/g, "") 
       .split("\n\n")
       .filter((p) => p.trim().length > 0);
 
     return (
       <div className="concepts-detail-page dynamic-theme">
-        {/* Breadcrumb */}
+        
         <div className="bcrumb">
           <div className="bc-in">
             <div className="bc-l">
@@ -997,7 +995,7 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
           </div>
         </div>
 
-        {/* Hero */}
+        
         <section className="hero">
           <div className="hero-bg general-bg" style={{ backgroundImage: concept.thumbnailUrl ? `url(${concept.thumbnailUrl})` : undefined }}></div>
           <div className="hero-ov"></div>
@@ -1012,10 +1010,10 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
           </div>
         </section>
 
-        {/* Page body wrap */}
+        
         <div className="wrap" style={{ paddingBottom: "60px" }}>
           <div className="layout">
-            {/* Main Column */}
+            
             <div className="main" style={{ marginTop: "30px" }}>
               <div className="sh">
                 <span className="sh-p">+</span>
@@ -1058,7 +1056,7 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
               )}
             </div>
 
-            {/* Sidebar Column */}
+            
             <div className="side" style={{ marginTop: "30px" }}>
               <div className="cred-card">
                 <div className="cred-head" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1.5px solid var(--border-light)", paddingBottom: "10px", marginBottom: "15px" }}>
@@ -1080,7 +1078,7 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
     );
   };
 
-  // Render Loader
+  
   if (loading && slug !== "why-is-bilva-dear-to-mahadev" && slug !== "three-stories-one-thread" && slug !== "ramcharitmanas-7-kandas-explained") {
     return (
       <div className="concepts-page min-h-screen">
@@ -1097,7 +1095,7 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
     <div className="concepts-page min-h-screen">
       <TopNav />
 
-      {/* Toast Alert */}
+      
       {toastMessage && (
         <div 
           style={{
@@ -1117,7 +1115,7 @@ export default function DharmicConceptDetailPage({ params }: PageProps) {
         </div>
       )}
 
-      {/* Routing renderer */}
+      
       {slug === "why-is-bilva-dear-to-mahadev"
         ? renderBilvaFallback()
         : slug === "three-stories-one-thread"

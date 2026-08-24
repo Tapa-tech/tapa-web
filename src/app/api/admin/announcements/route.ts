@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
     }
 
     if (isActive) {
-      // Deactivate other announcements
+      
       await db.announcementMessage.updateMany({
         where: { isActive: true },
         data: { isActive: false },

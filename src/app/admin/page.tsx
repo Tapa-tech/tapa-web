@@ -142,7 +142,7 @@ export default function AdminDashboard() {
 
   return (
     <div className="space-y-8 animate-fadeIn">
-      {/* Welcome Banner */}
+      
       <div className="bg-[#FAF6EC] border border-[#EADFC9] rounded-2xl p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <h1 className="font-serif font-bold text-2xl md:text-3xl text-[#3A332C] flex items-center gap-2">
@@ -168,7 +168,7 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {/* Pending DPB Reviews Highlight */}
+      
       {metrics && metrics.pendingDpb > 0 && (
         <div className="bg-red-50 border-2 border-[#ECA6B8] rounded-2xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 animate-pulse">
           <div className="flex items-center gap-4">
@@ -192,7 +192,7 @@ export default function AdminDashboard() {
         </div>
       )}
 
-      {/* Stats Cards Grid */}
+      
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {statCards.map((card, idx) => {
           const Icon = card.icon;
@@ -237,7 +237,7 @@ export default function AdminDashboard() {
         })}
       </div>
 
-      {/* System Status and Activity */}
+      
       <div className="bg-white border border-[#EADFC9] rounded-2xl p-6 shadow-sm">
         <h3 className="font-serif font-bold text-lg text-[#3A332C] flex items-center gap-2 border-b border-[#F2ECE4] pb-3">
           <Activity size={18} className="text-[#C82A54]" />
@@ -275,16 +275,16 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {/* Super Admin Command Center Progressive Sections */}
+      
       {role === "SUPER_ADMIN" && (
         <div className="space-y-8 mt-8 border-t border-[#EADFC9]/50 pt-8">
           <h2 className="font-serif font-bold text-2xl text-dark flex items-center gap-2">
             🛡️ Super Admin Command Center
           </h2>
 
-          {/* User Metrics & Quick Actions */}
+          
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* User Statistics Card */}
+            
             <div className="bg-white border border-[#EADFC9] rounded-2xl p-6 shadow-sm flex flex-col justify-between">
               <div>
                 <h3 className="font-serif font-bold text-lg text-dark flex items-center gap-1.5 mb-3">
@@ -322,7 +322,7 @@ export default function AdminDashboard() {
               </div>
             </div>
 
-            {/* Quick Links Command Card */}
+            
             <div className="bg-white border border-[#EADFC9] rounded-2xl p-6 shadow-sm flex flex-col justify-between">
               <div>
                 <h3 className="font-serif font-bold text-lg text-dark flex items-center gap-1.5 mb-3">
@@ -348,7 +348,7 @@ export default function AdminDashboard() {
               </div>
             </div>
 
-            {/* Site Announcements Quick Control */}
+            
             <div className="bg-white border border-[#EADFC9] rounded-2xl p-6 shadow-sm flex flex-col justify-between">
               <div>
                 <h3 className="font-serif font-bold text-lg text-dark flex items-center gap-1.5 mb-2">
@@ -404,7 +404,7 @@ export default function AdminDashboard() {
             </div>
           </div>
 
-          {/* Recent Signups Audit */}
+          
           <div className="bg-white border border-[#EADFC9] rounded-2xl p-6 shadow-sm">
             <h3 className="font-serif font-bold text-lg text-dark border-b border-[#F2ECE4] pb-3 mb-4 flex items-center justify-between">
               <span>Recent Signups (Super Admin Audit)</span>

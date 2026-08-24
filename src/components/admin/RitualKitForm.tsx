@@ -16,7 +16,7 @@ export default function RitualKitForm({ initialId }: RitualKitFormProps) {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 
-  // Form Fields State
+  
   const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [hindi, setHindi] = useState("");
@@ -70,7 +70,7 @@ export default function RitualKitForm({ initialId }: RitualKitFormProps) {
 
   const handleNameChange = (val: string) => {
     setName(val);
-    // Auto slugify ID if not editing
+    
     if (!initialId) {
       const clean = val
         .toLowerCase()
@@ -148,7 +148,7 @@ export default function RitualKitForm({ initialId }: RitualKitFormProps) {
 
   return (
     <div className="space-y-6 max-w-4xl mx-auto pb-12 font-sans">
-      {/* Top Breadcrumb Header */}
+      
       <div className="flex items-center justify-between border-b border-[#F2ECE4] pb-4">
         <div className="flex items-center gap-3">
           <Link
@@ -182,7 +182,7 @@ export default function RitualKitForm({ initialId }: RitualKitFormProps) {
       )}
 
       <form onSubmit={handleSubmit} className="bg-white border border-[#EADFC9] rounded-2xl p-6 md:p-8 space-y-6 shadow-sm">
-        {/* Core fields */}
+        
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-1.5">
             <label className="block text-xs font-bold text-[#6A5A4E] uppercase tracking-wider">
@@ -262,7 +262,7 @@ export default function RitualKitForm({ initialId }: RitualKitFormProps) {
           </div>
         </div>
 
-        {/* Pricing Fields */}
+        
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="space-y-1.5">
             <label className="block text-xs font-bold text-[#6A5A4E] uppercase tracking-wider">
@@ -308,7 +308,7 @@ export default function RitualKitForm({ initialId }: RitualKitFormProps) {
           </div>
         </div>
 
-        {/* Logistics and ribbon */}
+        
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="space-y-1.5">
             <label className="block text-xs font-bold text-[#6A5A4E] uppercase tracking-wider">
@@ -354,7 +354,7 @@ export default function RitualKitForm({ initialId }: RitualKitFormProps) {
           </div>
         </div>
 
-        {/* Checkbox and text area options */}
+        
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
           <div className="flex items-center gap-2">
             <input
@@ -410,7 +410,7 @@ export default function RitualKitForm({ initialId }: RitualKitFormProps) {
           />
         </div>
 
-        {/* Submission buttons */}
+        
         <div className="flex justify-end gap-3 border-t border-[#F2ECE4] pt-6">
           <Link
             href="/admin/ritual-kits"

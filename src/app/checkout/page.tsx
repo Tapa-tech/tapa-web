@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import AnnouncementBar from "@/components/AnnouncementBar";
-import TopNav from "@/components/TopNav";
-import Footer from "@/components/Footer";
+import AnnouncementBar from "@/components/layout/AnnouncementBar";
+import TopNav from "@/components/layout/TopNav";
+import Footer from "@/components/layout/Footer";
 import { Loader2, ArrowLeft, CheckCircle2 } from "lucide-react";
 import { useCheckout } from "./hooks/useCheckout";
 import { CheckoutAddressForm } from "./components/CheckoutAddressForm";
@@ -64,7 +64,7 @@ export default function CheckoutPage() {
       <AnnouncementBar />
       <TopNav activeTab="Ritual Kits" onTriggerToast={triggerToast} />
 
-      {/* Breadcrumb */}
+      
       <div className="breadcrumb-bar select-none">
         <div className="wrap">
           <a href="/" className="hover:underline">Home</a>
@@ -80,7 +80,7 @@ export default function CheckoutPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-8 items-start">
           
-          {/* Checkout Address Form */}
+          
           <form onSubmit={handleSubmitOrder} className="space-y-6">
             <CheckoutAddressForm
               name={name}
@@ -101,14 +101,14 @@ export default function CheckoutPage() {
               setSaveAddress={setSaveAddress}
             />
 
-            {/* Payment Method Selector */}
+            
             <PaymentMethodSelector
               selectedPayment={selectedPayment}
               setSelectedPayment={setSelectedPayment}
               codDisabledInfo={codDisabledInfo}
             />
 
-            {/* Form actions */}
+            
             <div className="flex justify-between items-center select-none pt-2">
               <button
                 type="button"
@@ -139,7 +139,7 @@ export default function CheckoutPage() {
             </div>
           </form>
 
-          {/* Sidebar Order Summary */}
+          
           <OrderSummary
             items={items}
             subtotal={subtotal}
@@ -152,7 +152,7 @@ export default function CheckoutPage() {
 
       <Footer onTriggerToast={triggerToast} />
 
-      {/* Premium Toast Notification */}
+      
       <CheckoutToast message={toastMessage} />
     </div>
   );

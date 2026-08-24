@@ -53,7 +53,7 @@ export default function AdminLayout({
 
         setAdminUser(data.session.user);
 
-        // Fetch pending reviews count
+        
         const revRes = await fetch("/api/admin/dpb-review");
         if (revRes.ok) {
           const revData = await revRes.json();
@@ -128,7 +128,7 @@ export default function AdminLayout({
 
   return (
     <div className="min-h-screen bg-[#FDFBF7] text-[#3A332C] font-sans flex flex-col md:flex-row">
-      {/* Mobile Top Bar */}
+      
       <div className="md:hidden bg-white border-b border-[#EADFC9] p-4 flex items-center justify-between sticky top-0 z-50">
         <div className="flex items-center gap-2">
           <span className="text-2xl font-bold text-[#C82A54] font-serif">तप</span>
@@ -142,7 +142,7 @@ export default function AdminLayout({
         </button>
       </div>
 
-      {/* Sidebar navigation */}
+      
       <aside
         className={`w-64 bg-white border-r border-[#EADFC9] flex flex-col fixed md:sticky top-0 bottom-0 left-0 z-40 transition-transform duration-300 transform md:transform-none ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
@@ -214,14 +214,14 @@ export default function AdminLayout({
         </div>
       </aside>
 
-      {/* Main content wrapper */}
+      
       <div className="flex-1 flex flex-col min-w-0">
         <main className="flex-1 p-6 md:p-8 max-w-6xl mx-auto w-full">
           {children}
         </main>
       </div>
 
-      {/* Backdrop overlay for mobile sidebar */}
+      
       {sidebarOpen && (
         <div
           onClick={() => setSidebarOpen(false)}

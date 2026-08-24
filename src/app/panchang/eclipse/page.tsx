@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import TopNav from "@/components/TopNav";
-import Footer from "@/components/Footer";
+import TopNav from "@/components/layout/TopNav";
+import Footer from "@/components/layout/Footer";
 import { Loader2 } from "lucide-react";
 
 interface DPBEntry {
@@ -52,7 +52,7 @@ export default function EclipsePage() {
     loadEclipseData();
   }, []);
 
-  // Parse paragraphs from Tiptap JSON or text body
+  
   const getParsedParagraphs = () => {
     if (!concept || !concept.body) return [];
     if (concept.body.startsWith("{")) {
@@ -95,14 +95,14 @@ export default function EclipsePage() {
     <div className="ritual-guide-page min-h-screen bg-[#F2EDE4] text-[#2C2010] font-sans antialiased">
       <TopNav activeTab="Panchang" onTriggerToast={triggerToast} />
 
-      {/* Breadcrumbs */}
+      
       <div className="bcrumb">
         <div className="bc-in">
           Home › <span className="cursor-pointer hover:underline" onClick={() => router.push("/panchang")}>Panchang</span> › <b>Eclipse &amp; Grahan</b>
         </div>
       </div>
 
-      {/* Hero Header */}
+      
       <section className="chero pa" style={{ paddingBottom: "40px" }}>
         <div className="wrap">
           <div className="chero-in">
@@ -128,18 +128,18 @@ export default function EclipsePage() {
         </div>
       </section>
 
-      {/* Main Content Layout */}
+      
       <div className="wrap" style={{ paddingBottom: "80px" }}>
         <div className="layout" style={{ marginTop: "30px" }}>
           
-          {/* Left Column: Eclipses and Flowcharts */}
+          
           <div className="main">
             <div className="sh">
               <span className="sh-p">🌑</span>
               <span className="sh-t">Upcoming August 2026 Eclipses</span>
             </div>
 
-            {/* Eclipses Structured List */}
+            
             <div className="flex flex-col gap-4 mt-4 select-none">
               <div className="bg-white border border-[#EADFC9]/60 rounded-2xl p-6 font-sans">
                 <div className="flex justify-between items-center border-b border-[#F2EDE4] pb-3 mb-3">
@@ -192,7 +192,7 @@ export default function EclipsePage() {
               </div>
             </div>
 
-            {/* Flowchart Rule Box */}
+            
             <div className="sh mt-8">
               <span className="sh-p">❓</span>
               <span className="sh-t">Visibility Flowchart: Does Sutak Apply to You?</span>
@@ -220,7 +220,7 @@ export default function EclipsePage() {
               </div>
             </div>
 
-            {/* Explanatory Content */}
+            
             <div className="sh mt-8">
               <span className="sh-p">✍</span>
               <span className="sh-t">The Meaning &amp; Rules Explained</span>
@@ -231,7 +231,7 @@ export default function EclipsePage() {
               ))}
             </div>
 
-            {/* DPB Protocol Cards */}
+            
             {concept?.dpbEntries && concept.dpbEntries.length > 0 && (
               <>
                 <div className="sh mt-8">
@@ -256,7 +256,7 @@ export default function EclipsePage() {
             )}
           </div>
 
-          {/* Right Column: Sidebar links to related guides */}
+          
           <div className="side">
             <div className="cred-card font-sans">
               <span className="cred-label">RELATED GUIDES</span>

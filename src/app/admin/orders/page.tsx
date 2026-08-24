@@ -19,7 +19,7 @@ interface Order {
   paymentMethod: string;
   paymentStatus: "PENDING" | "PAID" | "FAILED" | "REFUNDED";
   orderStatus: "CONFIRMED" | "PROCESSING" | "SHIPPED" | "DELIVERED" | "CANCELLED";
-  deliveryAddress: string; // JSON String
+  deliveryAddress: string; 
   user: {
     name?: string;
     phone?: string;
@@ -72,7 +72,7 @@ export default function AdminOrdersPage() {
       });
 
       if (res.ok) {
-        // Update local state
+        
         setOrders((prev) =>
           prev.map((o) => (o.id === orderId ? { ...o, [field]: value } : o))
         );
@@ -99,7 +99,7 @@ export default function AdminOrdersPage() {
 
   return (
     <div className="space-y-6 font-sans">
-      {/* Header Banner */}
+      
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#F2ECE4] pb-4 select-none">
         <div>
           <div className="flex items-center gap-2 mb-1.5 text-[10px] text-[#8A7A6E] uppercase font-bold tracking-wider">
@@ -141,7 +141,7 @@ export default function AdminOrdersPage() {
       ) : (
         <div className="space-y-4">
           {orders.map((order) => {
-            // Parse delivery address JSON safely
+            
             let address: any = {};
             try {
               address = JSON.parse(order.deliveryAddress);
@@ -160,7 +160,7 @@ export default function AdminOrdersPage() {
                   </div>
                 )}
 
-                {/* Top Title Section */}
+                
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-[#F2ECE4] pb-3 text-xs">
                   <div>
                     <span className="text-[#8A7A6E] font-bold uppercase tracking-wider">Order Number: </span>
@@ -171,9 +171,9 @@ export default function AdminOrdersPage() {
                   </div>
                 </div>
 
-                {/* Body split: Left user/address details, Right Items details */}
+                
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
-                  {/* Left Column */}
+                  
                   <div className="space-y-3">
                     <div>
                       <h4 className="font-bold text-[#8A7A6E] uppercase tracking-wider mb-1">Customer Profile</h4>
@@ -193,7 +193,7 @@ export default function AdminOrdersPage() {
                     </div>
                   </div>
 
-                  {/* Right Column */}
+                  
                   <div>
                     <h4 className="font-bold text-[#8A7A6E] uppercase tracking-wider mb-1">Items Snapshot Checklist</h4>
                     <div className="bg-[#FAF6EC]/40 border border-[#EADFC9]/60 rounded-xl p-3 space-y-2">
@@ -215,7 +215,7 @@ export default function AdminOrdersPage() {
                   </div>
                 </div>
 
-                {/* Status Updaters Footer Bar */}
+                
                 <div className="border-t border-[#F2ECE4] pt-4 mt-2 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 text-xs select-none">
                   <div>
                     <span className="text-[#8A7A6E] font-bold uppercase tracking-wider">Payment Method: </span>
@@ -223,7 +223,7 @@ export default function AdminOrdersPage() {
                   </div>
 
                   <div className="flex flex-wrap gap-4 items-center">
-                    {/* Payment Status Dropdown */}
+                    
                     <div className="flex items-center gap-2">
                       <span className="font-semibold text-[#8A7A6E]">Payment Status:</span>
                       <select
@@ -240,7 +240,7 @@ export default function AdminOrdersPage() {
                       </select>
                     </div>
 
-                    {/* Order Status Dropdown */}
+                    
                     <div className="flex items-center gap-2">
                       <span className="font-semibold text-[#8A7A6E]">Order Status:</span>
                       <select

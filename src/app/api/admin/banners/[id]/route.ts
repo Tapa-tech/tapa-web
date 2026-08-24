@@ -52,7 +52,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     }
 
     if (isActive) {
-      // Deactivate all other banners
+      
       await db.homepageBanner.updateMany({
         where: {
           isActive: true,

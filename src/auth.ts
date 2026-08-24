@@ -26,7 +26,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const email = user.email;
         if (!email) return false;
 
-        // 1. Find or create User record
+
         let dbUser = await db.user.findUnique({
           where: { email },
         });
@@ -43,7 +43,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           });
         }
 
-        // 2. Link Google OAuth account record if not already linked
+        
         const oauthLink = await db.oAuthAccount.findUnique({
           where: {
             provider_providerAccountId: {
@@ -63,7 +63,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           });
         }
 
-        // 3. Generate access and refresh tokens
+        
         const accessToken = await signAccessToken({
           userId: dbUser.id,
           role: dbUser.role,
@@ -74,7 +74,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const refreshTokenVal = generateOpaqueToken();
         const refreshTokenHash = hashSHA256(refreshTokenVal);
         const family = generateOpaqueToken();
-        const refreshTokenExpiry = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // 30 days
+        const refreshTokenExpiry = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); 
 
         await db.refreshToken.create({
           data: {
@@ -85,15 +85,15 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           },
         });
 
-        // 4. Set secure cookies
-        const cookieStore = cookies();
         
+        const cookieStore = cookies();
+
         cookieStore.set("access_token", accessToken, {
           httpOnly: true,
           secure: process.env.NODE_ENV === "production",
           sameSite: "lax",
           path: "/",
-          maxAge: 15 * 60, // 15 mins
+          maxAge: 15 * 60, 
         });
 
         cookieStore.set("refresh_token", refreshTokenVal, {
@@ -101,7 +101,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           secure: process.env.NODE_ENV === "production",
           sameSite: "lax",
           path: "/",
-          maxAge: 30 * 24 * 60 * 60, // 30 days
+          maxAge: 30 * 24 * 60 * 60, 
         });
       }
       return true;

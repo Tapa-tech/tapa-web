@@ -19,7 +19,7 @@ export function OrderSummary({
     <div className="bg-card border border-border rounded-2xl p-6 space-y-4 shadow-sm">
       <h2 className="font-serif font-bold text-lg text-dark border-b border-border pb-3">Items Summary</h2>
 
-      {/* Items scroll */}
+      
       <div className="space-y-3 max-h-60 overflow-y-auto pr-1">
         {items.map((item) => (
           <div key={item.productId} className="flex justify-between items-start gap-4 text-xs">
@@ -32,7 +32,7 @@ export function OrderSummary({
         ))}
       </div>
 
-      {/* Price lines */}
+      
       <div className="border-t border-border pt-3 space-y-2.5 text-xs">
         <div className="flex justify-between">
           <span className="text-sub-text">Subtotal</span>
@@ -54,7 +54,7 @@ export function OrderSummary({
         </div>
       </div>
 
-      {/* Trust badge */}
+      
       <div className="bg-[#FAF6EC] border border-[#EADFC9] rounded-xl p-3 flex items-start gap-2.5 text-[10px] text-[#6A5A4E] leading-relaxed">
         <ShieldCheck size={16} className="text-[#C82A54] shrink-0 mt-0.5" />
         <span>We package each kit in a clean environment, maintaining pure ritual integrity. Return request accepted within 24 hours of delivery.</span>

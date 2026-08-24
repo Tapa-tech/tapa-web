@@ -15,7 +15,7 @@ export default function SourcesLibrary() {
   const [sources, setSources] = useState<Source[]>([]);
   const [loading, setLoading] = useState(true);
   
-  // Form State
+  
   const [editingId, setEditingId] = useState<string | null>(null);
   const [name, setName] = useState("");
   const [reference, setReference] = useState("");
@@ -116,7 +116,7 @@ export default function SourcesLibrary() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
+      
       <div className="flex items-center justify-between border-b border-[#F2ECE4] pb-4">
         <div>
           <h1 className="font-serif font-bold text-2xl text-[#3A332C]">Sources Library</h1>
@@ -136,7 +136,7 @@ export default function SourcesLibrary() {
         </button>
       </div>
 
-      {/* Form Dialog/Drawer */}
+      
       {isFormOpen && (
         <div className="bg-white border border-[#EADFC9] rounded-2xl p-6 shadow-sm animate-slideDown max-w-xl">
           <div className="flex items-center justify-between border-b border-[#F2ECE4] pb-3 mb-4">
@@ -219,7 +219,7 @@ export default function SourcesLibrary() {
         </div>
       )}
 
-      {/* List / Table */}
+      
       {loading ? (
         <div className="flex justify-center py-10">
           <div className="w-6 h-6 border-2 border-[#C82A54] border-t-transparent rounded-full animate-spin"></div>

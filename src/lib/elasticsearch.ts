@@ -4,10 +4,7 @@ import { db } from "./db";
 let client: Client | null = null;
 let connectionFailed = false;
 
-/**
- * Instantiates the Elasticsearch client.
- * Returns null if ELASTICSEARCH_NODE is not configured or if connection failed.
- */
+
 export function getElasticClient(): Client | null {
   const node = process.env.ELASTICSEARCH_NODE;
   if (!node) {
@@ -25,7 +22,7 @@ export function getElasticClient(): Client | null {
     client = new Client({
       node,
       maxRetries: 1,
-      requestTimeout: 1500, // Short timeout to fail fast and trigger db fallback
+      requestTimeout: 1500, 
     });
     return client;
   } catch (err) {
@@ -35,9 +32,7 @@ export function getElasticClient(): Client | null {
   }
 }
 
-/**
- * Tests connection to the Elasticsearch cluster.
- */
+
 export async function testConnection(): Promise<boolean> {
   const c = getElasticClient();
   if (!c) {
@@ -55,9 +50,7 @@ export async function testConnection(): Promise<boolean> {
   }
 }
 
-/**
- * Builds a search blob from a guide's database relations.
- */
+
 export async function getSearchableBlobForGuide(guideId: string) {
   const guide = await db.ritualGuide.findUnique({
     where: { id: guideId },
@@ -124,9 +117,7 @@ export async function getSearchableBlobForGuide(guideId: string) {
   };
 }
 
-/**
- * Index or update a single ritual guide in Elasticsearch.
- */
+
 export async function indexRitualGuide(guideId: string) {
   const c = getElasticClient();
   if (!c) {
@@ -161,9 +152,7 @@ export async function indexRitualGuide(guideId: string) {
   }
 }
 
-/**
- * Delete a guide from the Elasticsearch index.
- */
+
 export async function deleteRitualGuide(guideId: string) {
   const c = getElasticClient();
   if (!c) {
@@ -184,9 +173,7 @@ export async function deleteRitualGuide(guideId: string) {
   }
 }
 
-/**
- * Re-create search indexes and synchronize all guides and kits to Elasticsearch.
- */
+
 export async function syncAllToElastic() {
   const c = getElasticClient();
   if (!c) {
@@ -196,7 +183,7 @@ export async function syncAllToElastic() {
   const guideIndex = process.env.ELASTICSEARCH_INDEX_GUIDES || "tapa_guides";
   const kitIndex = process.env.ELASTICSEARCH_INDEX_KITS || "tapa_kits";
 
-  // Re-create indexes with custom analysis settings for edge-ngram autocomplete
+  
   await c.indices.delete({ index: guideIndex }, { ignore: [404] });
   await c.indices.delete({ index: kitIndex }, { ignore: [404] });
 
@@ -263,7 +250,7 @@ export async function syncAllToElastic() {
     },
   });
 
-  // Bulk index all published guides
+  
   const publishedGuides = await db.ritualGuide.findMany({
     where: { status: "PUBLISHED" },
     select: { id: true },
@@ -273,16 +260,14 @@ export async function syncAllToElastic() {
     await indexRitualGuide(g.id);
   }
 
-  // Bulk index kits from database
+  
   const kits = await db.ritualKit.findMany();
   for (const k of kits) {
     await indexRitualKit(k.id);
   }
 }
 
-/**
- * Index or update a single ritual kit in Elasticsearch.
- */
+
 export async function indexRitualKit(kitId: string) {
   const c = getElasticClient();
   if (!c) {
@@ -308,9 +293,7 @@ export async function indexRitualKit(kitId: string) {
   }
 }
 
-/**
- * Delete a kit from the Elasticsearch index.
- */
+
 export async function deleteRitualKit(kitId: string) {
   const c = getElasticClient();
   if (!c) {

@@ -3,26 +3,26 @@
 
 import React, { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import AnnouncementBar from "@/components/AnnouncementBar";
-import TopNav from "@/components/TopNav";
-import Footer from "@/components/Footer";
+import AnnouncementBar from "@/components/layout/AnnouncementBar";
+import TopNav from "@/components/layout/TopNav";
+import Footer from "@/components/layout/Footer";
 import { extractTextFromTiptap } from "@/utils/tiptap";
 import "../prebook.css";
 
-// Types for views
+
 type ViewKey = "rg" | "pa" | "dc" | "rk" | "purohit";
 
 interface CardData {
-  h?: string;      // header class (e.g. h-teej, h-ganesh)
-  when?: string;   // e.g., "IN 6 DAYS", "ORDER BY 10 SEP"
-  now?: boolean;   // if true, shows "now" style
-  rt?: string;     // e.g. "SEPTEMBER", "12 AUGUST"
-  t: string;       // title
-  d?: string;      // date or subtitle
-  s: string;       // description text
-  pills?: [string, string][];  // list of pills e.g. [['d', 'DHARMA · 4/5']]
-  read?: string;   // e.g. '9 min'
-  myth?: string;   // corrections myth
+  h?: string;      
+  when?: string;   
+  now?: boolean;   
+  rt?: string;     
+  t: string;       
+  d?: string;      
+  s: string;       
+  pills?: [string, string][];  
+  read?: string;   
+  myth?: string;   
   slug?: string;
   thumbnailUrl?: string;
 }
@@ -176,7 +176,7 @@ function RitualGuidesContent() {
   };
 
   const viewParamValue = searchParams.get("view");
-  // Sync state view on search parameter changes
+  
   useEffect(() => {
     const viewParam = viewParamValue as ViewKey;
     if (viewParam && ["rg", "pa", "dc", "rk", "purohit"].includes(viewParam)) {
@@ -192,7 +192,7 @@ function RitualGuidesContent() {
     }
   }, [searchParams, viewParamValue]);
 
-  // Sync TopNav actions with page view state
+  
   const handleTabChange = (tabId: string) => {
     setActiveTab(tabId);
     if (tabId === "Ritual Guides") {
@@ -208,7 +208,7 @@ function RitualGuidesContent() {
     }
   };
 
-  // Helper to switch view from the inline `.prev` preview switcher
+  
   const handleInlineViewSwitch = (key: ViewKey) => {
     if (key === "pa") {
       router.push("/panchang");
@@ -225,7 +225,7 @@ function RitualGuidesContent() {
     }
   };
 
-  // Views metadata mapping
+  
   const viewMeta: Record<ViewKey, ViewData> = {
     rg: {
       cls: "rg",
@@ -324,7 +324,7 @@ function RitualGuidesContent() {
     },
   };
 
-  // Card renderer
+  
   const renderCard = (o: CardData) => {
     const slug = o.slug || o.t.toLowerCase().replace(/[^a-z0-9]+/g, "-");
     return (
@@ -379,7 +379,7 @@ function RitualGuidesContent() {
     );
   };
 
-  // Section Header renderer
+  
   const renderSectionHeader = (
     ey: string,
     t: string,
@@ -406,7 +406,7 @@ function RitualGuidesContent() {
     </div>
   );
 
-  // Row list item renderer
+  
   const renderRow = (t: string, s: string) => (
     <a
       key={t}
@@ -491,12 +491,12 @@ function RitualGuidesContent() {
     </a>
   );
 
-  // Active view metadata
+  
   const currentMeta = viewMeta[view];
 
   return (
     <div className="ritual-guide-page min-h-screen bg-[#F2EDE4] text-[#2C2010] font-sans antialiased">
-      {/* Existing Project Header */}
+      
       <AnnouncementBar />
       <TopNav
         activeTab={activeTab}
@@ -506,14 +506,14 @@ function RitualGuidesContent() {
 
       {view !== "pa" ? (
         <>
-          {/* BREADCRUMB */}
+          
           <div className="bcrumb">
             <div className="bc-in">
               <span className="cursor-pointer hover:underline" onClick={() => handleInlineViewSwitch("rg")}>Home</span> › <b>{currentMeta.crumb.replace("Home › ", "")}</b>
             </div>
           </div>
 
-          {/* HERO SECTION */}
+          
           <section className={`chero ${currentMeta.cls}`}>
             <div className="wrap">
               <div className="chero-in">
@@ -544,7 +544,7 @@ function RitualGuidesContent() {
             </div>
           </section>
 
-          {/* FILTERS BAR */}
+          
           <div className="filters">
             <div className="f-in">
               <span className="f-l">FILTER</span>
@@ -574,7 +574,7 @@ function RitualGuidesContent() {
         </>
       ) : (
         <>
-          {/* Custom breadcrumb for Panchang */}
+          
           <div className="bcrumb">
             <div className="bc-in">
               {panchangTab === "pl" && <>Home › <b>Panchang</b></>}
@@ -583,7 +583,7 @@ function RitualGuidesContent() {
             </div>
           </div>
 
-          {/* Custom Hero for Panchang */}
+          
           <section className="chero pa">
             <div className="wrap">
               <div className="chero-in">
@@ -623,7 +623,7 @@ function RitualGuidesContent() {
                     </div>
                   </div>
                 )}
-                {/* Right side: Today's Panchang */}
+                
                 <div className="today select-none">
                   <div className="td-h">
                     <span className="td-l">{"☀ TODAY'S PANCHANG"}</span>
@@ -665,7 +665,7 @@ function RitualGuidesContent() {
             </div>
           </section>
 
-          {/* Custom Controls for Panchang */}
+          
           <div className="ctrl">
             <div className="ctrl-in">
               <div className="city cursor-pointer" onClick={() => triggerToast("City selector launch scheduled for October 2026.")}>
@@ -702,7 +702,7 @@ function RitualGuidesContent() {
         </>
       )}
 
-      {/* BODY CONTENT STAGE */}
+      
       <div className="wrap">
         <div className="pagepad">
           {view === "rg" && (
@@ -712,7 +712,7 @@ function RitualGuidesContent() {
               </div>
             ) : (
               <>
-              {/* Beginner's Guides */}
+              
               <div className="sec">
                 <div className="sec-head">
                   <div>
@@ -734,7 +734,7 @@ function RitualGuidesContent() {
                 </div>
 
                 <div className="beginner-card">
-                  {/* Left Column (Chocolate Brown Panel) */}
+                  
                   <div className="bc-left">
                     <div>
                       <span className="bc-badge">READ IN THIS ORDER</span>
@@ -751,7 +751,7 @@ function RitualGuidesContent() {
                     </button>
                   </div>
 
-                  {/* Right Column (Sequential List) */}
+                  
                   <div className="bc-right font-sans">
                     {[
                       {
@@ -814,7 +814,7 @@ function RitualGuidesContent() {
                 </div>
               </div>
 
-              {/* Festive Pujans */}
+              
               <div className="sec">
                 {renderSectionHeader(
                   "FIXED TO A TITHI",
@@ -846,7 +846,7 @@ function RitualGuidesContent() {
                 </div>
               </div>
 
-              {/* Not Tied to One Date */}
+              
               <div className="sec">
                 {renderSectionHeader(
                   "NOT TIED TO ONE DATE",
@@ -878,7 +878,7 @@ function RitualGuidesContent() {
                 </div>
               </div>
 
-              {/* Once in a Life */}
+              
               <div className="sec">
                 {renderSectionHeader(
                   "ONCE IN A LIFE",
@@ -1025,7 +1025,7 @@ function RitualGuidesContent() {
                     })}
                   </div>
 
-                  {/* Learn Band */}
+                  
                   <div className="learn select-none mb-6">
                     <div>
                       <div className="ln-ey">BEFORE YOU USE ANY OF THIS</div>
@@ -1065,7 +1065,7 @@ function RitualGuidesContent() {
                     </div>
                   </div>
 
-                  {/* Download Band */}
+                  
                   <div className="dlband select-none mb-6">
                     <div className="dl-i">📅</div>
                     <div>
@@ -1123,7 +1123,7 @@ function RitualGuidesContent() {
                     </div>
                   )}
 
-                  {/* Learn Band */}
+                  
                   <div className="learn select-none mb-6">
                     <div>
                       <div className="ln-ey">WHY YOUR CITY MATTERS</div>
@@ -1156,7 +1156,7 @@ function RitualGuidesContent() {
                     </div>
                   </div>
 
-                  {/* Download Band */}
+                  
                   <div className="dlband select-none mb-6">
                     <div className="dl-i">📿</div>
                     <div>
@@ -1224,7 +1224,7 @@ function RitualGuidesContent() {
                     </div>
                   )}
 
-                  {/* Download Band */}
+                  
                   <div className="dlband select-none mb-6">
                     <div className="dl-i">🎆</div>
                     <div>
@@ -1240,7 +1240,7 @@ function RitualGuidesContent() {
 
           {view === "dc" && (
             <>
-              {/* Materials */}
+              
               <div className="sec">
                 {renderSectionHeader(
                   "OBJECTS AND WHAT THEY MEAN",
@@ -1283,7 +1283,7 @@ function RitualGuidesContent() {
                 </div>
               </div>
 
-              {/* Acts and Ideas */}
+              
               <div className="sec">
                 {renderSectionHeader(
                   "ACTS AND IDEAS",
@@ -1327,7 +1327,7 @@ function RitualGuidesContent() {
                 </div>
               </div>
 
-              {/* Every Morning */}
+              
               <div className="sec">
                 {renderSectionHeader(
                   "EVERY MORNING",
@@ -1356,7 +1356,7 @@ function RitualGuidesContent() {
                 </div>
               </div>
 
-              {/* The Signature Series */}
+              
               <div className="sec">
                 {renderSectionHeader(
                   "THE SIGNATURE SERIES",
@@ -1396,7 +1396,7 @@ function RitualGuidesContent() {
                 </div>
               </div>
 
-              {/* Said Aloud */}
+              
               <div className="sec">
                 {renderSectionHeader(
                   "SAID ALOUD",
@@ -1429,7 +1429,7 @@ function RitualGuidesContent() {
 
           {view === "rk" && (
             <>
-              {/* Dated */}
+              
               <div className="sec">
                 {renderSectionHeader(
                   "DATED · CUT-OFF APPLIES",
@@ -1467,7 +1467,7 @@ function RitualGuidesContent() {
                 </div>
               </div>
 
-              {/* All Year */}
+              
               <div className="sec">
                 {renderSectionHeader(
                   "ALL YEAR · COD AVAILABLE",
@@ -1501,7 +1501,7 @@ function RitualGuidesContent() {
                 </div>
               </div>
 
-              {/* Once in a Life */}
+              
               <div className="sec">
                 {renderSectionHeader(
                   "ONCE IN A LIFE",
@@ -1535,7 +1535,7 @@ function RitualGuidesContent() {
                 </div>
               </div>
 
-              {/* Daily Puja Essentials */}
+              
               <div className="sec">
                 {renderSectionHeader(
                   "THE THINGS THAT RUN OUT",
@@ -1564,7 +1564,7 @@ function RitualGuidesContent() {
 
           {view === "purohit" && (
             <>
-              {/* Pujan with Purohit Section */}
+              
               <div className="sec">
                 {renderSectionHeader(
                   "LAUNCHING IN NOVEMBER",
@@ -1634,7 +1634,7 @@ function RitualGuidesContent() {
             </>
           )}
 
-          {/* METHOD BAND ("How we decide what is true") */}
+          
           <div className="methodband">
             <div>
               <div className="mb-ey">HOW WE DECIDE WHAT IS TRUE</div>
@@ -1677,10 +1677,10 @@ function RitualGuidesContent() {
         </div>
       </div>
 
-      {/* Existing Project Footer */}
+      
       <Footer onTriggerToast={triggerToast} />
 
-      {/* Premium Toast Notification */}
+      
       {toastMessage && (
         <div className="fixed bottom-6 right-6 z-[100] bg-[#1C1712] text-white border border-white/10 px-5 py-3 rounded-xl shadow-2xl flex items-center gap-2 animate-bounce text-xs">
           <span className="w-1.5 h-1.5 rounded-full bg-[#FD066D] animate-ping" />

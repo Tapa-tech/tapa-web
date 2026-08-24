@@ -15,7 +15,7 @@ async function getUserId(req: NextRequest): Promise<string | null> {
   }
 }
 
-// GET: Fetch all cart items for current user
+
 export async function GET(req: NextRequest) {
   const userId = await getUserId(req);
   if (!userId) {
@@ -40,7 +40,7 @@ export async function GET(req: NextRequest) {
   }
 }
 
-// POST: Add product to cart (or increment quantity)
+
 export async function POST(req: NextRequest) {
   const userId = await getUserId(req);
   if (!userId) {
@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
     }
 
-    // Verify product exists
+    
     const product = await db.product.findUnique({
       where: { id: productId },
     });
@@ -61,7 +61,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Product not found" }, { status: 404 });
     }
 
-    // Upsert cart item
+    
     const existing = await db.cartItem.findUnique({
       where: {
         userId_productId: { userId, productId },
@@ -90,7 +90,7 @@ export async function POST(req: NextRequest) {
   }
 }
 
-// PUT: Set precise quantity of product in cart
+
 export async function PUT(req: NextRequest) {
   const userId = await getUserId(req);
   if (!userId) {
@@ -104,7 +104,7 @@ export async function PUT(req: NextRequest) {
     }
 
     if (quantity <= 0) {
-      // Remove if quantity is 0 or less
+      
       await db.cartItem.deleteMany({
         where: { userId, productId },
       });
@@ -126,7 +126,7 @@ export async function PUT(req: NextRequest) {
   }
 }
 
-// DELETE: Remove product from cart or clear entire cart
+
 export async function DELETE(req: NextRequest) {
   const userId = await getUserId(req);
   if (!userId) {
@@ -137,13 +137,13 @@ export async function DELETE(req: NextRequest) {
     const productId = req.nextUrl.searchParams.get("productId");
 
     if (productId) {
-      // Remove specific item
+      
       await db.cartItem.deleteMany({
         where: { userId, productId },
       });
       return NextResponse.json({ success: true, removed: productId });
     } else {
-      // Clear entire cart
+      
       await db.cartItem.deleteMany({
         where: { userId },
       });

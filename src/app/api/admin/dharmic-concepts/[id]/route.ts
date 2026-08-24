@@ -24,7 +24,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
       return NextResponse.json({ error: parse.error.issues[0].message }, { status: 400 });
     }
 
-    // Check slug uniqueness (excluding current)
+    
     const exists = await db.dharmicConcept.findFirst({
       where: {
         slug: parse.data.slug,

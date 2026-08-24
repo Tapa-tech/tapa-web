@@ -4,13 +4,13 @@ import { checkAdminAuth } from "@/lib/auth/admin";
 
 export async function GET(req: NextRequest) {
   try {
-    // Enforce Super Admin check
+    
     const payload = await checkAdminAuth(req);
     if (!payload || payload.role !== "SUPER_ADMIN") {
       return NextResponse.json({ error: "Forbidden: Super Admin access only" }, { status: 403 });
     }
 
-    // Fetch all users with their download records
+    
     const users = await db.user.findMany({
       orderBy: { createdAt: "desc" },
       select: {

@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
     let createdCount = 0;
     let updatedCount = 0;
 
-    // Use a sequential execution loop for transactional safety and upsert capabilities
+    
     for (const item of entries) {
       const { date, ...rest } = item;
       const dateOnly = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));

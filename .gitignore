@@ -1,5 +1,3 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
 # dependencies
 /node_modules
 /.pnp
@@ -19,6 +17,8 @@
 # misc
 .DS_Store
 *.pem
+*.tsbuildinfo
+next-env.d.ts
 
 # debug
 npm-debug.log*
@@ -28,23 +28,21 @@ yarn-error.log*
 # local env files
 .env
 .env*.local
+.env.*
 
 # vercel
 .vercel
 
-# typescript
-*.tsbuildinfo
-next-env.d.ts
-
-tapa
-tapa.pub
-*.pem
-client_secret_*.json
-.env
-.env.*
-
+# local keys and credentials
 tapa
 tapa.pub
 client_secret_*.json
-.env
-.env.*
+
+# project-specific local/generated files
+/scratch
+/lint_output.txt
+/main docs*
+/tapa-local.dump
+
+# runtime dynamic uploads (ignored in source control)
+/public/uploads

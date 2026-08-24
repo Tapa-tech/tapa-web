@@ -38,7 +38,7 @@ interface RitualGuideStub {
 export default function PanchangAdmin() {
   const [activeSubTab, setActiveSubTab] = useState<"panchang" | "bulk" | "vrats">("panchang");
   
-  // Lists
+  
   const [panchangEntries, setPanchangEntries] = useState<PanchangEntry[]>([]);
   const [vratEntries, setVratEntries] = useState<VratEntry[]>([]);
   const [guides, setGuides] = useState<RitualGuideStub[]>([]);
@@ -47,7 +47,7 @@ export default function PanchangAdmin() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  // Panchang Form Modal State
+  
   const [isPanchangOpen, setIsPanchangOpen] = useState(false);
   const [editingPanchangId, setEditingPanchangId] = useState<string | null>(null);
   const [pDate, setPDate] = useState("");
@@ -61,7 +61,7 @@ export default function PanchangAdmin() {
   const [pSunrise, setPSunrise] = useState("05:30");
   const [pSunset, setPSunset] = useState("19:00");
 
-  // Vrat Form Modal State
+  
   const [isVratOpen, setIsVratOpen] = useState(false);
   const [editingVratId, setEditingVratId] = useState<string | null>(null);
   const [vName, setVName] = useState("");
@@ -70,7 +70,7 @@ export default function PanchangAdmin() {
   const [vDescription, setVDescription] = useState("");
   const [vLinkedGuideId, setVLinkedGuideId] = useState("");
 
-  // Bulk Load State
+  
   const [csvContent, setCsvContent] = useState("");
   const [submittingBulk, setSubmittingBulk] = useState(false);
   const [resyncingId, setResyncingId] = useState<string | null>(null);
@@ -145,7 +145,7 @@ export default function PanchangAdmin() {
     }
   }
 
-  // --- Daily Panchang Logic ---
+  
   const resetPanchangForm = () => {
     setEditingPanchangId(null);
     setPDate("");
@@ -226,7 +226,7 @@ export default function PanchangAdmin() {
     }
   };
 
-  // --- Vrat Calendar Logic ---
+  
   const resetVratForm = () => {
     setEditingVratId(null);
     setVName("");
@@ -292,7 +292,7 @@ export default function PanchangAdmin() {
     }
   };
 
-  // --- Bulk Load Parser Logic ---
+  
   const handleBulkLoad = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!csvContent.trim()) {
@@ -305,7 +305,7 @@ export default function PanchangAdmin() {
     setSuccess("");
 
     try {
-      // Custom client-side CSV parser
+      
       const lines = csvContent.split("\n");
       const headers = lines[0].split(",").map((h) => h.trim());
       const data: {
@@ -331,7 +331,7 @@ export default function PanchangAdmin() {
           item[header] = cols[idx] || "";
         });
 
-        // Ensure mandatory properties
+        
         if (!item.date || !item.tithi || !item.tithiSub || !item.nakshatra) {
           throw new Error(`Row ${i + 1} is missing mandatory properties.`);
         }
@@ -371,7 +371,7 @@ export default function PanchangAdmin() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
+      
       <div className="flex items-center justify-between border-b border-[#F2ECE4] pb-4">
         <div>
           <h1 className="font-serif font-bold text-2xl text-[#3A332C]">Panchang & Calendar</h1>
@@ -417,7 +417,7 @@ export default function PanchangAdmin() {
         </div>
       </div>
 
-      {/* Sub Tabs */}
+      
       <div className="flex border-b border-[#EADFC9] gap-1">
         <button
           onClick={() => setActiveSubTab("panchang")}
@@ -463,10 +463,10 @@ export default function PanchangAdmin() {
         </div>
       )}
 
-      {/* --- Sub Tab 1: Daily Panchang Entries --- */}
+      
       {activeSubTab === "panchang" && (
         <>
-          {/* Panchang Entry Form Dialog */}
+          
           {isPanchangOpen && (
             <div className="bg-white border border-[#EADFC9] rounded-2xl p-6 shadow-sm animate-slideDown max-w-2xl">
               <div className="flex items-center justify-between border-b border-[#F2ECE4] pb-3 mb-4">
@@ -607,7 +607,7 @@ export default function PanchangAdmin() {
             </div>
           )}
 
-          {/* Panchang list */}
+          
           {loading ? (
             <div className="flex justify-center py-10">
               <div className="w-6 h-6 border-2 border-[#C82A54] border-t-transparent rounded-full animate-spin"></div>
@@ -714,7 +714,7 @@ export default function PanchangAdmin() {
         </>
       )}
 
-      {/* --- Sub Tab 2: Bulk Importer --- */}
+      
       {activeSubTab === "bulk" && (
         <div className="bg-white border border-[#EADFC9] rounded-2xl p-6 shadow-sm">
           <h3 className="font-serif font-bold text-lg text-[#3A332C] border-b border-[#F2ECE4] pb-2 mb-4 flex items-center gap-2">
@@ -763,10 +763,10 @@ export default function PanchangAdmin() {
         </div>
       )}
 
-      {/* --- Sub Tab 3: Vrats Calendar --- */}
+      
       {activeSubTab === "vrats" && (
         <>
-          {/* Vrat form drawer */}
+          
           {isVratOpen && (
             <div className="bg-white border border-[#EADFC9] rounded-2xl p-6 shadow-sm animate-slideDown max-w-xl">
               <div className="flex items-center justify-between border-b border-[#F2ECE4] pb-3 mb-4">
@@ -859,7 +859,7 @@ export default function PanchangAdmin() {
             </div>
           )}
 
-          {/* Vrats calendar table */}
+          
           {loading ? (
             <div className="flex justify-center py-10">
               <div className="w-6 h-6 border-2 border-[#C82A54] border-t-transparent rounded-full animate-spin"></div>

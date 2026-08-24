@@ -2,9 +2,9 @@
 
 import React, { useState, useMemo, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import AnnouncementBar from "@/components/AnnouncementBar";
-import TopNav from "@/components/TopNav";
-import Footer from "@/components/Footer";
+import AnnouncementBar from "@/components/layout/AnnouncementBar";
+import TopNav from "@/components/layout/TopNav";
+import Footer from "@/components/layout/Footer";
 import "./pdp.css";
 import { useCartStore } from "@/lib/store/cartStore";
 import { trackProductView, trackAddToCart, trackCheckoutInitiation } from "@/lib/analytics";
@@ -66,7 +66,7 @@ interface Guide {
   sources?: GuideSource[];
 }
 
-// Helper to determine the primary tag from guide dpbEntries
+
 const getGuideTag = (guide: Guide): "DHARMA" | "PRATHA" | "BHRANTI" => {
   if (!guide || !guide.dpbEntries || guide.dpbEntries.length === 0) return "DHARMA";
   const tags = guide.dpbEntries.map((e) => e.tag);
@@ -108,7 +108,7 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
   const [kitLoading, setKitLoading] = useState(true);
   const quantity = 1;
 
-  // Zustand Store
+  
   const addToCartStore = useCartStore((state) => state.addToCart);
 
   useEffect(() => {
@@ -202,7 +202,7 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
     ];
   }, [kit]);
 
-  // Dynamic guides state
+  
   const [allGuides, setAllGuides] = useState<Guide[]>([]);
 
   useEffect(() => {
@@ -230,14 +230,14 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
   const linkedGuide = useMemo(() => {
     if (!kit || !allGuides || allGuides.length === 0) return null;
     
-    // 1. Exact map slug
+    
     const mappedSlug = kitToGuideMap[kit.id];
     if (mappedSlug) {
       const match = allGuides.find((g) => g.slug === mappedSlug);
       if (match) return match;
     }
     
-    // 2. Keyword matching on deity
+    
     const deity = kit.deity?.toLowerCase();
     if (deity) {
       const match = allGuides.find((g) => {
@@ -253,7 +253,7 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
       if (match) return match;
     }
     
-    // 3. Fallback to any published guide
+    
     return allGuides.find(g => g.status === "PUBLISHED") || null;
   }, [allGuides, kit]);
 
@@ -410,13 +410,13 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
 
   return (
     <div className="min-h-screen bg-[#F2EDE4] text-[#2C2010] font-sans antialiased pdp-container">
-      {/* Announcement Bar */}
+      
       <AnnouncementBar />
 
-      {/* Top Navigation */}
+      
       <TopNav activeTab="Ritual Kits" onTriggerToast={triggerToast} />
 
-      {/* Breadcrumb */}
+      
       <div className="breadcrumb-bar select-none">
         <div className="pdp-wrap">
           <a href="/" className="bc-link">
@@ -443,9 +443,9 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
         </div>
       </div>
 
-      {/* Two-Column Hero Zone */}
+      
       <div className="hero-zone">
-        {/* Left: Image Gallery */}
+        
         <div className="gallery-col">
           <div
             className="gallery-main"
@@ -494,7 +494,7 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
             </div>
           </div>
 
-          {/* Thumbnails */}
+          
           <div className="gallery-thumbs">
             <div
               className={`thumb ${currentImage === 0 ? "active" : ""}`}
@@ -526,9 +526,9 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
           </div>
         </div>
 
-        {/* Right: Sticky Purchase Panel */}
+        
         <div className="purchase-panel" role="complementary" aria-label="Purchase options">
-          {/* Identity */}
+          
           <div className="identity-block">
             <div className="id-occ" style={{ textTransform: "capitalize" }}>
               {kit.occ} · {kit.deity} · 2026
@@ -550,7 +550,7 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
             </div>
           </div>
 
-          {/* Price */}
+          
           <div className="price-block">
             <div className="price-row">
               <span className="price-main">₹{kit.price.toLocaleString()}</span>
@@ -565,7 +565,7 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
             <div className="price-note">Live price · UPI and card accepted · No COD</div>
           </div>
 
-          {/* Low Stock Alert */}
+          
           {kit.inStock ? (
             <>
               {kit.stockLeft && (
@@ -580,7 +580,7 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
                 </div>
               )}
 
-              {/* Primary CTAs */}
+              
               <div className="cta-row">
                 <button className="cta-cart" onClick={handleAddToCart}>
                   🛒 Add to cart
@@ -609,7 +609,7 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
             </div>
           )}
 
-          {/* Utility Actions */}
+          
           <div className="utility-row" role="toolbar" aria-label="Additional actions">
             <button
               className="util-btn"
@@ -649,7 +649,7 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
             </button>
           </div>
 
-          {/* Trust Pills */}
+          
           <div className="trust-pills" aria-label="Trust signals">
             <div className="tpill">
               <span className="tp-icon" aria-hidden="true">
@@ -677,7 +677,7 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
             </div>
           </div>
 
-          {/* Pincode Check */}
+          
           <div className="pin-card">
             <div className="pin-title">📍 Check delivery to your pincode</div>
             <div className="pin-row">
@@ -706,7 +706,7 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
             )}
           </div>
 
-          {/* Delivery Promise */}
+          
           <div className="delivery-card">
             <span className="del-icon" aria-hidden="true">
               🚚
@@ -720,7 +720,7 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
             </div>
           </div>
 
-          {/* Exchange Policy */}
+          
           <div className="exc-strip">
             <span className="exc-icon" aria-hidden="true">
               🔄
@@ -741,9 +741,9 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
         </div>
       </div>
 
-      {/* Full-Width Content Below */}
+      
       <div className="content-below">
-        {/* Contents Header */}
+        
         <div className="sec-head">
           <h2 className="sec-title">
             <span className="sec-plus" aria-hidden="true">
@@ -754,7 +754,7 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
           <span className="sec-meta">{kit.itemsCount} · Every item has a ritual purpose</span>
         </div>
 
-        {/* Contents Grid */}
+        
         <div className="contents-layout">
           <div className="contents-card">
             <div className="contents-hd">
@@ -888,7 +888,7 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
             </div>
           </div>
 
-          {/* Sourcing Context Panel */}
+          
           <div className="contents-context">
             <div>
               <div className="ctx-head">Sourced for ritual integrity</div>
@@ -951,7 +951,7 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
 
         <div className="divider" />
 
-        {/* Nudges */}
+        
         <div className="sec-head">
           <h2 className="sec-title">
             <span className="sec-plus" aria-hidden="true">
@@ -1005,7 +1005,7 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
 
         <div className="divider" />
 
-        {/* Dharma Note */}
+        
         <div className="dharma-card">
           <div>
             <div className="dharma-badge">🛡 Tapa editorial standard</div>
@@ -1071,7 +1071,7 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
 
         <div className="divider" />
 
-        {/* Related Kits */}
+        
         <div className="sec-head">
           <h2 className="sec-title">
             <span className="sec-plus" aria-hidden="true">
@@ -1163,7 +1163,7 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
 
         <div className="divider" />
 
-        {/* Guides for Occasion */}
+        
         <div className="sec-head">
           <h2 className="sec-title">
             <span className="sec-plus" aria-hidden="true">
@@ -1226,7 +1226,7 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
           )}
         </div>
 
-        {/* Deity Cluster Divider */}
+        
         <div className="cluster-divider">
           <div className="cluster-line" />
           <span className="cluster-pill">More from {kit.deity === "devi" ? "Devi · Shakti" : "Vishnu · Krishna"} cluster</span>
@@ -1284,7 +1284,7 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
 
         <div className="divider" />
 
-        {/* Chat CTA */}
+        
         <div className="chat-cta" role="complementary" aria-label="WhatsApp support">
           <div className="chat-icon-wrap" aria-hidden="true">
             💬
@@ -1308,10 +1308,10 @@ export default function ShubhSampadaPDP({ params }: { params: { slug: string } }
         </div>
       </div>
 
-      {/* Brand Footer */}
+      
       <Footer onTriggerToast={triggerToast} />
 
-      {/* Premium Toast Notification */}
+      
       {toastMessage && (
         <div className="fixed bottom-6 right-6 z-[100] bg-[#1C1712] text-white border border-white/10 px-5 py-3 rounded-xl shadow-2xl flex items-center gap-2 animate-bounce font-sans text-xs select-none">
           <span className="w-1.5 h-1.5 rounded-full bg-[#D4175A] animate-ping" />

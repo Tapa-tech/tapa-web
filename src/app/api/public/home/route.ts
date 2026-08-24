@@ -11,7 +11,7 @@ interface PanchangaResult {
 const { getPanchanga } = PanchangLib as unknown as {
   getPanchanga: (date: Date, lat: number, lon: number, tz: string) => PanchangaResult;
 };
-import "@/lib/panchang/provider"; // Ensures NOAA monkeypatch is loaded
+import "@/lib/panchang/provider"; 
 
 const getHinduMonthAmanta2026 = (date: Date): string => {
   const time = date.getTime();
@@ -43,14 +43,14 @@ const getHinduMonthAmanta2026 = (date: Date): string => {
 export async function GET() {
   try {
     const today = new Date();
-    // Standardize to UTC Midnight to match the database format
+    
     const todayUtc = new Date(Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()));
 
     let featuredGuide = null;
     let featuredDate = todayUtc;
     let todayVrat = null;
 
-    // 1. Try to find today's vrat with a linked guide
+    
     const vratForToday = await db.vratEntry.findFirst({
       where: {
         date: todayUtc,
@@ -75,7 +75,7 @@ export async function GET() {
       }
     }
 
-    // Fallback if no guide for today exists in the database
+    
     if (!featuredGuide) {
       featuredGuide = await db.ritualGuide.findUnique({
         where: { slug: "sharad-navratri" },
@@ -99,10 +99,10 @@ export async function GET() {
 
       if (featuredGuide) {
         if (featuredGuide.slug === "sharad-navratri") {
-          // Default date for Sharad Navratri 2026 is Oct 11, 2026
+          
           featuredDate = new Date(Date.UTC(2026, 9, 11));
         } else {
-          // Find the closest VratEntry linked to this guide
+          
           const matchingVrat = await db.vratEntry.findFirst({
             where: { linkedGuideId: featuredGuide.slug },
             orderBy: { date: "asc" },
@@ -117,14 +117,14 @@ export async function GET() {
       }
     }
 
-    // Ensure we load todayVrat details for featuredDate if not already set
+    
     if (featuredDate && !todayVrat) {
       todayVrat = await db.vratEntry.findFirst({
         where: { date: featuredDate },
       });
     }
 
-    // 2. Fetch panchang for featuredDate
+    
     let panchang = null;
     if (featuredDate) {
       panchang = await db.panchangEntry.findUnique({
@@ -170,7 +170,7 @@ export async function GET() {
       };
     }
 
-    // 3. Fetch latest published guides (up to 4) for the guides grid
+    
     const publishedGuides = await db.ritualGuide.findMany({
       where: { status: "PUBLISHED" },
       include: {
@@ -184,12 +184,12 @@ export async function GET() {
       where: { status: "PUBLISHED" },
     });
 
-    // 4. Fetch the active homepage banner
+    
     const activeBanner = await db.homepageBanner.findFirst({
       where: { isActive: true },
     });
 
-    // 5. Fetch the next upcoming vrat/festival
+    
     const nextVrat = await db.vratEntry.findFirst({
       where: {
         date: { gte: todayUtc },

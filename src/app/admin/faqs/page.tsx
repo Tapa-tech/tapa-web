@@ -6,7 +6,7 @@ import { Plus, Pencil, Trash2, HelpCircle, Check, X } from "lucide-react";
 interface FAQ {
   id: string;
   question: string;
-  answer: string; // rich text JSON stored as text
+  answer: string; 
   createdAt: string;
 }
 
@@ -14,10 +14,10 @@ export default function FAQsLibrary() {
   const [faqs, setFaqs] = useState<FAQ[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Form State
+  
   const [editingId, setEditingId] = useState<string | null>(null);
   const [question, setQuestion] = useState("");
-  const [answer, setAnswer] = useState(""); // We treat it as standard string input in the simple library editor
+  const [answer, setAnswer] = useState(""); 
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -112,7 +112,7 @@ export default function FAQsLibrary() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
+      
       <div className="flex items-center justify-between border-b border-[#F2ECE4] pb-4">
         <div>
           <h1 className="font-serif font-bold text-2xl text-[#3A332C]">FAQs Library</h1>
@@ -132,7 +132,7 @@ export default function FAQsLibrary() {
         </button>
       </div>
 
-      {/* Form Drawer */}
+      
       {isFormOpen && (
         <div className="bg-white border border-[#EADFC9] rounded-2xl p-6 shadow-sm animate-slideDown max-w-xl">
           <div className="flex items-center justify-between border-b border-[#F2ECE4] pb-3 mb-4">
@@ -198,7 +198,7 @@ export default function FAQsLibrary() {
         </div>
       )}
 
-      {/* List */}
+      
       {loading ? (
         <div className="flex justify-center py-10">
           <div className="w-6 h-6 border-2 border-[#C82A54] border-t-transparent rounded-full animate-spin"></div>

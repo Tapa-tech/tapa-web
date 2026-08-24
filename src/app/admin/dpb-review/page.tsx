@@ -53,7 +53,7 @@ export default function DPBReviewQueue() {
       });
 
       if (res.ok) {
-        // Refresh list
+        
         fetchReviews();
       } else {
         const data = await res.json();
@@ -68,7 +68,7 @@ export default function DPBReviewQueue() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
+      
       <div className="flex items-center justify-between border-b border-[#F2ECE4] pb-4">
         <div>
           <h1 className="font-serif font-bold text-2xl text-[#3A332C]">Founder Review Queue</h1>
@@ -96,7 +96,7 @@ export default function DPBReviewQueue() {
               className="bg-white border-2 border-[#EADFC9] rounded-2xl p-6 shadow-sm flex flex-col md:flex-row justify-between gap-6"
             >
               <div className="space-y-4 flex-1">
-                {/* Parent guide & Element info */}
+                
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="flex items-center gap-1 text-xs font-bold text-[#C82A54] bg-[#FFEAEF] px-2 py-0.5 rounded-lg">
                     <ShieldAlert size={12} />
@@ -141,7 +141,7 @@ export default function DPBReviewQueue() {
                 )}
               </div>
 
-              {/* Action buttons */}
+              
               <div className="flex md:flex-col justify-end gap-2 border-t md:border-t-0 md:border-l border-[#F2ECE4] pt-4 md:pt-0 md:pl-6 flex-shrink-0 min-w-[140px]">
                 <button
                   onClick={() => handleReviewAction(item.id, "APPROVE")}

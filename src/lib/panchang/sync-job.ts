@@ -14,10 +14,10 @@ export const dailyPanchangSync = inngest.createFunction(
 
     for (const city of CITIES) {
       for (let i = 0; i < DAYS_AHEAD; i++) {
-        // Calculate target date: today + i days
+        
         const targetDate = new Date();
         targetDate.setDate(targetDate.getDate() + i);
-        // Standardize target date to midnight of that day in UTC
+        
         const dateOnly = new Date(Date.UTC(targetDate.getFullYear(), targetDate.getMonth(), targetDate.getDate()));
 
         await step.run(`sync-${city}-${dateOnly.toISOString().substring(0, 10)}`, async () => {
@@ -25,7 +25,7 @@ export const dailyPanchangSync = inngest.createFunction(
             where: { date_city: { date: dateOnly, city } },
           });
 
-          // Never touch a manually-corrected record
+          
           if (existing?.dataSource === "MANUAL_OVERRIDE") return;
 
           try {
@@ -48,7 +48,7 @@ export const dailyPanchangSync = inngest.createFunction(
             });
           } catch (e) {
             console.error(`Failed to sync panchang for ${city} on ${dateOnly.toISOString().substring(0, 10)}:`, e);
-            // Do not throw/propagate the error so that one failed date does not abort the entire 45-day loop
+            
           }
         });
       }

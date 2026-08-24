@@ -57,7 +57,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 
     const data = parse.data;
 
-    // Check uniqueness if ID changes
+    
     if (data.id !== params.id) {
       const exists = await db.ritualKit.findUnique({
         where: { id: data.id },
@@ -67,7 +67,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
       }
     }
 
-    // If ID is changing, delete the old index entry in Elasticsearch first
+    
     if (data.id !== params.id) {
       await deleteRitualKit(params.id);
     }
@@ -93,7 +93,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
       },
     });
 
-    // Re-index updated kit in Elasticsearch
+    
     if (updatedKit && updatedKit.id) {
       indexRitualKit(updatedKit.id).catch((err) => {
         console.error("Background Elasticsearch re-indexing for kit failed:", err);
@@ -118,7 +118,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
       where: { id: params.id },
     });
 
-    // Delete kit from Elasticsearch
+    
     deleteRitualKit(params.id).catch((err) => {
       console.error("Background Elasticsearch deletion for kit failed:", err);
     });

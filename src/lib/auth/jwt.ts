@@ -22,7 +22,7 @@ export async function signAccessToken(payload: JWTPayload): Promise<string> {
   })
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
-    .setExpirationTime("15m") // Short-lived (15 minutes)
+    .setExpirationTime("15m") 
     .sign(JWT_SECRET);
 }
 

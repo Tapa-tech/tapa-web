@@ -14,16 +14,16 @@ export async function POST(req: NextRequest) {
     const elevenApiKey = process.env.ELEVENLABS_API_KEY;
     const openaiApiKey = process.env.OPENAI_API_KEY;
 
-    // 1. ElevenLabs Premium Neural Narration
+    
     if (elevenApiKey && elevenApiKey !== "mock-elevenlabs-key") {
       console.log(`[TTS Route] Using ElevenLabs engine. Voice input: ${voice}`);
       
-      // Map voices to ElevenLabs premium IDs
-      let elevenVoiceId = "21m00Tcm4TlvDq8ikWAM"; // Rachel (Warm Female) default
+      
+      let elevenVoiceId = "21m00Tcm4TlvDq8ikWAM"; 
       if (voice === "alloy") {
-        elevenVoiceId = "pNInz6obpgqjVW4Xtk7T"; // Adam (Calm Male)
+        elevenVoiceId = "pNInz6obpgqjVW4Xtk7T"; 
       } else if (voice === "echo") {
-        elevenVoiceId = "2EiwWnXF2V4j26kTaIy5"; // Clyde (Natural Narrator)
+        elevenVoiceId = "2EiwWnXF2V4j26kTaIy5"; 
       }
 
       console.log(`[TTS Route] ElevenLabs voice selected: ${elevenVoiceId}`);
@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
         },
         body: JSON.stringify({
           text: text,
-          model_id: "eleven_multilingual_v2", // Multilingual v2 supports EN, HI, and Sanskrit beautifully
+          model_id: "eleven_multilingual_v2", 
           voice_settings: {
             stability: 0.5,
             similarity_boost: 0.75,
@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
       if (!response.ok) {
         const errText = await response.text();
         console.error("ElevenLabs TTS API error response:", errText);
-        // Fall back to OpenAI if key is present, otherwise return error
+        
         if (openaiApiKey && openaiApiKey !== "mock-openai-key") {
           console.warn("[TTS Route] ElevenLabs API failed. Falling back to OpenAI TTS.");
         } else {
@@ -67,7 +67,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // 2. OpenAI Neural Narration Fallback
+    
     if (openaiApiKey && openaiApiKey !== "mock-openai-key") {
       console.log(`[TTS Route] Using OpenAI engine. Voice input: ${voice}`);
       
@@ -103,7 +103,7 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // 3. Missing API Keys
+    
     return NextResponse.json(
       { 
         error: "MISSING_API_KEYS", 

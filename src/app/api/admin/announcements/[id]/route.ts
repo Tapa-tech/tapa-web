@@ -17,7 +17,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     }
 
     if (isActive) {
-      // Deactivate other announcements
+      
       await db.announcementMessage.updateMany({
         where: {
           isActive: true,

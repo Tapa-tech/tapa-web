@@ -4,15 +4,15 @@
 
 import React, { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import AnnouncementBar from "@/components/AnnouncementBar";
-import TopNav from "@/components/TopNav";
-import Footer from "@/components/Footer";
-import ListenButton from "@/components/ListenButton";
+import AnnouncementBar from "@/components/layout/AnnouncementBar";
+import TopNav from "@/components/layout/TopNav";
+import Footer from "@/components/layout/Footer";
+import JapaCounter from "@/components/japa/JapaCounter";
 import { useCartStore } from "@/lib/store/cartStore";
 import { trackAddToCart } from "@/lib/analytics";
 import { formatRichText } from "@/utils/tiptap";
 
-// Fallback static data matching Ritual Guide-Festive.html
+
 const FALLBACK_GUIDE = {
   title: "Sharad Navratri: The Complete 9-Day Guide",
   category: "Festive Pujans",
@@ -157,21 +157,22 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
   const router = useRouter();
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [lang, setLang] = useState<"EN" | "HI">("EN");
-  const [audioPlaying, setAudioPlaying] = useState(false);
-  const [japaCount, setJapaCount] = useState(0);
-  const [japaPreset, setJapaPreset] = useState<number | null>(null);
   const [showStickyBottom, setShowStickyBottom] = useState(false);
 
-  // DB Data hooks
+  
   const [guide, setGuide] = useState<Guide | null>(null);
   const resolvedGuide = (guide || FALLBACK_GUIDE) as any;
-  
+
+  const mantraText = useMemo(() => {
+    return resolvedGuide.mantras?.[0]?.devanagari || resolvedGuide.mantras?.[0]?.transliteration || "";
+  }, [resolvedGuide]);
+
   const [loading, setLoading] = useState(true);
   const [isSaved, setIsSaved] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [linkedProduct, setLinkedProduct] = useState<any>(null);
 
-  // Zustand Cart Store
+  
   const addToCartStore = useCartStore((state) => state.addToCart);
 
   useEffect(() => {
@@ -212,7 +213,7 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
     }
   };
 
-  // Checkbox State
+  
   const [checklist, setChecklist] = useState<boolean[]>([]);
 
   useEffect(() => {
@@ -264,7 +265,7 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
     checkAuthAndSaved();
   }, [params.slug, guide]);
 
-  // Listen to scroll position for sticky bottom
+  
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 450) {
@@ -286,7 +287,7 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
 
   const handleSaveToggle = async () => {
     try {
-      // Fetch session check again to be sure
+      
       const sessionRes = await fetch("/api/auth/session");
       const sessionData = await sessionRes.json();
       if (!sessionData?.session) {
@@ -327,21 +328,7 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
 
   const checkedCount = checklist.filter(Boolean).length;
 
-  const handlePreset = (preset: number) => {
-    setJapaPreset(preset);
-    setJapaCount(preset);
-    triggerToast(`Japa preset set to ${preset}!`);
-  };
-
-  const handleIncrement = () => {
-    setJapaCount(prev => prev + 1);
-  };
-
-  const handleDecrement = () => {
-    setJapaCount(prev => Math.max(0, prev - 1));
-  };
-
-  // Format rich text blocks if stored as JSON
+  
   const introText = formatRichText(resolvedGuide.introText);
   const kathaBody = formatRichText(resolvedGuide.kathaBody);
   const sankalpaBody = formatRichText(resolvedGuide.sankalpaBody);
@@ -375,18 +362,18 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
     return variances.length ? variances.slice(0, 3).join(", ") : "North India, Gujarat, Bengal, South India";
   }, [resolvedGuide.dpbEntries]);
 
-  // Extract core practicing elements (DHARMA & PRATHA)
+  
   const dCount = resolvedGuide.dpbEntries?.filter((e: any) => e.tag === "DHARMA").length || 1;
   const pCount = resolvedGuide.dpbEntries?.filter((e: any) => e.tag === "PRATHA").length || 1;
   const bCount = resolvedGuide.dpbEntries?.filter((e: any) => e.tag === "BHRANTI").length || 1;
 
-  // Extract Bhranti (myths)
+  
   const myths = useMemo(() => {
     if (!resolvedGuide.dpbEntries) return [];
     return resolvedGuide.dpbEntries.filter((e: any) => e.tag === "BHRANTI");
   }, [resolvedGuide.dpbEntries]);
 
-  // Parse fast options
+  
   const resolvedFastOptions = useMemo(() => {
     if (resolvedGuide.fastOptions) {
       if (typeof resolvedGuide.fastOptions === "string") {
@@ -421,14 +408,7 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
     return [];
   }, [resolvedGuide.nineFormsTable]);
 
-  const handleAudioToggle = () => {
-    setAudioPlaying(!audioPlaying);
-    if (!audioPlaying) {
-      triggerToast("Narrating audio guide...");
-    } else {
-      triggerToast("Audio guide paused.");
-    }
-  };
+
 
   return (
     <div className="min-h-screen bg-[#F2EDE4] text-[#2C2010] font-sans antialiased ritual-guide-detail-page">
@@ -438,7 +418,7 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
         onTriggerToast={triggerToast}
       />
 
-      {/* Breadcrumb section */}
+      
       <div className="bcrumb select-none">
         <div className="bc-in">
           <div className="bc-l">
@@ -469,7 +449,7 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
         </div>
       </div>
 
-      {/* Hero Section */}
+      
       <section className="hero">
         <div 
           className="hero-bg" 
@@ -526,7 +506,7 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
         </div>
       </section>
 
-      {/* Trust & Audio narration strip */}
+      
       <div className="strip select-none">
         <div className="strip-in">
           <div className="tp">
@@ -534,27 +514,10 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
             <span className="tpi"><span className="tpd bg-[#E8A020]" />Region aware</span>
             <span className="tpi"><span className="tpd bg-[#EF0F54]" />Fear-free</span>
           </div>
-          <div className="audio">
-            <ListenButton
-              text={fullTextToRead}
-              label=""
-              audioUrl={resolvedGuide.audioUrl}
-              iconOnly={true}
-              className="aplay hover:scale-105 transition-transform"
-            />
-            <div>
-              <div className="alab">Listen to this guide</div>
-              <div className="asub">18 min · narrated</div>
-            </div>
-            <div className="alangs select-none">
-              <button onClick={() => triggerToast("Audio loaded in English")} className="alg on">EN</button>
-              <button onClick={() => triggerToast("Hindi audio coming soon!")} className="alg">हिं</button>
-            </div>
-          </div>
         </div>
       </div>
 
-      {/* Jump to Chips navigation */}
+      
       <div className="chips select-none">
         <div className="chips-in">
           <span className="chip-l">JUMP TO</span>
@@ -568,12 +531,12 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
         </div>
       </div>
 
-      {/* Main Layout Area */}
+      
       <div className="wrap">
         <div className="layout">
           <div className="main">
 
-            {/* Credibility Info Box */}
+            
             <div className="cc select-none">
               <div className="cc-h">
                 <span className="cc-hl">SOURCE OF TRUTH</span>
@@ -597,7 +560,7 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
               </p>
             </div>
 
-            {/* Panchang Information Box */}
+            
             <div className="pan select-none">
               <div className="pan-h">
                 <span className="pan-hl">📅 PANCHANG METRICS</span>
@@ -643,20 +606,12 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
               This ritual guide outlines the scriptural, step-by-step layout to conduct this worship. Our editorial method isolates the core Dharma (core practices) from historical Pratha (customs), resolving common misconceptions (Bhranti).
             </p>
 
-            {/* Section: Story */}
+            
             <div className="sh" id="story" style={{ alignItems: "center" }}>
               <div style={{ display: "flex", alignItems: "center" }}>
                 <span className="sh-p">+</span>
                 <span className="sh-t">{resolvedGuide.kathaTitle || "Scriptural Legend"}</span>
               </div>
-              {kathaBody && (
-                <ListenButton
-                  text={kathaBody}
-                  label="Listen to katha"
-                  audioUrl={resolvedGuide.kathaAudioUrl}
-                  className="mn-play off cursor-pointer hover:border-amber/50"
-                />
-              )}
             </div>
             {(() => {
               const kathaParagraphs = kathaBody ? kathaBody.split("\n\n").filter(Boolean) : [];
@@ -679,7 +634,7 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
               );
             })()}
 
-            {/* Section: Sankalpa */}
+            
             <div className="sh" id="sankalp">
               <span className="sh-p">+</span>
               <span className="sh-t">Sankalpa: stating your intent</span>
@@ -717,7 +672,7 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
               </div>
             </div>
 
-            {/* Section: Vidhi Steps */}
+            
             <div className="sh" id="vidhi">
               <span className="sh-p">+</span>
               <span className="sh-t">Vidhi: step-by-step puja steps</span>
@@ -749,17 +704,11 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
               })}
             </div>
 
-            {/* Mantras Section */}
+            
             {resolvedGuide.mantras && resolvedGuide.mantras.length > 0 && (
               <div className="mantra">
                 <div className="mn-top select-none">
                   <span className="mn-l">puja mantras to chant</span>
-                  <ListenButton
-                    text={mantrasTextToRead}
-                    label="Listen pronunciation"
-                    audioUrl={resolvedGuide.mantras?.[0]?.audioUrl}
-                    className="mn-play off cursor-pointer hover:border-amber/50"
-                  />
                 </div>
                 {resolvedGuide.mantras.map((mantra: any, idx: number) => (
                   <div key={idx} className="mb-4 last:mb-0">
@@ -769,25 +718,12 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
                   </div>
                 ))}
 
-                {/* Custom Japa counter tool */}
-                <div className="japa select-none">
-                  <span className="jp-l">JAPA COUNTER</span>
-                  <div className="jp-ctr">
-                    <button onClick={handleDecrement} className="jp-b hover:bg-white/10">-</button>
-                    <span className="jp-n">{japaCount}</span>
-                    <button onClick={handleIncrement} className="jp-b hover:bg-white/10">+</button>
-                  </div>
-                  <div className="jp-presets">
-                    <button onClick={() => handlePreset(11)} className={`jp-p ${japaPreset === 11 ? "on" : ""}`}>11</button>
-                    <button onClick={() => handlePreset(21)} className={`jp-p ${japaPreset === 21 ? "on" : ""}`}>21</button>
-                    <button onClick={() => handlePreset(108)} className={`jp-p ${japaPreset === 108 ? "on" : ""}`}>108</button>
-                    <button onClick={() => { setJapaCount(0); setJapaPreset(null); triggerToast("Counter reset!"); }} className="jp-p">Reset</button>
-                  </div>
-                </div>
+                
+                <JapaCounter mantraText={mantraText} triggerToast={triggerToast} />
               </div>
             )}
 
-            {/* Nine Days Table (Specifically if present in database) */}
+            
             {resolvedNineFormsTable && resolvedNineFormsTable.length > 0 && (
               <div className="mt-8">
                 <div className="sh">
@@ -835,7 +771,7 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
               </div>
             )}
 
-            {/* Section: Samagri list */}
+            
             <div className="sh" id="samagri">
               <span className="sh-p">+</span>
               <span className="sh-t">Samagri list: items you need</span>
@@ -853,7 +789,7 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
               ))}
             </div>
 
-            {/* Section: Fasting rules */}
+            
             <div className="sh" id="fast">
               <span className="sh-p">+</span>
               <span className="sh-t">Fasting rules: how to keep the vrat</span>
@@ -877,7 +813,7 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
               </div>
             )}
 
-            {/* Section: Myths & corrections (Bhranti) */}
+            
             {myths.length > 0 && (
               <div className="mt-8">
                 <div className="sh" id="myths">
@@ -905,7 +841,7 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
               </div>
             )}
 
-            {/* Aarti segment */}
+            
             {aartiBody && (
               <div className="mt-8">
                 <div className="sh">
@@ -918,7 +854,7 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
               </div>
             )}
 
-            {/* Commerce and newsletter nudges */}
+            
             <div className="closing font-sans">
               <p>
                 May this worship bring peace, devotion, and alignment to your path.
@@ -928,7 +864,7 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
               </p>
             </div>
 
-            {/* RELATED GUIDES */}
+            
             {resolvedGuide.resolvedRelatedGuides && resolvedGuide.resolvedRelatedGuides.length > 0 && (
               <>
                 <div className="sh mt-8">
@@ -957,10 +893,10 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
 
           </div>
 
-          {/* Right Column (Sidebar) */}
+          
           <div className="side">
 
-            {/* Checklist sidebar card */}
+            
             <div className="sb select-none">
               <div className="sb-h font-sans">
                 <span>Puja Checklist</span>
@@ -987,7 +923,7 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
               </div>
             </div>
 
-            {/* Banner cards */}
+            
             <button 
               onClick={() => triggerToast("Opening Samagri Kit checkout...")} 
               className="sbcta pink hover:opacity-95 transition-opacity cursor-pointer select-none"
@@ -1006,7 +942,7 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
               <span className="sb-cs font-sans">Get daily shlokas and timings during Navratri</span>
             </button>
 
-            {/* Reference info box */}
+            
             <div className="sbn select-none">
               <div className="sbn-h font-sans">SCRIPTURAL BACKING</div>
               <div className="sbn-t font-sans">
@@ -1017,7 +953,7 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
               </span>
             </div>
 
-            {/* Companion kit teaser */}
+            
             {resolvedGuide.showKitCard !== false && resolvedGuide.kitName && (
               <div className="sbcomp select-none">
                 <div className="sbcomp-h">
@@ -1043,7 +979,7 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
         </div>
       </div>
 
-      {/* Sticky Bottom Actions Bar for Desktop */}
+      
       <div className={`dsticky select-none ${showStickyBottom ? "on" : ""}`}>
         <div className="ds-in font-sans">
           <div>
@@ -1064,7 +1000,7 @@ export default function RitualGuideDetailPage({ params }: PageProps) {
         </div>
       </div>
 
-      {/* Sticky Bottom Bar for Mobile Layout */}
+      
       <div className="sticky font-sans select-none">
         <button onClick={() => triggerToast("Registering for WhatsApp notifications...")} className="a cursor-pointer hover:opacity-95">
           <span>Get WA Reminders</span>

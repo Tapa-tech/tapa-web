@@ -3,9 +3,9 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import AnnouncementBar from "@/components/AnnouncementBar";
-import TopNav from "@/components/TopNav";
-import Footer from "@/components/Footer";
+import AnnouncementBar from "@/components/layout/AnnouncementBar";
+import TopNav from "@/components/layout/TopNav";
+import Footer from "@/components/layout/Footer";
 
 const HINDU_MONTHS_MAP: Record<string, string> = {
   Jan: "Pausha into Magha",
@@ -204,7 +204,7 @@ export default function PanchangPage() {
     }
   };
 
-  // Helper: Vrat Table Row
+  
   const renderVratRow = (o: {
     d: string;
     dw: string;
@@ -240,7 +240,7 @@ export default function PanchangPage() {
     </div>
   );
 
-  // Helper: Festival Card
+  
   const renderFestCard = (o: {
     h: string;
     dd: string;
@@ -290,7 +290,7 @@ export default function PanchangPage() {
         onTriggerToast={triggerToast}
       />
 
-      {/* Breadcrumbs */}
+      
       <div className="bcrumb">
         <div className="bc-in">
           {panchangTab === "pl" && <>Home › <b>Panchang</b></>}
@@ -299,7 +299,7 @@ export default function PanchangPage() {
         </div>
       </div>
 
-      {/* Hero Section */}
+      
       <section className="chero pa">
         <div className="wrap">
           <div className="chero-in">
@@ -340,7 +340,7 @@ export default function PanchangPage() {
               </div>
             )}
 
-            {/* Right side: Today's Panchang */}
+            
             <div className="today select-none">
               <div className="td-h">
                 <span className="td-l">{"☀ TODAY'S PANCHANG"}</span>
@@ -387,7 +387,7 @@ export default function PanchangPage() {
         </div>
       </section>
 
-      {/* Custom Controls for Panchang */}
+      
       <div className="ctrl">
         <div className="ctrl-in">
           <div className="city cursor-pointer relative" onClick={() => setShowCitySelector(!showCitySelector)}>
@@ -441,7 +441,7 @@ export default function PanchangPage() {
         </div>
       </div>
 
-      {/* Stage Body Content */}
+      
       <div className="wrap">
         <div className="pagepad">
           {panchangTab === "pl" && (
@@ -767,7 +767,7 @@ export default function PanchangPage() {
                 );
               })()}
 
-              {/* Download Band */}
+              
               <div className="dlband select-none mb-6">
                 <div className="dl-i">🎆</div>
                 <div>

@@ -13,7 +13,7 @@ interface PanchangaResult {
 const { getPanchanga } = PanchangLib as unknown as {
   getPanchanga: (date: Date, lat: number, lon: number, tz: string) => PanchangaResult;
 };
-import "@/lib/panchang/provider"; // Ensures NOAA monkeypatch is loaded
+import "@/lib/panchang/provider"; 
 
 export const dynamic = "force-dynamic";
 
@@ -37,7 +37,7 @@ export async function GET(req: NextRequest) {
     const today = new Date();
     const todayUtc = new Date(Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()));
 
-    // 1. Get today's basic metadata from DB
+    
     let panchang = await db.panchangEntry.findUnique({
       where: { date_city: { date: todayUtc, city: "Delhi-NCR" } },
     });
@@ -84,7 +84,7 @@ export async function GET(req: NextRequest) {
       };
     }
 
-    // 2. Fetch next 3 upcoming guides from VratEntry list
+    
     const upcoming = await db.vratEntry.findMany({
       where: {
         date: { gte: todayUtc },
@@ -111,7 +111,7 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    // 3. Fetch 3 published Concepts
+    
     const recentConcepts = await db.dharmicConcept.findMany({
       where: { status: "PUBLISHED" },
       select: { id: true, title: true, slug: true },
@@ -119,7 +119,7 @@ export async function GET(req: NextRequest) {
       take: 3,
     });
 
-    // 4. Fetch 3 Ritual Kits
+    
     const recentKits = await db.ritualKit.findMany({
       where: { inStock: true },
       select: { id: true, name: true, price: true },

@@ -9,9 +9,7 @@ interface TiptapBlock {
   text?: string;
 }
 
-/**
- * Extracts plain text from a Tiptap JSON string representation.
- */
+
 export function extractTextFromTiptap(jsonStr?: string): string {
   if (!jsonStr) return "";
   const trimmed = jsonStr.trim();
@@ -37,9 +35,7 @@ export function extractTextFromTiptap(jsonStr?: string): string {
   return jsonStr;
 }
 
-/**
- * Helper to recursively extract text from any parsed JSON content block.
- */
+
 export function extractText(obj: unknown): string {
   if (!obj) return "";
   if (typeof obj === "string") return obj;
@@ -55,9 +51,7 @@ export function extractText(obj: unknown): string {
   return "";
 }
 
-/**
- * Validates and formats rich text from content string.
- */
+
 export function formatRichText(text: string | undefined): string {
   if (!text) return "";
   const trimmed = text.trim();

@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
 
     const data = parse.data;
 
-    // Check slug uniqueness
+    
     const exists = await db.ritualKit.findUnique({
       where: { id: data.id },
     });
@@ -82,7 +82,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // Index newly created kit in Elasticsearch
+    
     if (kit && kit.id) {
       indexRitualKit(kit.id).catch((err) => {
         console.error("Background Elasticsearch indexing for kit failed:", err);

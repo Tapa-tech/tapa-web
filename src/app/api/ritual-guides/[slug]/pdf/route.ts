@@ -13,7 +13,7 @@ export async function GET(
   try {
     const slug = params.slug;
 
-    // 1. Authenticate & Verify Consent
+    
     const token = req.cookies.get("access_token")?.value;
     if (!token) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -28,7 +28,7 @@ export async function GET(
       return NextResponse.json({ error: "Consent required to download guides" }, { status: 403 });
     }
 
-    // 2. Fetch guide data
+    
     const guide = await db.ritualGuide.findUnique({
       where: { slug },
       include: {
@@ -43,7 +43,7 @@ export async function GET(
       return NextResponse.json({ error: "Ritual Guide not found" }, { status: 404 });
     }
 
-    // 3. Log Download Record
+    
     await db.downloadRecord.create({
       data: {
         userId: payload.userId,
@@ -55,19 +55,19 @@ export async function GET(
       },
     });
 
-    // 4. Generate PDF
+    
     const doc = new jsPDF("p", "pt", "a4");
 
-    // Draw page 1 header
+    
     drawBrandedHeader(doc, guide.title, `Ritual Guide · ${guide.category}`);
 
-    // Title
+    
     doc.setFont("helvetica", "bold");
     doc.setFontSize(18);
-    doc.setTextColor(44, 32, 16); // Dark Charcoal
+    doc.setTextColor(44, 32, 16); 
     doc.text(guide.title, 35, 78);
 
-    // Subtitle / Intro
+    
     doc.setFont("helvetica", "normal");
     doc.setFontSize(9.5);
     doc.setTextColor(106, 90, 78);
@@ -76,9 +76,9 @@ export async function GET(
 
     let currentY = 96 + (splitIntro.length * 13) + 20;
 
-    // Sankalpa
-    doc.setFillColor(250, 246, 236); // Cream card #FAF6EC
-    doc.setDrawColor(234, 223, 201); // Border #EADFC9
+    
+    doc.setFillColor(250, 246, 236); 
+    doc.setDrawColor(234, 223, 201); 
     doc.rect(35, currentY, 525, 80, "FD");
 
     doc.setFont("helvetica", "bold");
@@ -89,7 +89,7 @@ export async function GET(
     doc.setFont("helvetica", "normal");
     doc.setFontSize(11);
     doc.setTextColor(44, 32, 16);
-    // Print Sanskrit Sankalpa
+    
     doc.text(guide.sankalpaQuote || "", 45, currentY + 36);
 
     doc.setFont("helvetica", "italic");
@@ -100,7 +100,7 @@ export async function GET(
 
     currentY += 105;
 
-    // Steps Section
+    
     doc.setFont("helvetica", "bold");
     doc.setFontSize(13);
     doc.setTextColor(44, 32, 16);
@@ -114,14 +114,14 @@ export async function GET(
         currentY = 75;
       }
 
-      // Step Number & Title
+      
       doc.setFont("helvetica", "bold");
       doc.setFontSize(10);
       doc.setTextColor(200, 42, 84);
       doc.text(`${step.order}. ${step.title}`, 35, currentY);
       currentY += 14;
 
-      // Description
+      
       doc.setFont("helvetica", "normal");
       doc.setFontSize(9);
       doc.setTextColor(44, 32, 16);
@@ -129,11 +129,11 @@ export async function GET(
       doc.text(splitDesc, 35, currentY);
       currentY += (splitDesc.length * 11) + 6;
 
-      // Scriptural correction notes
+      
       if (step.note) {
         doc.setFont("helvetica", "italic");
         doc.setFontSize(8.5);
-        doc.setTextColor(160, 120, 0); // Gold
+        doc.setTextColor(160, 120, 0); 
         const splitNote = doc.splitTextToSize(`Note: ${step.note}`, 510);
         doc.text(splitNote, 45, currentY);
         currentY += (splitNote.length * 11) + 12;
@@ -142,7 +142,7 @@ export async function GET(
       }
     });
 
-    // Mantras Section
+    
     if (guide.mantras.length > 0) {
       if (currentY + 100 > 770) {
         doc.addPage();
@@ -166,7 +166,7 @@ export async function GET(
         doc.setFont("helvetica", "bold");
         doc.setFontSize(9.5);
         doc.setTextColor(44, 32, 16);
-        // Fallback drawing if Devanagari has complex glyphs
+        
         doc.text(mantra.devanagari, 35, currentY);
         currentY += 12;
 
@@ -185,7 +185,7 @@ export async function GET(
       });
     }
 
-    // Footers across all pages
+    
     const pageCount = doc.getNumberOfPages();
     for (let i = 1; i <= pageCount; i++) {
       doc.setPage(i);

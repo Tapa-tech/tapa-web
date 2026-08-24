@@ -8,14 +8,14 @@ export interface AnalyticsEventData {
   category?: string;
 }
 
-// Stub for the Facebook/Google Pixel setup
+
 export function initMarketingPixel() {
   if (typeof window === "undefined") return;
 
   const PIXEL_ID = process.env.NEXT_PUBLIC_MARKETING_PIXEL_ID || "MOCK_PIXEL_12345";
   console.log(`[ANALYTICS] Initializing Marketing Pixel with ID: ${PIXEL_ID}`);
 
-  // Inject Facebook Pixel snippet (stubbed template)
+  
   const win = window as any;
   if (!win.fbq) {
     win.fbq = function (...args: any[]) {
@@ -26,7 +26,7 @@ export function initMarketingPixel() {
     win.fbq.queue = [];
   }
 
-  // Inject Google Tag/Analytics snippet (stubbed template)
+  
   if (!win.gtag) {
     win.gtag = function (...args: any[]) {
       console.log("[PIXEL EVENT (GTAG)]", ...args);
@@ -34,7 +34,7 @@ export function initMarketingPixel() {
   }
 }
 
-// Core tracking functions
+
 export function trackPageView(url: string) {
   if (typeof window === "undefined") return;
   console.log(`[ANALYTICS] Page View: ${url}`);
@@ -115,7 +115,7 @@ export function trackCheckoutInitiation(totalAmount: number, itemCount: number) 
 export function trackPurchase(orderId: string, totalAmount: number, items: Array<{ productId: string; productName: string; price: number; quantity: number }>) {
   if (typeof window === "undefined") return;
   console.log(`[ANALYTICS] Purchase: Order #${orderId}, Total: ₹${totalAmount}`);
-  // TODO: Razorpay Hook Conversion - online payment webhook needs to trigger a similar event on successful capture.
+  
 
   const win = window as any;
   if (win.fbq) {

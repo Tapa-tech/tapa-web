@@ -25,7 +25,7 @@ export default function DharmicConceptForm({ initialId }: DharmicConceptFormProp
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
 
-  // Initialize Tiptap Editor
+  
   const editor = useEditor({
     extensions: [StarterKit],
     content: "",
@@ -41,7 +41,7 @@ export default function DharmicConceptForm({ initialId }: DharmicConceptFormProp
     }
   }, [initialId]);
 
-  // Load existing data in edit mode
+  
   async function fetchConcept() {
     try {
       const res = await fetch(`/api/admin/dharmic-concepts/${initialId}`);
@@ -61,7 +61,7 @@ export default function DharmicConceptForm({ initialId }: DharmicConceptFormProp
     }
   }
 
-  // Set editor content once loaded
+  
   useEffect(() => {
     if (editor && bodyJson && !bodyLoaded) {
       try {
@@ -74,16 +74,16 @@ export default function DharmicConceptForm({ initialId }: DharmicConceptFormProp
     }
   }, [editor, bodyJson, bodyLoaded]);
 
-  // Auto-generate slug from title
+  
   const handleTitleChange = (val: string) => {
     setTitle(val);
     if (!initialId) {
       const clean = val
         .toLowerCase()
-        .replace(/[^a-z0-9\s-]/g, "") // remove special characters
+        .replace(/[^a-z0-9\s-]/g, "") 
         .trim()
-        .replace(/\s+/g, "-") // replace spaces with dashes
-        .replace(/-+/g, "-"); // remove repeat dashes
+        .replace(/\s+/g, "-") 
+        .replace(/-+/g, "-"); 
       setSlug(clean);
     }
   };
@@ -174,7 +174,7 @@ export default function DharmicConceptForm({ initialId }: DharmicConceptFormProp
 
   return (
     <div className="space-y-6">
-      {/* Top action bar */}
+      
       <div className="flex items-center gap-4 border-b border-[#F2ECE4] pb-4">
         <button
           onClick={() => router.push("/admin/dharmic-concepts")}
@@ -193,7 +193,7 @@ export default function DharmicConceptForm({ initialId }: DharmicConceptFormProp
       </div>
 
       <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left column (Form inputs) */}
+        
         <div className="lg:col-span-2 space-y-6">
           {error && (
             <div className="text-xs font-semibold text-[#C82A54] bg-[#FFEAEF] p-4 rounded-2xl">
@@ -224,11 +224,11 @@ export default function DharmicConceptForm({ initialId }: DharmicConceptFormProp
               />
             </div>
 
-            {/* Tiptap rich text container */}
+            
             <div className="space-y-1.5">
               <label className="text-xs font-bold text-[#8A7A6E] uppercase tracking-wider">Body Text (Rich Editor)</label>
               <div className="border border-[#EADFC9] rounded-2xl overflow-hidden">
-                {/* Tiptap Toolbar */}
+                
                 {editor && (
                   <div className="bg-[#FDFBF7] border-b border-[#EADFC9] p-2 flex flex-wrap gap-1.5">
                     <button
@@ -292,7 +292,7 @@ export default function DharmicConceptForm({ initialId }: DharmicConceptFormProp
                     </button>
                   </div>
                 )}
-                {/* Editor Content Area */}
+                
                 <EditorContent
                   editor={editor}
                   className="prose max-w-none text-sm p-4 bg-white min-h-[250px] max-h-[500px] overflow-y-auto focus:outline-none"
@@ -302,9 +302,9 @@ export default function DharmicConceptForm({ initialId }: DharmicConceptFormProp
           </div>
         </div>
 
-        {/* Right column (Metadata and actions) */}
+        
         <div className="space-y-6">
-          {/* Status & Actions Card */}
+          
           <div className="bg-white border border-[#EADFC9] rounded-2xl p-6 shadow-sm space-y-4">
             <h3 className="font-serif font-bold text-lg border-b border-[#F2ECE4] pb-2">Publish Settings</h3>
 
@@ -350,7 +350,7 @@ export default function DharmicConceptForm({ initialId }: DharmicConceptFormProp
             </button>
           </div>
 
-          {/* Image Upload Card */}
+          
           <div className="bg-white border border-[#EADFC9] rounded-2xl p-6 shadow-sm space-y-4">
             <h3 className="font-serif font-bold text-lg border-b border-[#F2ECE4] pb-2">Feature Image</h3>
 

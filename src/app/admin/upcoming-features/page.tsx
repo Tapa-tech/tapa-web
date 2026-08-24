@@ -19,7 +19,7 @@ export default function AdminUpcomingFeatures() {
   const [loading, setLoading] = useState(true);
   const [editingFeature, setEditingFeature] = useState<UpcomingFeature | null>(null);
 
-  // Form states
+  
   const [launchLabel, setLaunchLabel] = useState("");
   const [badgeText, setBadgeText] = useState("");
   const [teaserTitle, setTeaserTitle] = useState("");
@@ -122,7 +122,7 @@ export default function AdminUpcomingFeatures() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Left/Middle: Feature List */}
+        
         <div className="lg:col-span-2 space-y-4">
           {loading ? (
             <div className="flex items-center justify-center p-12 bg-white rounded-2xl border border-[#EADFC9]">
@@ -189,7 +189,7 @@ export default function AdminUpcomingFeatures() {
           )}
         </div>
 
-        {/* Right: Edit Form Sidebar */}
+        
         <div className="bg-white p-6 rounded-2xl border border-[#EADFC9] h-fit">
           {editingFeature ? (
             <form onSubmit={handleSave} className="space-y-4">

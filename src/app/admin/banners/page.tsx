@@ -28,7 +28,7 @@ export default function AdminBanners() {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
 
-  // Form states
+  
   const [isActive, setIsActive] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
   const [orderByDate, setOrderByDate] = useState("");
@@ -262,7 +262,7 @@ export default function AdminBanners() {
             )}
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Left Column Fields */}
+              
               <div className="space-y-4">
                 <div className="flex items-center gap-2">
                   <input
@@ -350,7 +350,7 @@ export default function AdminBanners() {
                 </div>
               </div>
 
-              {/* Right Column Fields */}
+              
               <div className="space-y-4">
                 <div className="space-y-2">
                   <label className="text-xs font-bold text-[#8A7A6E] uppercase tracking-wider block">Banner Background Image</label>
@@ -498,12 +498,12 @@ export default function AdminBanners() {
                   b.isActive ? "border-[#C82A54] ring-2 ring-[#FFEAEF]" : "border-[#EADFC9]"
                 } flex flex-col md:flex-row gap-6 items-start`}
               >
-                {/* Image Preview */}
+                
                 <div className="w-full md:w-48 h-32 rounded-xl overflow-hidden bg-[#FDFBF7] border border-[#F2ECE4] flex-shrink-0">
                   <img src={b.imageUrl} alt={b.festivalTitle} className="w-full h-full object-cover" />
                 </div>
 
-                {/* Content details */}
+                
                 <div className="flex-1 space-y-1">
                   <div className="flex items-center gap-2.5">
                     <span className="text-xs font-bold uppercase tracking-wider text-[#8A7A6E]">
@@ -546,7 +546,7 @@ export default function AdminBanners() {
                   </div>
                 </div>
 
-                {/* Actions */}
+                
                 <div className="flex md:flex-col gap-2 w-full md:w-auto pt-4 md:pt-0 border-t md:border-t-0 border-[#F2ECE4]">
                   <button
                     onClick={() => handleEditClick(b)}

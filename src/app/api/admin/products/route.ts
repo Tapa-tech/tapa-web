@@ -15,7 +15,7 @@ async function isAdmin(req: NextRequest): Promise<boolean> {
   }
 }
 
-// GET: Fetch all products (including drafts) for admin dashboard
+
 export async function GET(req: NextRequest) {
   if (!(await isAdmin(req))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -37,7 +37,7 @@ export async function GET(req: NextRequest) {
   }
 }
 
-// POST: Create a new product
+
 export async function POST(req: NextRequest) {
   if (!(await isAdmin(req))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Name, slug, type, and price are required" }, { status: 400 });
     }
 
-    // Check unique slug
+    
     const existing = await db.product.findUnique({
       where: { slug },
     });

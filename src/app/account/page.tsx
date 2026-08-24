@@ -3,9 +3,9 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import AnnouncementBar from "@/components/AnnouncementBar";
-import TopNav from "@/components/TopNav";
-import Footer from "@/components/Footer";
+import AnnouncementBar from "@/components/layout/AnnouncementBar";
+import TopNav from "@/components/layout/TopNav";
+import Footer from "@/components/layout/Footer";
 
 interface SavedGuide {
   id: string;
@@ -141,7 +141,7 @@ export default function AccountPage() {
             My Account
           </h1>
 
-          {/* User Information Card */}
+          
           <div className="bg-[#FAF6EC] border border-[#EADFC9] rounded-2xl p-6 md:p-8 shadow-sm mb-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
             <div>
               <div className="text-[10px] uppercase font-bold text-[#C82A54] tracking-wider mb-1">
@@ -173,7 +173,7 @@ export default function AccountPage() {
             </div>
           </div>
 
-          {/* Stat Tiles Summary Grid */}
+          
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-10 font-sans">
             <div className="bg-white border border-[#EADFC9] rounded-2xl p-5 shadow-sm flex flex-col justify-between min-h-[110px]">
               <div>
@@ -204,7 +204,7 @@ export default function AccountPage() {
             </div>
           </div>
 
-          {/* Saved Rituals Shelf */}
+          
           <section className="mb-10">
             <h2 className="font-serif font-bold text-2xl text-[#3A332C] mb-4 flex items-center gap-2">
               🔖 Saved Ritual Guides
@@ -259,7 +259,7 @@ export default function AccountPage() {
             )}
           </section>
 
-          {/* Booking History (Locked / Coming Soon) */}
+          
           <section className="mb-10 opacity-75">
             <div className="flex justify-between items-center mb-3">
               <h2 className="font-serif font-bold text-xl text-[#3A332C] flex items-center gap-2">
@@ -275,7 +275,7 @@ export default function AccountPage() {
             </div>
           </section>
 
-          {/* WhatsApp Subscriptions (Locked / Coming Soon) */}
+          
           <section className="opacity-75 mb-10">
             <div className="flex justify-between items-center mb-3">
               <h2 className="font-serif font-bold text-xl text-[#3A332C] flex items-center gap-2">
@@ -294,7 +294,7 @@ export default function AccountPage() {
             </div>
           </section>
 
-          {/* Language Settings */}
+          
           <section className="mb-10 bg-white border border-[#EADFC9] rounded-2xl p-6 shadow-sm">
             <h2 className="font-serif font-bold text-xl text-[#3A332C] mb-4 flex items-center gap-2">
               🌐 Language Settings
@@ -321,7 +321,7 @@ export default function AccountPage() {
             </div>
           </section>
 
-          {/* Notification Preferences */}
+          
           <section className="mb-10 bg-white border border-[#EADFC9] rounded-2xl p-6 shadow-sm">
             <h2 className="font-serif font-bold text-xl text-[#3A332C] mb-4 flex items-center gap-2">
               🔔 Notification Preferences
@@ -348,7 +348,7 @@ export default function AccountPage() {
             </div>
           </section>
 
-          {/* Help & Support */}
+          
           <section className="mb-10 bg-white border border-[#EADFC9] rounded-2xl p-6 shadow-sm">
             <h2 className="font-serif font-bold text-xl text-[#3A332C] mb-4 flex items-center gap-2">
               🤝 Help &amp; Support
@@ -366,7 +366,7 @@ export default function AccountPage() {
             </div>
           </section>
 
-          {/* Order History Section */}
+          
           <section className="mb-10">
             <h2 className="font-serif font-bold text-2xl text-[#3A332C] mb-4 flex items-center gap-2">
               📦 Order History
@@ -439,7 +439,7 @@ export default function AccountPage() {
             )}
           </section>
 
-          {/* Logout Section */}
+          
           <div className="pt-6 border-t border-[#EADFC9] flex justify-end">
             <button
               onClick={handleLogout}

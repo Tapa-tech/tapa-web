@@ -50,7 +50,7 @@ interface CartStore {
   syncLocalCartToDb: () => Promise<void>;
 }
 
-// Helper to flatten cart items (repeating quantity times) for localStorage TopNav compatibility
+
 function syncToLocalStorage(items: CartItemState[]) {
   const flatItems: FlatLocalCartItem[] = [];
   items.forEach((item) => {
@@ -115,7 +115,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
         if (stored) {
           try {
             const flatItems = JSON.parse(stored) as FlatLocalCartItem[];
-            // Re-group flat items to CartItemState with quantities
+            
             const grouped: { [key: string]: CartItemState } = {};
             flatItems.forEach((item: FlatLocalCartItem) => {
               const id = item.id;
@@ -252,7 +252,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
         grouped[item.id] = (grouped[item.id] || 0) + 1;
       });
 
-      // Send batch requests to add local items to database
+      
       for (const [productId, quantity] of Object.entries(grouped)) {
         await fetch("/api/cart", {
           method: "POST",
@@ -261,7 +261,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
         });
       }
 
-      // Fetch the updated, unified cart from the database
+      
       await get().fetchCart();
     } catch (err) {
       console.error("Failed to sync local cart to DB:", err);

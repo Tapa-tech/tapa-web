@@ -7,14 +7,14 @@ import { PaymentMethod } from "../types";
 export function useCheckout() {
   const router = useRouter();
 
-  // Zustand Store
+  
   const { items, fetchCart, checkAuth, clearCart } = useCartStore();
 
-  // Loading States
+  
   const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
 
-  // Form Fields
+  
   const [name, setName] = useState("");
   const [mobile, setMobile] = useState("");
   const [addressLine1, setAddressLine1] = useState("");
@@ -24,10 +24,10 @@ export function useCheckout() {
   const [pincode, setPincode] = useState("");
   const [saveAddress, setSaveAddress] = useState(true);
 
-  // Payment states
+  
   const [selectedPayment, setSelectedPayment] = useState<PaymentMethod>("COD");
 
-  // Toast state
+  
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const toastTimerRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -41,19 +41,19 @@ export function useCheckout() {
     }, 3000);
   };
 
-  // Clean up toast timer on unmount
+  
   useEffect(() => {
     return () => {
       if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
     };
   }, []);
 
-  // Track page view on mount
+  
   useEffect(() => {
     trackPageView("/checkout");
   }, []);
 
-  // Load saved address from localStorage if it exists
+  
   useEffect(() => {
     const saved = localStorage.getItem("tapa-saved-address");
     if (saved) {
@@ -72,7 +72,7 @@ export function useCheckout() {
     }
   }, []);
 
-  // Auth and cart initialization check
+  
   useEffect(() => {
     async function initCheckout() {
       const authed = await checkAuth();
@@ -87,14 +87,14 @@ export function useCheckout() {
     initCheckout();
   }, [checkAuth, fetchCart, router]);
 
-  // Auto redirect if cart is empty and not loading
+  
   useEffect(() => {
     if (!isInitialLoading && !submitting && items.length === 0) {
       router.push("/cart");
     }
   }, [isInitialLoading, items, submitting, router]);
 
-  // Dynamic Calculations (no useMemo needed for lightweight/cheap values)
+  
   const subtotal = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
   const deliveryFee = subtotal === 0 ? 0 : subtotal >= 1500 ? 0 : 99;
   const totalAmount = subtotal + deliveryFee;
@@ -148,7 +148,7 @@ export function useCheckout() {
       const data = await res.json();
 
       if (res.ok) {
-        // Track purchase event
+        
         const orderItemsMap = items.map((item) => ({
           productId: item.productId,
           productName: item.name,
@@ -157,7 +157,7 @@ export function useCheckout() {
         }));
         trackPurchase(data.orderNumber, totalAmount, orderItemsMap);
 
-        // Clear local and database cart
+        
         clearCart();
 
         if (saveAddress) {
@@ -167,7 +167,7 @@ export function useCheckout() {
           triggerToast("Placing your order...");
         }
 
-        // Redirect to confirmation page
+        
         setTimeout(() => {
           router.push(`/checkout/confirmation?orderNumber=${data.orderNumber}&amount=${totalAmount}`);
         }, 1500);

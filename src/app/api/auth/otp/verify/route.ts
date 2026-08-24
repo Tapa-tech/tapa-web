@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
 
     const { phone, otp } = parse.data;
 
-    // 1. Retrieve the latest unexpired, unverified OTP request for this phone
+    
     const otpRequest = await db.oTPRequest.findFirst({
       where: {
         phone,
@@ -60,9 +60,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // 2. Brute-force protection: max 5 verification attempts per OTP request
+    
     if (otpRequest.attempts >= 5) {
-      // Invalidate the OTP request immediately by making it expired
+      
       await db.oTPRequest.update({
         where: { id: otpRequest.id },
         data: { expiresAt: new Date(Date.now() - 1000) },
@@ -73,13 +73,13 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Increment attempts count
+    
     await db.oTPRequest.update({
       where: { id: otpRequest.id },
       data: { attempts: otpRequest.attempts + 1 },
     });
 
-    // 3. Timing-safe OTP code verification
+    
     const inputHash = hashSHA256(otp);
     const isMatch = safeCompare(inputHash, otpRequest.codeHash);
 
@@ -90,13 +90,13 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Mark request as verified
+    
     await db.oTPRequest.update({
       where: { id: otpRequest.id },
       data: { verified: true },
     });
 
-    // 4. Find or create the user in the database
+    
     let user = await db.user.findUnique({
       where: { phone },
     });
@@ -130,7 +130,7 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // 5. Generate session tokens
+    
     const accessToken = await signAccessToken({
       userId: user.id,
       role: user.role,
@@ -141,10 +141,10 @@ export async function POST(req: NextRequest) {
 
     const refreshTokenVal = generateOpaqueToken();
     const refreshTokenHash = hashSHA256(refreshTokenVal);
-    const family = generateOpaqueToken(); // Rotation family identifier
-    const refreshTokenExpiry = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // 30 days
+    const family = generateOpaqueToken(); 
+    const refreshTokenExpiry = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); 
 
-    // Save refresh token record hashed in DB
+    
     const ipAddress = req.headers.get("x-forwarded-for") || req.ip || null;
     const userAgent = req.headers.get("user-agent") || null;
 
@@ -159,7 +159,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // 6. Build cookies response
+    
     const response = NextResponse.json({
       success: true,
       user: {
@@ -170,22 +170,22 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // Set Access Token (JWT) - 15 minutes, httpOnly, secure, sameSite=lax
+    
     response.cookies.set("access_token", accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       path: "/",
-      maxAge: 15 * 60, // 15 mins
+      maxAge: 15 * 60, 
     });
 
-    // Set Refresh Token (Opaque) - 30 days, httpOnly, secure, sameSite=lax
+    
     response.cookies.set("refresh_token", refreshTokenVal, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       path: "/",
-      maxAge: 30 * 24 * 60 * 60, // 30 days
+      maxAge: 30 * 24 * 60 * 60, 
     });
 
     return response;

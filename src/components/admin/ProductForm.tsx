@@ -22,7 +22,7 @@ export default function ProductForm({ initialId }: ProductFormProps) {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 
-  // Form Fields State
+  
   const [id, setId] = useState("");
   const [slug, setSlug] = useState("");
   const [name, setName] = useState("");
@@ -36,13 +36,13 @@ export default function ProductForm({ initialId }: ProductFormProps) {
   const [images, setImages] = useState("");
   const [linkedRitualGuideId, setLinkedRitualGuideId] = useState("");
   
-  // Nested Kit Items (only for PUJA_KIT)
+  
   const [kitItems, setKitItems] = useState<KitItemInput[]>([]);
   
-  // Available guides for dropdown link
+  
   const [guides, setGuides] = useState<any[]>([]);
 
-  // Fetch Guides dropdown list
+  
   useEffect(() => {
     async function loadGuides() {
       try {
@@ -58,7 +58,7 @@ export default function ProductForm({ initialId }: ProductFormProps) {
     loadGuides();
   }, []);
 
-  // Load product details if editing
+  
   useEffect(() => {
     if (initialId) {
       const fetchProduct = async () => {
@@ -199,7 +199,7 @@ export default function ProductForm({ initialId }: ProductFormProps) {
 
   return (
     <div className="space-y-6 max-w-4xl mx-auto pb-12 font-sans">
-      {/* Top Breadcrumb Header */}
+      
       <div className="flex items-center justify-between border-b border-[#F2ECE4] pb-4">
         <div className="flex items-center gap-3">
           <Link
@@ -233,7 +233,7 @@ export default function ProductForm({ initialId }: ProductFormProps) {
       )}
 
       <form onSubmit={handleSubmit} className="bg-white border border-[#EADFC9] rounded-2xl p-6 md:p-8 space-y-6 shadow-sm">
-        {/* Core fields */}
+        
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-1.5">
             <label className="block text-xs font-bold text-[#6A5A4E] uppercase tracking-wider">
@@ -315,7 +315,7 @@ export default function ProductForm({ initialId }: ProductFormProps) {
           </div>
         </div>
 
-        {/* Pricing & Stock Fields */}
+        
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="space-y-1.5">
             <label className="block text-xs font-bold text-[#6A5A4E] uppercase tracking-wider">
@@ -362,7 +362,7 @@ export default function ProductForm({ initialId }: ProductFormProps) {
           </div>
         </div>
 
-        {/* Linked Ritual Guide dropdown */}
+        
         <div className="space-y-1.5">
           <label className="block text-xs font-bold text-[#6A5A4E] uppercase tracking-wider">
             Linked Companion Ritual Guide
@@ -384,7 +384,7 @@ export default function ProductForm({ initialId }: ProductFormProps) {
           </p>
         </div>
 
-        {/* Image URLs text area */}
+        
         <div className="space-y-1.5">
           <label className="block text-xs font-bold text-[#6A5A4E] uppercase tracking-wider">
             Image URLs (One absolute URL per line)
@@ -411,7 +411,7 @@ export default function ProductForm({ initialId }: ProductFormProps) {
           />
         </div>
 
-        {/* Nested kit items list (only if Puja Kit) */}
+        
         {type === "PUJA_KIT" && (
           <div className="border border-[#EADFC9] rounded-2xl p-5 md:p-6 bg-[#FAF6EC]/30 space-y-4">
             <div className="flex justify-between items-center border-b border-[#EADFC9] pb-3 select-none">
@@ -476,7 +476,7 @@ export default function ProductForm({ initialId }: ProductFormProps) {
           </div>
         )}
 
-        {/* Submission buttons */}
+        
         <div className="flex justify-end gap-3 border-t border-[#F2ECE4] pt-6 select-none">
           <Link
             href="/admin/products"

@@ -40,7 +40,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
   }
 
   try {
-    // Delete relation records first
+    
     await db.ritualGuideFAQ.deleteMany({
       where: { faqId: params.id },
     });

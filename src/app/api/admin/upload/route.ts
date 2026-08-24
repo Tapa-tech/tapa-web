@@ -17,29 +17,29 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
     }
 
-    // 1. Server-side type validation
+    
     const allowedTypes = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
     if (!allowedTypes.includes(file.type)) {
       return NextResponse.json({ error: "Invalid file type. Only PNG, JPEG, and WEBP are allowed." }, { status: 400 });
     }
 
-    // 2. Server-side size validation (max 4MB)
+    
     const maxSizeBytes = 4 * 1024 * 1024;
     if (file.size > maxSizeBytes) {
       return NextResponse.json({ error: "File too large. Max size allowed is 4MB." }, { status: 400 });
     }
 
-    // Read bytes
+    
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    // Ensure upload dir exists
+    
     const uploadDir = path.join(process.cwd(), "public", "uploads");
     if (!fs.existsSync(uploadDir)) {
       fs.mkdirSync(uploadDir, { recursive: true });
     }
 
-    // Write file
+    
     const safeName = `${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.-]/g, "_")}`;
     const filePath = path.join(uploadDir, safeName);
     fs.writeFileSync(filePath, buffer);

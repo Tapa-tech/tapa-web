@@ -32,14 +32,14 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Consent is required to subscribe" }, { status: 400 });
     }
 
-    // Upsert TapaCircleSubscriber
+    
     const subscriber = await db.tapaCircleSubscriber.upsert({
       where: { userId },
       update: {
         whatsappNumber,
         consentGiven: true,
         consentGivenAt: new Date(),
-        status: "PENDING_PAYMENT", // online payment gateway integration is stubbed
+        status: "PENDING_PAYMENT", 
       },
       create: {
         userId,

@@ -1,23 +1,23 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import AnnouncementBar from "@/components/AnnouncementBar";
-import TopNav from "@/components/TopNav";
-import Footer from "@/components/Footer";
+import AnnouncementBar from "@/components/layout/AnnouncementBar";
+import TopNav from "@/components/layout/TopNav";
+import Footer from "@/components/layout/Footer";
 import { trackPageView } from "@/lib/analytics";
 import { Loader2, CheckCircle2, ShieldCheck, Sparkles, Send } from "lucide-react";
 
 export default function TapaCirclePage() {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  // Form Fields
+  
   const [name, setName] = useState("");
   const [whatsapp, setWhatsapp] = useState("");
   const [consent, setConsent] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  // Track page view
+  
   useEffect(() => {
     trackPageView("/tapa-circle");
   }, []);
@@ -70,7 +70,7 @@ export default function TapaCirclePage() {
       <AnnouncementBar />
       <TopNav activeTab="Ritual Kits" onTriggerToast={triggerToast} />
 
-      {/* Page Hero */}
+      
       <div className="page-hero select-none">
         <div className="wrap">
           <div className="hero-inner">
@@ -89,7 +89,7 @@ export default function TapaCirclePage() {
 
       <div className="max-w-[var(--content-w)] mx-auto px-4 md:px-10 py-12 grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-10 items-start pb-24">
         
-        {/* Left Column: Benefits Detail */}
+        
         <div className="space-y-8 font-sans">
           <div>
             <h2 className="font-serif font-bold text-2xl text-dark mb-4">Why join The Tapa Circle?</h2>
@@ -140,7 +140,7 @@ export default function TapaCirclePage() {
           </div>
         </div>
 
-        {/* Right Column: Sign Up Form */}
+        
         <div className="bg-card border border-border rounded-2xl p-6 md:p-8 shadow-sm">
           {success ? (
             <div className="text-center py-10 space-y-4 font-sans select-none">
@@ -183,7 +183,7 @@ export default function TapaCirclePage() {
                 />
               </div>
 
-              {/* Consent Disclosures Checkbox */}
+              
               <div className="border border-border rounded-xl p-3 bg-gray-50 space-y-2.5">
                 <div className="flex items-start gap-2 select-none">
                   <input
@@ -231,7 +231,7 @@ export default function TapaCirclePage() {
 
       <Footer onTriggerToast={triggerToast} />
 
-      {/* Premium Toast Notification */}
+      
       {toastMessage && (
         <div className="fixed bottom-6 right-6 z-[100] bg-dark text-white border border-white/10 px-5 py-3 rounded-xl shadow-2xl flex items-center gap-2 animate-bounce font-sans text-xs select-none">
           <span className="w-1.5 h-1.5 rounded-full bg-pink animate-ping" />

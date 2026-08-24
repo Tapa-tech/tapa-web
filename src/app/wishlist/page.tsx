@@ -2,9 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import AnnouncementBar from "@/components/AnnouncementBar";
-import TopNav from "@/components/TopNav";
-import Footer from "@/components/Footer";
+import AnnouncementBar from "@/components/layout/AnnouncementBar";
+import TopNav from "@/components/layout/TopNav";
+import Footer from "@/components/layout/Footer";
 import { useCartStore } from "@/lib/store/cartStore";
 import { Loader2, Trash2, ShoppingCart, Heart, ArrowLeft } from "lucide-react";
 import { trackAddToCart } from "@/lib/analytics";
@@ -28,7 +28,7 @@ export default function WishlistPage() {
   const router = useRouter();
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  // Zustand Store
+  
   const { addToCart, checkAuth } = useCartStore();
 
   const [items, setItems] = useState<WishlistItem[]>([]);
@@ -84,7 +84,7 @@ export default function WishlistPage() {
 
   const handleMoveToCart = async (item: WishlistItem) => {
     try {
-      // Add to cart store
+      
       const priceVal = Number(item.product.price);
       addToCart(item.productId, 1, {
         name: item.product.name,
@@ -94,15 +94,15 @@ export default function WishlistPage() {
         codAvailability: item.product.codAvailability,
       });
 
-      // Track analytics
+      
       trackAddToCart(item.productId, item.product.name, priceVal, 1, item.product.category);
 
-      // Remove from wishlist database
+      
       await fetch(`/api/wishlist?productId=${item.productId}`, {
         method: "DELETE",
       });
 
-      // Update state
+      
       setItems((prev) => prev.filter((i) => i.productId !== item.productId));
 
       triggerToast(`Moved ${item.product.name} to your cart!`);
@@ -131,7 +131,7 @@ export default function WishlistPage() {
       <AnnouncementBar />
       <TopNav activeTab="Ritual Kits" onTriggerToast={triggerToast} />
 
-      {/* Breadcrumb */}
+      
       <div className="breadcrumb-bar select-none">
         <div className="wrap">
           <a href="/" className="hover:underline">Home</a>
@@ -232,7 +232,7 @@ export default function WishlistPage() {
 
       <Footer onTriggerToast={triggerToast} />
 
-      {/* Premium Toast Notification */}
+      
       {toastMessage && (
         <div className="fixed bottom-6 right-6 z-[100] bg-dark text-white border border-white/10 px-5 py-3 rounded-xl shadow-2xl flex items-center gap-2 animate-bounce font-sans text-xs select-none">
           <span className="w-1.5 h-1.5 rounded-full bg-pink animate-ping" />

@@ -17,7 +17,7 @@ interface VratEntry {
   tithiDetail?: string;
 }
 
-// Dynamic helper to get month details in UTC (to prevent local timezone offsets)
+
 const getMonthDetails = (year: number, monthIndex: number) => {
   const firstDay = new Date(Date.UTC(year, monthIndex, 1));
   const startWeekday = firstDay.getUTCDay();
@@ -36,7 +36,7 @@ export async function downloadPanchangPdf(
   try {
     let vrats = preloadedVrats || [];
 
-    // If no preloaded data, fetch it dynamically from the public API
+    
     if (vrats.length === 0) {
       const res = await fetch("/api/public/panchang");
       if (res.ok) {
@@ -45,12 +45,12 @@ export async function downloadPanchangPdf(
       }
     }
 
-    // Dynamic import to prevent SSR errors in Next.js
+    
     const { jsPDF } = await import("jspdf");
     const doc = new jsPDF("p", "pt", "a4");
 
     const fillPageBg = (d: InstanceType<typeof jsPDF>) => {
-      d.setFillColor(242, 237, 228); // Theme cream #F2EDE4
+      d.setFillColor(242, 237, 228); 
       d.rect(0, 0, 595.28, 841.89, "F");
     };
 
@@ -62,25 +62,25 @@ export async function downloadPanchangPdf(
     fillPageBg(doc);
 
     if (type === "calendar") {
-      // ----------------------------------------------------
-      // LAYOUT: Year at a Glance (12-Month Grid)
-      // ----------------------------------------------------
+      
+      
+      
       doc.setFont("helvetica", "bold");
       doc.setFontSize(8);
-      doc.setTextColor(160, 120, 0); // Gold
+      doc.setTextColor(160, 120, 0); 
       doc.text("TAPA PANCHANG", 35, 45);
 
       doc.setFont("helvetica", "bold");
       doc.setFontSize(18);
-      doc.setTextColor(44, 32, 16); // Dark Charcoal
+      doc.setTextColor(44, 32, 16); 
       doc.text("2026 Calendar", 35, 65);
 
       doc.setFont("helvetica", "normal");
       doc.setFontSize(8.5);
-      doc.setTextColor(138, 122, 104); // Subtext
+      doc.setTextColor(138, 122, 104); 
       doc.text(`Computed for ${city} · ${calendarSystem} System`, 35, 80);
 
-      // Grid Configuration: 3 columns x 4 rows
+      
       const startX = 35;
       const startY = 100;
       const colWidth = 160;
@@ -95,18 +95,18 @@ export async function downloadPanchangPdf(
         const x = startX + col * (colWidth + colGap);
         const y = startY + row * (rowHeight + rowGap);
 
-        // Draw Card Background
-        doc.setFillColor(255, 255, 255); // White
-        doc.setDrawColor(232, 224, 208); // Subtle border #E8E0D0
+        
+        doc.setFillColor(255, 255, 255); 
+        doc.setDrawColor(232, 224, 208); 
         doc.rect(x, y, colWidth, rowHeight, "FD");
 
-        // Month Title
+        
         doc.setFont("helvetica", "bold");
         doc.setFontSize(9);
         doc.setTextColor(44, 32, 16);
         doc.text(MONTH_NAMES[monthIdx].toUpperCase(), x + colWidth / 2, y + 16, { align: "center" });
 
-        // Weekdays Header
+        
         doc.setFont("helvetica", "normal");
         doc.setFontSize(6);
         doc.setTextColor(138, 122, 104);
@@ -115,11 +115,11 @@ export async function downloadPanchangPdf(
           doc.text(WEEKDAYS[w], x + w * wSpacing + wSpacing / 2, y + 28, { align: "center" });
         }
 
-        // Sub-divider line
+        
         doc.setDrawColor(240, 232, 216);
         doc.line(x + 6, y + 32, x + colWidth - 6, y + 32);
 
-        // Render Calendar Numbers
+        
         const { startWeekday, totalDays } = getMonthDetails(2026, monthIdx);
 
         for (let d = 1; d <= totalDays; d++) {
@@ -130,7 +130,7 @@ export async function downloadPanchangPdf(
           const dateX = x + c * wSpacing + wSpacing / 2;
           const dateY = y + 43 + r * 13.5;
 
-          // Check if this date has Vrats or Festivals
+          
           const dayVrats = vrats.filter(v => {
             const vDate = new Date(v.date);
             return vDate.getUTCFullYear() === 2026 && vDate.getUTCMonth() === monthIdx && vDate.getUTCDate() === d;
@@ -140,13 +140,13 @@ export async function downloadPanchangPdf(
           const isVrat = dayVrats.length > 0 && !isFestival;
 
           if (isFestival) {
-            // Draw Gold highlight circle
+            
             doc.setFillColor(232, 160, 32);
             doc.circle(dateX, dateY - 2, 5.5, "F");
             doc.setTextColor(255, 255, 255);
             doc.setFont("helvetica", "bold");
           } else if (isVrat) {
-            // Draw Pink highlight circle
+            
             doc.setFillColor(253, 6, 109);
             doc.circle(dateX, dateY - 2, 5.5, "F");
             doc.setTextColor(255, 255, 255);
@@ -161,7 +161,7 @@ export async function downloadPanchangPdf(
         }
       }
 
-      // Legend & Footnote
+      
       const legendY = 705;
       doc.setDrawColor(208, 198, 182);
       doc.line(startX, legendY, startX + 525, legendY);
@@ -171,7 +171,7 @@ export async function downloadPanchangPdf(
       doc.setTextColor(44, 32, 16);
       doc.text("CALENDAR KEY", startX, legendY + 16);
 
-      // Pink Vrat Dot
+      
       doc.setFillColor(253, 6, 109);
       doc.circle(startX + 6, legendY + 30, 4, "F");
       doc.setFont("helvetica", "normal");
@@ -179,12 +179,12 @@ export async function downloadPanchangPdf(
       doc.setTextColor(92, 78, 54);
       doc.text("Major Vrat (Ekadashi, Pradosh, Chaturthi, Purnima, Amavasya)", startX + 16, legendY + 33);
 
-      // Gold Festival Dot
+      
       doc.setFillColor(232, 160, 32);
       doc.circle(startX + 290, legendY + 30, 4, "F");
       doc.text("Key Festival (Janmashtami, Ganesh Chaturthi, Hartalika Teej, etc.)", startX + 300, legendY + 33);
 
-      // Footnote
+      
       doc.setFont("helvetica", "normal");
       doc.setFontSize(7);
       doc.setTextColor(138, 122, 104);
@@ -193,10 +193,10 @@ export async function downloadPanchangPdf(
 
       doc.save(`Tapa_Panchang_2026_Calendar_${city.replace(/[^a-zA-Z0-9]/g, "_")}.pdf`);
     } else {
-      // ----------------------------------------------------
-      // LAYOUT: Detailed Lists (Vrat Calendar / Festival Calendar)
-      // ----------------------------------------------------
-      // Apply filters to data
+      
+      
+      
+      
       let filteredData = [...vrats];
 
       if (type === "vrat") {
@@ -207,7 +207,7 @@ export async function downloadPanchangPdf(
           );
         }
       } else {
-        // Festival Calendar Filters
+        
         if (currentFilter !== "All festivals") {
           const filter = currentFilter.toLowerCase();
           if (filter === "shiva") {
@@ -231,7 +231,7 @@ export async function downloadPanchangPdf(
       const drawHeader = (d: InstanceType<typeof jsPDF>, titleStr: string, subtitleStr: string) => {
         d.setFont("helvetica", "bold");
         d.setFontSize(8);
-        d.setTextColor(160, 120, 0); // Gold
+        d.setTextColor(160, 120, 0); 
         d.text("TAPA PANCHANG · REPORT", 35, 45);
 
         d.setFont("helvetica", "bold");
@@ -246,8 +246,8 @@ export async function downloadPanchangPdf(
       };
 
       const drawTableHeaders = (d: InstanceType<typeof jsPDF>, y: number) => {
-        // Header container bg
-        d.setFillColor(44, 32, 16); // Dark primary
+        
+        d.setFillColor(44, 32, 16); 
         d.rect(35, y, 525, 22, "F");
 
         d.setFont("helvetica", "bold");
@@ -274,36 +274,36 @@ export async function downloadPanchangPdf(
       } else {
         filteredData.forEach((vrat, idx) => {
           if (currentY + 22 > pageHeightLimit) {
-            // Footer on current page
+            
             doc.setFont("helvetica", "normal");
             doc.setFontSize(7.5);
             doc.setTextColor(138, 122, 104);
             doc.text(`Page ${pageNum}`, 560, 810, { align: "right" });
 
-            // Next page
+            
             pageNum++;
             addPageWithBg(doc);
             
-            // Draw headers on new page
+            
             currentY = 100;
             drawHeader(doc, title, `Filtered: ${currentFilter} · Computed for ${city} · Page ${pageNum}`);
             drawTableHeaders(doc, currentY);
             currentY += 22;
           }
 
-          // Alternating row styling
+          
           if (idx % 2 === 0) {
-            doc.setFillColor(255, 255, 255); // White
+            doc.setFillColor(255, 255, 255); 
           } else {
-            doc.setFillColor(247, 243, 237); // Very light grey-cream
+            doc.setFillColor(247, 243, 237); 
           }
           doc.rect(35, currentY, 525, 22, "F");
 
-          // Row line separator
+          
           doc.setDrawColor(232, 224, 208);
           doc.line(35, currentY + 22, 560, currentY + 22);
 
-          // Render Row Text
+          
           const dateObj = new Date(vrat.date);
           const dayVal = dateObj.getUTCDate();
           const monthVal = dateObj.toLocaleDateString("en-US", { month: "short", timeZone: "UTC" });
@@ -332,7 +332,7 @@ export async function downloadPanchangPdf(
         });
       }
 
-      // Final page footer
+      
       doc.setFont("helvetica", "normal");
       doc.setFontSize(7.5);
       doc.setTextColor(138, 122, 104);
